@@ -1,0 +1,25 @@
+.Home-container{
+    /* border: 2px solid red; */
+    width: 77%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* .check-buttons{
+    height: 150px;
+    width: 150px;
+    cursor: pointer;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    background-color: 
+    rgba(3, 79, 117);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+} */

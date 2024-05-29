@@ -1,0 +1,70 @@
+.sheet-container{
+    width: 80%;
+    /* border: 10px solid red; */
+    font-family: "Urbanist", sans-serif !important;
+    margin-top: 25px;
+    padding-right: 30px;
+}
+#datatable-container-user{
+    width: 100%;
+    margin: auto;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 30px;
+    
+}
+.sheet-container > h1{
+    width: 100%;
+    padding: 10px 0px;
+    background-color:#010115;
+    color: white;
+    border-radius: 10px;
+    font-family: "Poppins", sans-serif;
+    letter-spacing: 1px;
+    font-weight: 500;
+    font-size: 1.3rem;
+    
+}
+/* custom-styles.css */
+#datatable-container-user .p-datatable {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+}
+
+#datatable-container-user .p-datatable-header {
+    background-color:#010115;
+    color: rgb(0, 0, 0);
+
+}
+
+#datatable-container-user .p-datatable-thead > tr > th {
+    padding: 25px 20px ;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    font-size: 1.3rem;
+}
+
+#datatable-container-user .p-datatable-tbody > tr > td {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    padding: 15.5px 20px; 
+}
+
+#datatable-container-user .p-datatable-footer {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+}
+
+#datatable-container-user .p-paginator {
+    background-color: rgba(255, 255, 255, 1);
+    color: rgb(0, 0, 0);
+}
+
+
+@media only screen and (max-width: 700px){
+    .sheet-container{
+        width: 100%;
+        padding: 0px 30px;
+        
+    }
+}

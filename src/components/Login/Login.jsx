@@ -12,9 +12,9 @@ import PNG from '../../assets/loginPNG.png'
 import EyeOpen from '../../assets/eye-open.png'
 import EyeClosed from '../../assets/eye-close.png'
 
-const apiUrl = env.REACT_APP_API_URL;
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-// console.log(process.env.REACT_APP_API_URL)
+// console.log(process.import.meta.env.VITE_REACT_APP_API_URL)
 
 const Login = () => {
     const [passwordImage, setPasswordImage] = useState(EyeOpen)

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import env from '../../../env';
 import axios from 'axios';
 
-const apiUrl = env.REACT_APP_API_URL;
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const Checkin = () => {
   const user = useSelector(state => state.user);

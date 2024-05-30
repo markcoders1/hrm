@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import './Employee.css'
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import env from '../../../env.js';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const apiUrl = env.REACT_APP_API_URL;
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+console.log("api url",apiUrl)
 
 const Employee = () => {
     const navigate = useNavigate();
@@ -30,6 +30,7 @@ const Employee = () => {
                         Authorization: `Bearer ${accessToken}`
                       }
                     });
+                    console.log("response",response.data)
                     const dataAllEmpoyee = response.data;
                     setAllEmplolyee(dataAllEmpoyee)
                     // console.log(allEmployee)

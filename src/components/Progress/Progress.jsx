@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -7,7 +7,7 @@ import env from '../../../env.js';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-const apiUrl = env.REACT_APP_API_URL;
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const AttendanceSheet = () => {
     const user = useSelector(state => state.user);

@@ -1,9 +1,9 @@
 .sheet-container{
-    width: 80%;
+    width: 97%;
     /* border: 10px solid red; */
     font-family: "Urbanist", sans-serif !important;
    
-    /* margin: auto; */
+    margin: auto;
     margin-top: 30px;
 }
 #datatable-container-user{

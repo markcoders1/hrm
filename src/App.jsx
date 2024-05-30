@@ -1,6 +1,6 @@
 import './index.css'
 import './App.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Provider, useSelector } from 'react-redux'
 import store, { persistor } from './Redux/Store'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -18,6 +18,8 @@ import Admin from './Pages/Admin.jsx'
 import ProtectedRoute from './components/ProtectedRoute'
 import ProtectedAdmin from './components/ProtectedRouteForAdmin.jsx'
 import ProtectedRouteLogin from './components/ProtectedRouteForLogin.jsx'
+
+import Attendance from './components/Attendance/Attendance.jsx'
 
 
 
@@ -37,12 +39,16 @@ function App() {
           </div> */}
             <Header />
             <Routes>
-              <Route path='/' element={<Home />} />
+            <Route path='/' element={<Navigate to='/home' />} />
+              <Route path='/home' element={<Home />} />
+
               <Route path='/login' element={<ProtectedRouteLogin children={<Login/>}/>} />
               {/* <Route path='/Dashboard' element={<ProtectedRoute children={<Progress />} />} />
               <Route path='/admin' element={<ProtectedRoute children={<ProtectedAdmin children={<Admin />} />} />} /> */}
               <Route path='/Dashboard' element={<Progress/>}/>
               <Route path='/admin' element={<Admin/>} />
+              <Route path='/admin/getattendance/:id' element={<Attendance/>} />
+              
 
             </Routes>
           </BrowserRouter>

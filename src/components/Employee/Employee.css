@@ -15,7 +15,7 @@
     margin: auto;
     border-radius: 10px;
     overflow: hidden;
-    margin-top: 10px;
+    margin-top: 30px;
     
 }
 .sheet-container-admin > h1{
@@ -63,4 +63,13 @@
 #datatable-container .p-paginator {
     background-color: rgba(255, 255, 255, 1);
     color: rgb(0, 0, 0);
+}
+
+.attendanceButton{
+    padding:5px 10px;
+    background-color: #3498db;
+    border-radius: 20px;
+    border: none;
+    color: white;
+    cursor: pointer;
 }

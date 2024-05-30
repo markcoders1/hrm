@@ -5,12 +5,12 @@
 }
 
 html {
-  
+  height: 100vh;
   font-size: 14px;
 }
-import 'primereact/resources/themes/saga-blue/theme.css'; // theme
-import 'primereact/resources/primereact.min.css';          // core css
-import 'primeicons/primeicons.css';                        // icons
+/* import {'primereact/resources/themes/saga-blue/theme.css';}
+import {'primereact/resources/primereact.min.css';}          // core css
+import 'primeicons/primeicons.css';                        // icons */
 *{
   box-sizing: border-box;
   margin: 0px;

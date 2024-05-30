@@ -1,55 +1,52 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import './Login.css';
-import axios from 'axios'; // Import Axios
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { login, logout } from '../../Redux/userSlice'
-import env from '../../../env';
-import PNG from '../../assets/loginPNG.png'
-import EyeOpen from '../../assets/eye-open.png'
-import EyeClosed from '../../assets/eye-close.png'
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import "./Login.css";
+import axios from "axios"; // Import Axios
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../Redux/userSlice";
+import PNG from "../../assets/loginPNG.png";
+import EyeOpen from "../../assets/eye-open.png";
+import EyeClosed from "../../assets/eye-close.png";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 // console.log(process.import.meta.env.VITE_REACT_APP_API_URL)
 
 const Login = () => {
-    const [passwordImage, setPasswordImage] = useState(EyeOpen)
-    const [passwordType, setPasswordType] = useState('password');
+    const [passwordImage, setPasswordImage] = useState(EyeOpen);
+    const [passwordType, setPasswordType] = useState("password");
     const navigate = useNavigate();
-    const user = useSelector(state => state.user);
+    const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
 
     const {
         register,
         handleSubmit,
         formState: { errors },
-        reset
+        reset,
     } = useForm();
-
 
     const onSubmit = async (data) => {
         const { email, password } = data;
         try {
             const response = await axios.post(`${apiUrl}/api/login`, {
                 email,
-                password
+                password,
             });
 
             const userData = response.data;
             dispatch(login(userData));
-            navigate('/')
+            navigate("/dashboard");
             toast.success("User Logged In Successfully", {
-                position: "top-center"
+                position: "top-center",
             });
             reset();
-
         } catch (error) {
             toast.error(error.message || "Failed to log in", {
-                position: "top-center"
+                position: "top-center",
             });
         }
     };
@@ -71,43 +68,62 @@ const Login = () => {
     return (
         <>
             <div className="dark-background"></div>
-        <ToastContainer />
             <div className="form-container">
-                <div className='form'>
+                <div className="form">
                     <div className="form-left">
-                        <h1 className="sign-heading">
-                            Log in
-                        </h1>
+                        <h1 className="sign-heading">Log in</h1>
                         <form onSubmit={handleSubmit(onSubmit)}>
-
                             <div className="input-row">
                                 <div className="custom-input">
-                                    <label htmlFor="email">Username or Email</label>
+                                    <label htmlFor="email">
+                                        Username or Email
+                                    </label>
                                     <input
                                         id="email"
                                         type="text"
                                         placeholder="Email"
-                                        {...register('email', { required: "Email is required" })}
+                                        {...register("email", {
+                                            required: "Email is required",
+                                        })}
                                     />
-                                    {errors.email && <span className="error-message">Email is required</span>}
+                                    {errors.email && (
+                                        <span className="error-message">
+                                            Email is required
+                                        </span>
+                                    )}
                                 </div>
                             </div>
 
                             <div className="input-row">
                                 <div className="custom-input">
-                                    <label id='password-label'><span>Password</span><span>Forgot Password?</span></label>
+                                    <label id="password-label">
+                                        <span>Password</span>
+                                        <span>Forgot Password?</span>
+                                    </label>
                                     <div className="password-field">
                                         <input
                                             id="password"
                                             type={passwordType}
                                             placeholder="Password"
-                                            {...register('password', { required: "Password is required" })}
+                                            {...register("password", {
+                                                required:
+                                                    "Password is required",
+                                            })}
                                         />
-                                        <span onClick={togglePasswordVisibility}>
-                                            <img id='icon' src={passwordImage} alt="Toggle Password Visibility" />
+                                        <span
+                                            onClick={togglePasswordVisibility}>
+                                            <img
+                                                id="icon"
+                                                src={passwordImage}
+                                                alt="Toggle Password Visibility"
+                                            />
                                         </span>
                                     </div>
-                                    {errors.password && <span className="error-message">Password is required</span>}
+                                    {errors.password && (
+                                        <span className="error-message">
+                                            Password is required
+                                        </span>
+                                    )}
                                 </div>
                             </div>
 
@@ -118,14 +134,12 @@ const Login = () => {
                     </div>
                     <div className="form-right-image">
                         <img src={PNG} alt="" />
-                        <div className="right-login-text">
-
-                        </div>
+                        <div className="right-login-text"></div>
                     </div>
                 </div>
             </div>
         </>
     );
-}
+};
 
 export default Login;

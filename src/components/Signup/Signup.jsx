@@ -1,17 +1,14 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import './Signup.css';
 import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
-import env from '../../../env';
 import { useSelector } from 'react-redux';
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const Signup = () => {
-    const navigate = useNavigate();
     const user = useSelector(state => state.user);
 
     const admin_token = user?.user?.accessToken || '';
@@ -59,7 +56,6 @@ const Signup = () => {
 
     return (
         <div className="form-container-register">
-            <ToastContainer />
             <div className='form-register'>
                 <h1 className="register-heading">Register New Employee</h1>
                 <form onSubmit={handleSubmit(onSubmit)}>

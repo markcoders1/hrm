@@ -1,23 +1,18 @@
 import './index.css'
 import './App.css'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { Provider, useSelector } from 'react-redux'
+import { BrowserRouter, Routes, Route} from 'react-router-dom'
+import { Provider } from 'react-redux'
 import store, { persistor } from './Redux/Store'
 import { PersistGate } from 'redux-persist/integration/react'
+import Layout from './layout/Layout'
 import Login from './components/Login/Login'
-import Signup from './components/Signup/Signup'
-// import ProtectedRoute from './components/ProtectedRoute'
-import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useEffect, useState } from 'react'
-import { Box, Button } from '@mui/material'
-import Header from './components/Header/Header.jsx'
-import Home from './Pages/Home.jsx'
+import Check from './Pages/Checkin.jsx'
+import Home from "./components/Home/Home.jsx"
 import Progress from './components/Progress/Progress.jsx'
 import Admin from './Pages/Admin.jsx'
 import ProtectedRoute from './components/ProtectedRoute'
 import ProtectedAdmin from './components/ProtectedRouteForAdmin.jsx'
-import ProtectedRouteLogin from './components/ProtectedRouteForLogin.jsx'
 
 import Attendance from './components/Attendance/Attendance.jsx'
 
@@ -27,29 +22,23 @@ function App() {
 
 
   return (
-
-
-
-    <div className='home-layouting' >
       <Provider store={store} >
         <PersistGate loading={null} persistor={persistor} >
           <BrowserRouter>
-        
-            <Header />
             <Routes>
-            <Route path='/' element={<Navigate to='/dashboard' />} />
-              <Route path='/dashboard' element={<Home />} />
-
-              <Route path='/login' element={<ProtectedRouteLogin children={<Login/>}/>} />
-              <Route path='/userAttendance' element={<ProtectedRoute children={<Progress />} />} />
-              <Route path='/admin' element={<ProtectedRoute children={<ProtectedAdmin children={<Admin />} />} />} />
-              <Route path='/admin/getattendance/:id' element={<Attendance/>} />
+              <Route path='/' element={<Home />}/>
+              <Route path='/dashboard' element={<Layout />}>
+                <Route path='' element={<Check/>} />
+                <Route path='Attendance' element={<ProtectedRoute ><Progress /></ProtectedRoute>} />
+                <Route path='admin' element={<ProtectedRoute ><ProtectedAdmin ><Admin /></ProtectedAdmin></ProtectedRoute>} />
+                <Route path='admin/attendance/:id' element={<ProtectedRoute ><ProtectedAdmin ><Attendance /></ProtectedAdmin></ProtectedRoute>} />
+              </Route>
+              <Route path='/login' element={<Login/>} />
 
             </Routes>
           </BrowserRouter>
         </PersistGate>
       </Provider>
-    </div>
   )
 }
 

@@ -1,21 +1,16 @@
 
 import './forgot.css'
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useForm } from 'react-hook-form';
-import {  ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import env from '../../../env';
+
 const Forgot = () => {
   return (
     <>
-    <ToastContainer />
     <div className="form-container">
         <div className='form'>
             <h1 className="sign-heading">
                 Forgot Password
             </h1>
-            {!isSubmitted ? (
+            {/* {!isSubmitted ? (
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="input-row">
                         <div className="custom-input">
@@ -35,11 +30,10 @@ const Forgot = () => {
                 </form>
             ) : (
                 <p>A password reset link has been sent to your email.</p>
-            )}
+            )} */}
         </div>
     </div>
-</>
-  )
+    </>)
 }
 
 export default Forgot

@@ -1,22 +1,16 @@
 .sheet-container{
-    width: 97%;
-    /* border: 10px solid red; */
+    width: 100%;
     font-family: "Urbanist", sans-serif !important;
-   
-    margin: auto;
-    margin-top: 30px;
 }
 #datatable-container-user{
     width: 100%;
-    margin: auto;
     border-radius: 10px;
     overflow: hidden;
     margin-top: 30px;
-    
+    background-color: #ffffff;
 }
 .sheet-container > h1{
     width: 100%;
-    padding: 10px 0px;
     background-color:#010115;
     color: white;
     border-radius: 10px;

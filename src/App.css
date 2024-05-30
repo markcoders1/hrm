@@ -1,7 +1,6 @@
 .home-layouting{
-
-display: flex;
-/* gap: 2rem; */
-/* padding: 2rem 3rem; */
-
+    display: flex;
+}
+#root{
+    height: 100vh;
 }

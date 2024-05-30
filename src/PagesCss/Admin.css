@@ -1,8 +1,5 @@
 .admin-container {
-    margin-top: 25px;
-    /* border: 2px solid black; */
-    width: 80%;
-    z-index: 10;
+    width: 100%;
 }
 
 .state-buttons {
@@ -12,8 +9,8 @@
     border-radius: 10px;
     background-color: #010115;
     color: white;
-    padding: 5px 0px;
-    /* border: 2px solid red; */
+    padding: 10px 0px;
+    width: 100%;
     padding-left: 40px;
 }
 
@@ -30,11 +27,6 @@
     padding: 4px 0px;
     border-radius: 8px;
     width: 80px;
-}
-
-.state-buttons > button > span:nth-child(1) {
-    font-size: 2rem;
-    /* background-color: red; */
 }
 
 .state-buttons > button > h1 {

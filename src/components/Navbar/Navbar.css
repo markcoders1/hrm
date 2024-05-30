@@ -1,11 +1,10 @@
 nav{
-    
-  
     background-color: rgb(241, 241, 241);
     border: 1px solid rgb(237, 237, 237);
     margin:auto;
     display: flex;
     justify-content: space-around;
+    height: 100%;
     align-items: center;
 }
 

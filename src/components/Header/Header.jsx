@@ -38,15 +38,15 @@ const Header = () => {
                         <div className="nav-left">
                             <NavLink
                                 className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"}
-                                to="/home"
+                                to="/dashboard"
                             >
-                                <span><pre><GoHome /></pre><pre>Home</pre></span>
+                                <span><pre><GoHome /></pre><pre>Dashboard</pre></span>
                             </NavLink>
                             <NavLink
                                 className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"}
-                                to="/dashboard"
+                                to="/userattendance"
                             >
-                                <span><pre><RiDashboardLine /></pre><pre>Dashboard</pre></span>
+                                <span><pre><RiDashboardLine /></pre><pre>Attendance</pre></span>
                             </NavLink>
                             {isAdmin === "admin" && (
                                 <NavLink

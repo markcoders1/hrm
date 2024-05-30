@@ -34,21 +34,16 @@ function App() {
       <Provider store={store} >
         <PersistGate loading={null} persistor={persistor} >
           <BrowserRouter>
-          {/* <div className="dark-background">
-
-          </div> */}
+        
             <Header />
             <Routes>
-            <Route path='/' element={<Navigate to='/home' />} />
-              <Route path='/home' element={<Home />} />
+            <Route path='/' element={<Navigate to='/dashboard' />} />
+              <Route path='/dashboard' element={<Home />} />
 
               <Route path='/login' element={<ProtectedRouteLogin children={<Login/>}/>} />
-              {/* <Route path='/Dashboard' element={<ProtectedRoute children={<Progress />} />} />
-              <Route path='/admin' element={<ProtectedRoute children={<ProtectedAdmin children={<Admin />} />} />} /> */}
-              <Route path='/Dashboard' element={<Progress/>}/>
-              <Route path='/admin' element={<Admin/>} />
+              <Route path='/userAttendance' element={<ProtectedRoute children={<Progress />} />} />
+              <Route path='/admin' element={<ProtectedRoute children={<ProtectedAdmin children={<Admin />} />} />} />
               <Route path='/admin/getattendance/:id' element={<Attendance/>} />
-              
 
             </Routes>
           </BrowserRouter>

@@ -2,16 +2,18 @@ import React, { useEffect, useState } from 'react';
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import './Progress.css';
+import './Attendance.css';
 import env from '../../../env.js';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 const apiUrl = env.REACT_APP_API_URL;
 
-const AttendanceSheet = () => {
+const Attendance = () => {
     const user = useSelector(state => state.user);
     const [employeeData, setEmployeeData] = useState([]);
+    const { id } = useParams(); // Extracting id from the URL parameters
 
     const accessToken = user?.user?.accessToken || '';
 
@@ -29,19 +31,22 @@ const AttendanceSheet = () => {
         const getEmployeeData = async () => {
             try {
                 const response = await axios({
-                    url: `${apiUrl}/api/getUserAttendance`,
+                    url: `${apiUrl}/api/admin/getUserAttendance`,
                     method: "get",
                     headers: {
                         Authorization: `Bearer ${accessToken}`
+                    },
+                    params: {
+                        userId: id  // Sending the id as a query parameter
                     }
                 });
-                console.log(response)
+                console.log(response);
 
                 const transformedData = response.data.result.map(item => ({
                     ...item,
                     formattedDate: new Date(item.date).toLocaleString(),
-                    formattedCheckIn: millisecondsToHMS(item.checkIn),
-                    formattedCheckOut: millisecondsToHMS(item.checkOut),
+                    formattedCheckIn: new Date(item.checkIn).toLocaleTimeString('en-GB'), // Change to format check-in time
+                    formattedCheckOut: new Date(item.checkOut).toLocaleTimeString('en-GB'), // Change to format check-out time
                     formattedBreakDuration: millisecondsToHMS(item.breakDuration),
                     formattedNetDuration: millisecondsToHMS(item.netDuration),
                     formattedTotalDuration: millisecondsToHMS(item.totalDuration)
@@ -54,7 +59,7 @@ const AttendanceSheet = () => {
             }
         }
         getEmployeeData();
-    }, [accessToken]);
+    }, [accessToken, id]); // Include id in the dependency array
 
     const netDurationBodyTemplate = (rowData) => {
         return (
@@ -91,14 +96,12 @@ const AttendanceSheet = () => {
     };
 
     useEffect(()=>{
-        console.log("hello")
-      let res =   millisecondsToHMS(1716979884244) 
-      console.log(res)
+        millisecondsToHMS()
     },[])
 
     return (
         <div className='sheet-container'>
-            <h1 style={{ textAlign: 'center' }}>Attendance Sheet</h1>
+            <h1 style={{ textAlign: 'center' }}>Attendance for User ID: {id}</h1>
 
             <div>
                 <DataTable
@@ -111,15 +114,15 @@ const AttendanceSheet = () => {
                     sortOrder={1}
                 >
                     <Column body={dateBodyTemplate} header="Date"></Column>
-                    <Column  body={checkInBodyTemplate} header="Check In"></Column>
+                    <Column body={checkInBodyTemplate} header="Check In"></Column>
                     <Column body={checkOutBodyTemplate} header="Check Out"></Column>
                     <Column body={breakDurationBodyTemplate} header="Break Duration"></Column>
                     <Column body={totalDurationBodyTemplate} header="Total Duration"></Column>
-                    <Column  body={netDurationBodyTemplate} header="Net Duration"></Column>
+                    <Column body={netDurationBodyTemplate} header="Net Duration"></Column>
                 </DataTable>
             </div>
         </div>
     );
 }
 
-export default AttendanceSheet;
+export default Attendance;

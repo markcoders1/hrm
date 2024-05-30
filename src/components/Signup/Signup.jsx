@@ -13,7 +13,7 @@ const apiUrl = env.REACT_APP_API_URL;
 const Signup = () => {
     const navigate = useNavigate();
     const user = useSelector(state => state.user);
-    
+
     const admin_token = user?.user?.accessToken || '';
     const config_admin = {
         headers: { Authorization: `Bearer ${admin_token}` }
@@ -23,13 +23,14 @@ const Signup = () => {
         console.log(admin_token);
     }, [admin_token]);
 
-    const { register, handleSubmit, formState: { errors },reset } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
     const onSubmit = async (data) => {
         try {
             let { email, password, firstName, lastName, DOB, CNIC, designation, phone, teamLead, shift, department, role } = data;
             CNIC = Number(CNIC);
             console.log(CNIC);
+            console.log(DOB)
 
             const response = await axios.post(`${apiUrl}/api/admin/register`, {
                 email,

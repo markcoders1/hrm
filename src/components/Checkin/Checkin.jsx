@@ -11,7 +11,6 @@ const Checkin = () => {
     const user = useSelector((state) => state.user);
     const [status, setStatus] = useState("");
     const [loading,setloading]=useState(true)
-    const [isDisabled, setIsDisabled] = useState(false);
     const accessToken = user?.user?.accessToken || "";
 
     const handleCheck = async () => {

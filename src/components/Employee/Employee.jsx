@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";;
-import "./Employee.css";;
+import { useEffect, useState } from "react";
+import "./Employee.css";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
@@ -124,8 +124,7 @@ const Employee = () => {
                 </div>
             </div>
         </>
-    );;
+    );
 };
 
 export default Employee;
-;

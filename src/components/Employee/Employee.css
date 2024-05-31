@@ -8,6 +8,7 @@
     /* border: 10px solid red; */
     font-family: "Poppins", sans-serif;
     z-index: 100000;
+    padding-bottom: 30px;
     
 }
 #datatable-container{
@@ -45,14 +46,18 @@
 #datatable-container .p-datatable-thead > tr > th {
     padding: 25px 20px ;
     background-color: #ffffff;
-    color: rgb(0, 0, 0);
+    color: #034F75;
     font-size: 1.3rem;
+    /* background-color:  !important; */
+    font-weight: bolder !important;
 }
 
 #datatable-container .p-datatable-tbody > tr > td {
     background-color: #ffffff;
-    color: rgb(0, 0, 0);
+    color:  #012E88;
     padding: 15.5px 20px; 
+    font-weight:500;
+    font-size: .9rem;
 }
 
 #datatable-container .p-datatable-footer {
@@ -65,11 +70,34 @@
     color: rgb(0, 0, 0);
 }
 
-.attendanceButton{
+/* .attendanceButton{
     padding:5px 10px;
     background-color: #3498db;
     border-radius: 20px;
     border: none;
     color: white;
     cursor: pointer;
+} */
+
+
+.attendanceButton{
+    border: none;
+    outline: none;
+    padding: 8px 0px;
+    /* border: 1px solid red; */
+   background-color: transparent;
+width: 110px;
+background-color:#010115;
+color: white;
+outline: none;
+border-radius: 4px;
+cursor: pointer;
+
+
+
+}
+
+.attendanceButton:hover{
+    color: rgb(0, 0, 0);
+    background-color: rgba(204, 219, 253, 1);
 }

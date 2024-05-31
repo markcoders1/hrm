@@ -4,7 +4,10 @@ import './Signup.css';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// import { useNavigate } from 'react-router-dom';
+import { MenuItem, Select, FormControl, InputLabel, TextField } from '@mui/material';
 import { useSelector } from 'react-redux';
+// import env from '../../../env';
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -20,7 +23,7 @@ const Signup = () => {
         console.log(admin_token);
     }, [admin_token]);
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm();
 
     const onSubmit = async (data) => {
         try {
@@ -61,127 +64,170 @@ const Signup = () => {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="input-row-register">
                         <div className='child-row'>
-                            <label htmlFor="firstName">First Name</label>
-                            <input
+                            <TextField
+                                label="First Name"
                                 id="firstName"
-                                type="text"
+                                variant="outlined"
+                                fullWidth
                                 {...register('firstName', { required: "First Name is required" })}
+                                error={!!errors.firstName}
+                                helperText={errors.firstName ? errors.firstName.message : ''}
                             />
-                            {errors.firstName && <p className="error">{errors.firstName.message}</p>}
                         </div>
                         <div className='child-row'>
-                            <label htmlFor="lastName">Last Name</label>
-                            <input
+                            <TextField
+                                label="Last Name"
                                 id="lastName"
-                                type="text"
+                                variant="outlined"
+                                fullWidth
                                 {...register('lastName', { required: "Last Name is required" })}
+                                error={!!errors.lastName}
+                                helperText={errors.lastName ? errors.lastName.message : ''}
                             />
-                            {errors.lastName && <p className="error">{errors.lastName.message}</p>}
                         </div>
                     </div>
 
                     <div className="input-row-register">
                         <div className='child-row'>
-                            <label htmlFor="email">Email</label>
-                            <input
+                            <TextField
+                                label="Email"
                                 id="email"
                                 type="email"
+                                variant="outlined"
+                                fullWidth
                                 {...register('email', { required: "Email is required" })}
+                                error={!!errors.email}
+                                helperText={errors.email ? errors.email.message : ''}
                             />
-                            {errors.email && <p className="error">{errors.email.message}</p>}
                         </div>
                         <div className='child-row'>
-                            <label htmlFor="password">Password</label>
-                            <input
+                            <TextField
+                                label="Password"
                                 id="password"
                                 type="password"
+                                variant="outlined"
+                                fullWidth
                                 {...register('password', { required: "Password is required" })}
+                                error={!!errors.password}
+                                helperText={errors.password ? errors.password.message : ''}
                             />
-                            {errors.password && <p className="error">{errors.password.message}</p>}
                         </div>
                     </div>
 
                     <div className="input-row-register">
                         <div className='child-row'>
-                            <label htmlFor="DOB">Date of Birth</label>
-                            <input
+                            <TextField
+                                label="Date of Birth"
                                 id="DOB"
                                 type="date"
+                                variant="outlined"
+                                fullWidth
+                                InputLabelProps={{ shrink: true }}
                                 {...register('DOB', { required: "Date of Birth is required" })}
+                                error={!!errors.DOB}
+                                helperText={errors.DOB ? errors.DOB.message : ''}
                             />
-                            {errors.DOB && <p className="error">{errors.DOB.message}</p>}
                         </div>
                         <div className='child-row'>
-                            <label htmlFor="CNIC">CNIC</label>
-                            <input
+                            <TextField
+                                label="ENTER CNIC WITHOUT ANY SPACE"
                                 id="CNIC"
-                                type="text"
+                                variant="outlined"
+                                fullWidth
                                 {...register('CNIC', { required: "CNIC is required" })}
+                                error={!!errors.CNIC}
+                                helperText={errors.CNIC ? errors.CNIC.message : ''}
                             />
-                            {errors.CNIC && <p className="error">{errors.CNIC.message}</p>}
                         </div>
                     </div>
 
                     <div className="input-row-register">
                         <div className='child-row'>
-                            <label htmlFor="phone">Phone No.</label>
-                            <input
+                            <TextField
+                                label="ENTER PHONE NO. WITHOUT ANY SPACE"
                                 id="phone"
-                                type="text"
+                                variant="outlined"
+                                fullWidth
                                 {...register('phone', { required: "Phone Number is required" })}
+                                error={!!errors.phone}
+                                helperText={errors.phone ? errors.phone.message : ''}
                             />
-                            {errors.phone && <p className="error">{errors.phone.message}</p>}
                         </div>
                         <div className='child-row'>
-                            <label htmlFor="designation">Designation</label>
-                            <input
+                            <TextField
+                                label="Designation"
                                 id="designation"
-                                type="text"
+                                variant="outlined"
+                                fullWidth
                                 {...register('designation', { required: "Designation is required" })}
+                                error={!!errors.designation}
+                                helperText={errors.designation ? errors.designation.message : ''}
                             />
-                            {errors.designation && <p className="error">{errors.designation.message}</p>}
                         </div>
                     </div>
 
                     <div className="input-row-register">
                         <div className='child-row'>
-                            <label htmlFor="teamLead">Team Lead</label>
-                            <input
+                            <TextField
+                                label="Team Lead"
                                 id="teamLead"
-                                type="text"
+                                variant="outlined"
+                                fullWidth
                                 {...register('teamLead', { required: "Team Lead is required" })}
+                                error={!!errors.teamLead}
+                                helperText={errors.teamLead ? errors.teamLead.message : ''}
                             />
-                            {errors.teamLead && <p className="error">{errors.teamLead.message}</p>}
                         </div>
                         <div className='child-row'>
-                            <label htmlFor="shift">Shift</label>
-                            <input
-                                id="shift"
-                                type="text"
-                                {...register('shift', { required: "Shift is required" })}
-                            />
-                            {errors.shift && <p className="error">{errors.shift.message}</p>}
+                            <FormControl fullWidth variant="outlined">
+                                <InputLabel id="shift-label">Shift</InputLabel>
+                                <Select
+                                    labelId="shift-label"
+                                    id="shift"
+                                    label="Shift"
+                                    defaultValue=""
+                                    {...register('shift', { required: "Shift is required" })}
+                                    onChange={(e) => setValue('shift', e.target.value)}
+                                    error={!!errors.shift}
+                                >
+                                    <MenuItem value="morning">Morning</MenuItem>
+                                    <MenuItem value="evening">Evening</MenuItem>
+                                    <MenuItem value="night">Night</MenuItem>
+                                </Select>
+                                {errors.shift && <p className="error">{errors.shift.message}</p>}
+                            </FormControl>
                         </div>
                     </div>
 
                     <div className="input-row-register">
                         <div className='child-row'>
-                            <label htmlFor="department">Department</label>
-                            <input
+                            <TextField
+                                label="Department"
                                 id="department"
-                                type="text"
+                                variant="outlined"
+                                fullWidth
                                 {...register('department', { required: "Department is required" })}
+                                error={!!errors.department}
+                                helperText={errors.department ? errors.department.message : ''}
                             />
-                            {errors.department && <p className="error">{errors.department.message}</p>}
                         </div>
                         <div className='child-row'>
-                            <label htmlFor="role">Role</label>
-                            <input
-                                id="role"
-                                type="text"
-                                {...register('role', { required: "Employee Role is required" })}
-                            />
-                            {errors.role && <p className="error">{errors.role.message}</p>}
+                            <FormControl fullWidth variant="outlined">
+                                <InputLabel id="role-label">Role</InputLabel>
+                                <Select
+                                    labelId="role-label"
+                                    id="role"
+                                    label="Role"
+                                    defaultValue=""
+                                    {...register('role', { required: "Employee Role is required" })}
+                                    onChange={(e) => setValue('role', e.target.value)}
+                                    error={!!errors.role}
+                                >
+                                    <MenuItem value="user">User</MenuItem>
+                                    <MenuItem value="admin">Admin</MenuItem>
+                                </Select>
+                                {errors.role && <p className="error">{errors.role.message}</p>}
+                            </FormControl>
                         </div>
                     </div>
 

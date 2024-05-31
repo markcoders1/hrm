@@ -1,9 +1,11 @@
 .sheet-container{
     width: 80%;
     /* border: 10px solid red; */
-    font-family: "Urbanist", sans-serif !important;
+    /* font-family: "Urbanist", sans-serif !important; */
+    font-family: 'Clash Display', sans-serif;
    
     /* margin: auto; */
+    /* padding-bottom: 30px; */
 }
 #datatable-container-user{
     width: 100%;
@@ -19,10 +21,13 @@
     background-color:#010115;
     color: white;
     border-radius: 10px;
-    font-family: "Poppins", sans-serif;
+    font-family: 'Clash Display', sans-serif;
     letter-spacing: 1px;
+    text-align: start;
+    font-size: 2.8rem;
     font-weight: 500;
-    font-size: 1.8rem;
+    margin: auto;
+    font-family: 'Clash Display', sans-serif;
     
 }
 /* custom-styles.css */
@@ -51,13 +56,15 @@
 }
 
 #datatable-container-user .p-datatable-footer {
-    background-color: #ffffff;
+    
     color: rgb(0, 0, 0);
 }
 
 #datatable-container-user .p-paginator {
-    background-color: rgba(255, 255, 255, 1);
+    /* background-color: rgb(98, 97, 97) !important; */
     color: rgb(0, 0, 0);
+   
+    padding: 10px 0px;
 }
 
 

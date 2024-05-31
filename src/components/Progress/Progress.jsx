@@ -24,6 +24,20 @@ const AttendanceSheet = () => {
         return !isNaN(hours)?`${hours}:${minutes}:${seconds}`:'N/a';
     }
 
+    function millisecondsTo12HourFormat(milliseconds) {
+        const date = new Date(milliseconds);
+        // Adjust to Pakistani timezone (UTC+5)
+        const timezoneOffset = 5 * 60 * 60 * 1000; // 5 hours in milliseconds
+        const pakistaniTime = new Date(date.getTime() + timezoneOffset);
+
+        let hours = pakistaniTime.getUTCHours();
+        const minutes = pakistaniTime.getUTCMinutes().toString().padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        return `${hours}:${minutes} ${ampm}`;
+    }
+
     useEffect(() => {
         const getEmployeeData = async () => {
             try {
@@ -39,8 +53,8 @@ const AttendanceSheet = () => {
                 const transformedData = response.data.result.map((item) => ({
                     ...item,
                     formattedDate: new Date(item.date).toLocaleString(),
-                    formattedCheckIn: millisecondsToHMS(item.checkIn),
-                    formattedCheckOut: millisecondsToHMS(item.checkOut),
+                    formattedCheckIn: millisecondsTo12HourFormat(item.checkIn),
+                    formattedCheckOut: millisecondsTo12HourFormat(item.checkOut),
                     formattedBreakDuration: millisecondsToHMS(
                         item.breakDuration
                     ),
@@ -102,7 +116,7 @@ const AttendanceSheet = () => {
                         margin: "auto",
                     }}
                     paginator
-                    rows={10}
+                    rows={30}
                     sortField="_id"
                     sortOrder={1}>
                     <Column body={dateBodyTemplate} header="Date"></Column>

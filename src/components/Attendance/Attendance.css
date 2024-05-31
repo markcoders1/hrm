@@ -35,19 +35,26 @@
 #datatable-container-user .p-datatable-thead > tr > th {
     padding: 25px 20px ;
     background-color: #ffffff;
-    color: rgb(0, 0, 0);
+    color: #034F75;
     font-size: 1.3rem;
+    /* background-color:  !important; */
+    font-weight: bolder !important;
+
+
 }
 
 #datatable-container-user .p-datatable-tbody > tr > td {
     background-color: #ffffff;
-    color: rgb(0, 0, 0);
+    color:  #012E88;
     padding: 15.5px 20px; 
+    font-weight:500;
+    font-size: 1.05rem;
 }
 
 #datatable-container-user .p-datatable-footer {
     background-color: #ffffff;
     color: rgb(0, 0, 0);
+    
 }
 
 #datatable-container-user .p-paginator {

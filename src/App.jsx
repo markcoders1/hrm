@@ -27,6 +27,7 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path='/' element={<Home />}/>
+              
               <Route path='/dashboard' element={<Layout />}>
                 <Route path='' element={<Check/>} />
                 <Route path='Attendance' element={<ProtectedRoute ><Progress /></ProtectedRoute>} />

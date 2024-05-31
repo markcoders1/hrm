@@ -13,8 +13,6 @@ import EyeClosed from "../../assets/eye-close.png";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-// console.log(process.import.meta.env.VITE_REACT_APP_API_URL)
-
 const Login = () => {
     const [passwordImage, setPasswordImage] = useState(EyeOpen);
     const [passwordType, setPasswordType] = useState("password");

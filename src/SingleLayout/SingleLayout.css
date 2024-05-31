@@ -12,7 +12,7 @@
 }
 
 .dark-background {
-    height: 50%;
+    height: 55%;
     position:fixed ;
     width: 100%;
     background-color: #010115;
@@ -49,7 +49,7 @@ form {
     align-items: center;
     padding: 0rem 2rem;
     gap: 1.7rem;
-    
+
 }
 
 .form-right-image {
@@ -206,4 +206,31 @@ form {
         transition: .3s;
         gap: 0rem;
     }
+}
+
+.dashboard-link{
+    /* border: 2px solid red; */
+   
+    display: flex;
+    justify-content: end;
+    width: 80%;
+    margin: auto;
+    align-items: center;
+    margin-top: 20px;
+    gap: 2rem;
+
+}
+.dashboard-link > a,.dashboard-link > button {
+    text-decoration: none;
+    color: white;
+    /* border: 1px solid white; */
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: transparent;
+     font-size: 1.4rem;
+     cursor: pointer;
+}
+.dashboard-link > a:hover,.dashboard-link > button:hover{
+    text-decoration: underline;
 }

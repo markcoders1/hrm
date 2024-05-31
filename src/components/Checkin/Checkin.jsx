@@ -64,7 +64,7 @@ const Checkin = () => {
             setloading(false)
         };
         getStatus();
-    }, []);
+    }, [accessToken]);
 
     const CheckButtons=()=>{
         return(<>

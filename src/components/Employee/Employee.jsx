@@ -32,19 +32,17 @@ const Employee = () => {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
-                console.log("response", response.data);
                 const dataAllEmployee = response.data;
                 setAllEmployee(dataAllEmployee);
                 setFilteredEmployees(dataAllEmployee);
                 setLoading(false)
-                // console.log(allEmployee)
                 console.log(response);
             } catch (error) {
                 console.error(error);
             }
         };
         getAllUser();
-    }, []);
+    }, [accessToken]);
 
     const buttonForViewDetails = (rowData) => {
         const navigateUserdetail = () => {
@@ -73,7 +71,7 @@ const Employee = () => {
             }
         }
         getAllUser();
-    }, []);
+    }, [accessToken]);
 
     useEffect(() => {
         const results = allEmployee.filter(employee =>

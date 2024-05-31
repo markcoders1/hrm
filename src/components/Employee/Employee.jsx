@@ -15,7 +15,7 @@ const Employee = () => {
 
     const user = useSelector((state) => state.user);
     const [allEmployee, setAllEmployee] = useState([]);
-    const [loading,setLoading]=useState(true)
+    const [loading, setLoading] = useState(true)
     const [filteredEmployees, setFilteredEmployees] = useState([]);
 
     const [searchTerm, setSearchTerm] = useState('');
@@ -75,7 +75,7 @@ const Employee = () => {
 
     useEffect(() => {
         const results = allEmployee.filter(employee =>
-            employee.firstName.toLowerCase().includes(searchTerm.toLowerCase())
+            employee.firstName.toLowerCase().includes(searchTerm.toLowerCase()) || employee.lastName.toLowerCase().includes(searchTerm.toLowerCase()) || employee.email.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredEmployees(results);
     }, [searchTerm, allEmployee]);
@@ -92,33 +92,33 @@ const Employee = () => {
                     />
                 </div>
                 <div>
-                    {loading?<div className="loaderContainer"><div className="loader"></div></div>:
-                    <DataTable
-                        id='datatable-container'
-                        value={filteredEmployees}
-                        tableStyle={{ minWidth: '50rem', maxWidth: '100%', margin: 'auto' }}
-                        paginator
-                        rows={10}
-                        sortField="id"
-                        sortOrder={1}>
-                        <Column
-                            field="firstName"
-                            header="First Name"
-                            sortable></Column>
-                        <Column field="lastName" header="Last Name"></Column>
-                        <Column field="role" header="Role"></Column>
-                        <Column field="phone" header="Phone"></Column>
-                        <Column field="email" header="Email"></Column>
-                        <Column field="department" header="Department"></Column>
-                        <Column
-                            field="designation"
-                            header="Designation"></Column>
-                        <Column field="shift" header="Shift"></Column>
-                        <Column field="teamLead" header="Team Lead"></Column>
-                        <Column
-                            body={buttonForViewDetails}
-                            header="Attendance"></Column>
-                    </DataTable>}
+                    {loading ? <div className="loaderContainer"><div className="loader"></div></div> :
+                        <DataTable
+                            id='datatable-container'
+                            value={filteredEmployees}
+                            tableStyle={{ minWidth: '50rem', maxWidth: '100%', margin: 'auto' }}
+                            paginator
+                            rows={10}
+                            sortField="id"
+                            sortOrder={1}>
+                            <Column
+                                field="firstName"
+                                header="First Name"
+                                sortable></Column>
+                            <Column field="lastName" sortable header="Last Name"></Column>
+                            <Column field="role" header="Role"></Column>
+                            <Column field="phone" header="Phone"></Column>
+                            <Column field="email" sortable header="Email"></Column>
+                            <Column field="department" header="Department"></Column>
+                            <Column
+                                field="designation"
+                                header="Designation"></Column>
+                            <Column field="shift" header="Shift"></Column>
+                            <Column field="teamLead" header="Team Lead"></Column>
+                            <Column
+                                body={buttonForViewDetails}
+                                header="Attendance"></Column>
+                        </DataTable>}
                 </div>
             </div>
         </>

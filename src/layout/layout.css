@@ -1,14 +1,17 @@
 .BaseLayout{
     height: 100% !important;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 6fr;
     padding:25px 30px;
 }
 .hi{
     width: fit-content;
 }
 .Outlet{
-    margin:0 20px;
+    /* margin:0 20px; */
     width: 100%;
+    padding: 10px;
+    grid-column: 2;
 }
 .loader {
     border: 8px solid #f3f3f3; /* Light grey */

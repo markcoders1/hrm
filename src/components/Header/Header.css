@@ -1,13 +1,12 @@
 .header-container {
     width: 240px;
-    /* height: 100%; */
+    height: 90%;
     border-radius: 20px;
     padding: 10px;
     background-color: #010115;
     padding: 4rem 1.7rem;
-    position: sticky;
     top: 25px;
-    z-index: 100000;
+    position:fixed;
 }
 
 .header-container>nav>.nav-left {

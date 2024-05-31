@@ -13,6 +13,7 @@ import Progress from './components/Progress/Progress.jsx'
 import Admin from './Pages/Admin.jsx'
 import ProtectedRoute from './components/ProtectedRoute'
 import ProtectedAdmin from './components/ProtectedRouteForAdmin.jsx'
+import { ForgotPassword } from './components/forgotPassword/forgotPassword.jsx'
 
 import Attendance from './components/Attendance/Attendance.jsx'
 
@@ -36,9 +37,10 @@ function App() {
                 <Route path='admin/attendance/:id' element={<ProtectedRoute ><ProtectedAdmin ><Attendance /></ProtectedAdmin></ProtectedRoute>} />
               </Route>
 
-              <Route path='/login' element={<SingleLayout children={<Login/>} />} />
-              <Route path='/checkin' element={<SingleLayout children={<Check/>} />} />
-              {/* <Route path='/forgetPassword' element={<SingleLayout><Login/></SingleLayout>} /> */}
+              <Route path='/login' element={<SingleLayout ><Login /></SingleLayout>} />
+              <Route path='/checkin' element={<ProtectedRoute><SingleLayout ><Check /></SingleLayout></ProtectedRoute>} />
+              <Route path='/forgotPassword' element={<SingleLayout ><ForgotPassword /></SingleLayout>} />
+
 
 
             </Routes>

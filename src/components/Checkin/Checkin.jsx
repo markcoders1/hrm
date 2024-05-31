@@ -77,7 +77,7 @@ const Checkin = () => {
         <div className="check-container">
           <div className="clocked">{/* <h2 id='clock'></h2> */}</div>
           <div className="check-buttons">
-            {loading?<div className="loader"></div>:<CheckButtons />}
+            {loading?<div className="smallLoaderContainer"><div className="loader"></div></div>:<CheckButtons />}
           </div>
         </div>
     );

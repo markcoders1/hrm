@@ -1,5 +1,4 @@
 import "./SingleLayout.css";
-import { Outlet } from "react-router-dom";
 import PNG from "../assets/loginPNG.png";
 import { NavLink } from "react-router-dom";
 import { useSelector,useDispatch } from "react-redux";
@@ -16,6 +15,7 @@ const SingleLayout = ({ children }) => {
         dispatch(logout());
         navigate("/login");
     };
+
 
     return (
         <>

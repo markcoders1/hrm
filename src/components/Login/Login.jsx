@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import "./Login.css";
 import axios from "axios"; // Import Axios
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "../../Redux/userSlice";
-import PNG from "../../assets/loginPNG.png";
 import EyeOpen from "../../assets/eye-open.png";
 import EyeClosed from "../../assets/eye-close.png";
 
@@ -17,7 +16,6 @@ const Login = () => {
     const [passwordImage, setPasswordImage] = useState(EyeOpen);
     const [passwordType, setPasswordType] = useState("password");
     const navigate = useNavigate();
-    const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
 
     const {
@@ -37,7 +35,7 @@ const Login = () => {
 
             const userData = response.data;
             dispatch(login(userData));
-            navigate("/dashboard");
+            navigate("/checkin");
             toast.success("User Logged In Successfully", {
                 position: "top-center",
             });
@@ -48,10 +46,6 @@ const Login = () => {
             });
         }
     };
-
-    useEffect(() => {
-        console.log(user);
-    }, [user]);
 
     const togglePasswordVisibility = () => {
         if (passwordType === "password") {
@@ -92,7 +86,7 @@ const Login = () => {
 
                     <div className="input-row">
                         <div className="custom-input">
-                            <label id="password-label">
+                            <label id="password-label" onClick={()=>navigate('/forgotPassword')}>
                                 <span>Password</span>
                                 <span>Forgot Password?</span>
                             </label>

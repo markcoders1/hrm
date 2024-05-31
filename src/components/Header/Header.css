@@ -12,10 +12,10 @@
 }
 .image-logo{
     background-color: white;
-    border-radius: 10%;
-
-    height: 80px;
-    width: 80px;
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    padding: 10px;
     margin: auto;
     margin-bottom: 20px;
 }

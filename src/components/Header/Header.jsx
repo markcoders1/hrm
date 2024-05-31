@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../Redux/userSlice";
 import "./Header.css";
 
-import { GoHome } from "react-icons/go";
+import { GoCheckCircleFill } from "react-icons/go";
 import { RiAdminFill } from "react-icons/ri";
 import { RiDashboardLine } from "react-icons/ri";
 import { HiOutlineLogout } from "react-icons/hi";
@@ -32,13 +32,13 @@ const Header = () => {
                 </div>
                 <nav className="nav">
                     <div className="nav-left">
-                        <NavLink className={({isActive}) =>isActive? "nav-link active-link": "nav-link"} end to="/dashboard">
+                        <NavLink className={({isActive}) =>isActive? "nav-link active-link": "nav-link"} to="/checkin">
                             <span>
-                                <pre><GoHome /></pre>
-                                <pre>Dashboard</pre>
+                                <pre><GoCheckCircleFill /></pre>
+                                <pre>Check in!</pre>
                             </span>
                         </NavLink>
-                        <NavLink className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link" } to="/dashboard/attendance">
+                        <NavLink className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link" } to="/dashboard" end>
                             <span>
                                 <pre><RiDashboardLine /></pre>
                                 <pre>Attendance</pre>

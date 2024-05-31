@@ -1,18 +1,20 @@
-import React, { useEffect } from 'react';
-import { useSelector,useDispatch } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useSelector} from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const ProtectedAdmin = ({ children }) => {
   const user = useSelector(state => state.user);
-  const isAdmin = user?.user?.user?.role
+  const navigate=useNavigate()
+  
+  
   useEffect(()=>{
-    console.log(isAdmin)
-  },[])
+    console.log("role",user.user.user.role)
+    console.log("showcase",user)
 
-  if (isAdmin !== 'admin') {
-    return<> <Navigate to="/login" replace={true} />;
-    </>
-  }
+    if (user.user.user.role!=="admin"){
+        navigate("/dashboard")
+    }
+  },[])
 
   return children;
 };

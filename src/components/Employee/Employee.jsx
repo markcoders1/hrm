@@ -98,7 +98,7 @@ const Employee = () => {
                             value={filteredEmployees}
                             tableStyle={{ minWidth: '50rem', maxWidth: '100%', margin: 'auto' }}
                             paginator
-                            rows={10}
+                            rows={30}
                             sortField="id"
                             sortOrder={1}>
                             <Column

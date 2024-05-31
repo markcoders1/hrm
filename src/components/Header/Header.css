@@ -10,7 +10,19 @@
     grid-column-start: 1;
     grid-column-end: 2;
 }
+.image-logo{
+    background-color: white;
+    border-radius: 10%;
 
+    height: 80px;
+    width: 80px;
+    margin: auto;
+    margin-bottom: 20px;
+}
+.image-logo > img{
+    height: 100%;
+    width: 100%;
+}
 .header-container>nav>.nav-left {
     display: flex;
     flex-direction: column;

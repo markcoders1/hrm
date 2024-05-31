@@ -8,6 +8,7 @@ import { RiAdminFill } from "react-icons/ri";
 import { RiDashboardLine } from "react-icons/ri";
 import { HiOutlineLogout } from "react-icons/hi";
 import { FaPowerOff } from "react-icons/fa6";
+import logo from '../../assets/logo.svg'
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -24,6 +25,11 @@ const Header = () => {
     return (
         <>
             <div className="header-container">
+                <div className="image-logo"  >
+
+                    <img src={logo}
+                    alt="" />
+                </div>
                 <nav className="nav">
                     <div className="nav-left">
                         <NavLink className={({isActive}) =>isActive? "nav-link active-link": "nav-link"} end to="/dashboard">

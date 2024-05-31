@@ -16,6 +16,8 @@ import ProtectedAdmin from './components/ProtectedRouteForAdmin.jsx'
 
 import Attendance from './components/Attendance/Attendance.jsx'
 
+import SingleLayout from './SingleLayout/SingleLayout.jsx'
+
 
 
 function App() {
@@ -27,14 +29,18 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path='/' element={<Home />}/>
-              
+
               <Route path='/dashboard' element={<Layout />}>
                 <Route path='' element={<Check/>} />
                 <Route path='Attendance' element={<ProtectedRoute ><Progress /></ProtectedRoute>} />
                 <Route path='admin' element={<ProtectedRoute ><ProtectedAdmin ><Admin /></ProtectedAdmin></ProtectedRoute>} />
                 <Route path='admin/attendance/:id' element={<ProtectedRoute ><ProtectedAdmin ><Attendance /></ProtectedAdmin></ProtectedRoute>} />
               </Route>
-              <Route path='/login' element={<Login/>} />
+
+              <Route path='/login' element={<SingleLayout children={<Login/>} />} />
+              <Route path='/checkin' element={<SingleLayout children={<Check/>} />} />
+              {/* <Route path='/forgetPassword' element={<SingleLayout><Login/></SingleLayout>} /> */}
+
 
             </Routes>
           </BrowserRouter>

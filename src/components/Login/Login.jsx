@@ -65,77 +65,70 @@ const Login = () => {
 
     return (
         <>
-            <div className="dark-background"></div>
-            <div className="form-container">
-                <div className="form">
-                    <div className="form-left">
-                        <h1 className="sign-heading">Log in</h1>
-                        <form onSubmit={handleSubmit(onSubmit)}>
-                            <div className="input-row">
-                                <div className="custom-input">
-                                    <label htmlFor="email">
-                                        Username or Email
-                                    </label>
-                                    <input
-                                        id="email"
-                                        type="text"
-                                        placeholder="Email"
-                                        {...register("email", {
-                                            required: "Email is required",
-                                        })}
+
+            <div className="outlet-box">
+                <h1 className="sign-heading">Log in</h1>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="input-row">
+                        <div className="custom-input">
+                            <label htmlFor="email">
+                                Username or Email
+                            </label>
+                            <input
+                                id="email"
+                                type="text"
+                                placeholder="Email"
+                                {...register("email", {
+                                    required: "Email is required",
+                                })}
+                            />
+                            {errors.email && (
+                                <span className="error-message">
+                                    Email is required
+                                </span>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="input-row">
+                        <div className="custom-input">
+                            <label id="password-label">
+                                <span>Password</span>
+                                <span>Forgot Password?</span>
+                            </label>
+                            <div className="password-field">
+                                <input
+                                    id="password"
+                                    type={passwordType}
+                                    placeholder="Password"
+                                    {...register("password", {
+                                        required:
+                                            "Password is required",
+                                    })}
+                                />
+                                <span
+                                    onClick={togglePasswordVisibility}>
+                                    <img
+                                        id="icon"
+                                        src={passwordImage}
+                                        alt="Toggle Password Visibility"
                                     />
-                                    {errors.email && (
-                                        <span className="error-message">
-                                            Email is required
-                                        </span>
-                                    )}
-                                </div>
+                                </span>
                             </div>
-
-                            <div className="input-row">
-                                <div className="custom-input">
-                                    <label id="password-label">
-                                        <span>Password</span>
-                                        <span>Forgot Password?</span>
-                                    </label>
-                                    <div className="password-field">
-                                        <input
-                                            id="password"
-                                            type={passwordType}
-                                            placeholder="Password"
-                                            {...register("password", {
-                                                required:
-                                                    "Password is required",
-                                            })}
-                                        />
-                                        <span
-                                            onClick={togglePasswordVisibility}>
-                                            <img
-                                                id="icon"
-                                                src={passwordImage}
-                                                alt="Toggle Password Visibility"
-                                            />
-                                        </span>
-                                    </div>
-                                    {errors.password && (
-                                        <span className="error-message">
-                                            Password is required
-                                        </span>
-                                    )}
-                                </div>
-                            </div>
-
-                            <div className="login-btn">
-                                <input type="submit" value="Login" />
-                            </div>
-                        </form>
+                            {errors.password && (
+                                <span className="error-message">
+                                    Password is required
+                                </span>
+                            )}
+                        </div>
                     </div>
-                    <div className="form-right-image">
-                        <img src={PNG} alt="" />
-                        <div className="right-login-text"></div>
+
+                    <div className="login-btn">
+                        <input type="submit" value="Login" />
                     </div>
-                </div>
+                </form>
             </div>
+
         </>
     );
 };

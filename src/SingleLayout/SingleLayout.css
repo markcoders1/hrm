@@ -46,12 +46,10 @@ form {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 0rem 3rem;
+    align-items: center;
+    padding: 0rem 2rem;
     gap: 1.7rem;
-    /* border: 2px solid red; */
-}
-.outlet-box{
-    width: 90%;
+    
 }
 
 .form-right-image {
@@ -209,4 +207,3 @@ form {
         gap: 0rem;
     }
 }
-

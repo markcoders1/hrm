@@ -1,6 +1,12 @@
 .sheet-container{
     width: 100%;
     font-family: "Urbanist", sans-serif !important;
+   
+}
+.mini-container-attendance{
+    background-color: white;
+    margin-top: 20px;
+    border-radius: 10px;
 }
 #datatable-container-user{
     width: 100%;
@@ -62,7 +68,27 @@
     color: rgb(0, 0, 0);
 }
 
+.date-filters{
+    /* border: 2px solid red; */
+    padding: 30px 0px 0px 20px;
+    display: flex;
+    gap: 2rem;
+}
+.date-filters > label {
+    font-size: 1.2rem;
+}
+.date-filters > label > input{
+   width: 190px;
+   height: 30px;
+   outline: none;
+   border: 1px solid ;
+   border: none;
+   border-bottom: 1px solid rgb(14, 14, 14);
+   padding: 0px 10px;
+   /* border-radius: 5px; */
 
+    
+}
 @media only screen and (max-width: 700px){
     .sheet-container{
         width: 100%;

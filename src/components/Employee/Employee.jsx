@@ -83,19 +83,22 @@ const Employee = () => {
         <>
             <div className='sheet-container-admin'>
                 <div className="search-container">
+
+
+                </div>
+                <div>
                     <TextField
                     style={{
                         width:"300px",
+                        marginLeft:"20px"
                        
                     }}
-                        label="Search by First Name"
+                        label="Search by Name & Email"
                         variant="outlined"
                         fullWidth
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
-                </div>
-                <div>
                     {loading ? <div className="loaderContainer"><div className="loader"></div></div> :
                         <DataTable
                             id='datatable-container'
@@ -105,7 +108,6 @@ const Employee = () => {
                             rows={30}
                             sortField="id"
                             sortOrder={1}>
-
 
 
                             <Column

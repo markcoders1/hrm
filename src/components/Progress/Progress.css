@@ -15,6 +15,11 @@
     margin-top: 30px;
     
 }
+.progress-mini-container{
+    background-color: white;
+    margin-top: 30px;
+    border-radius: 10px;
+}
 .sheet-container > h1{
     width: 100%;
     padding: 10px 0px;

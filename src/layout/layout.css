@@ -5,6 +5,7 @@
     grid-template-columns: 1fr 6fr;
     grid-template-rows: 1fr;
     padding:25px 30px;
+    
 }
 .hi{
     width: fit-content;

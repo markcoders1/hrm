@@ -11,7 +11,9 @@ const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 const AttendanceSheet = () => {
     const user = useSelector((state) => state.user);
     const [employeeData, setEmployeeData] = useState([]);
-    const [loading,setloading]=useState(true)
+    const [loading, setloading] = useState(true);
+    const [fromDate, setFromDate] = useState("");
+    const [toDate, setToDate] = useState("");
 
     const accessToken = user?.user?.accessToken || "";
 
@@ -21,7 +23,7 @@ const AttendanceSheet = () => {
         const minutes = date.getUTCMinutes().toString().padStart(2, "0");
         const seconds = date.getUTCSeconds().toString().padStart(2, "0");
 
-        return !isNaN(hours)?`${hours}:${minutes}:${seconds}`:'N/a';
+        return !isNaN(hours) ? `${hours}:${minutes}:${seconds}` : 'N/a';
     }
 
     function millisecondsTo12HourFormat(milliseconds) {
@@ -47,6 +49,10 @@ const AttendanceSheet = () => {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
+                    params: {
+                        from: fromDate ? new Date(fromDate).getTime() : undefined,
+                        to: toDate ? new Date(toDate).getTime() : undefined,
+                    }
                 });
                 console.log(response);
 
@@ -71,7 +77,7 @@ const AttendanceSheet = () => {
             }
         };
         getEmployeeData();
-    }, [accessToken]);
+    }, [accessToken, fromDate, toDate]);
 
     const netDurationBodyTemplate = (rowData) => {
         return <span>{rowData.formattedNetDuration}</span>;
@@ -104,38 +110,56 @@ const AttendanceSheet = () => {
         <div className="sheet-container">
             <h1 style={{ textAlign: "center" }}>Attendance Sheet</h1>
 
-            <div>
+            <div className="progress-mini" >
+            <div className="date-filters">
+                <label>
+                    From : &nbsp;
+                    <input
+                        type="date"
+                        value={fromDate}
+                        onChange={(e) => setFromDate(e.target.value)}
+                    />
+                </label>
+                <label>
+                    To :  &nbsp;
+                    <input
+                        type="date"
+                        value={toDate}
+                        onChange={(e) => setToDate(e.target.value)}
+                    />
+                </label>
+            </div>
                 {
-                loading?<div className="loaderContainer"><div className="loader"></div></div>:
-                <DataTable
-                    id="datatable-container-user"
-                    value={employeeData}
-                    tableStyle={{
-                        minWidth: "30rem",
-                        maxWidth: "100%",
-                        margin: "auto",
-                    }}
-                    paginator
-                    rows={30}
-                    sortField="_id"
-                    sortOrder={1}>
-                    <Column body={dateBodyTemplate} header="Date"></Column>
-                    <Column
-                        body={checkInBodyTemplate}
-                        header="Check In"></Column>
-                    <Column
-                        body={checkOutBodyTemplate}
-                        header="Check Out"></Column>
-                    <Column
-                        body={breakDurationBodyTemplate}
-                        header="Break Duration"></Column>
-                    <Column
-                        body={totalDurationBodyTemplate}
-                        header="Total Duration"></Column>
-                    <Column
-                        body={netDurationBodyTemplate}
-                        header="Net Duration"></Column>
-                </DataTable>}
+                    loading ? <div className="loaderContainer"><div className="loader"></div></div> :
+                        <DataTable
+                            id="datatable-container-user"
+                            value={employeeData}
+                            tableStyle={{
+                                minWidth: "30rem",
+                                maxWidth: "100%",
+                                margin: "auto",
+                            }}
+                            paginator
+                            rows={30}
+                            sortField="_id"
+                            sortOrder={1}>
+                            <Column body={dateBodyTemplate} header="Date"></Column>
+                            <Column
+                                body={checkInBodyTemplate}
+                                header="Check In"></Column>
+                            <Column
+                                body={checkOutBodyTemplate}
+                                header="Check Out"></Column>
+                            <Column
+                                body={breakDurationBodyTemplate}
+                                header="Break Duration"></Column>
+                            <Column
+                                body={totalDurationBodyTemplate}
+                                header="Total Duration"></Column>
+                            <Column
+                                body={netDurationBodyTemplate}
+                                header="Net Duration"></Column>
+                        </DataTable>}
             </div>
         </div>
     );

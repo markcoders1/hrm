@@ -110,7 +110,7 @@ const AttendanceSheet = () => {
         <div className="sheet-container">
             <h1 style={{ textAlign: "center" }}>Attendance Sheet</h1>
 
-            <div className="progress-mini" >
+            <div className="progress-mini-container" >
             <div className="date-filters">
                 <label>
                     From : &nbsp;

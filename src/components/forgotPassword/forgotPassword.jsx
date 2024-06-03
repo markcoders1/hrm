@@ -1,42 +1,48 @@
-import { useState } from "react"
+import { useForm } from "react-hook-form";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export const ForgotPassword=()=>{
-    
-    const [email,setEmail]=useState("")
+export const ForgotPassword = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
-    const handlePassword=async ()=>{
-        console.log(apiUrl)
-        const response= await axios({
-            method:"post",
-            url:`${apiUrl}/api/reset-password`,
-            data:{"email":email}
-        })
-        console.log(response)
+  const onSubmit = async (data) => {
+    try {
+        console.log(apiUrl);
+        const response = await axios({
+          method: "post",
+          url: `${apiUrl}/api/reset-password`,
+          data: { "email": data.email },
+        });
+        console.log(response);
+        
+    } catch (error) {
+        
     }
+  };
 
-    return <>
-        <h1 className="sign-heading">Get New Password</h1>
-        <form>
-            <div className="input-row">
-                <div className="custom-input">
-                    <label htmlFor="email">
-                        Username or Email
-                    </label>
-                    <input
-                        id="email"
-                        type="text"
-                        placeholder="Email"
-                        onChange={e=>setEmail(e.target.value)}
-                    />
-                </div>
-            </div>
+  return (
+    <>
+      <h1 className="sign-heading">Get New Password</h1>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="input-row">
+          <div className="custom-input">
+            <label htmlFor="email">Username or Email</label>
+            <input
+              id="email"
+              type="text"
+              placeholder="Email"
+              {...register("email", { required: "Email is required" })}
+            />
+            {errors.email && <p>{errors.email.message}</p>}
+          </div>
+        </div>
 
-            <div className="login-btn">
-                <input type="button" onClick={handlePassword} value="Get New Password!" />
-            </div>
-        </form>
+        <div className="login-btn">
+          <input type="submit" value="Get New Password!" />
+        </div>
+      </form>
     </>
-}
+  );
+};

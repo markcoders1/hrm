@@ -84,6 +84,10 @@ const Employee = () => {
             <div className='sheet-container-admin'>
                 <div className="search-container">
                     <TextField
+                    style={{
+                        width:"300px",
+                       
+                    }}
                         label="Search by First Name"
                         variant="outlined"
                         fullWidth
@@ -101,6 +105,9 @@ const Employee = () => {
                             rows={30}
                             sortField="id"
                             sortOrder={1}>
+
+
+
                             <Column
                                 field="firstName"
                                 header="First Name"

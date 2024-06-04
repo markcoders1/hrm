@@ -106,31 +106,31 @@ const Attendance = () => {
             <h1 style={{ textAlign: 'center' }}>ATTENDANCE SHEET</h1>
 
             <div className="mini-container-attendance"  >
-                        <div className="date-filters">
-                            <label>
-                                From : &nbsp;
-                                <input
-                                    type="date"
-                                    value={fromDate}
-                                    onChange={(e) => setFromDate(e.target.value)}
-                                />
-                            </label>
-                            <label>
-                                To :  &nbsp;
-                                <input
-                                    type="date"
-                                    value={toDate}
-                                    onChange={(e) => setToDate(e.target.value)}
-                                />
-                            </label>
-                        </div>
+                <div className="date-filters">
+                    <label>
+                        From : &nbsp;
+                        <input
+                            type="date"
+                            value={fromDate}
+                            onChange={(e) => setFromDate(e.target.value)}
+                        />
+                    </label>
+                    <label>
+                        To :  &nbsp;
+                        <input
+                            type="date"
+                            value={toDate}
+                            onChange={(e) => setToDate(e.target.value)}
+                        />
+                    </label>
+                </div>
                 {loading ? <div className="loaderContainer"><div className="loader"></div></div>
                     : <DataTable
                         id="datatable-container-user"
                         value={employeeData}
                         tableStyle={{
                             minWidth: "30rem",
-                            maxWidth: "100%",
+                            maxWidth: "80%",
                             margin: "auto",
                         }}
                         paginator

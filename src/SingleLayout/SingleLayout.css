@@ -59,10 +59,12 @@ form {
     background-color: #F4FCFF;
     width: 50%;
     flex-direction: column;
+    
 }
 
 .form-right-image>img {
     width: 340px;
+   
 }
 
 .custom-input {

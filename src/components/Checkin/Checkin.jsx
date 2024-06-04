@@ -10,7 +10,7 @@ const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 const Checkin = () => {
     const user = useSelector((state) => state.user);
     const [status, setStatus] = useState("");
-    const [loading,setloading]=useState(true)
+    const [loading, setloading] = useState(true)
     const accessToken = user?.user?.accessToken || "";
 
     const handleCheck = async () => {
@@ -66,19 +66,19 @@ const Checkin = () => {
         getStatus();
     }, [accessToken]);
 
-    const CheckButtons=()=>{
-        return(<>
-            <button onClick={handleCheck}>{status === "checkin" || status === "inbreak"? "check out": "check in"}</button>
+    const CheckButtons = () => {
+        return (<>
+            <button onClick={handleCheck}>{status === "checkin" || status === "inbreak" ? "check out" : "check in"}</button>
             {status === "checkout" ? null : (<button onClick={handleBreak}>{status === "checkin" ? "break in" : "break out"}</button>)}
         </>)
     }
 
     return (
         <div className="check-container">
-          <div className="clocked">{/* <h2 id='clock'></h2> */}</div>
-          <div className="check-buttons">
-            {loading?<div className="smallLoaderContainer"><div className="loader"></div></div>:<CheckButtons />}
-          </div>
+
+            <div className="check-buttons">
+                {loading ? <div className="smallLoaderContainer"><div className="loader"></div></div> : <CheckButtons />}
+            </div>
         </div>
     );
 };

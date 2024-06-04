@@ -6,6 +6,9 @@ import "./Progress.css";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
+import { IoMenuOutline } from "react-icons/io5";
+
+
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const AttendanceSheet = () => {
@@ -108,7 +111,7 @@ const AttendanceSheet = () => {
 
     return (
         <div className="sheet-container">
-            <h1 style={{ textAlign: "center" }}>Attendance Sheet</h1>
+            <h1 style={{ textAlign: "center" }}> <span className="heading-attendance" >Attendance Sheet</span> <span id="menu-bar" ><IoMenuOutline/></span> </h1>
 
             <div className="progress-mini-container" >
             <div className="date-filters">

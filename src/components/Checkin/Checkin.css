@@ -1,14 +1,13 @@
 
 
 .check-container {
-    /* border: 2px solid red; */
+    /* border: 2px solid rgb(123, 104, 104); */
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 3rem;
-    font-family: "Poetsen One", sans-serif !important;
     width: 400px;
     
 }
@@ -60,6 +59,17 @@
 
 .opacityLow{
     opacity: 0.2;
+}
+
+@media screen and (max-width: 1200px){
+    .check-container{
+        width: 300px;
+    }
+} 
+@media screen and (max-width: 900px){
+    .check-container{
+        width: 250px;
+    }
 }
 
 @media screen and (max-width: 600px) {

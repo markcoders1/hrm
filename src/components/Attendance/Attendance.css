@@ -1,12 +1,14 @@
 .sheet-container{
     width: 100%;
-    font-family: "Urbanist", sans-serif !important;
+    padding: 0px 10px;
+
    
 }
 .mini-container-attendance{
     background-color: white;
     margin-top: 20px;
     border-radius: 10px;
+    width: 100%;
 }
 #datatable-container-user{
     width: 100%;
@@ -92,7 +94,14 @@
 @media only screen and (max-width: 700px){
     .sheet-container{
         width: 100%;
-        padding: 0px 30px;
+        /* padding: 0px 30px; */
+        padding: 0px 7px;
+   
         
     }
+    .date-filters{
+        flex-direction: column;
+        
+    }
+
 }

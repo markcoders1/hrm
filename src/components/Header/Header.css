@@ -1,14 +1,17 @@
 .header-container {
-    width: 13%;
+    width: 300px;
     border-radius: 20px;
     padding: 10px;
     background-color: #010115;
     padding: 4rem 1.7rem;
-    top: 25px;
     height: 95vh;
-    position:fixed;
-    grid-column-start: 1;
-    grid-column-end: 2;
+    /* position:fixed; */
+    /* position: sticky; */
+    top: 25px;
+    /* grid-column-start: 1;
+    grid-column-end: 2; */
+ 
+    
 }
 .image-logo{
     background-color: white;

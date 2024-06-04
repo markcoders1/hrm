@@ -1,23 +1,27 @@
 .BaseLayout{
     height: 100% !important;
     width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 6fr;
-    grid-template-rows: 1fr;
+    display: flex;
     padding:25px 30px;
+    gap: 2rem;
     
+}
+
+.header-box{
+    width: fit-content;
+
 }
 .hi{
     width: fit-content;
 }
 .Outlet{
     /* margin:0 20px; */
-    width: 100%;
+    width: 80%;
     padding: 10px;
-    grid-row-start: 1;
+    /* grid-row-start: 1;
     grid-row-end: 2;
     grid-column-start: 2;
-    grid-column-end: 3;
+    grid-column-end: 3; */
 }
 .loader {
     border: 8px solid #f3f3f3; /* Light grey */
@@ -41,4 +45,19 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+@media only screen and (max-width: 700px){
+     .Outlet{
+        width: 100%;
+        padding: 0px;
+     }
+     .header-box{
+         display: none;
+     }
+
+     .BaseLayout{
+        padding: 0px;
+        margin-top: 20px;
+     }
 }

@@ -10,6 +10,8 @@ import { HiOutlineLogout } from "react-icons/hi";
 import { FaPowerOff } from "react-icons/fa6";
 import logo from '../../assets/logo.svg'
 
+
+
 const Header = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -26,7 +28,6 @@ const Header = () => {
         <>
             <div className="header-container">
                 <div className="image-logo"  >
-
                     <img src={logo}
                     alt="" />
                 </div>

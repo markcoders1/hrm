@@ -25,3 +25,16 @@ background-color:rgba(204, 219, 253, 1);
 
 color: black;
 }
+
+.menu-bar{
+  display: none;
+}
+
+@media only screen and (max-width: 700px){
+
+   .menu-bar{
+      display: flex;
+      font-size: 2rem;
+  }
+
+}

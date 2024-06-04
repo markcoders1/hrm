@@ -6,17 +6,22 @@
 .state-buttons {
     display: flex;
     margin: auto;
-    gap: 2rem;
+    justify-content: space-between;
+    
     border-radius: 10px;
     background-color: #010115;
     color: white;
-    padding: 10px 0px;
-    width: 100%;
-    padding-left: 40px;
+    padding: 10px 40px;
+    
     font-family: 'Clash Display', sans-serif;
+    align-items: center;
 }
-
-.state-buttons > button {
+.state-buttons span:nth-child(1){
+    /* border: 1px solid red; */
+    display: flex;
+    gap: 2rem;
+}
+.state-buttons span  > button {
     outline: none;
     border: none;
     background-color: transparent;
@@ -29,13 +34,14 @@
     padding: 4px 0px;
     border-radius: 8px;
     width: 80px;
+    
 }
 
-.state-buttons > button > h1 {
+ button > h1 {
     font-size: 12px;
 }
 
-.state-buttons > button.isactive {
+span > button.isactive {
     color: black;
     background-color: #25A9E0;
     transition: 0.6s ;
@@ -46,6 +52,6 @@
         /* border: 2px solid black; */
         width: 90%;
         margin: auto;
-        margin-top: 25px;
+        /* margin-top: 25px; */
     }
 }

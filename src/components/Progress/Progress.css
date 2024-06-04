@@ -11,7 +11,7 @@
     
 }
 
-.sheet-container > h1 > #menu-bar{
+.sheet-container > h1 > .menu-bar{
     display: none;
 }
 #datatable-container-user{
@@ -90,7 +90,8 @@
     .sheet-container > h1 {
         justify-content: space-around;
     }
-    .sheet-container > h1 > #menu-bar{
+    .sheet-container > h1 > .menu-bar{
         display: flex;
     }
+
 }

@@ -4,9 +4,11 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import "./Progress.css";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { IoMenuOutline } from "react-icons/io5";
+
+import { toggleSidebar } from '../../Redux/toggleSidebar';
 
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -17,6 +19,14 @@ const AttendanceSheet = () => {
     const [loading, setloading] = useState(true);
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
+
+    const dispatch = useDispatch();
+    const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
+
+    const handleToggleSidebar = () => {
+        dispatch(toggleSidebar());
+        // console.log(isSidebarOpen)
+    };
 
     const accessToken = user?.user?.accessToken || "";
 
@@ -111,27 +121,27 @@ const AttendanceSheet = () => {
 
     return (
         <div className="sheet-container">
-            <h1 style={{ textAlign: "center" }}> <span className="heading-attendance" >Attendance Sheet</span> <span id="menu-bar" ><IoMenuOutline/></span> </h1>
+            <h1 style={{ textAlign: "center" }}> <span className="heading-attendance" >Attendance Sheet</span> <span className="menu-bar" onClick={handleToggleSidebar} ><IoMenuOutline /></span> </h1>
 
             <div className="progress-mini-container" >
-            <div className="date-filters">
-                <label>
-                    From : &nbsp;
-                    <input
-                        type="date"
-                        value={fromDate}
-                        onChange={(e) => setFromDate(e.target.value)}
-                    />
-                </label>
-                <label>
-                    To :  &nbsp;
-                    <input
-                        type="date"
-                        value={toDate}
-                        onChange={(e) => setToDate(e.target.value)}
-                    />
-                </label>
-            </div>
+                <div className="date-filters">
+                    <label>
+                        From : &nbsp;
+                        <input
+                            type="date"
+                            value={fromDate}
+                            onChange={(e) => setFromDate(e.target.value)}
+                        />
+                    </label>
+                    <label>
+                        To :  &nbsp;
+                        <input
+                            type="date"
+                            value={toDate}
+                            onChange={(e) => setToDate(e.target.value)}
+                        />
+                    </label>
+                </div>
                 {
                     loading ? <div className="loaderContainer"><div className="loader"></div></div> :
                         <DataTable

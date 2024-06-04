@@ -3,7 +3,7 @@
     width: 100%;
     display: flex;
     padding:25px 30px;
-    gap: 2rem;
+   
     
 }
 
@@ -53,7 +53,7 @@
         padding: 0px;
      }
      .header-box{
-         display: none;
+     
      }
 
      .BaseLayout{

@@ -4,14 +4,9 @@
     padding: 10px;
     background-color: #010115;
     padding: 4rem 1.7rem;
-    height: 95vh;
-    /* position:fixed; */
-    /* position: sticky; */
+    height: 95vh;   
     top: 25px;
-    /* grid-column-start: 1;
-    grid-column-end: 2; */
- 
-    
+
 }
 .image-logo{
     background-color: white;
@@ -94,19 +89,26 @@ a>span>pre:nth-child(2) {
     margin-top: 7px;
 }
 
+
+
 @media only screen and (max-width: 700px) {
 
     .header-container {
-        display: none;
         width: 270px;
         height: 100vh;
-        transform: translateX(0px);
+        transform: translateX(-300px);
         border-radius: 0px;
         padding: 10px;
         padding: 4rem 1.7rem;
         margin: 0px;
-        position: sticky;
-        top: 0px;
+       position: fixed;
+       top: 0px;
+       z-index: 1000;
+       transition: .3s ease ;
+    }
+     
+    .sidebarToggleopen{
+        transform: translateX(0);
     }
 
 }

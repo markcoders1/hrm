@@ -10,13 +10,20 @@ import { HiOutlineLogout } from "react-icons/hi";
 import { FaPowerOff } from "react-icons/fa6";
 import logo from '../../assets/logo.svg'
 
-
+import { toggleSidebar } from '../../Redux/toggleSidebar';
 
 const Header = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((state) => state.user);
     const isAdmin = user?.user?.user?.role;
+
+
+    const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
+  
+    // const handleToggleSidebar = () => {
+    //   dispatch(toggleSidebar());
+    // };
 
     const handleLogout = async () => {
         dispatch(logout());
@@ -26,7 +33,7 @@ const Header = () => {
 
     return (
         <>
-            <div className="header-container">
+            <div className={isSidebarOpen ? "header-container sidebarToggleopen" : "header-container"}  >
                 <div className="image-logo"  >
                     <img src={logo}
                     alt="" />

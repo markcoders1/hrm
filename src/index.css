@@ -28,13 +28,23 @@ color: black;
 
 .menu-bar{
   display: none;
+  font-size: 2rem;
+  color: white;
+}
+@font-face {
+  font-family: 'MyCustomFont';
+  src: url('./assets/clash-display/ClashDisplayBold.otf') format('otf'),
+       url('./assets/clash-display/ClashDisplayMedium.otf') format('otf'),
+       url('./assets/clash-display//ClashDisplayRegular.otf') format('otf');
+  font-weight: normal;
+  font-style: normal;
 }
 
 @media only screen and (max-width: 700px){
-
    .menu-bar{
       display: flex;
       font-size: 2rem;
+      color: white;
   }
 
 }

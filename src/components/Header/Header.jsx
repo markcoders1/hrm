@@ -20,7 +20,7 @@ const Header = () => {
 
 
     const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
-  
+
     // const handleToggleSidebar = () => {
     //   dispatch(toggleSidebar());
     // };
@@ -36,17 +36,25 @@ const Header = () => {
             <div className={isSidebarOpen ? "header-container sidebarToggleopen" : "header-container"}  >
                 <div className="image-logo"  >
                     <img src={logo}
-                    alt="" />
+                        alt="" />
                 </div>
                 <nav className="nav">
                     <div className="nav-left">
-                        <NavLink className={({isActive}) =>isActive? "nav-link active-link": "nav-link"} to="/checkin">
+                        <NavLink className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"} to="/checkin">
                             <span>
                                 <pre><GoCheckCircleFill /></pre>
                                 <pre>Check in!</pre>
                             </span>
                         </NavLink>
-                        <NavLink className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link" } to="/dashboard" end>
+                        
+                        <NavLink className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"} to="profile" end>
+                            <span>
+                                <pre><RiDashboardLine /></pre>
+                                <pre>Profile</pre>
+                            </span>
+                        </NavLink>
+                        
+                        <NavLink className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"} to="/dashboard" end>
                             <span>
                                 <pre><RiDashboardLine /></pre>
                                 <pre>Attendance</pre>
@@ -54,7 +62,7 @@ const Header = () => {
                         </NavLink>
                         {isAdmin === "admin" && (
                             <NavLink
-                                className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link" } to="/dashboard/admin">
+                                className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"} to="/dashboard/admin">
                                 <span>
                                     <pre><RiAdminFill /></pre>
                                     <pre>Admin</pre>

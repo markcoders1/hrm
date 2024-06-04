@@ -1,6 +1,6 @@
 import './index.css'
 import './App.css'
-import { BrowserRouter, Routes, Route} from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store, { persistor } from './Redux/Store'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -19,34 +19,38 @@ import Attendance from './components/Attendance/Attendance.jsx'
 
 import SingleLayout from './SingleLayout/SingleLayout.jsx'
 
+import Profile from './Pages/Profile.jsx'
+
 
 
 function App() {
 
 
   return (
-      <Provider store={store} >
-        <PersistGate loading={null} persistor={persistor} >
-          <BrowserRouter>
-            <Routes>
-              <Route path='/' element={<Home />}/>
+    <Provider store={store} >
+      <PersistGate loading={null} persistor={persistor} >
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<Home />} />
 
-              <Route path='/dashboard' element={<Layout />}>
-                <Route path='' element={<ProtectedRoute ><Progress /></ProtectedRoute>} />
-                <Route path='admin' element={<ProtectedRoute ><ProtectedAdmin ><Admin /></ProtectedAdmin></ProtectedRoute>} />
-                <Route path='admin/attendance/:id' element={<ProtectedRoute ><ProtectedAdmin ><Attendance /></ProtectedAdmin></ProtectedRoute>} />
-              </Route>
+            <Route path='/dashboard' element={<Layout />}>
+              <Route path='' element={<ProtectedRoute ><Progress /></ProtectedRoute>} />
+              <Route path='profile' element={<ProtectedRoute ><Profile /></ProtectedRoute>} />
+              <Route path='admin' element={<ProtectedRoute ><ProtectedAdmin ><Admin /></ProtectedAdmin></ProtectedRoute>} />
+              <Route path='admin/attendance/:id' element={<ProtectedRoute ><ProtectedAdmin ><Attendance /></ProtectedAdmin></ProtectedRoute>} />
 
-              <Route path='/login' element={<SingleLayout ><Login /></SingleLayout>} />
-              <Route path='/checkin' element={<ProtectedRoute><SingleLayout ><Check /></SingleLayout></ProtectedRoute>} />
-              <Route path='/forgotPassword' element={<SingleLayout ><ForgotPassword /></SingleLayout>} />
+            </Route>
+
+            <Route path='/login' element={<SingleLayout ><Login /></SingleLayout>} />
+            <Route path='/checkin' element={<ProtectedRoute><SingleLayout ><Check /></SingleLayout></ProtectedRoute>} />
+            <Route path='/forgotPassword' element={<SingleLayout ><ForgotPassword /></SingleLayout>} />
 
 
 
-            </Routes>
-          </BrowserRouter>
-        </PersistGate>
-      </Provider>
+          </Routes>
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
   )
 }
 

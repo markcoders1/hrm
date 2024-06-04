@@ -9,7 +9,6 @@ export const ForgotPassword = () => {
 
   const onSubmit = async (data) => {
     try {
-        console.log(apiUrl);
         const response = await axios({
           method: "post",
           url: `${apiUrl}/api/reset-password`,

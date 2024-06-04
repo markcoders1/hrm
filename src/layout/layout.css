@@ -15,13 +15,7 @@
     width: fit-content;
 }
 .Outlet{
-    /* margin:0 20px; */
     width: 90%;
-    padding: 10px;
-    /* grid-row-start: 1;
-    grid-row-end: 2;
-    grid-column-start: 2;
-    grid-column-end: 3; */
 }
 .loader {
     border: 8px solid #f3f3f3; /* Light grey */

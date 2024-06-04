@@ -41,7 +41,8 @@ const Login = () => {
             });
             reset();
         } catch (error) {
-            toast.error(error.message || "Failed to log in", {
+            console.log(error)
+            toast.error(error.response.data.message || "Failed to log in", {
                 position: "top-center",
             });
         }

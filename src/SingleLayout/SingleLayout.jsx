@@ -1,19 +1,19 @@
 import "./SingleLayout.css";
 import PNG from "../assets/loginPNG.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { useSelector,useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../Redux/userSlice";
 
 
-const SingleLayout = ({ children }) => {
+const SingleLayout = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     
     const handleLogout = async () => {
         dispatch(logout());
-        navigate("/login");
+        navigate("/");
     };
 
 
@@ -37,7 +37,7 @@ const SingleLayout = ({ children }) => {
             <div className="form-container">
                 <div className="form">
                     <div className="form-left">
-                        {children}
+                        <Outlet />
                     </div>
                     <div className="form-right-image">
                         <img src={PNG} alt="" />

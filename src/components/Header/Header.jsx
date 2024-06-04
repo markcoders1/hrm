@@ -10,7 +10,6 @@ import { HiOutlineLogout } from "react-icons/hi";
 import { FaPowerOff } from "react-icons/fa6";
 import logo from '../../assets/logo.svg'
 
-import { toggleSidebar } from '../../Redux/toggleSidebar';
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -21,13 +20,10 @@ const Header = () => {
 
     const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
 
-    // const handleToggleSidebar = () => {
-    //   dispatch(toggleSidebar());
-    // };
 
     const handleLogout = async () => {
         dispatch(logout());
-        navigate("/login");
+        navigate("/");
     };
 
 

@@ -8,7 +8,7 @@ import Layout from './layout/Layout'
 import Login from './components/Login/Login'
 import 'react-toastify/dist/ReactToastify.css';
 import Check from './Pages/Checkin.jsx'
-import Home from "./components/Home/Home.jsx"
+import NotFound from "./components/404/404.jsx"
 import Progress from './components/Progress/Progress.jsx'
 import Admin from './Pages/Admin.jsx'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -31,19 +31,20 @@ function App() {
       <PersistGate loading={null} persistor={persistor} >
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={<Home />} />
+
+            <Route path='/' element={<SingleLayout />} >
+              <Route path='' element={<Login />} />
+              <Route path='checkin' element={<ProtectedRoute><Check /></ProtectedRoute>} />
+              <Route path='forgotPassword' element={<ForgotPassword />} />
+              <Route path='*' element={<NotFound/>}/>
+            </Route>
 
             <Route path='/dashboard' element={<Layout />}>
               <Route path='' element={<ProtectedRoute ><Progress /></ProtectedRoute>} />
               <Route path='profile' element={<ProtectedRoute ><Profile /></ProtectedRoute>} />
               <Route path='admin' element={<ProtectedRoute ><ProtectedAdmin ><Admin /></ProtectedAdmin></ProtectedRoute>} />
               <Route path='admin/attendance/:id' element={<ProtectedRoute ><ProtectedAdmin ><Attendance /></ProtectedAdmin></ProtectedRoute>} />
-
             </Route>
-
-            <Route path='/login' element={<SingleLayout ><Login /></SingleLayout>} />
-            <Route path='/checkin' element={<ProtectedRoute><SingleLayout ><Check /></SingleLayout></ProtectedRoute>} />
-            <Route path='/forgotPassword' element={<SingleLayout ><ForgotPassword /></SingleLayout>} />
 
 
 

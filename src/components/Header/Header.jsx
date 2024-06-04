@@ -8,6 +8,7 @@ import { RiAdminFill } from "react-icons/ri";
 import { RiDashboardLine } from "react-icons/ri";
 import { HiOutlineLogout } from "react-icons/hi";
 import { FaPowerOff } from "react-icons/fa6";
+import { FaUser } from "react-icons/fa";
 import logo from '../../assets/logo.svg'
 
 
@@ -45,7 +46,7 @@ const Header = () => {
                         
                         <NavLink className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"} to="profile" end>
                             <span>
-                                <pre><RiDashboardLine /></pre>
+                                <pre><FaUser /></pre>
                                 <pre>Profile</pre>
                             </span>
                         </NavLink>

@@ -38,7 +38,7 @@ const Profile = () => {
                 setYourData(response.data.user)
 
             } catch (error) {
-
+                console.log(error)
             }
         }
         
@@ -50,7 +50,7 @@ const Profile = () => {
     return (
         <div className='profile-container' >
             <div className="profile-heading">
-                <h1>YOUR PERSONAL INFORMATION</h1>
+                <h1>User Profile</h1>
                 <span className='menu-bar' onClick={handleToggleSidebar}  >
                     <IoMenuOutline />
                 </span>
@@ -58,32 +58,32 @@ const Profile = () => {
             <div className="profile-information-container">
 
                 <div className="input-box">
-                    <label >First Name : &nbsp; <p>{yourData.firstName}</p> </label>
+                    <label >First Name : <span>{yourData.firstName}</span> </label>
                 </div>
                 <div className="input-box">
-                    <label >Last Name : &nbsp; <p>{yourData.lastName}</p> </label>
+                    <label >Last Name : <span>{yourData.lastName}</span> </label>
                 </div>
                 <div className="input-box">
-                    <label >Email : &nbsp; <p>{yourData.email}</p> </label>
+                    <label >Email : <span>{yourData.email}</span> </label>
                 </div>
                 <div className="input-box">
-                    <label >Phone : &nbsp; <p>{yourData.phone}</p> </label>
+                    <label >Phone : <span>{yourData.phone}</span> </label>
                 </div>
                 <div className="input-box">
-                    <label >Department : &nbsp; <p>{yourData.department}</p> </label>
+                    <label >Department : <span>{yourData.department}</span> </label>
                 </div>
                 <div className="input-box">
-                    <label >Designation : &nbsp; <p>{yourData.designation}</p> </label>
+                    <label >Designation : <span>{yourData.designation}</span> </label>
                 </div>
                 
                 <div className="input-box">
-                    <label >Shift : &nbsp; <p>{yourData.shift}</p> </label>
+                    <label >Shift : <span>{yourData.shift}</span> </label>
                 </div>
                 <div className="input-box">
-                    <label >Team Lead : &nbsp; <p>{yourData.teamLead}</p> </label>
+                    <label >Team Lead : <span>{yourData.teamLead}</span> </label>
                 </div>
                 <div className="input-box">
-                    <label >Status : &nbsp; <p>{yourData.status}</p> </label>
+                    <label >Status : <span>{yourData.status}</span> </label>
                 </div>
                 
 

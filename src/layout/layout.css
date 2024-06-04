@@ -16,6 +16,7 @@
 }
 .Outlet{
     width: 90%;
+    margin-left: 10px;
 }
 .loader {
     border: 8px solid #f3f3f3; /* Light grey */

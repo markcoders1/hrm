@@ -18,7 +18,7 @@ export const ForgotPassword = () => {
         toast.success("Check your Email")
         
     } catch (error) {
-        toast.error(error.message);
+        toast.error(error.response.data.message);
     }
   };
 

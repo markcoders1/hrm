@@ -10,11 +10,9 @@ import axios from 'axios';
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 const Profile = () => {
     const [yourData, setYourData] = useState([]);
+    const [loading,setloading]=useState(true)
     const user = useSelector((state) => state.user?.user);
     const accessToken = user?.accessToken || "";
-    useEffect(()=>{
-        console.log(yourData)
-    },[])
     const dispatch = useDispatch();
     const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
 
@@ -36,6 +34,7 @@ const Profile = () => {
                 });
                 console.log(response.data.user);
                 setYourData(response.data.user)
+                setloading(false)
 
             } catch (error) {
                 console.log(error)
@@ -57,7 +56,7 @@ const Profile = () => {
             </div>
             <div className="profile-information-container">
 
-                <div className="input-box">
+            {loading?<div className='loaderContainer'><div className="loader"></div></div>:<><div className="input-box">
                     <label >First Name : <span>{yourData.firstName}</span> </label>
                 </div>
                 <div className="input-box">
@@ -84,7 +83,7 @@ const Profile = () => {
                 </div>
                 <div className="input-box">
                     <label >Status : <span>{yourData.status}</span> </label>
-                </div>
+                </div></>}
                 
 
             </div>

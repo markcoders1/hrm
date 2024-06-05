@@ -18,6 +18,7 @@ const Profile = () => {
 
     const handleToggleSidebar = () => {
         dispatch(toggleSidebar());
+        // staging edit
     };
 
     useEffect(() => {

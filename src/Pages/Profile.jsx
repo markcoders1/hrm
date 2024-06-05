@@ -18,6 +18,7 @@ const Profile = () => {
 
     const handleToggleSidebar = () => {
         dispatch(toggleSidebar());
+        console.log("hi")
         // console.log(isSidebarOpen)
     };
 

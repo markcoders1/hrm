@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import '../PagesCss/Profile.css'
 import { IoMenuOutline } from "react-icons/io5";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleSidebar } from '../Redux/toggleSidebar';
-import axios from 'axios';
+import axiosInstance from '../auth/axiosInstance';
 
 
 
@@ -14,7 +14,6 @@ const Profile = () => {
     const user = useSelector((state) => state.user?.user);
     const accessToken = user?.accessToken || "";
     const dispatch = useDispatch();
-    const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
 
     const handleToggleSidebar = () => {
         dispatch(toggleSidebar());
@@ -24,7 +23,7 @@ const Profile = () => {
     useEffect(() => {
         const getProfileInfo = async () => {
             try {
-                const response = await axios({
+                const response = await axiosInstance({
                     url: `${apiUrl}/api/getUser`,
                     method: "get",
                     headers: {

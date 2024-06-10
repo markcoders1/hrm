@@ -25,14 +25,17 @@ axiosInstance.interceptors.response.use(
     },
     async error => {
         const originalRequest = error.config;
+        console.log(error.request.status)
+
         if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
-            console.log("original Request",originalRequest)
+            // console.log("original Request",originalRequest)
 
             try {
                 const refreshToken=sessionStorage.getItem("refreshToken")
                 const response = await axios.post(`${appUrl}/api/auth/token`, {refreshToken}, { withCredentials: true });
-                console.log("response",response)
+
+                
                 if (response.status === 200) {
                     sessionStorage.setItem('accessToken', response.data.accessToken);
                     axiosInstance.defaults.headers['Authorization'] = 'Bearer ' + response.data.accessToken;

@@ -1,24 +1,34 @@
+import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector} from "react-redux";
 import "./Header.css";
-
+import axiosInstance from "../../auth/axiosInstance";
 import { GoCheckCircleFill } from "react-icons/go";
-import { RiAdminFill } from "react-icons/ri";
 import { RiDashboardLine } from "react-icons/ri";
-import { HiOutlineLogout } from "react-icons/hi";
 import { FaPowerOff } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa";
 import logo from '../../assets/logo.svg'
+import { RiAdminFill } from "react-icons/ri";
 
 
 const Header = () => {
     const navigate = useNavigate();
-    const user = useSelector((state) => state.user);
-    const isAdmin = user?.user?.user?.role;
+    const [isAdmin,setIsAdmin]=useState(false)
 
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
     const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
 
+    useEffect(()=>{
+        (async function(){
+            const res =await axiosInstance({
+                method:"get",
+                url:`${apiUrl}/api/isAdmin`,
+            })
+            console.log("res",res)
+            setIsAdmin(res.data.isAdmin)
+        })()
+    },[])
 
     const handleLogout = async () => {
         sessionStorage.removeItem('accessToken');
@@ -68,7 +78,6 @@ const Header = () => {
                         )}
                     </div>
                     <div className="nav-right">
-                        {user?.isAuthenticated ? (
                             <button
                                 id="logout"
                                 className="logout-button"
@@ -78,17 +87,6 @@ const Header = () => {
                                 </span>
                                 <span>Logout</span>
                             </button>
-                        ) : (
-                            <NavLink
-                                id="logout"
-                                className="logout-button"
-                                to="login">
-                                <span>
-                                    <HiOutlineLogout />
-                                </span>
-                                <span>Login</span>
-                            </NavLink>
-                        )}
                     </div>
                 </nav>
             </div>

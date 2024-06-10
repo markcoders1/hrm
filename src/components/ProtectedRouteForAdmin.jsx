@@ -1,20 +1,23 @@
 import { useEffect } from 'react';
-import { useSelector} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../auth/axiosInstance';
 
 const ProtectedAdmin = ({ children }) => {
-  const user = useSelector(state => state.user);
   const navigate=useNavigate()
-  
+
+  const apiUrl= import.meta.env.VITE_REACT_APP_API_URL
   
   useEffect(()=>{
-    console.log("role",user.user.user.role)
-    console.log("showcase",user)
-
-    if (user.user.user.role!=="admin"){
-        navigate("/dashboard")
-    }
-  },[])
+    (async function(){
+        const res =await axiosInstance({
+            method:"get",
+            url:`${apiUrl}/api/isAdmin`,
+        })
+        if (res.data.isAdmin!=="admin"){
+          navigate("/dashboard")
+      }
+    })()
+},[])
 
   return children;
 };

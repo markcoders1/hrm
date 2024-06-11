@@ -45,18 +45,18 @@ const Login = () => {
             });
             reset();
         } catch (error) {
+console.log(error)
+            // const err =error?.response?.data?.message||error
 
-            const err =error?.response?.data?.message||error
-
-            if(typeof err!=="object"){
-                err.forEach((e)=>{
-                    toast.error(e.message,{position: "top-center"})
-                })
-            }else if(typeof err==="string"){
-                toast.error(err,{position: "top-center"})
-            }else{
-                console.log(err)
-            }
+            // if(typeof err!=="object"){
+            //     err.forEach((e)=>{
+            //         toast.error(e.message,{position: "top-center"})
+            //     })
+            // }else if(typeof err==="string"){
+            //     toast.error(err,{position: "top-center"})
+            // }else{
+            //     console.log(err)
+            // }
         }
     };
 

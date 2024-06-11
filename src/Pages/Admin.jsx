@@ -4,23 +4,24 @@ import { MdOutlineGroupAdd, MdOutlineGroups, MdGroups, MdGroupAdd } from "react-
 import Register from '../components/Signup/Signup';
 import Employee from '../components/Employee/Employee';
 
-// import { useSelector, useDispatch } from "react-redux";
+
+import { useSelector, useDispatch } from "react-redux";
 
 import { IoMenuOutline } from "react-icons/io5";
 
-// import { toggleSidebar } from '../Redux/toggleSidebar';
+import { toggleSidebar } from '../Redux/toggleSidebar';
 
 const Admin = () => {
     const [showComponent, setShowComponent] = useState('employees');
 
 
-    // const dispatch = useDispatch();
-    // const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
+    const dispatch = useDispatch();
+    const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
 
-    // const handleToggleSidebar = () => {
-    //     dispatch(toggleSidebar());
-    //     // console.log(isSidebarOpen)
-    // };
+    const handleToggleSidebar = () => {
+        dispatch(toggleSidebar());
+        // console.log(isSidebarOpen)
+    };
 
 
     const toggleComponents = (componentToShow) => {
@@ -58,7 +59,7 @@ const Admin = () => {
                         <h1>Register</h1>
                     </button>
                 </span>
-                <span  className='menu-bar'>
+                <span onClick={handleToggleSidebar}  className='menu-bar'>
                     <IoMenuOutline/>
                 </span>
             </div>

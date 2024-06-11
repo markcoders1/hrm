@@ -20,6 +20,7 @@ import Attendance from './components/Attendance/Attendance.jsx'
 import SingleLayout from './SingleLayout/SingleLayout.jsx'
 
 import Profile from './Pages/Profile.jsx'
+import ChangePassword from './components/changePassword/ChangePassword.jsx'
 
 
 
@@ -35,6 +36,7 @@ function App() {
             <Route path='/' element={<SingleLayout />} >
               <Route path='' element={<Login />} />
               <Route path='checkin' element={<ProtectedRoute><Check /></ProtectedRoute>} />
+              <Route path='changePassword' element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
               <Route path='forgotPassword' element={<ForgotPassword />} />
               <Route path='*' element={<NotFound/>}/>
             </Route>

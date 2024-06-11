@@ -4,6 +4,7 @@ import { IoMenuOutline } from "react-icons/io5";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleSidebar } from '../Redux/toggleSidebar';
 import axiosInstance from '../auth/axiosInstance';
+import { NavLink } from 'react-router-dom';
 
 
 
@@ -82,7 +83,11 @@ const Profile = () => {
                 </div>
                 <div className="input-box">
                     <label >Status : <span>{yourData.status}</span> </label>
-                </div></>}
+                </div>
+                <NavLink to='/changepassword' className="input-box">
+                    <label id='changePassword' >Change Password</label>
+                </NavLink>
+                </>}
                 
 
             </div>

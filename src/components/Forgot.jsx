@@ -1,5 +1,5 @@
 
-import './forgot.css'
+import '../css/forgot.css'
 import 'react-toastify/dist/ReactToastify.css';
 
 const Forgot = () => {

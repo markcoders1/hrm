@@ -4,23 +4,23 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store, { persistor } from './Redux/Store'
 import { PersistGate } from 'redux-persist/integration/react'
-import Layout from './layout/Layout'
-import Login from './components/Login/Login'
+import Layout from './layouts/Layout.jsx'
+import Login from './components/Login.jsx'
 import 'react-toastify/dist/ReactToastify.css';
 import Check from './Pages/Checkin.jsx'
-import NotFound from "./components/404/404.jsx"
-import Progress from './components/Progress/Progress.jsx'
+import NotFound from "./components/404.jsx"
+import Progress from './components/Progress.jsx'
 import Admin from './Pages/Admin.jsx'
 import ProtectedRoute from './components/ProtectedRoute'
 import ProtectedAdmin from './components/ProtectedRouteForAdmin.jsx'
-import { ForgotPassword } from './components/forgotPassword/forgotPassword.jsx'
+import { ForgotPassword } from './components/forgotPassword.jsx'
 
-import Attendance from './components/Attendance/Attendance.jsx'
+import Attendance from './components/Attendance.jsx'
 
-import SingleLayout from './SingleLayout/SingleLayout.jsx'
+import SingleLayout from './layouts/mainLayout.jsx'
 
 import Profile from './Pages/Profile.jsx'
-import ChangePassword from './components/changePassword/ChangePassword.jsx'
+import ChangePassword from './components/ChangePassword.jsx'
 
 
 

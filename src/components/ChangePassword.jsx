@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import "../Login/Login.css";
+import "../css/Login.css";
 // import axios from "axios"; // Import Axios
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import EyeOpen from "../../assets/eye-open.png";
-import EyeClosed from "../../assets/eye-close.png";
-import axiosInstance from "../../auth/axiosInstance";
+import EyeOpen from "/eye-open.png";
+import EyeClosed from "/eye-close.png";
+import axiosInstance from "../auth/axiosInstance";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 

@@ -1,13 +1,11 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import './Signup.css';
+import '../css/Signup.css';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import { useNavigate } from 'react-router-dom';
 import { MenuItem, Select, FormControl, InputLabel, TextField } from '@mui/material';
 import { useSelector } from 'react-redux';
-import axiosInstance from '../../auth/axiosInstance';
-// import env from '../../../env';
+import axiosInstance from '../auth/axiosInstance';
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 

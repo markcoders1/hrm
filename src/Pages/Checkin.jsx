@@ -1,6 +1,6 @@
 import '../PagesCss/Home.css';
-import '../components/Checkin/Checkin.css'
-import Checkin from '../components/Checkin/Checkin';
+import '../css/Checkin.css'
+import Checkin from '../components/Checkin';
 
 
 const Check = () => {

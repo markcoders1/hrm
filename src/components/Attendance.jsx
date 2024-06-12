@@ -2,30 +2,20 @@ import { useEffect, useState } from "react";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import "./Progress.css";
-import { useSelector, useDispatch } from "react-redux";
-
-import { IoMenuOutline } from "react-icons/io5";
-
-import { toggleSidebar } from '../../Redux/toggleSidebar';
-import axiosInstance from "../../auth/axiosInstance";
-
+import "../css/Attendance.css";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import axiosInstance from "../auth/axiosInstance";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-const AttendanceSheet = () => {
+const Attendance = () => {
     const user = useSelector((state) => state.user);
+    const [loading, setLoading] = useState(true);
     const [employeeData, setEmployeeData] = useState([]);
-    const [loading, setloading] = useState(true);
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
-
-    const dispatch = useDispatch();
-
-    const handleToggleSidebar = () => {
-        dispatch(toggleSidebar());
-        // console.log(isSidebarOpen)
-    };
+    const { id } = useParams(); // Extracting id from the URL parameters
 
     const accessToken = user?.user?.accessToken || "";
 
@@ -35,7 +25,7 @@ const AttendanceSheet = () => {
         const minutes = date.getUTCMinutes().toString().padStart(2, "0");
         const seconds = date.getUTCSeconds().toString().padStart(2, "0");
 
-        return !isNaN(hours) ? `${hours}:${minutes}:${seconds}` : 'N/a';
+        return isNaN(hours) ? "N/a" : `${hours}:${minutes}:${seconds}`;
     }
 
     function millisecondsTo12HourFormat(milliseconds) {
@@ -56,15 +46,16 @@ const AttendanceSheet = () => {
         const getEmployeeData = async () => {
             try {
                 const response = await axiosInstance({
-                    url: `${apiUrl}/api/getUserAttendance`,
+                    url: `${apiUrl}/api/admin/getUserAttendance`,
                     method: "get",
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
                     params: {
+                        userId: id, // Sending the id as a query parameter
                         from: fromDate ? new Date(fromDate).getTime() : undefined,
                         to: toDate ? new Date(toDate).getTime() : undefined,
-                    }
+                    },
                 });
                 console.log(response);
 
@@ -73,9 +64,7 @@ const AttendanceSheet = () => {
                     formattedDate: new Date(item.date).toLocaleString(),
                     formattedCheckIn: millisecondsTo12HourFormat(item.checkIn),
                     formattedCheckOut: millisecondsTo12HourFormat(item.checkOut),
-                    formattedBreakDuration: millisecondsToHMS(
-                        item.breakDuration
-                    ),
+                    formattedBreakDuration: millisecondsToHMS(item.breakDuration),
                     formattedNetDuration: millisecondsToHMS(item.netDuration),
                     formattedTotalDuration: millisecondsToHMS(
                         item.totalDuration
@@ -83,13 +72,13 @@ const AttendanceSheet = () => {
                 }));
 
                 setEmployeeData(transformedData);
-                setloading(false)
+                setLoading(false);
             } catch (error) {
                 console.error(error);
             }
         };
         getEmployeeData();
-    }, [accessToken, fromDate, toDate]);
+    }, [accessToken, id, fromDate, toDate]); // Include fromDate and toDate in the dependency array
 
     const netDurationBodyTemplate = (rowData) => {
         return <span>{rowData.formattedNetDuration}</span>;
@@ -112,17 +101,11 @@ const AttendanceSheet = () => {
         return <span>{rowData.formattedTotalDuration}</span>;
     };
 
-    useEffect(() => {
-        console.log("hello");
-        let res = millisecondsToHMS(1716979884244);
-        console.log(res);
-    }, []);
-
     return (
-        <div className="sheet-container">
-            <h1 style={{ textAlign: "center" }}> <span className="heading-attendance" >Attendance Sheet</span> <span className="menu-bar" onClick={handleToggleSidebar} ><IoMenuOutline /></span> </h1>
+        <div className='sheet-container wrapper'>
+            <h1 style={{ textAlign: 'center' }}>ATTENDANCE SHEET</h1>
 
-            <div className="progress-mini-container" >
+            <div className="mini-container-attendance"  >
                 <div className="date-filters">
                     <label>
                         From : &nbsp;
@@ -141,40 +124,30 @@ const AttendanceSheet = () => {
                         />
                     </label>
                 </div>
-                {
-                    loading ? <div className="loaderContainer"><div className="loader"></div></div> :
-                        <DataTable
-                            id="datatable-container-user"
-                            value={employeeData}
-                            tableStyle={{
-                                minWidth: "30rem",
-                                maxWidth: "100%",
-                                margin: "auto",
-                            }}
-                            paginator
-                            rows={30}
-                            sortField="_id"
-                            sortOrder={1}>
-                            <Column body={dateBodyTemplate} header="Date"></Column>
-                            <Column
-                                body={checkInBodyTemplate}
-                                header="Check In"></Column>
-                            <Column
-                                body={checkOutBodyTemplate}
-                                header="Check Out"></Column>
-                            <Column
-                                body={breakDurationBodyTemplate}
-                                header="Break Duration"></Column>
-                            <Column
-                                body={totalDurationBodyTemplate}
-                                header="Total Duration"></Column>
-                            <Column
-                                body={netDurationBodyTemplate}
-                                header="Net Duration"></Column>
-                        </DataTable>}
+                {loading ? <div className="loaderContainer"><div className="loader"></div></div>
+                    : <DataTable
+                        id="datatable-container-user"
+                        value={employeeData}
+                        tableStyle={{
+                            minWidth: "30rem",
+                            maxWidth: "80%",
+                            margin: "auto",
+                        }}
+                        paginator
+                        rows={30}
+                        sortField="_id"
+                        sortOrder={1}
+                    >
+                        <Column body={dateBodyTemplate} header="DATE"></Column>
+                        <Column body={checkInBodyTemplate} header="Check IN"></Column>
+                        <Column body={checkOutBodyTemplate} header="CHECK OUT"></Column>
+                        <Column body={breakDurationBodyTemplate} header="BREAK DOWN"></Column>
+                        <Column body={totalDurationBodyTemplate} header="TOTAL DURATION"></Column>
+                        <Column body={netDurationBodyTemplate} header="NET DURATION"></Column>
+                    </DataTable>}
             </div>
         </div>
     );
 };
 
-export default AttendanceSheet;
+export default Attendance;

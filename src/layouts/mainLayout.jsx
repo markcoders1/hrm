@@ -1,11 +1,12 @@
-import "./SingleLayout.css";
-import PNG from "../assets/loginPNG.png";
+import "../css/mainLayout.css";
+import PNG from "/loginPNG.png";
 import { NavLink, Outlet } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 
 const SingleLayout = () => {
     const navigate = useNavigate();
+
     
     const handleLogout = async () => {
         sessionStorage.removeItem('accessToken');
@@ -19,17 +20,27 @@ const SingleLayout = () => {
     return (
         <>
             <div className="dark-background"></div>
-            <div className="dashboard-link" >
+            <div className="dashboard-link">
                 {
                     accessToken ?
                         <>
-                            <NavLink to='/dashboard' replace >
-                                Dashboard
-                            </NavLink>
-                            <button onClick={handleLogout} >Logout</button>
+                            <div className="dashboard-logo">
+                                <img src="/logo.svg" alt="hi" onClick={()=>navigate('/')}/>
+                            </div>
+                            <div className="dashboard-buttons">
+                                <NavLink to='/dashboard' replace >
+                                    Dashboard
+                                </NavLink>
+                                <button onClick={handleLogout} >Logout</button>
+                            </div>
                         </>
                         :
-                        ""
+                        <>
+                            <div className="dashboard-logo">
+                                <img src="/logo.svg" alt="hi" onClick={()=>navigate('/')}/>
+                            </div>
+                            <div className="dashboard-buttons"></div>
+                        </>
                 }
 
             </div>

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import '../PagesCss/Admin.css';
 import { MdOutlineGroupAdd, MdOutlineGroups, MdGroups, MdGroupAdd } from "react-icons/md";
-import Register from '../components/Signup/Signup';
-import Employee from '../components/Employee/Employee';
+import Register from '../components/Signup';
+import Employee from '../components/Employee';
 
 
 import { useSelector, useDispatch } from "react-redux";

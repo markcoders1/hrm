@@ -6,6 +6,10 @@ import { ToastContainer } from 'react-toastify'
 
 // importing from prime react
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '@coreui/coreui/dist/css/coreui.min.css'
+import './styles.scss'
+
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';

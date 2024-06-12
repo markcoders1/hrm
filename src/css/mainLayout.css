@@ -1,0 +1,135 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: "Urbanist", sans-serif;
+    }
+.form-container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    height: 95vh;
+}
+.dark-background {
+    height: 55%;
+    position:fixed ;
+    width: 100%;
+    background-color: #010115;
+    top: 0px;
+    z-index: -1000;
+}
+.form {
+    width: 68%;
+    border-radius: 50px;
+    background-color: white;
+    color: black;
+    display: flex;
+    height: 500px;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.form-left {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0rem 2rem;
+    gap: 1.7rem;
+
+}
+
+.form-right-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #F4FCFF;
+    width: 50%;
+    flex-direction: column;
+    
+}
+
+.form-right-image>img {
+    width: 340px;
+   
+}
+
+.dashboard-link{
+   
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: auto;
+    align-items: center;
+    margin-top: 20px;
+    gap: 2rem;
+    padding: 0 10%;
+
+}
+.dashboard-buttons > a,.dashboard-buttons > button {
+    text-decoration: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: transparent;
+    font-size: 1.4rem;
+    cursor: pointer;
+    font-weight: bold;
+}
+.dashboard-buttons > a:hover,.dashboard-buttons > button:hover{
+    color:#25A9E0;
+}
+.dashboard-buttons{
+    width: 50%;
+    display: flex;
+    gap: 20px;
+    justify-content: end;
+    padding: 0 10px;
+
+}
+
+.dashboard-link > img{
+    height: 100%;
+}
+
+.dashboard-link > .dashboard-logo{
+    background-color: white;
+    height: 70px;
+    width: 70px;
+    border-radius: 15px;
+}
+
+@media only screen and (max-width: 1200px) {
+    .form-left {
+        padding: 1rem 0rem;
+        transition: .3s;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .form-right-image>img {
+        width: 250px;
+    }
+}
+@media only screen and (max-width: 800px){
+    .form-right-image{
+        display: none;
+    }
+    .form-left{
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 600px){
+    .form{
+        height: 450px;
+        width: 90%;
+        
+    }
+    .form-left {
+        padding: 2rem 2rem;
+        transition: .3s;
+        gap: 0rem;
+    }
+}

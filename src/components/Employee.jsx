@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import "./Employee.css";
+import "../css/Employee.css";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { TextField } from '@mui/material';
-import axiosInstance from "../../auth/axiosInstance";
+import axiosInstance from "../auth/axiosInstance";
 
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;

@@ -1,0 +1,14 @@
+.img-thumbnail{
+    height: 55px;
+    width: 55px;
+    justify-self: center;
+}
+.sidebar-header:first-child{
+    justify-content: center;
+}
+.sidebar-header:last-child{
+    justify-content: end;
+}
+.sidebar{
+    height: 100%;
+}

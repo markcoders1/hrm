@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import "./Checkin.css";
+import "../css/Checkin.css";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import axiosInstance from "../../auth/axiosInstance";
+import axiosInstance from "../auth/axiosInstance";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 

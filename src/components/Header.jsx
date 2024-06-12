@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector} from "react-redux";
-import "./Header.css";
-import axiosInstance from "../../auth/axiosInstance";
+import "../css/Header.css";
+import axiosInstance from "../auth/axiosInstance";
 import { GoCheckCircleFill } from "react-icons/go";
 import { RiDashboardLine } from "react-icons/ri";
 import { FaPowerOff } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa";
-import logo from '../../assets/logo.svg'
+import logo from '/logo.svg'
 import { RiAdminFill } from "react-icons/ri";
 
 

@@ -1,0 +1,11 @@
+@import "@coreui/coreui/scss/coreui";
+
+:root {
+    --cui-sidebar-width: #{ $sidebar-width };
+}
+
+.wrapper{
+    margin-left: --cui-sidebar-width;
+    will-change: auto;
+    transition: padding .15s;
+}

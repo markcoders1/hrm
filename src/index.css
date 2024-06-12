@@ -8,9 +8,6 @@ html {
   height: 100vh;
   font-size: 14px;
 }
-/* import {'primereact/resources/themes/saga-blue/theme.css';}
-import {'primereact/resources/primereact.min.css';}          // core css
-import 'primeicons/primeicons.css';                        // icons */
 *{
   box-sizing: border-box;
   margin: 0px;
@@ -21,7 +18,7 @@ body{
 margin: 0px;
 padding: 0px;
 box-sizing: border-box;
-background-color:rgba(204, 219, 253, 1);
+background-color:rgba(204, 219, 253, 1) !important;
 
 color: black;
 }

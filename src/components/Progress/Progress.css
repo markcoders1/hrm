@@ -2,6 +2,7 @@
     width: 80%;
     font-family: 'Clash Display', sans-serif;
    
+   
 }
 .sheet-container > h1{
     display: flex;
@@ -21,11 +22,15 @@
     overflow: hidden;
     margin-top: 30px;
     
+    
 }
 .progress-mini-container{
     background-color: white;
     margin-top: 30px;
     border-radius: 10px;
+   
+    position: relative;
+
     
 }
 .sheet-container > h1{
@@ -79,7 +84,40 @@
    
     padding: 10px 0px;
 }
+.generate{
+    width: 100%;
+    /* border: 2px solid blue; */
+    display: flex;
+    justify-content: end;
+    padding: 10px 0px;
 
+}
+#generatePdfBtn{
+    padding: 10px 75px;
+    display: flex;
+    background-color: #010115;
+    color: white;
+    font-size: 1.4rem;
+    /* margin: auto; */
+    margin-right: 40px;
+    border-radius: 5px;
+    cursor: pointer;
+transition: .15s ease-in all;
+border: none;
+outline: none;
+    
+    
+}
+#generatePdfBtn:hover{
+    background-color: rgb(28, 4, 131);
+    color: rgb(255, 255, 255);
+
+}
+#generatePdfBtn:active{
+    background-color: rgb(92, 55, 255);
+    color: rgb(50, 50, 50);
+
+}
 
 @media only screen and (max-width: 700px){
     .sheet-container{

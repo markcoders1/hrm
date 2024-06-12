@@ -9,6 +9,7 @@ import { IoMenuOutline } from "react-icons/io5";
 
 import { toggleSidebar } from '../../Redux/toggleSidebar';
 import axiosInstance from "../../auth/axiosInstance";
+import axios from "axios";
 
 
 
@@ -119,6 +120,18 @@ const AttendanceSheet = () => {
         console.log(res);
     }, []);
 
+
+    const downloadPdf = async () => {
+        const response = await axiosInstance({
+            url: `${apiUrl}/api/getattendancepdf`,
+            method: "get"
+        
+        })
+        console.log(response)
+    }
+    
+
+
     return (
         <div className="sheet-container">
             <h1 style={{ textAlign: "center" }}> <span className="heading-attendance" >Attendance Sheet</span> <span className="menu-bar" onClick={handleToggleSidebar} ><IoMenuOutline /></span> </h1>
@@ -144,35 +157,42 @@ const AttendanceSheet = () => {
                 </div>
                 {
                     loading ? <div className="loaderContainer"><div className="loader"></div></div> :
-                        <DataTable
-                            id="datatable-container-user"
-                            value={employeeData}
-                            tableStyle={{
-                                minWidth: "30rem",
-                                maxWidth: "100%",
-                                margin: "auto",
-                            }}
-                            paginator
-                            rows={30}
-                            sortField="_id"
-                            sortOrder={1}>
-                            <Column body={dateBodyTemplate} header="Date"></Column>
-                            <Column
-                                body={checkInBodyTemplate}
-                                header="Check In"></Column>
-                            <Column
-                                body={checkOutBodyTemplate}
-                                header="Check Out"></Column>
-                            <Column
-                                body={breakDurationBodyTemplate}
-                                header="Break Duration"></Column>
-                            <Column
-                                body={totalDurationBodyTemplate}
-                                header="Total Duration"></Column>
-                            <Column
-                                body={netDurationBodyTemplate}
-                                header="Net Duration"></Column>
-                        </DataTable>}
+                        <>
+                            <DataTable
+                                id="datatable-container-user"
+                                value={employeeData}
+                                tableStyle={{
+                                    minWidth: "30rem",
+                                    maxWidth: "100%",
+                                    margin: "auto",
+                                }}
+                                paginator
+                                rows={30}
+                                sortField="_id"
+                                sortOrder={1}>
+                                <Column body={dateBodyTemplate} header="Date"></Column>
+                                <Column
+                                    body={checkInBodyTemplate}
+                                    header="Check In"></Column>
+                                <Column
+                                    body={checkOutBodyTemplate}
+                                    header="Check Out"></Column>
+                                <Column
+                                    body={breakDurationBodyTemplate}
+                                    header="Break Duration"></Column>
+                                <Column
+                                    body={totalDurationBodyTemplate}
+                                    header="Total Duration"></Column>
+                                <Column
+                                    body={netDurationBodyTemplate}
+                                    header="Net Duration"></Column>
+                            </DataTable>
+                            <div className="generate">
+
+                                <button id="generatePdfBtn" onClick={downloadPdf} >Generate PDF</button>
+                            </div>
+                        </>
+                }
             </div>
         </div>
     );

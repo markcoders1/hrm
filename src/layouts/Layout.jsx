@@ -9,16 +9,23 @@ import {
     CNavTitle,
     CNavItem,
     CSidebarToggler,
-    CNavGroup,
-    cilPuzzle
+    CNavGroup
 } from "@coreui/react";
 import CIcon from '@coreui/icons-react';
-import { cilArrowCircleBottom, cilCalendar, cilUser, cilFlagAlt } from "@coreui/icons";
+import { cilPuzzle, cilArrowCircleBottom, cilCalendar, cilUser, cilFlagAlt } from "@coreui/icons";
 
 const Layout = () => {
     return (
-        <>
-            <CSidebar className="border-end" unfoldable={true} colorScheme="dark">
+        <div 
+        style={{
+            display:"flex"
+        }}
+        >
+            <CSidebar className="border-end " unfoldable={true} colorScheme="dark"
+            style={{
+                height:"100vh"
+            }}
+            >
                 <CSidebarHeader className="border-bottom">
                     <img src="/logo.svg" alt="123" className="img-thumbnail" />
                 </CSidebarHeader>
@@ -52,11 +59,13 @@ const Layout = () => {
                     </CNavItem>
                 </CSidebarNav>
                 <CSidebarHeader className="border-top">
-                    <CSidebarToggler />
+                    <CSidebarToggler  />
                 </CSidebarHeader>
             </CSidebar>
+            
             <Outlet />
-        </>
+
+        </div>
     );
 }
 

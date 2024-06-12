@@ -133,7 +133,7 @@ form {
     color: red;
 }
 
-.login-btn>input {
+.login-btn>button {
     color: rgb(228, 219, 219);
     background-color: #010115;
     padding: 17px 10px;

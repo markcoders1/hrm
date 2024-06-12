@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import "./Login.css";
-// import axios from "axios"; // Import Axios
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
@@ -11,11 +10,14 @@ import EyeOpen from "../../assets/eye-open.png";
 import EyeClosed from "../../assets/eye-close.png";
 import axiosInstance from "../../auth/axiosInstance";
 
+import Loader from "../Loader/Loader";
+
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const Login = () => {
     const [passwordImage, setPasswordImage] = useState(EyeOpen);
     const [passwordType, setPasswordType] = useState("password");
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -28,14 +30,15 @@ const Login = () => {
 
     const onSubmit = async (data) => {
         const { email, password } = data;
+        setIsLoading(true);
         try {
             const response = await axiosInstance.post(`${apiUrl}/api/auth/login`, {
                 email,
                 password,
             });
 
-            sessionStorage.setItem("accessToken",response.data.accessToken)
-            sessionStorage.setItem("refreshToken",response.data.refreshToken)
+            sessionStorage.setItem("accessToken", response.data.accessToken);
+            sessionStorage.setItem("refreshToken", response.data.refreshToken);
 
             const userData = response.data;
             dispatch(login(userData));
@@ -45,18 +48,10 @@ const Login = () => {
             });
             reset();
         } catch (error) {
-console.log(error)
-            // const err =error?.response?.data?.message||error
-
-            // if(typeof err!=="object"){
-            //     err.forEach((e)=>{
-            //         toast.error(e.message,{position: "top-center"})
-            //     })
-            // }else if(typeof err==="string"){
-            //     toast.error(err,{position: "top-center"})
-            // }else{
-            //     console.log(err)
-            // }
+            console.log(error);
+            toast.error("Login failed. Please try again.", { position: "top-center" });
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -72,7 +67,6 @@ console.log(error)
 
     return (
         <>
-
             <div className="outlet-box">
                 <h1 className="sign-heading">Log in</h1>
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -99,7 +93,7 @@ console.log(error)
 
                     <div className="input-row">
                         <div className="custom-input">
-                            <label id="password-label" onClick={()=>navigate('/forgotPassword')}>
+                            <label id="password-label" onClick={() => navigate('/forgotPassword')}>
                                 <span>Password</span>
                                 <span>Forgot Password?</span>
                             </label>
@@ -109,12 +103,10 @@ console.log(error)
                                     type={passwordType}
                                     placeholder="Password"
                                     {...register("password", {
-                                        required:
-                                            "Password is required",
+                                        required: "Password is required",
                                     })}
                                 />
-                                <span
-                                    onClick={togglePasswordVisibility}>
+                                <span onClick={togglePasswordVisibility}>
                                     <img
                                         id="icon"
                                         src={passwordImage}
@@ -131,11 +123,12 @@ console.log(error)
                     </div>
 
                     <div className="login-btn">
-                        <input type="submit" value="Login" />
+                        <button type="submit" disabled={isLoading}>
+                            {isLoading ?<Loader/> :  "Login"}
+                        </button>
                     </div>
                 </form>
             </div>
-
         </>
     );
 };

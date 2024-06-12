@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 import "./Header.css";
 import axiosInstance from "../../auth/axiosInstance";
 import { GoCheckCircleFill } from "react-icons/go";
@@ -9,37 +9,44 @@ import { FaPowerOff } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa";
 import logo from '../../assets/logo.svg'
 import { RiAdminFill } from "react-icons/ri";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 
 const Header = () => {
     const navigate = useNavigate();
-    const [isAdmin,setIsAdmin]=useState(false)
+    const [isAdmin, setIsAdmin] = useState(false)
 
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
     const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
 
-    useEffect(()=>{
-        (async function(){
-            const res =await axiosInstance({
-                method:"get",
-                url:`${apiUrl}/api/isAdmin`,
+    useEffect(() => {
+        (async function () {
+            const res = await axiosInstance({
+                method: "get",
+                url: `${apiUrl}/api/isAdmin`,
             })
-            console.log("res",res)
+            console.log("res", res)
             setIsAdmin(res.data.isAdmin)
         })()
-    },[])
+    }, [])
 
     const handleLogout = async () => {
         sessionStorage.removeItem('accessToken');
         sessionStorage.removeItem('refreshToken');
         localStorage.removeItem('refreshToken');
-        navigate("/");
+        setTimeout(()=>{
+            navigate("/");
+        }, 3000)
+        toast.success("You Have Succesfully Logout");
     };
 
 
     return (
         <>
+            <ToastContainer />
             <div className={isSidebarOpen ? "header-container sidebarToggleopen" : "header-container"}  >
                 <div className="image-logo"  >
                     <img src={logo}
@@ -47,26 +54,30 @@ const Header = () => {
                 </div>
                 <nav className="nav">
                     <div className="nav-left">
-                        <NavLink className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"} to="/checkin">
-                            <span>
-                                <pre><GoCheckCircleFill /></pre>
-                                <pre>Check in!</pre>
-                            </span>
-                        </NavLink>
-                        
-                        <NavLink className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"} to="profile" end>
+                        {
+                            isAdmin === "admin" ? "" : <NavLink className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"} to="/checkin">
+                                <span>
+                                    <pre><GoCheckCircleFill /></pre>
+                                    <pre>Check in!</pre>
+                                </span>
+                            </NavLink>
+                        }
+
+
+                        <NavLink className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"} to="/dashboard" end>
                             <span>
                                 <pre><FaUser /></pre>
                                 <pre>Profile</pre>
                             </span>
                         </NavLink>
-                        
-                        <NavLink className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"} to="/dashboard" end>
+
+                        {isAdmin === "admin" ? "" : <NavLink className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"} to="/dashboard/progress" end>
                             <span>
                                 <pre><RiDashboardLine /></pre>
                                 <pre>Attendance</pre>
                             </span>
                         </NavLink>
+                        }
                         {isAdmin === "admin" && (
                             <NavLink
                                 className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"} to="/dashboard/admin">
@@ -78,15 +89,15 @@ const Header = () => {
                         )}
                     </div>
                     <div className="nav-right">
-                            <button
-                                id="logout"
-                                className="logout-button"
-                                onClick={handleLogout}>
-                                <span>
-                                    <FaPowerOff />
-                                </span>
-                                <span>Logout</span>
-                            </button>
+                        <button
+                            id="logout"
+                            className="logout-button"
+                            onClick={handleLogout}>
+                            <span>
+                                <FaPowerOff />
+                            </span>
+                            <span>Logout</span>
+                        </button>
                     </div>
                 </nav>
             </div>

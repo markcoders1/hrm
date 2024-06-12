@@ -42,7 +42,7 @@ const Login = () => {
 
             const userData = response.data;
             dispatch(login(userData));
-            navigate("/checkin");
+            navigate("/dashboard");
             toast.success("User Logged In Successfully", {
                 position: "top-center",
             });

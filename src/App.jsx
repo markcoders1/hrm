@@ -21,6 +21,7 @@ import SingleLayout from './SingleLayout/SingleLayout.jsx'
 
 import Profile from './Pages/Profile.jsx'
 import ChangePassword from './components/changePassword/ChangePassword.jsx'
+import { ToastContainer } from 'react-toastify'
 
 
 
@@ -29,6 +30,7 @@ function App() {
 
   return (
     <Provider store={store} >
+      <ToastContainer/>
       <PersistGate loading={null} persistor={persistor} >
         <BrowserRouter>
           <Routes>
@@ -42,14 +44,11 @@ function App() {
             </Route>
 
             <Route path='/dashboard' element={<Layout />}>
-              <Route path='' element={<ProtectedRoute ><Progress /></ProtectedRoute>} />
-              <Route path='profile' element={<ProtectedRoute ><Profile /></ProtectedRoute>} />
+              <Route path='progress' element={<ProtectedRoute ><Progress /></ProtectedRoute>} />
+              <Route path='' element={<ProtectedRoute ><Profile /></ProtectedRoute>} />
               <Route path='admin' element={<ProtectedRoute ><ProtectedAdmin ><Admin /></ProtectedAdmin></ProtectedRoute>} />
               <Route path='admin/attendance/:id' element={<ProtectedRoute ><ProtectedAdmin ><Attendance /></ProtectedAdmin></ProtectedRoute>} />
             </Route>
-
-
-
           </Routes>
         </BrowserRouter>
       </PersistGate>

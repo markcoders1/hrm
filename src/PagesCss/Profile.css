@@ -1,11 +1,11 @@
 .profile-container{
     width: 100%;
-    /* border: 3px solid red; */
+   
+ 
 }
 .profile-heading{
     display: flex;
     margin: auto;
-    border-radius: 10px;
     background-color: #010115;
     color: white;
     padding: 8px 0px;

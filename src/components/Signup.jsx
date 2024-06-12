@@ -226,6 +226,7 @@ const Signup = () => {
                                 </Select>
                                 {errors.role && <p className="error">{errors.role.message}</p>}
                             </FormControl>
+                            
                         </div>
                     </div>
 

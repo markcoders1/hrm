@@ -1,39 +1,32 @@
 .sheet-container{
-    width: 80%;
+    width:80%;
+    /* border: 2px solid red; */
     font-family: 'Clash Display', sans-serif;
-   
 }
 .sheet-container > h1{
     display: flex;
    justify-content: center;
    align-items: center;
-   
-    
 }
 
 .sheet-container > h1 > .menu-bar{
-    display: none;
+   color: white;
 }
 #datatable-container-user{
     width: 100%;
     margin: auto;
-    border-radius: 10px;
     overflow: hidden;
     margin-top: 30px;
-    
 }
 .progress-mini-container{
     background-color: white;
     margin-top: 30px;
-    border-radius: 10px;
-    
 }
 .sheet-container > h1{
     width: 100%;
     padding: 10px 0px;
     background-color:#010115;
     color: white;
-    border-radius: 10px;
     font-family: 'Clash Display', sans-serif;
     letter-spacing: 1px;
     text-align: start;
@@ -41,7 +34,6 @@
     font-weight: 500;
     margin: auto;
     font-family: 'Clash Display', sans-serif;
-    
 }
 /* custom-styles.css */
 #datatable-container-user .p-datatable {
@@ -52,7 +44,6 @@
 #datatable-container-user .p-datatable-header {
     background-color:#010115;
     color: rgb(0, 0, 0);
-
 }
 
 #datatable-container-user .p-datatable-thead > tr > th {

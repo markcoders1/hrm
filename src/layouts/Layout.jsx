@@ -18,7 +18,9 @@ const Layout = () => {
     return (
         <div 
         style={{
-            display:"flex"
+            display:"flex",
+            // backgroundColor: "red",
+            
         }}
         >
             <CSidebar className="border-end " unfoldable={true} colorScheme="dark"
@@ -62,8 +64,16 @@ const Layout = () => {
                     <CSidebarToggler  />
                 </CSidebarHeader>
             </CSidebar>
-            
+            <div className="outley-box"
+            style={
+                {
+                    width:"99%",
+                    paddingLeft:"5rem"
+                   
+                }
+            }>
             <Outlet />
+            </div>
 
         </div>
     );

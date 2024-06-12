@@ -120,7 +120,7 @@ const AttendanceSheet = () => {
 
     return (
         <div className="sheet-container">
-            <h1 style={{ textAlign: "center" }}> <span className="heading-attendance" >Attendance Sheet</span> <span className="menu-bar" onClick={handleToggleSidebar} ><IoMenuOutline /></span> </h1>
+            <h1 style={{ }}><span className="menu-bar" onClick={handleToggleSidebar} ><IoMenuOutline /></span> <span className="heading-attendance" >Attendance Sheet</span>  </h1>
 
             <div className="progress-mini-container" >
                 <div className="date-filters">

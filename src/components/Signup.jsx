@@ -1,13 +1,11 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import './Signup.css';
+import '../css/Signup.css';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import { useNavigate } from 'react-router-dom';
 import { MenuItem, Select, FormControl, InputLabel, TextField } from '@mui/material';
 import { useSelector } from 'react-redux';
-import axiosInstance from '../../auth/axiosInstance';
-// import env from '../../../env';
+import axiosInstance from '../auth/axiosInstance';
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -27,7 +25,7 @@ const Signup = () => {
 
     const onSubmit = async (data) => {
         try {
-            let { email, password, firstName, lastName, DOB, CNIC, designation, phone, teamLead, shift, department, role, companyId } = data;
+            let { email, password, firstName, lastName, DOB, CNIC, designation, phone, teamLead, shift, department, role } = data;
             CNIC = Number(CNIC);
             console.log(CNIC);
             console.log(DOB)
@@ -228,33 +226,10 @@ const Signup = () => {
                                 </Select>
                                 {errors.role && <p className="error">{errors.role.message}</p>}
                             </FormControl>
-                        </div>
-                    </div>
 
-                    <div className="input-row-register">
-                        <div className='child-row'>
-                            <TextField
-                                label="Company ID"
-                                id="id"
-                                variant="outlined"
-                                fullWidth
-                                {...register('companyId', { required: "Company Id is required" })}
-                                error={!!errors.companyId}
-                                helperText={errors.companyId ? errors.companyId.message : ''}
-                            />
                         </div>
-                        {/* <div className='child-row'>
-                            <TextField
-                                label="Photo"
-                                id="photo"
-                                variant="outlined"
-                                fullWidth
-                                {...register('photo', { required: "Photo Required" })}
-                                error={!!errors.photo}
-                                helperText={errors.photo ? errors.photo.message : ''}
-                            />
-                        </div> */}
                     </div>
+                    
 
                     <div className="register-btn">
                         <input type="submit" value="Sign up" />

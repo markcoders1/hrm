@@ -1,6 +1,7 @@
 .profile-container{
     width: 100%;
     /* border: 3px solid red; */
+    padding-bottom: 30px;
 }
 .profile-heading{
     display: flex;
@@ -21,7 +22,7 @@
 
 
 .profile-information-container{
-    /* border: 3px solid black; */
+    /* border: 1px solid black; */
     width: 100%;
     display: flex;
     /* gap: 2rem; */
@@ -37,7 +38,7 @@
 .profile-information-container > .input-box{
     display: flex;
     width: 48%;
-    border: 2px solid rgba(153, 156, 159, 0.5);
+    border: 1px solid rgba(153, 156, 159, 0.5);
     background-color: white;
     padding: 15px 15px;
     outline: none;
@@ -60,7 +61,17 @@
     color: red;
 }
 @media only screen and (max-width: 700px){
+
     .profile-heading{
         justify-content: space-between;
+        padding: 8px 30px;
+        
+    }
+    .profile-container{
+        width: 95%;
+        margin: auto;
+    }
+    .profile-information-container > .input-box{
+        width: 100%;
     }
 }

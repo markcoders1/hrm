@@ -55,12 +55,12 @@ const Header = () => {
                 <nav className="nav">
                     <div className="nav-left">
                         {
-                            isAdmin === "admin" ? "" : <NavLink className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"} to="/checkin">
+                            isAdmin !== "admin" ? <NavLink className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"} to="/checkin">
                                 <span>
                                     <pre><GoCheckCircleFill /></pre>
                                     <pre>Check in!</pre>
                                 </span>
-                            </NavLink>
+                            </NavLink> : ""
                         }
 
 

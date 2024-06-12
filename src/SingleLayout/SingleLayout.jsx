@@ -5,37 +5,42 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import { useState, useEffect } from "react";
 
 const SingleLayout = () => {
+    const [refreshToken, setRefreshToken] = useState(null);
     const navigate = useNavigate();
-    
+
     const handleLogout = async () => {
         sessionStorage.removeItem('accessToken');
         sessionStorage.removeItem('refreshToken');
-        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('userData');
+        setRefreshToken(null);
         navigate("/");
-        toast.success("You Have Successfully Logout")
+        toast.success("You Have Successfully Logged Out");
     };
 
-    const accessToken=sessionStorage.getItem("accessToken")
+    useEffect(() => {
+        const token = sessionStorage.getItem("refreshToken") || localStorage.getItem("refreshToken");
+        setRefreshToken(token);
+    }, []);
 
     return (
         <>
-        <ToastContainer/>
+            <ToastContainer />
             <div className="dark-background"></div>
             <div className="dashboard-link">
-                {
-                    accessToken ?
-                        <>
-                            <NavLink to='/dashboard' replace >
-                                Dashboard
-                            </NavLink>
-                            <button onClick={handleLogout} >Logout</button>
-                        </>
-                        :
-                        ""
-                }
-
+                {refreshToken ? (
+                    <>
+                        <NavLink to='/dashboard' replace>
+                            Dashboard
+                        </NavLink>
+                        <button onClick={handleLogout}>Logout</button>
+                    </>
+                ) : (
+                    ""
+                )}
             </div>
             <div className="form-container">
                 <div className="form">

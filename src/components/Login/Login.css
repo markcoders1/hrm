@@ -83,12 +83,14 @@ form {
     background-color: #F0F3F6;
     letter-spacing: 1px;
     font-weight: 600;
+    border: 2px solid black;
 }
 
 .custom-input>label {
     color: #C2C2C2;
     font-size: 11px;
     letter-spacing: 1px;
+    
 }
 
 .input-row>.custom-input>p {
@@ -159,15 +161,19 @@ form {
 
 }
 
-.password-field>input {
+.password-field > input {
     border: none;
     outline: none;
     background-color: transparent;
     letter-spacing: 1px;
     font-weight: 600;
-
+    
 }
+#password{
+ /* border: 2px solid red; */
 
+    width: 100%;
+}
 .password-field>span>img {
     width: 20px;
     cursor: pointer;

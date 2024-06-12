@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useForm } from "react-hook-form";
 import "./Login.css";
 import { toast } from "react-toastify";
@@ -18,9 +18,23 @@ const Login = () => {
     const [passwordImage, setPasswordImage] = useState(EyeOpen);
     const [passwordType, setPasswordType] = useState("password");
     const [isLoading, setIsLoading] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    useEffect(()=>{
+
+        const refreshToken = localStorage.getItem("refreshToken")
+        console.log(refreshToken);
+        
+        sessionStorage.setItem("refreshToken", refreshToken)
+        if(refreshToken){
+            console.log("hello this is refesh token from useEffect", refreshToken)
+            // navigate('/dashboard')
+        }
+       
+      },[])
+    
     const {
         register,
         handleSubmit,
@@ -39,6 +53,9 @@ const Login = () => {
 
             sessionStorage.setItem("accessToken", response.data.accessToken);
             sessionStorage.setItem("refreshToken", response.data.refreshToken);
+            if (rememberMe) {
+                localStorage.setItem("refreshToken", response.data.refreshToken);
+            }
 
             const userData = response.data;
             dispatch(login(userData));
@@ -64,6 +81,11 @@ const Login = () => {
             setPasswordImage(EyeOpen);
         }
     };
+
+    const handleRememberMe = () =>{
+        setRememberMe(!rememberMe)
+        console.log(rememberMe)
+    }
 
     return (
         <>
@@ -120,6 +142,11 @@ const Login = () => {
                                 </span>
                             )}
                         </div>
+
+                    </div>
+                    <div className="input-row">
+                        <label>Remember Me</label>
+                        <input type="checkbox" checked={rememberMe} onChange={handleRememberMe} />
                     </div>
 
                     <div className="login-btn">

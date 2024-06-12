@@ -31,13 +31,13 @@
     justify-content: space-between;
     gap: 3rem;
     background-color: white;
-    padding: 55px 35px;
+    padding: 55px 95px; 
     border-radius: 10px;
     
 }
 .profile-information-container > .input-box{
     display: flex;
-    width: 48%;
+    width: 47%;
     border: 1px solid rgba(153, 156, 159, 0.5);
     background-color: white;
     padding: 15px 15px;

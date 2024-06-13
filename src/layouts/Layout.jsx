@@ -1,5 +1,4 @@
 import { Outlet, Link } from "react-router-dom";
-import Header from "../components/Header";
 import "../css/layout.css";
 import {
     CSidebar,
@@ -13,20 +12,25 @@ import {
 } from "@coreui/react";
 import CIcon from '@coreui/icons-react';
 import { cilPuzzle, cilArrowCircleBottom, cilCalendar, cilUser, cilFlagAlt } from "@coreui/icons";
+import { useState } from "react";
+
+
+import Register from '../components/Signup';
+import Employee from '../components/Employee';
 
 const Layout = () => {
+    const [isMargin, setMargin] = useState(false)
+
+   const toggleMarginfunc = () =>{
+    setMargin(!isMargin)
+    }
+
     return (
         <div 
-        style={{
-            display:"flex",
-            // backgroundColor: "red",
-            
-        }}
+        className="layout-container"
         >
             <CSidebar className="border-end " unfoldable={true} colorScheme="dark"
-            style={{
-                height:"100vh"
-            }}
+         
             >
                 <CSidebarHeader className="border-bottom">
                     <img src="/logo.svg" alt="123" className="img-thumbnail" />
@@ -61,17 +65,10 @@ const Layout = () => {
                     </CNavItem>
                 </CSidebarNav>
                 <CSidebarHeader className="border-top">
-                    <CSidebarToggler  />
+                    <CSidebarToggler onClick={toggleMarginfunc} />
                 </CSidebarHeader>
             </CSidebar>
-            <div className="outley-box"
-            style={
-                {
-                    width:"96%",
-                    paddingLeft:"5rem"
-                   
-                }
-            }>
+            <div  className={isMargin ? "outlet-box margin-gave" : "outlet-box"} >
             <Outlet />
             </div>
 

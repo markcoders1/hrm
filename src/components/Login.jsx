@@ -3,11 +3,8 @@ import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosInstance from "../auth/axiosInstance";
-import '../css/Login.css'
-
 
 const Login= ()=>{
-
     const navigate=useNavigate()
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 

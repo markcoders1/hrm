@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import '../PagesCss/Admin.css';
 import { MdOutlineGroupAdd, MdOutlineGroups, MdGroups, MdGroupAdd } from "react-icons/md";
+import { useState } from 'react';
 import Register from '../components/Signup';
 import Employee from '../components/Employee';
 
@@ -12,17 +12,17 @@ import { IoMenuOutline } from "react-icons/io5";
 import { toggleSidebar } from '../Redux/toggleSidebar';
 
 const Admin = () => {
-    const [showComponent, setShowComponent] = useState('employees');
-
-
+    
+    
     const dispatch = useDispatch();
     const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
-
+    
     const handleToggleSidebar = () => {
         dispatch(toggleSidebar());
         // console.log(isSidebarOpen)
-    };
-
+        };
+        
+        const [showComponent, setShowComponent] = useState('employees');
 
     const toggleComponents = (componentToShow) => {
         setShowComponent(componentToShow);

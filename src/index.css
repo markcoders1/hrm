@@ -38,7 +38,27 @@ color: black;
 }
 
 .outlet-box{
+  width: 100%;
+  margin-left: 56px;
+}
+.layout-container{
+  display: flex;
+  /* border: 2px solid red;  */
+  background-color: beige;
+  gap: 2rem;
+  
+  
+  
+}
+.margin-gave{
+  margin-left: 200px;
+}
+.sidebar{
 
+}
+/* css for login */
+.Login-Header{
+  margin: 40px 0 0 56px;
 }
 
 

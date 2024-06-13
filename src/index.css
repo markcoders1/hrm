@@ -1,6 +1,6 @@
 :root {
   --main-bg-color: rgba(204, 219, 253, 1);
-  --main-card-color:  #010115;
+  --main-card-color: #010115;
   --font-color: rgba(37, 169, 224, 1);
 }
 
@@ -8,65 +8,86 @@ html {
   height: 100vh;
   font-size: 14px;
 }
-*{
+
+* {
   box-sizing: border-box;
   margin: 0px;
   padding: 0px;
 }
-body{
 
-margin: 0px;
-padding: 0px;
-box-sizing: border-box;
-background-color:rgba(204, 219, 253, 1) !important;
-
-color: black;
+body {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  background-color: rgba(204, 219, 253, 1) !important;
+  color: black;
 }
 
-.menu-bar{
+.menu-bar {
   display: none;
   font-size: 2rem;
   color: white;
 }
+
 @font-face {
   font-family: 'MyCustomFont';
   src: url('./assets/clash-display/ClashDisplayBold.otf') format('otf'),
        url('./assets/clash-display/ClashDisplayMedium.otf') format('otf'),
-       url('./assets/clash-display//ClashDisplayRegular.otf') format('otf');
+       url('./assets/clash-display/ClashDisplayRegular.otf') format('otf');
   font-weight: normal;
   font-style: normal;
 }
 
-.outlet-box{
+.outlet-box {
   width: 100%;
-  margin-left: 56px;
-}
-.layout-container{
-  display: flex;
-  /* border: 2px solid red;  */
-  background-color: beige;
-  gap: 2rem;
-  
-  
+  margin: 0px;
   
 }
-.margin-gave{
-  margin-left: 200px;
-}
-.sidebar{
 
+
+
+.layout-container {
+  display: flex;
+  background-color: beige;
+  height: 100vh; /* Ensure the layout container takes full height */
+}
+
+#margin-gave {
+  /* margin-left: -233px; */
+}
+
+.sidebar {
+  height: 100vh; /* Ensure the sidebar takes full height */
+  transition: .5s ease-in all;
+}
+.hide-sidebar{
+  transform: translateX(-100px);
+}
+.sidebar-dark {
+  /* Add any additional styles for dark theme if necessary */
 }
 /* css for login */
-.Login-Header{
+.Login-Header {
   margin: 40px 0 0 56px;
+  }
+  
+  .toggleShowHide {
+    /* Ensure the sidebar retains height when toggled */
+    height: 100vh;
+    }
+
+      #foldable-sidebar{
+        margin-left: 56px;
+      }
+
+.border-bottom {
+  /* Any additional styles for border bottom */
 }
 
-
-@media only screen and (max-width: 700px){
-   .menu-bar{
-      display: flex;
-      font-size: 2rem;
-      color: white;
+@media only screen and (max-width: 700px) {
+  .menu-bar {
+    display: flex;
+    font-size: 2rem;
+    color: white;
   }
-
 }

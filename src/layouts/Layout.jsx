@@ -13,25 +13,21 @@ import {
 import CIcon from '@coreui/icons-react';
 import { cilPuzzle, cilArrowCircleBottom, cilCalendar, cilUser, cilFlagAlt } from "@coreui/icons";
 import { useState } from "react";
-
-
-import Register from '../components/Signup';
-import Employee from '../components/Employee';
+import { IoMenuOutline } from "react-icons/io5";
+import Header from "../components/Header";
+import { useSelector } from "react-redux";
 
 const Layout = () => {
-    const [isMargin, setMargin] = useState(false)
+    const [foldableTrue, setFoldableTrue] = useState(false);
+    const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
 
-   const toggleMarginfunc = () =>{
-    setMargin(!isMargin)
-    }
+    const toggleMarginfunc = () => {
+        setFoldableTrue(!foldableTrue);
+    };
 
     return (
-        <div 
-        className="layout-container"
-        >
-            <CSidebar className="border-end " unfoldable={true} colorScheme="dark"
-         
-            >
+        <div className="layout-container">
+            <CSidebar className={isSidebarOpen ? "border-bottom sidebar hide-sidebar" : "border-bottom sidebar toggleShowHide"}  unfoldable={isSidebarOpen ? true : false || foldableTrue ? true : false} colorScheme="dark">
                 <CSidebarHeader className="border-bottom">
                     <img src="/logo.svg" alt="123" className="img-thumbnail" />
                 </CSidebarHeader>
@@ -68,10 +64,10 @@ const Layout = () => {
                     <CSidebarToggler onClick={toggleMarginfunc} />
                 </CSidebarHeader>
             </CSidebar>
-            <div  className={isMargin ? "outlet-box margin-gave" : "outlet-box"} >
-            <Outlet />
+            <div className={isSidebarOpen ? "outlet-box margin-small" : "outlet-box"} id={foldableTrue ? "foldable-sidebar" : ""}>
+                <Header />
+                <Outlet />
             </div>
-
         </div>
     );
 }

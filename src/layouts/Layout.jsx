@@ -67,7 +67,7 @@ const Layout = () => {
             <div className="outley-box"
             style={
                 {
-                    width:"99%",
+                    width:"96%",
                     paddingLeft:"5rem"
                    
                 }

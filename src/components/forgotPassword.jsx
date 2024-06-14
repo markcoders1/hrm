@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axiosInstance from "../auth/axiosInstance";
+import { CForm, CFormInput, CButton } from "@coreui/react";
+// import "../css/ForgotPassword.css";
 
 export const ForgotPassword = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -9,40 +11,46 @@ export const ForgotPassword = () => {
 
   const onSubmit = async (data) => {
     try {
-        const response = await axiosInstance({
-          method: "post",
-          url: `${apiUrl}/api/reset-password`,
-          data: { "email": data.email },
-        });
-        console.log(response);
-        toast.success("Check your Email")
-        
+      const response = await axiosInstance({
+        method: "post",
+        url: `${apiUrl}/api/reset-password`,
+        data: { email: data.email },
+      });
+      console.log(response);
+      toast.success("Check your Email");
     } catch (error) {
-        toast.error(error.response.data.message);
+      toast.error(error.response.data.message);
     }
   };
 
   return (
     <>
-      <h1 className="sign-heading">Get New Password</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="input-row">
-          <div className="custom-input">
-            <label htmlFor="email">Username or Email</label>
-            <input
-              id="email"
-              type="text"
-              placeholder="Email"
-              {...register("email", { required: "Email is required" })}
-            />
-            {errors.email && <p>{errors.email.message}</p>}
+      <div>
+        <h1
+        style={{
+          marginLeft:"50px"
+        }}
+        className="sign-heading">Get New Password</h1>
+        <CForm onSubmit={handleSubmit(onSubmit)}>
+          <div className="input-row">
+            <div className="custom-input">
+              <CFormInput
+                id="email"
+                type="email"
+                floatingLabel="Username or Email"
+                placeholder="Email"
+                {...register("email", { required: "Email is required" })}
+              />
+              {errors.email && <p className="error-message">{errors.email.message}</p>}
+            </div>
           </div>
-        </div>
+          {/* <div className="login-btn">  */}
+          <CButton color="primary" variant="outline" size="lg" type="submit">
+            Get New Password
+          </CButton>
 
-        <div className="login-btn">
-          <input type="submit" value="Get New Password!" />
-        </div>
-      </form>
+        </CForm>
+      </div>
     </>
   );
 };

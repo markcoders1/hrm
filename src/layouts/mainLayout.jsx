@@ -28,7 +28,7 @@ const SingleLayout = () => {
     }, []);
 
 
-    const accessToken=sessionStorage.getItem("accessToken")
+   
 
     return (
         <>

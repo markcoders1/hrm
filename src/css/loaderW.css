@@ -1,14 +1,14 @@
 /* HTML: <div class="loader"></div> */
-.loader123 {
-    color: black;
-    width: 10px;
+.loader-white {
+    color: white;
+    width: 7px;
     aspect-ratio: 1;
     border-radius: 50%;
     box-shadow: 19px 0 0 7px, 38px 0 0 3px, 57px 0 0 0;
     transform: translateX(-38px);
     animation: l21 .5s infinite alternate linear;
     margin: auto;
-    margin-top: 10px;
+    /* margin-top: 20px; */
   }
   
   @keyframes l21 {

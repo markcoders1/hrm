@@ -3,15 +3,20 @@ import "../css/Checkin.css";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import axiosInstance from "../auth/axiosInstance";
+import Loader from "./Loader";
+import LoaderW from "./LoaderW";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const Checkin = () => {
     const [status, setStatus] = useState("");
-    const [loading, setloading] = useState(true)
+    const [loading, setLoading] = useState(true);
+    const [loadingForCheckBtn, setLoadingForCheckBtn] = useState(false);
+    const [loadingForBreakBtn, setLoadingForBreakBtn] = useState(false);
 
     const handleCheck = async () => {
         try {
+            setLoadingForCheckBtn(true);
             const response = await axiosInstance({
                 url: `${apiUrl}/api/check`,
                 method: "post",
@@ -23,11 +28,14 @@ const Checkin = () => {
         } catch (error) {
             console.error(error);
             toast.error(error.response.data.message);
+        } finally {
+            setLoadingForCheckBtn(false);
         }
     };
 
     const handleBreak = async () => {
         try {
+            setLoadingForBreakBtn(true);
             const response = await axiosInstance({
                 url: `${apiUrl}/api/break`,
                 method: "post",
@@ -38,34 +46,58 @@ const Checkin = () => {
         } catch (error) {
             console.error(error);
             toast.error(error.response.data.message);
+        } finally {
+            setLoadingForBreakBtn(false);
         }
     };
 
     useEffect(() => {
         const getStatus = async () => {
-            const response = await axiosInstance({
-                method: "get",
-                url: `${apiUrl}/api/getstatus`,
-            });
-            console.log(response);
-            setStatus(response.data.status);
-            setloading(false)
+            try {
+                const response = await axiosInstance({
+                    method: "get",
+                    url: `${apiUrl}/api/getstatus`,
+                });
+                console.log(response);
+                setStatus(response.data.status);
+                setLoading(false);
+            } catch (error) {
+                console.error(error);
+                setLoading(false);
+            }
         };
         getStatus();
     }, []);
 
-    const CheckButtons = () => {
-        return (<>
-            <button onClick={handleCheck}>{status === "checkin" || status === "inbreak" ? "check out" : "check in"}</button>
-            {status === "checkout" ? null : (<button onClick={handleBreak}>{status === "checkin" ? "break in" : "break out"}</button>)}
-        </>)
-    }
+    const CheckButtons = () => (
+        <>
+            <button
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center"
+                }}
+                onClick={handleCheck} disabled={loadingForCheckBtn}>
+                {loadingForCheckBtn ? <LoaderW /> : (status === "checkin" || status === "inbreak" ? "Check Out" : "Check In")}
+            </button>
+            {status === "checkout" ? null : (
+                <button
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}
+                    onClick={handleBreak} disabled={loadingForBreakBtn}>
+                    {loadingForBreakBtn ? <LoaderW /> : (status === "checkin" ? "Break In" : "Break Out")}
+                </button>
+            )}
+        </>
+    );
 
     return (
         <div className="check-container">
-
             <div className="check-buttons">
-                {loading ? <div className="smallLoaderContainer"><div className="loader"></div></div> : <CheckButtons />}
+                {loading ? <div className="loaderContainer"><Loader /></div> : <CheckButtons />}
             </div>
         </div>
     );

@@ -45,13 +45,20 @@ const Employee = () => {
             }
         };
         getAllUser();
-    }, [accessToken]);
+    }, []);
 
     const buttonForViewDetails = (rowData) => {
         const navigateUserdetail = () => {
             navigate(`attendance/${rowData._id}`);
         };
         return <button className={"attendanceButton"} onClick={navigateUserdetail}>Attendance</button>;
+    };
+
+    const buttonForViewInformation = (rowData) => {
+        const navigateUseInformation = () => {
+            navigate(`viewInformation/${rowData._id}`);
+        };
+        return <button className={"attendanceButton"} onClick={navigateUseInformation}>Detalis</button>;
     };
 
     useEffect(() => {
@@ -89,18 +96,18 @@ const Employee = () => {
                 </div>
                 <div>
                     <TextField
-                    style={{
-                        width:"300px",
-                        marginLeft:"20px"
-                       
-                    }}
+                        style={{
+                            width: "300px",
+                            marginLeft: "20px"
+
+                        }}
                         label="Search by Name & Email"
                         variant="outlined"
                         fullWidth
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
-                    {loading ? <div className="loaderContainer"><  Loader/></div> :
+                    {loading ? <div className="loaderContainer"><  Loader /></div> :
                         <DataTable
                             id='datatable-container'
                             value={filteredEmployees}
@@ -124,10 +131,12 @@ const Employee = () => {
                                 field="designation"
                                 header="Designation"></Column>
                             <Column field="shift" header="Shift"></Column>
-                            <Column field="teamLead" header="Team Lead"></Column>
                             <Column
                                 body={buttonForViewDetails}
                                 header="Attendance"></Column>
+                            <Column
+                                body={buttonForViewInformation}
+                                header="View Details"></Column>
                         </DataTable>}
                 </div>
             </div>

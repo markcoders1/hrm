@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosInstance from "../auth/axiosInstance";
 import "react-toastify/dist/ReactToastify.css";
-import Loader from "./Loader";
+import LoaderW from "./LoaderW";
 import { useState, useEffect } from "react";
 
 const Login = () => {
@@ -93,8 +93,17 @@ const Login = () => {
                         onChange={handleRememberMe}
                     />
                 </div>
-                <CButton color="primary" variant="outline" size="lg" type="submit">
-                    {isLoading ? <Loader /> : "Login"}
+                <CButton
+                
+                style={{
+                    display:"flex",
+                    justifyContent:"center",
+                    alignItems:"center"
+
+                }}
+                
+                color="dark" variant="outline" size="lg" type="submit">
+                    {isLoading ? <LoaderW /> : "Login"}
                 </CButton>
             </CForm>
         </>

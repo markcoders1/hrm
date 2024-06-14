@@ -22,6 +22,7 @@ import SingleLayout from './layouts/mainLayout.jsx'
 import Profile from './Pages/Profile.jsx'
 import ChangePassword from './components/ChangePassword.jsx'
 import { useEffect } from 'react'
+import ViewInformation from './components/ViewInformation.jsx'
 
 
 
@@ -39,7 +40,7 @@ function App() {
               <Route path='checkin' element={<ProtectedRoute><Check /></ProtectedRoute>} />
               <Route path='changePassword' element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
               <Route path='forgotPassword' element={<ForgotPassword />} />
-              <Route path='*' element={<NotFound/>}/>
+              <Route path='*' element={<NotFound />} />
             </Route>
 
             <Route path='/dashboard' element={<Layout />}>
@@ -47,6 +48,7 @@ function App() {
               <Route path='profile' element={<ProtectedRoute ><Profile /></ProtectedRoute>} />
               <Route path='admin' element={<ProtectedRoute ><ProtectedAdmin ><Admin /></ProtectedAdmin></ProtectedRoute>} />
               <Route path='admin/attendance/:id' element={<ProtectedRoute ><ProtectedAdmin ><Attendance /></ProtectedAdmin></ProtectedRoute>} />
+              <Route path='admin/viewInformation/:id' element={<ProtectedRoute ><ProtectedAdmin ><ViewInformation /></ProtectedAdmin></ProtectedRoute>} />
             </Route>
 
 

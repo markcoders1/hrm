@@ -19,8 +19,10 @@ body {
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
-  background-color: rgba(204, 219, 253, 1) !important;
+  /* background-color: rgba(204, 219, 253, 1) !important; */
+  background-color: beige !important;
   color: black;
+  
 }
 
 .menu-bar {
@@ -50,7 +52,8 @@ body {
 .layout-container {
   display: flex;
   background-color: beige;
-  height: 100vh;
+  height: 100%;
+  
   /* Ensure the layout container takes full height */
 }
 
@@ -59,7 +62,7 @@ body {
 }
 
 .sidebar {
-  height: 100vh;
+  height: 100%;
   /* Ensure the sidebar takes full height */
   /* transition: 4s ease-in ; */
 
@@ -97,7 +100,7 @@ body {
   display: fle;
   margin-top:50px;
   padding:30px 0px;
-  background-color:black; 
+ 
   justify-content:center;
   align-items:center;
   width: 100%;

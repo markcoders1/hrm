@@ -66,6 +66,11 @@ const Layout = () => {
                         <CNavItem><Link to="#"><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Nav dropdown item</Link></CNavItem>
                         <CNavItem><Link to="#"><span className="nav-icon"><span className="nav-icon-bullet"></span></span> Nav dropdown item</Link></CNavItem>
                     </CNavGroup> */}
+                    <CNavItem>
+                        <Link to="/dashboard/profile" className="nav-link">
+                            <CIcon customClassName="nav-icon" icon={cilUser} /> Profile
+                        </Link>
+                    </CNavItem>
                     {
                         isAdmin==="admin" ? "" :
                     <CNavItem>
@@ -74,16 +79,15 @@ const Layout = () => {
                         </Link>
                     </CNavItem>
                     }
-                    <CNavItem>
-                        <Link to="/dashboard/profile" className="nav-link">
-                            <CIcon customClassName="nav-icon" icon={cilUser} /> Profile
-                        </Link>
-                    </CNavItem>
+                   {
+                    isAdmin === "admin" ? 
                     <CNavItem>
                         <Link to="/dashboard/admin" className="nav-link">
                             <CIcon customClassName="nav-icon" icon={cilFlagAlt} /> Admin
                         </Link>
-                    </CNavItem>
+                    </CNavItem> :
+                    ""
+                   }
                 </CSidebarNav>
                 <CSidebarHeader className="border-top">
                     <CSidebarToggler onClick={toggleMarginfunc} />

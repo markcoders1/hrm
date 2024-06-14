@@ -1,11 +1,17 @@
-import { CFormInput,CButton, CForm, CFormCheck } from "@coreui/react"
+import { CFormInput, CButton, CForm, CFormCheck } from "@coreui/react"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosInstance from "../auth/axiosInstance";
+import "react-toastify/dist/ReactToastify.css";
+import Loader from "./Loader";
+import { useState } from "react";
 
-const Login= ()=>{
-    const navigate=useNavigate()
+
+
+const Login = () => {
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate()
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
     const {
@@ -14,12 +20,13 @@ const Login= ()=>{
         reset,
     } = useForm();
 
-    const onError=(error)=>{
+    const onError = (error) => {
         console.log(error)
     }
 
     const onSubmit = async (data) => {
         const { email, password } = data;
+        setIsLoading(true);
         console.log(data)
         try {
             const response = await axiosInstance.post(`${apiUrl}/api/auth/login`, {
@@ -27,8 +34,8 @@ const Login= ()=>{
                 password,
             });
 
-            sessionStorage.setItem("accessToken",response.data.accessToken)
-            sessionStorage.setItem("refreshToken",response.data.refreshToken)
+            sessionStorage.setItem("accessToken", response.data.accessToken)
+            sessionStorage.setItem("refreshToken", response.data.refreshToken)
 
             navigate("/checkin");
             toast.success("User Logged In Successfully", {
@@ -36,20 +43,27 @@ const Login= ()=>{
             });
             reset();
         } catch (error) {
-            console.log(error)
+            // console.log(error)
+            const err = error?.response?.data?.message[0].message || error
+            //  console.log(err)
+            toast.error(err, {
+                position: "top-center",
+            });
+        } finally {
+            setIsLoading(false);
         }
     }
 
-    return(
+    return (
         <>
             <h1 className="Login-Header">Login</h1>
-            <CForm onSubmit={handleSubmit(onSubmit,onError)}>
+            <CForm onSubmit={handleSubmit(onSubmit, onError)}>
                 <div className="loginFields">
-                    <CFormInput type="email" id="email" floatingClassName="mb-3" floatingLabel="Email address" placeholder="name@example.com" {...register("email", { required: "email is required", })} size="lg"/>
+                    <CFormInput type="email" id="email" floatingClassName="mb-3" floatingLabel="Email address" placeholder="name@example.com" {...register("email", { required: "email is required", })} size="lg" />
                     <CFormInput type="password" id="password" floatingClassName="mb-3" floatingLabel="Password" placeholder="Password" {...register("password", { required: "Password is required", })} size="lg" />
-                    <CFormCheck className="mb-3" label="Remember Me !" onChange={(e) => {   console.log(e.target) }} />
+                    <CFormCheck className="mb-3" label="Remember Me !" onChange={(e) => { console.log(e.target) }} />
                 </div>
-                <CButton color="primary" variant="outline" size="lg" type="submit">Login</CButton>
+                <CButton color="primary" variant="outline" size="lg" type="submit">{isLoading ? <Loader /> : "Login"}</CButton>
             </CForm>
         </>
     )

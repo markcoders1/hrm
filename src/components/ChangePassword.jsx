@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import "../css/Login.css";
-// import axios from "axios"; // Import Axios
+import { CForm, CFormInput, CButton } from "@coreui/react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EyeOpen from "/eye-open.png";
 import EyeClosed from "/eye-close.png";
 import axiosInstance from "../auth/axiosInstance";
+import "../css/ChangePassword.css";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -26,130 +26,91 @@ const ChangePassword = () => {
     const onSubmit = async (data) => {
         const { oldPassword, newPassword } = data;
         try {
-            const response = await axiosInstance({
-                url: `${apiUrl}/api/change-password`,
-                method: "post",
-                data : {
-                    oldPassword,
-                    newPassword
-                }
+            const response = await axiosInstance.post(`${apiUrl}/api/change-password`, {
+                oldPassword,
+                newPassword
             });
 
             console.log(response);
 
-            toast.success(response.message, {
+            toast.success(response.data.message, {
                 position: "top-center",
             });
             reset();
         } catch (error) {
-            console.log(error)
-            // const err = error?.response?.data?.message || error
-
-            // if (typeof err !== "object") {
-            //     err.forEach((e) => {
-            //         toast.error(e.message, { position: "top-center" })
-            //     })
-            // } else if (typeof err === "string") {
-            //     toast.error(err, { position: "top-center" })
-            // } else {
-            //     console.log(err)
-            // }
+            console.log(error);
+            const err = error?.response?.data?.message || error.message;
+            toast.error(err, {
+                position: "top-center",
+            });
         }
     };
 
     const togglePasswordVisibility = () => {
-        if (passwordType1 === "password") {
-            setPasswordType1("text");
-            setPasswordImage1(EyeClosed);
-        } else {
-            setPasswordType1("password");
-            setPasswordImage1(EyeOpen);
-        }
+        setPasswordType1(passwordType1 === "password" ? "text" : "password");
+        setPasswordImage1(passwordType1 === "password" ? EyeClosed : EyeOpen);
     };
 
     const togglePasswordVisibility2 = () => {
-        if (passwordType2 === "password") {
-            setPasswordType2("text");
-            setPasswordImage2(EyeClosed);
-        } else {
-            setPasswordType2("password");
-            setPasswordImage2(EyeOpen);
-        }
+        setPasswordType2(passwordType2 === "password" ? "text" : "password");
+        setPasswordImage2(passwordType2 === "password" ? EyeClosed : EyeOpen);
     };
 
     return (
         <>
-
             <div className="outlet-box">
                 <h1 className="sign-heading">Change Password</h1>
-                <form onSubmit={handleSubmit(onSubmit)}>
-
-
+                <CForm onSubmit={handleSubmit(onSubmit)}>
                     <div className="input-row">
                         <div className="custom-input">
-
                             <div className="password-field">
-                                <input
-                                    id="password"
+                                <CFormInput
+                                    id="oldPassword"
                                     type={passwordType1}
                                     placeholder="Old Password"
                                     {...register("oldPassword", {
-                                        required:
-                                            "Old Password is required",
+                                        required: "Old Password is required",
                                     })}
                                 />
-                                <span
-                                    onClick={togglePasswordVisibility}>
-                                    <img
-                                        id="icon"
-                                        src={passwordImage1}
-                                        alt="Toggle Password Visibility"
-                                    />
+                                <span className="password-toggle" onClick={togglePasswordVisibility}>
+                                    <img src={passwordImage1} alt="Toggle Password Visibility" />
                                 </span>
                             </div>
-                            {errors.password && (
+                        </div>
+                            {errors.oldPassword && (
                                 <span className="error-message">
-                                    Old Password is required
+                                    {errors.oldPassword.message}
                                 </span>
                             )}
-                        </div>
                     </div>
                     <div className="input-row">
                         <div className="custom-input">
-
                             <div className="password-field">
-                                <input
-                                    id="password"
+                                <CFormInput
+                                    id="newPassword"
                                     type={passwordType2}
-                                    placeholder="Password"
+                                    placeholder="New Password"
                                     {...register("newPassword", {
-                                        required:
-                                            "New Password is required",
+                                        required: "New Password is required",
                                     })}
                                 />
-                                <span
-                                    onClick={togglePasswordVisibility2}>
-                                    <img
-                                        id="icon"
-                                        src={passwordImage2}
-                                        alt="Toggle Password Visibility"
-                                    />
+                                <span className="password-toggle" onClick={togglePasswordVisibility2}>
+                                    <img src={passwordImage2} alt="Toggle Password Visibility" />
                                 </span>
                             </div>
-                            {errors.password && (
-                                <span className="error-message">
-                                    New Password is required
-                                </span>
-                            )}
                         </div>
+                                {errors.newPassword && (
+                                    <span className="error-message">
+                                        {errors.newPassword.message}
+                                    </span>
+                                )}
                     </div>
 
                     <div className="login-btn">
-                        <input type="submit" value="Change Password" />
+                        <CButton type="submit" color="primary" variant="outline">Change Password</CButton>
                     </div>
-                </form>
+                </CForm>
             </div>
-
         </>
     );
 };

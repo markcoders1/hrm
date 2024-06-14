@@ -5,13 +5,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { toggleSidebar } from '../Redux/toggleSidebar';
 import axiosInstance from '../auth/axiosInstance';
 import { NavLink } from 'react-router-dom';
+import Loader from '../components/Loader';
 
 
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 const Profile = () => {
     const [yourData, setYourData] = useState([]);
-    const [loading,setloading]=useState(true)
+    const [loading, setloading] = useState(true)
     const user = useSelector((state) => state.user?.user);
     const accessToken = user?.accessToken || "";
     const dispatch = useDispatch();
@@ -40,11 +41,11 @@ const Profile = () => {
                 console.log(error)
             }
         }
-        
+
         getProfileInfo()
     }, [])
 
-  
+
 
     return (
         <div className='profile-container' >
@@ -54,41 +55,42 @@ const Profile = () => {
                     <IoMenuOutline />
                 </span>
             </div>
-            <div className="profile-information-container">
+            <div className={loading ? "profile-information-container" :"profile-information-container padding"}>
+                {loading ? <div className='loaderContainer'><Loader /></div>:
+                    <>
+                        <div className="input-box">
+                            <label >First Name : <span>{yourData.firstName}</span> </label>
+                        </div>
+                        <div className="input-box">
+                            <label >Last Name : <span>{yourData.lastName}</span> </label>
+                        </div>
+                        <div className="input-box">
+                            <label >Email : <span>{yourData.email}</span> </label>
+                        </div>
+                        <div className="input-box">
+                            <label >Phone : <span>{yourData.phone}</span> </label>
+                        </div>
+                        <div className="input-box">
+                            <label >Department : <span>{yourData.department}</span> </label>
+                        </div>
+                        <div className="input-box">
+                            <label >Designation : <span>{yourData.designation}</span> </label>
+                        </div>
 
-            {loading?<div className='loaderContainer'><div className="loader"></div></div>:<><div className="input-box">
-                    <label >First Name : <span>{yourData.firstName}</span> </label>
-                </div>
-                <div className="input-box">
-                    <label >Last Name : <span>{yourData.lastName}</span> </label>
-                </div>
-                <div className="input-box">
-                    <label >Email : <span>{yourData.email}</span> </label>
-                </div>
-                <div className="input-box">
-                    <label >Phone : <span>{yourData.phone}</span> </label>
-                </div>
-                <div className="input-box">
-                    <label >Department : <span>{yourData.department}</span> </label>
-                </div>
-                <div className="input-box">
-                    <label >Designation : <span>{yourData.designation}</span> </label>
-                </div>
-                
-                <div className="input-box">
-                    <label >Shift : <span>{yourData.shift}</span> </label>
-                </div>
-                <div className="input-box">
-                    <label >Team Lead : <span>{yourData.teamLead}</span> </label>
-                </div>
-                <div className="input-box">
-                    <label >Status : <span>{yourData.status}</span> </label>
-                </div>
-                <NavLink to='/changepassword' className="input-box">
-                    <label id='changePassword' >Change Password</label>
-                </NavLink>
-                </>}
-                
+                        <div className="input-box">
+                            <label >Shift : <span>{yourData.shift}</span> </label>
+                        </div>
+                        <div className="input-box">
+                            <label >Team Lead : <span>{yourData.teamLead}</span> </label>
+                        </div>
+                        <div className="input-box">
+                            <label >Status : <span>{yourData.status}</span> </label>
+                        </div>
+                        <NavLink to='/changepassword' className="input-box">
+                            <label id='changePassword' >Change Password</label>
+                        </NavLink>
+                    </>}
+
 
             </div>
 

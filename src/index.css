@@ -32,8 +32,8 @@ body {
 @font-face {
   font-family: 'MyCustomFont';
   src: url('./assets/clash-display/ClashDisplayBold.otf') format('otf'),
-       url('./assets/clash-display/ClashDisplayMedium.otf') format('otf'),
-       url('./assets/clash-display/ClashDisplayRegular.otf') format('otf');
+    url('./assets/clash-display/ClashDisplayMedium.otf') format('otf'),
+    url('./assets/clash-display/ClashDisplayRegular.otf') format('otf');
   font-weight: normal;
   font-style: normal;
 }
@@ -41,8 +41,8 @@ body {
 .outlet-box {
   width: 100%;
   margin: 0px;
-  transition: .3s ease;
-  
+  transition: 1s ease;
+
 }
 
 
@@ -50,7 +50,8 @@ body {
 .layout-container {
   display: flex;
   background-color: beige;
-  height: 100vh; /* Ensure the layout container takes full height */
+  height: 100vh;
+  /* Ensure the layout container takes full height */
 }
 
 #margin-gave {
@@ -58,31 +59,49 @@ body {
 }
 
 .sidebar {
-  height: 100vh; /* Ensure the sidebar takes full height */
-  transition: .5s ease-in all;
+  height: 100vh;
+  /* Ensure the sidebar takes full height */
+  /* transition: 4s ease-in ; */
+
 }
-.hide-sidebar{
+
+.hide-sidebar {
   transform: translateX(-100px);
 }
+
 .sidebar-dark {
   /* Add any additional styles for dark theme if necessary */
 }
+
 /* css for login */
 .Login-Header {
   margin: 40px 0 0 56px;
-  }
-  
-  .toggleShowHide {
-    /* Ensure the sidebar retains height when toggled */
-    height: 100vh;
-    }
+}
 
-      #foldable-sidebar{
-        margin-left: 56px;
-      }
+.toggleShowHide {
+  /* Ensure the sidebar retains height when toggled */
+  height: 100vh;
+
+}
+
+#foldable-sidebar {
+  margin-left: 56px;
+}
 
 .border-bottom {
   /* Any additional styles for border bottom */
+}
+
+/* loader div styling */
+.loaderContainer {
+  display: fle;
+  margin-top:50px;
+  padding:30px 0px;
+  background-color:black; 
+  justify-content:center;
+  align-items:center;
+  width: 100%;
+
 }
 
 @media only screen and (max-width: 700px) {

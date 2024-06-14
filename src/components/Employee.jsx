@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { TextField } from '@mui/material';
 import axiosInstance from "../auth/axiosInstance";
+import Loader from "./Loader";
 
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -99,7 +100,7 @@ const Employee = () => {
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
-                    {loading ? <div className="loaderContainer"><div className="loader"></div></div> :
+                    {loading ? <div className="loaderContainer"><  Loader/></div> :
                         <DataTable
                             id='datatable-container'
                             value={filteredEmployees}

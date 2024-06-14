@@ -12,17 +12,17 @@ import { IoMenuOutline } from "react-icons/io5";
 import { toggleSidebar } from '../Redux/toggleSidebar';
 
 const Admin = () => {
-    
-    
+
+
     const dispatch = useDispatch();
     const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
-    
+
     const handleToggleSidebar = () => {
         dispatch(toggleSidebar());
         // console.log(isSidebarOpen)
-        };
-        
-        const [showComponent, setShowComponent] = useState('employees');
+    };
+
+    const [showComponent, setShowComponent] = useState('employees');
 
     const toggleComponents = (componentToShow) => {
         setShowComponent(componentToShow);
@@ -59,8 +59,8 @@ const Admin = () => {
                         <h1>Register</h1>
                     </button>
                 </span>
-                <span onClick={handleToggleSidebar}  className='menu-bar'>
-                    <IoMenuOutline/>
+                <span onClick={handleToggleSidebar} className='menu-bar'>
+                    <IoMenuOutline />
                 </span>
             </div>
             <br />

@@ -9,6 +9,7 @@ import { IoMenuOutline } from "react-icons/io5";
 
 import { toggleSidebar } from '../Redux/toggleSidebar';
 import axiosInstance from "../auth/axiosInstance";
+import Loader from "./Loader";
 
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -19,6 +20,7 @@ const AttendanceSheet = () => {
     const [loading, setloading] = useState(true);
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
+   
 
     const dispatch = useDispatch();
 
@@ -120,7 +122,7 @@ const AttendanceSheet = () => {
 
     return (
         <div className="sheet-container">
-            <h1 style={{ }}><span className="menu-bar" onClick={handleToggleSidebar} ><IoMenuOutline /></span> <span className="heading-attendance" >Attendance Sheet</span>  </h1>
+            <h1><span className="heading-attendance" >Attendance Sheet</span>  </h1>
 
             <div className="progress-mini-container" >
                 <div className="date-filters">
@@ -142,7 +144,7 @@ const AttendanceSheet = () => {
                     </label>
                 </div>
                 {
-                    loading ? <div className="loaderContainer"><div className="loader"></div></div> :
+                    loading ? <div className="loaderContainer"><Loader/></div> :
                         <DataTable
                             id="datatable-container-user"
                             value={employeeData}

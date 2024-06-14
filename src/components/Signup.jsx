@@ -14,7 +14,7 @@ const Signup = () => {
 
     const admin_token = user?.user?.accessToken || '';
     const config_admin = {
-        headers: { Authorization: `Bearer ${admin_token}` }
+        headers: { Authorization: `Bearer ${admin_token}`}
     };
 
     useEffect(() => {
@@ -25,8 +25,8 @@ const Signup = () => {
 
     const onSubmit = async (data) => {
         try {
-            let { email, password, firstName, lastName, DOB, CNIC, designation, phone, teamLead, shift, department, role } = data;
-            CNIC = Number(CNIC);
+            let { email, password, firstName, lastName, DOB, CNIC, designation, phone, teamLead, shift, department, role,companyId } = data;
+            
             console.log(CNIC);
             console.log(DOB)
 
@@ -42,7 +42,8 @@ const Signup = () => {
                 teamLead,
                 shift,
                 department,
-                role
+                role,
+                companyId
             }, config_admin);
 
             console.log(response);
@@ -50,8 +51,9 @@ const Signup = () => {
             console.log(response.data);
             reset();
         } catch (error) {
-            toast.error(error.response?.data?.message || error.message || "Failed to sign up", { position: "top-center" });
+            toast.error(error.response?.data?.message[0].message || error.message || "Failed to sign up", { position: "top-center" });
             console.log(error.message);
+            console.log(error)
         }
     };
 
@@ -228,6 +230,31 @@ const Signup = () => {
                             </FormControl>
                             
                         </div>
+                    </div>
+
+                    <div className="input-row-register">
+                        <div className='child-row'>
+                            <TextField
+                                label="Company ID"
+                                id="companyId"
+                                variant="outlined"
+                                fullWidth
+                                {...register('companyId', { required: "Company Id is required" })}
+                                error={!!errors.companyId}
+                                helperText={errors.companyId ? errors.companyId.message : ''}
+                            />
+                        </div>
+                        {/* <div className='child-row'>
+                            <TextField
+                                label="Designation"
+                                id="designation"
+                                variant="outlined"
+                                fullWidth
+                                {...register('designation', { required: "Designation is required" })}
+                                error={!!errors.designation}
+                                helperText={errors.designation ? errors.designation.message : ''}
+                            />
+                        </div> */}
                     </div>
 
                     <div className="register-btn">

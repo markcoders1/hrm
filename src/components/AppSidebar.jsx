@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axiosInstance from "../auth/axiosInstance";
 import { useNavigate } from "react-router-dom";
+import { PageLoader } from "./Loaders";
 
 import {
     CSidebar,
@@ -37,7 +38,9 @@ const AppSidebar = () => {
     const sidebarShow = useSelector((state) => state.sidebarShow);
 
     const [isAdmin, setIsAdmin] = useState(false);
-    const [visible,setVisible] = useState(false)
+    const [visible,setVisible] = useState(false);
+    const [pageloading,setpageloading] = useState(true)
+
 
     useEffect(() => {
         (async function () {
@@ -46,6 +49,7 @@ const AppSidebar = () => {
                 url: `${apiUrl}/api/isAdmin`,
             });
             setIsAdmin(res.data.isAdmin);
+            setpageloading(false)
         })();
     }, []);
 
@@ -54,8 +58,8 @@ const AppSidebar = () => {
       localStorage.clear()
       navigate('/')
     }
-
-    return (
+    return !pageloading?
+    (
       <>
         <CSidebar
             className="border-end"
@@ -166,7 +170,7 @@ const AppSidebar = () => {
       </CModalFooter>
     </CModal>
       </>
-    );
+    ):<PageLoader/>;
 };
 
 export default React.memo(AppSidebar);

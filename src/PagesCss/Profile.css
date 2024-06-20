@@ -45,22 +45,21 @@
     background-color: rgb(255, 255, 255);
     padding: 15px 15px;
     outline: none;
-    border-radius: 3px;
+    border-radius: 5px;
+    border: rgb(112, 128, 144,0.6) solid 1px;
     
 }
 .profile-information-container > .input-box > label{
     display: flex;
     color: black;
     font-size: 1.1rem;
-    letter-spacing: 1px;
+}
+.profile-information-container > .input-box > label > span{
+    margin:0 5px;
 }
 #changePassword{
-    color: rgb(219, 11, 11);
-    font-weight: 600;
+    text-decoration: none;
     cursor: pointer;
-}
-#changePassword :hover{
-    color: red;
 }
 @media only screen and (max-width: 788px){
     .profile-information-container > .input-box{

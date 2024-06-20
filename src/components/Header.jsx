@@ -9,9 +9,6 @@ import {
 import CIcon from '@coreui/icons-react'
 import {cilMenu} from '@coreui/icons'
 
-// import { AppBreadcrumb } from './index'
-// import { AppHeaderDropdown } from './header/index'
-
 const AppHeader = (props) => {
   const headerRef = useRef()
   const {headertext} =props

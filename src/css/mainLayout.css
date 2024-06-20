@@ -78,6 +78,7 @@
     font-size: 1.4rem;
     cursor: pointer;
     font-weight: bold;
+    transition: color ease-in-out 0.2s;
 }
 .dashboard-buttons > a:hover,.dashboard-buttons > button:hover{
     color:#25A9E0;

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosInstance from "../auth/axiosInstance";
 import "react-toastify/dist/ReactToastify.css";
-import LoaderW from "./LoaderW";
+import {LoaderW} from "./Loaders";
 import { useState, useEffect } from "react";
 
 const Login = () => {

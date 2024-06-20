@@ -5,7 +5,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import "../css/Progress.css";
 import axiosInstance from "../auth/axiosInstance";
-import Loader from "./Loader";
+import {Loader} from "./Loaders";
 import { useNavigate, useOutletContext } from "react-router-dom";
 
 

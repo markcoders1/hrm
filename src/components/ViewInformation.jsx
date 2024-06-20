@@ -4,7 +4,7 @@ import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../auth/axiosInstance";
 import "../PagesCss/Profile.css";
-import Loader from "../components/Loader";
+import {Loader} from "./Loaders";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const ViewInformation = () => {

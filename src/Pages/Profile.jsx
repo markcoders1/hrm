@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 import '../PagesCss/Profile.css'
 import axiosInstance from '../auth/axiosInstance';
-import { NavLink, useOutletContext } from 'react-router-dom';
-import Loader from '../components/Loader';
+import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
+import {Loader} from '../components/Loaders';
 
 
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 const Profile = () => {
+    const navigate=useNavigate()
     const [yourData, setYourData] = useState([]);
     const [loading, setloading] = useState(true)
     const setHeadertext = useOutletContext()
@@ -41,36 +42,36 @@ const Profile = () => {
                 {loading ? <div className='loaderContainer'><Loader /></div>:
                     <>
                         <div className="input-box">
-                            <label >First Name : <span>{yourData.firstName}</span> </label>
+                            <label >First Name : <span>{`  ${yourData.firstName}`}</span> </label>
                         </div>
                         <div className="input-box">
-                            <label >Last Name : <span>{yourData.lastName}</span> </label>
+                            <label >Last Name : <span>{`  ${yourData.lastName}`}</span> </label>
                         </div>
                         <div className="input-box">
-                            <label >Email : <span>{yourData.email}</span> </label>
+                            <label >Email : <span>{`  ${yourData.email}`}</span> </label>
                         </div>
                         <div className="input-box">
-                            <label >Phone : <span>{yourData.phone}</span> </label>
+                            <label >Phone : <span>{`  ${yourData.phone}`}</span> </label>
                         </div>
                         <div className="input-box">
-                            <label >Department : <span>{yourData.department}</span> </label>
+                            <label >Department : <span>{`  ${yourData.department}`}</span> </label>
                         </div>
                         <div className="input-box">
-                            <label >Designation : <span>{yourData.designation}</span> </label>
+                            <label >Designation : <span>{`  ${yourData.designation}`}</span> </label>
                         </div>
 
                         <div className="input-box">
-                            <label >Shift : <span>{yourData.shift}</span> </label>
+                            <label >Shift : <span>{`  ${yourData.shift}`}</span> </label>
                         </div>
                         <div className="input-box">
-                            <label >Team Lead : <span>{yourData.teamLead}</span> </label>
+                            <label >Team Lead : <span>{`  ${yourData.teamLead}`}</span> </label>
                         </div>
                         <div className="input-box">
-                            <label >Status : <span>{yourData.status}</span> </label>
+                            <label >Status : <span>{`  ${yourData.status}`}</span> </label>
                         </div>
-                        <NavLink to='/changepassword' className="input-box">
+                        <div className="input-box" onClick={()=>navigate('/changepassword')}>
                             <label id='changePassword' >Change Password</label>
-                        </NavLink>
+                        </div>
                     </>}
 
 

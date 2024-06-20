@@ -6,7 +6,7 @@ import { Column } from "primereact/column";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { TextField } from '@mui/material';
 import axiosInstance from "../auth/axiosInstance";
-import Loader from "./Loader";
+import {Loader} from "./Loaders";
 
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;

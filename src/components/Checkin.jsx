@@ -3,8 +3,7 @@ import "../css/Checkin.css";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import axiosInstance from "../auth/axiosInstance";
-import Loader from "./Loader";
-import LoaderW from "./LoaderW";
+import {Loader,LoaderW} from "./Loaders";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 

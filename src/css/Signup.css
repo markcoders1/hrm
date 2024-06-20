@@ -6,7 +6,7 @@
 
 .form-register {
     width: 100%;
-    border-radius: 10px;
+    /* border-radius: 10px; */
     background-color: #ffffff;
     flex-direction: column;
     display: flex;
@@ -60,13 +60,13 @@ form {
 
 .input-row-register {
     display: flex;
-    gap: 3rem;
-
+    /* gap: 3rem; */
+    justify-content: space-between;
     /* border: 2px solid red; */
 }
 
 .child-row {
-    width: 50%;
+    width: 48%;
 }
 
 .child-row>label {

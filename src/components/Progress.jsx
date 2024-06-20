@@ -10,6 +10,7 @@ import { IoMenuOutline } from "react-icons/io5";
 import { toggleSidebar } from '../Redux/toggleSidebar';
 import axiosInstance from "../auth/axiosInstance";
 import Loader from "./Loader";
+import { useNavigate } from "react-router-dom";
 
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -20,14 +21,30 @@ const AttendanceSheet = () => {
     const [loading, setloading] = useState(true);
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
-   
-
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [isAdmin, setIsAdmin] = useState(false)
 
     const handleToggleSidebar = () => {
         dispatch(toggleSidebar());
         // console.log(isSidebarOpen)
     };
+    
+    useEffect(() => {
+        (async function () {
+            const res = await axiosInstance({
+                method: "get",
+                url: `${apiUrl}/api/isAdmin`,
+            })
+            console.log("res", res)
+            setIsAdmin(res.data.isAdmin)
+            console.log(res.data.isAdmin)
+            
+            if (res.data.isAdmin === "admin"){
+                navigate("profile")
+            }
+        })()
+    }, [])
 
     const accessToken = user?.user?.accessToken || "";
 
@@ -121,6 +138,8 @@ const AttendanceSheet = () => {
     }, []);
 
     return (
+       
+        
         <div className="sheet-container">
             <h1><span className="heading-attendance" >Attendance Sheet</span>  </h1>
 

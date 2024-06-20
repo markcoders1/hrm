@@ -42,7 +42,7 @@ const Login = () => {
             if (rememberMe) {
                 localStorage.setItem("refreshToken", response.data.refreshToken);
             }
-            navigate("/dashboard");
+            navigate("/dashboard/profile");
             toast.success("User Logged In Successfully", {
                 position: "top-center",
             });

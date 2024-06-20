@@ -123,14 +123,14 @@ const Employee = () => {
                                 header="First Name"
                                 sortable></Column>
                             <Column field="lastName" sortable header="Last Name"></Column>
-                            <Column field="role" header="Role"></Column>
-                            <Column field="phone" header="Phone"></Column>
+                            {/* <Column field="role" header="Role"></Column> */}
+                            {/* <Column field="phone" header="Phone"></Column> */}
                             <Column field="email" sortable header="Email"></Column>
-                            <Column field="department" header="Department"></Column>
-                            <Column
+                            {/* <Column field="department" header="Department"></Column> */}
+                            {/* <Column
                                 field="designation"
-                                header="Designation"></Column>
-                            <Column field="shift" header="Shift"></Column>
+                                header="Designation"></Column> */}
+                            {/* <Column field="shift" header="Shift"></Column> */}
                             <Column
                                 body={buttonForViewDetails}
                                 header="Attendance"></Column>

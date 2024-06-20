@@ -3,10 +3,16 @@ import { useEffect, useState } from "react";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import "../css/Attendance.css";
+
 // import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../auth/axiosInstance";
+
+import '../PagesCss/Profile.css'
+import { IoMenuOutline } from "react-icons/io5";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleSidebar } from '../Redux/toggleSidebar';
+import Loader from '../components/Loader';
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -29,11 +35,10 @@ const viewInformation = () => {
                 method: "get",
                 params: {
                    userId: id,
-                }
+                },
             });
             const dataAllEmployee = response.data;
             setAllEmployee(dataAllEmployee);
-            
             // setLoading(false)
             console.log(response);
         } catch (error) {
@@ -44,15 +49,60 @@ const viewInformation = () => {
 }, []);
 
 
-  return (
-    <div className='view'>
-      <h1>Hello View Information
+return (
+  <div className='profile-container' >
+    {id}
+      <div className="profile-heading">
+          <h1>User Profile</h1>
+          {/* <span className='menu-bar' onClick={handleToggleSidebar}  >
+              <IoMenuOutline />
+          </span> */}
+      </div>
+      <div className={loading ? "profile-information-container" :"profile-information-container padding"}>
+          {!loading ? <div className='loaderContainer'><Loader /></div>:
+              <>
+                  <div className="input-box">
+                      <label >First Name : <span>yourData.firstName</span> </label>
+                  </div>
+                  <div className="input-box">
+                      <label >Last Name : <span>yourData.lastName</span> </label>
+                  </div>
+                  <div className="input-box">
+                      <label >Email : <span>yourData.email</span> </label>
+                  </div>
+                  <div className="input-box">
+                      <label >Phone : <span>yourData.phone</span> </label>
+                  </div>
+                  <div className="input-box">
+                      <label >Department : <span>yourData.department</span> </label>
+                  </div>
+                  <div className="input-box">
+                      <label >Designation : <span>yourData.designation</span> </label>
+                  </div>
 
-      {id}
+                  <div className="input-box">
+                      <label >Shift : <span>yourData.shift</span> </label>
+                  </div>
+                  <div className="input-box">
+                      <label >Team Lead : <span>yourData.teamLead</span> </label>
+                  </div>
+                  <div className="input-box">
+                      <label >Status : <span>yourData.status</span> </label>
+                  </div>
+                  <div className="input-box">
+                      <label >Company ID : <span>yourData.companyId</span> </label>
+                  </div>
+                  
+              </>}
 
-      </h1>
-    </div>
-  )
+
+      </div>
+
+
+
+  </div>
+
+)
 }
 
 export default viewInformation

@@ -59,9 +59,7 @@ const Admin = () => {
                         <h1>Register</h1>
                     </button>
                 </span>
-                <span onClick={handleToggleSidebar} className='menu-bar'>
-                    <IoMenuOutline />
-                </span>
+               
             </div>
             <br />
             {renderComponent()}

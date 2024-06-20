@@ -51,9 +51,6 @@ const Profile = () => {
         <div className='profile-container' >
             <div className="profile-heading">
                 <h1>User Profile</h1>
-                <span className='menu-bar' onClick={handleToggleSidebar}  >
-                    <IoMenuOutline />
-                </span>
             </div>
             <div className={loading ? "profile-information-container" :"profile-information-container padding"}>
                 {loading ? <div className='loaderContainer'><Loader /></div>:

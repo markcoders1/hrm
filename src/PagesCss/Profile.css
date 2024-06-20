@@ -8,15 +8,16 @@
     margin: auto;
     background-color: #010115;
     color: white;
-    padding: 8px 0px;
+    padding: 10px 0px;
     font-family: 'Poppins', sans-serif;
-    align-items: center;
-    text-align: center;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+  
 }
 .profile-heading > h1{
-    
+    text-align: center;
+    /* border: 2px solid red;    */
+    margin: auto;
 }
 
 
@@ -28,7 +29,7 @@
     flex-wrap: wrap;
     margin-top: 45px;
     justify-content: space-between;
-    gap: 3rem;
+    gap: 2rem;
     /* background-color: white; */
     /* padding:15px; */
     /* border-radius: 10px; */
@@ -39,7 +40,7 @@
 }
 .profile-information-container > .input-box{
     display: flex;
-    width: 48%;
+   width: 48%;
     /* border: 2px solid rgba(112, 128, 144,0.5); */
     background-color: rgb(255, 255, 255);
     padding: 15px 15px;
@@ -60,6 +61,12 @@
 }
 #changePassword :hover{
     color: red;
+}
+@media only screen and (max-width: 788px){
+    .profile-information-container > .input-box{
+        display: flex;
+       width: 100%;
+    }
 }
 @media only screen and (max-width: 700px){
     .profile-heading{

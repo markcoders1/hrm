@@ -15,9 +15,13 @@ import { cilPuzzle, cilArrowCircleBottom, cilCalendar, cilUser, cilFlagAlt } fro
 import { useState, useEffect } from "react";
 import { IoMenuOutline } from "react-icons/io5";
 import Header from "../components/Header";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import axiosInstance from "../auth/axiosInstance";
 import { useNavigate } from "react-router-dom";
+import { toggleSidebar } from '../Redux/toggleSidebar';
+import { ImCross } from "react-icons/im";
+
+
 
 const Layout = () => {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -25,6 +29,13 @@ const Layout = () => {
     const [isAdmin, setIsAdmin] = useState(false);
     const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const handleDispatchToggleFunc = () => {
+        dispatch(toggleSidebar());
+    };
+
+  
 
     useEffect(() => {
         (async function () {
@@ -43,6 +54,10 @@ const Layout = () => {
     return (
         <div className="layout-container">
             <CSidebar className={isSidebarOpen ? "border-bottom sidebar hide-sidebar" : "border-bottom sidebar toggleShowHide"} unfoldable={isSidebarOpen ? true : false || foldableTrue ? true : false} colorScheme="dark">
+                <span
+                className="cross"
+                onClick={handleDispatchToggleFunc}><ImCross /></span>
+
                 <CSidebarHeader id="logo" className="border-bottom">
                     <img src="/logo.svg" alt="123" className="img-thumbnail" />
                 </CSidebarHeader>

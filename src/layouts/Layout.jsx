@@ -77,7 +77,7 @@ const Layout = () => {
                     )}
                     {isAdmin !== "admin" && (
                         <CNavItem>
-                            <NavLink to="/checkin" className="nav-link">
+                            <NavLink to="/checkin" onClick={handleDispatchToggleFunc} className="nav-link">
                                 <CIcon customClassName="nav-icon" icon={cilArrowCircleBottom} /> Checkin
                             </NavLink>
                         </CNavItem>

@@ -41,7 +41,7 @@ const SingleLayout = () => {
                                 <img src="/logo.svg" alt="hi" onClick={()=>navigate('/')}/>
                             </div>
                             <div className="dashboard-buttons">
-                                <NavLink to='/dashboard' replace >
+                                <NavLink to='/dashboard/profile' replace >
                                     Dashboard
                                 </NavLink>
                                 <button onClick={handleLogout} >Logout</button>

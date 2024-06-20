@@ -10,14 +10,14 @@ import axiosInstance from "../auth/axiosInstance";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const Attendance = () => {
-    const user = useSelector((state) => state.user);
+    // const user = useSelector((state) => state.user);
     const [loading, setLoading] = useState(true);
     const [employeeData, setEmployeeData] = useState([]);
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
     const { id } = useParams(); // Extracting id from the URL parameters
 
-    const accessToken = user?.user?.accessToken || "";
+    // const accessToken = user?.user?.accessToken || "";
 
     function millisecondsToHMS(milliseconds) {
         const date = new Date(milliseconds);

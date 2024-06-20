@@ -4,9 +4,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import "../css/Progress.css";
 import { useSelector, useDispatch } from "react-redux";
-
 import { IoMenuOutline } from "react-icons/io5";
-
 import { toggleSidebar } from '../Redux/toggleSidebar';
 import axiosInstance from "../auth/axiosInstance";
 import Loader from "./Loader";
@@ -16,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const AttendanceSheet = () => {
-    const user = useSelector((state) => state.user);
+    // const user = useSelector((state) => state.user);
     const [employeeData, setEmployeeData] = useState([]);
     const [loading, setloading] = useState(true);
     const [fromDate, setFromDate] = useState("");
@@ -46,7 +44,7 @@ const AttendanceSheet = () => {
         })()
     }, [])
 
-    const accessToken = user?.user?.accessToken || "";
+    // const accessToken = user?.user?.accessToken || "";
 
     function millisecondsToHMS(milliseconds) {
         const date = new Date(milliseconds);
@@ -77,9 +75,9 @@ const AttendanceSheet = () => {
                 const response = await axiosInstance({
                     url: `${apiUrl}/api/getUserAttendance`,
                     method: "get",
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
+                    // headers: {
+                    //     Authorization: `Bearer ${accessToken}`,
+                    // },
                     params: {
                         from: fromDate ? new Date(fromDate).getTime() : undefined,
                         to: toDate ? new Date(toDate).getTime() : undefined,
@@ -108,7 +106,7 @@ const AttendanceSheet = () => {
             }
         };
         getEmployeeData();
-    }, [accessToken, fromDate, toDate]);
+    }, [fromDate, toDate]);
 
     const netDurationBodyTemplate = (rowData) => {
         return <span>{rowData.formattedNetDuration}</span>;

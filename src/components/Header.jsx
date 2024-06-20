@@ -68,9 +68,10 @@ const Header = () => {
                 style={{
                     fontSize:"1.7rem",
                     fontWeight:"600",
-                    color:"black",
+                    color:"#034F75",
                     cursor:"pointer",
-                    marginTop:"10px"
+                    marginTop:"10px",
+                    fontWeight:"700"
                    
 
                 }}

@@ -1,11 +1,29 @@
 @import "@coreui/coreui/scss/coreui";
+// If you want to override variables do it here
+@import "variables";
+
+// Import styles
+@import "@coreui/coreui/scss/coreui";
+@import "@coreui/chartjs/scss/coreui-chartjs";
+
+// Vendors
+@import "vendors/simplebar";
+
+// Custom styles for this theme
+@import "theme";
+
+// If you want to add custom CSS you can put it here
+@import "custom";
+
 
 :root {
     --cui-sidebar-width: #{ $sidebar-width };
 }
 
-.wrapper{
-    margin-left: --cui-sidebar-width;
-    will-change: auto;
-    transition: padding .15s;
+.wrapper {
+  width: 100%;
+  @include ltr-rtl("padding-left", var(--cui-sidebar-occupy-start, 0));
+  @include ltr-rtl("padding-right", var(--cui-sidebar-occupy-end, 0));
+  will-change: auto;
+  @include transition(padding .15s);
 }

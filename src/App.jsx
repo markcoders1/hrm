@@ -18,6 +18,7 @@ import { ForgotPassword } from './components/forgotPassword.jsx'
 import Attendance from './components/Attendance.jsx'
 
 import SingleLayout from './layouts/mainLayout.jsx'
+import DefaultLayout from './layouts/defaultlayout.jsx'
 
 import Profile from './Pages/Profile.jsx'
 import ChangePassword from './components/ChangePassword.jsx'
@@ -43,7 +44,7 @@ function App() {
               <Route path='*' element={<NotFound />} />
             </Route>
 
-            <Route path='/dashboard' element={<Layout />}>
+            <Route path='/dashboard' element={<DefaultLayout />}>
               <Route path='' element={<ProtectedRoute ><Progress /></ProtectedRoute>} />
               <Route path='profile' element={<ProtectedRoute ><Profile /></ProtectedRoute>} />
               <Route path='admin' element={<ProtectedRoute ><ProtectedAdmin ><Admin /></ProtectedAdmin></ProtectedRoute>} />

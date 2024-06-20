@@ -3,8 +3,8 @@ import '../css/Loader.css'
 const Loader = () => {
   return (
     <>
-    <div class="loader123"></div>
-    ]</>
+      <div class="loader123"></div>
+    </>
   )
 }
 

@@ -20,7 +20,7 @@ body {
   padding: 0px;
   box-sizing: border-box;
   /* background-color: rgba(204, 219, 253, 1) !important; */
-  background-color: beige !important;
+  background-color: rgb(220, 220, 220) !important;
   color: black;
   
 }
@@ -43,19 +43,17 @@ body {
 .outlet-box {
   width: 100%;
   margin: 0px;
-  transition: 1s ease;
-
 }
 
-
+.margin-small{
+transition: 3s ease;
+}
 
 .layout-container {
   display: flex;
-  background-color: beige;
+  background-color: rgb(214, 214, 214);
   height: 100%;
   width: 100%;
-  
-  /* Ensure the layout container takes full height */
 }
 
 #margin-gave {
@@ -64,13 +62,9 @@ body {
 
 .sidebar {
   height: 100%;
-  /* Ensure the sidebar takes full height */
-  /* transition: 4s ease-in ; */
   position: relative;
   background-color: #010115 !important;
-  /* position: fixed !important; */
-  
-
+  position: fixed !important;
 }
 
 .hide-sidebar {
@@ -129,6 +123,20 @@ body {
   width: 100%;
 
 }
+
+.wrapper{
+ 
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+}
+.layout-main{
+  display: flex;
+  border: 2px solid red;
+}
+
+
 @media only screen and (max-width: 998px){
   .sidebar{
     z-index: 1000;
@@ -148,7 +156,5 @@ body {
     color: white;
     background-color: red;
   }
-  .sidebar{
-    
-  }
+  
 }

@@ -15,7 +15,7 @@ const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 const Employee = () => {
     const navigate = useNavigate();
 
-    const user = useSelector((state) => state.user);
+    // const user = useSelector((state) => state.user);
     const [allEmployee, setAllEmployee] = useState([]);
     const [loading, setLoading] = useState(true)
     const [filteredEmployees, setFilteredEmployees] = useState([]);
@@ -23,7 +23,7 @@ const Employee = () => {
 
 
 
-    const accessToken = user?.user?.accessToken || "";
+    // const accessToken = user?.user?.accessToken || "";
 
     useEffect(() => {
         const getAllUser = async () => {
@@ -31,9 +31,7 @@ const Employee = () => {
                 const response = await axiosInstance({
                     url: `${apiUrl}/api/admin/getAllUsers`,
                     method: "get",
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
+                   
                 });
                 const dataAllEmployee = response.data;
                 setAllEmployee(dataAllEmployee);
@@ -67,9 +65,6 @@ const Employee = () => {
                 const response = await axiosInstance({
                     url: `${apiUrl}/api/admin/getAllUsers`,
                     method: "get",
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`
-                    }
                 });
                 console.log("response", response.data);
                 const dataAllEmployee = response.data;
@@ -81,7 +76,7 @@ const Employee = () => {
             }
         }
         getAllUser();
-    }, [accessToken]);
+    }, []);
 
     useEffect(() => {
         const results = allEmployee.filter(employee =>

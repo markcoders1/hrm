@@ -1,37 +1,43 @@
-import { Outlet, NavLink } from "react-router-dom";
-import "../css/layout.css";
-import {
-    CSidebar,
-    CSidebarHeader,
-    CNavLink,
-    CSidebarNav,
-    CNavTitle,
-    CNavItem,
-    CSidebarToggler,
-    CNavGroup
-} from "@coreui/react";
-import CIcon from '@coreui/icons-react';
-import { cilPuzzle, cilArrowCircleBottom, cilCalendar, cilUser, cilFlagAlt } from "@coreui/icons";
-import { useState, useEffect } from "react";
-import { IoMenuOutline } from "react-icons/io5";
-import Header from "../components/Header";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axiosInstance from "../auth/axiosInstance";
 import { useNavigate } from "react-router-dom";
-import { toggleSidebar } from '../Redux/toggleSidebar';
-import { ImCross } from "react-icons/im";
 
-const Layout = () => {
+import {
+    CSidebar,
+    CSidebarFooter,
+    CSidebarHeader,
+    CSidebarToggler,
+    CSidebarNav,
+    CNavTitle,
+    CNavItem,
+    CNavGroup,
+    CModal,
+    CModalBody,
+    CModalHeader,
+    CModalFooter,
+    CModalTitle,
+    CButton
+} from "@coreui/react";
+
+import { NavLink } from "react-router-dom";
+import {
+    cilUser,
+    cilCalendar,
+    cilArrowCircleBottom,
+    cilFlagAlt,
+} from "@coreui/icons";
+import CIcon from "@coreui/icons-react";
+
+const AppSidebar = () => {
+    const navigate=useNavigate()
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-    const [foldableTrue, setFoldableTrue] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(false);
-    const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
-    const navigate = useNavigate();
     const dispatch = useDispatch();
+    const unfoldable = useSelector((state) => state.sidebarUnfoldable);
+    const sidebarShow = useSelector((state) => state.sidebarShow);
 
-    const handleDispatchToggleFunc = () => {
-        dispatch(toggleSidebar());
-    };
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [visible,setVisible] = useState(false)
 
     useEffect(() => {
         (async function () {
@@ -43,55 +49,124 @@ const Layout = () => {
         })();
     }, []);
 
-    const toggleMarginfunc = () => {
-        setFoldableTrue(!foldableTrue);
-    };
+    const handleLogout=()=>{
+      sessionStorage.clear()
+      localStorage.clear()
+      navigate('/')
+    }
 
     return (
-        <div className="layout-container">
-            <CSidebar className={isSidebarOpen ? "border-bottom sidebar hide-sidebar" : "border-bottom sidebar toggleShowHide"} unfoldable={isSidebarOpen ? true : false || foldableTrue ? true : false} colorScheme="dark">
-                <span
-                    className="cross"
-                    onClick={handleDispatchToggleFunc}><ImCross /></span>
-
-                <CSidebarHeader id="logo" className="border-bottom">
-                    <img src="/logo.svg" alt="123" className="img-thumbnail" />
-                </CSidebarHeader>
-                <CSidebarNav>
-                    <CNavTitle>Hresque</CNavTitle>
-                    <CNavItem>
-                        <NavLink to="/dashboard/profile" className="nav-link">
-                            <CIcon customClassName="nav-icon" icon={cilUser} /> Profile
-                        </NavLink>
-                    </CNavItem>
-                    {isAdmin !== "admin" && (
+      <>
+        <CSidebar
+            className="border-end"
+            colorScheme="dark"
+            position="fixed"
+            unfoldable={unfoldable}
+            visible={sidebarShow}
+            onVisibleChange={(visible) => {
+                dispatch({ type: "set", sidebarShow: visible });
+            }}>
+            <CSidebarHeader className="border-bottom">
+              <div className="img-thumbnail-container">
+                <img src="/logo.svg" alt="123" className="img-thumbnail" onClick={()=>navigate('/')}/>
+              </div>
+            </CSidebarHeader>
+            <CSidebarNav>
+                <CNavTitle>Hresque</CNavTitle>
+                <CNavItem>
+                    <NavLink to="/dashboard/profile" className="nav-link">
+                        <CIcon customClassName="nav-icon" icon={cilUser} />{" "}
+                        Profile
+                    </NavLink>
+                </CNavItem>
+                {isAdmin !== "admin" && (
+                    <>
                         <CNavItem>
                             <NavLink to="/dashboard" end className="nav-link">
-                                <CIcon customClassName="nav-icon" icon={cilCalendar} /> Attendance
+                                <CIcon
+                                    customClassName="nav-icon"
+                                    icon={cilCalendar}
+                                />{" "}
+                                Attendance
                             </NavLink>
                         </CNavItem>
-                    )}
-                    {isAdmin !== "admin" && (
                         <CNavItem>
-                            <NavLink to="/checkin" onClick={handleDispatchToggleFunc} className="nav-link">
-                                <CIcon customClassName="nav-icon" icon={cilArrowCircleBottom} /> Checkin
+                            <NavLink to="/checkin" className="nav-link">
+                                <CIcon
+                                    customClassName="nav-icon"
+                                    icon={cilArrowCircleBottom}
+                                />{" "}
+                                Checkin
                             </NavLink>
                         </CNavItem>
-                    )}
-                    {isAdmin === "admin" && (
+                    </>
+                )}
+
+                {isAdmin === "admin" && (
+                    <CNavGroup
+                        toggler={
+                            <>
+                                <CIcon
+                                    customClassName="nav-icon"
+                                    icon={cilFlagAlt}
+                                />{" "}
+                                Admin
+                            </>
+                        }>
+                        <CNavItem >
+                          <NavLink to={"/dashboard/admin"} className={"nav-link"} end>
+                            <span className="nav-icon">
+                                <span className="nav-icon-bullet"></span>
+                            </span>{" "}
+                            Employees
+                          </NavLink>
+                        </CNavItem>
                         <CNavItem>
-                            <NavLink to="/dashboard/admin" className="nav-link">
-                                <CIcon customClassName="nav-icon" icon={cilFlagAlt} /> Admin
-                            </NavLink>
+                          <NavLink to={"/dashboard/admin/register"} className={"nav-link"} end>
+                              <span className="nav-icon">
+                                  <span className="nav-icon-bullet"></span>
+                              </span>{" "}
+                              Register Employee
+                          </NavLink>
                         </CNavItem>
-                    )}
-                </CSidebarNav>
-                <CSidebarHeader className="border-top">
-                    <CSidebarToggler onClick={toggleMarginfunc} />
-                </CSidebarHeader>
-            </CSidebar>
-        </div>
+                    </CNavGroup>
+                )}
+            </CSidebarNav>
+            <CSidebarFooter className="border-top d-none d-lg-flex text-end">
+                <div className="nav-link logout-button" onClick={()=>setVisible(true)}>Logout</div>
+            </CSidebarFooter>
+            <CSidebarFooter className="border-top d-none d-lg-flex">
+                <CSidebarToggler
+                    onClick={() =>
+                        dispatch({
+                            type: "set",
+                            sidebarUnfoldable: !unfoldable,
+                        })
+                    }
+                />
+            </CSidebarFooter>
+        </CSidebar>
+        <CModal
+      alignment="center"
+      visible={visible}
+      onClose={() => setVisible(false)}
+      aria-labelledby="VerticallyCenteredExample"
+    >
+      <CModalHeader>
+        <CModalTitle id="VerticallyCenteredExample">Logout</CModalTitle>
+      </CModalHeader>
+      <CModalBody>
+        Are you sure you want to log out?
+      </CModalBody>
+      <CModalFooter>
+        <CButton color="secondary" onClick={() => setVisible(false)}>
+          Close
+        </CButton>
+        <CButton color="info" onClick={handleLogout}>Log Out</CButton>
+      </CModalFooter>
+    </CModal>
+      </>
     );
 };
 
-export default Layout;
+export default React.memo(AppSidebar);

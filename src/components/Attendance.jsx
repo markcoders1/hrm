@@ -3,7 +3,6 @@ import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import "../css/Attendance.css";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../auth/axiosInstance";
 
@@ -17,7 +16,7 @@ const Attendance = () => {
     const [toDate, setToDate] = useState("");
     const { id } = useParams(); // Extracting id from the URL parameters
 
-    // const accessToken = user?.user?.accessToken || "";
+    const accessToken = sessionStorage.getItem('accessToken');
 
     function millisecondsToHMS(milliseconds) {
         const date = new Date(milliseconds);
@@ -48,9 +47,6 @@ const Attendance = () => {
                 const response = await axiosInstance({
                     url: `${apiUrl}/api/admin/getUserAttendance`,
                     method: "get",
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
                     params: {
                         userId: id, // Sending the id as a query parameter
                         from: fromDate ? new Date(fromDate).getTime() : undefined,
@@ -102,7 +98,7 @@ const Attendance = () => {
     };
 
     return (
-        <div className='sheet-container wrapper'>
+        <div className='sheet-container'>
             <h1 style={{ textAlign: 'center' }}>ATTENDANCE SHEET</h1>
 
             <div className="mini-container-attendance"  >

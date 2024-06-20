@@ -1,20 +1,13 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CForm, CFormInput, CButton } from "@coreui/react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import EyeOpen from "/eye-open.png";
-import EyeClosed from "/eye-close.png";
 import axiosInstance from "../auth/axiosInstance";
 import "../css/ChangePassword.css";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const ChangePassword = () => {
-    const [passwordImage1, setPasswordImage1] = useState(EyeOpen);
-    const [passwordImage2, setPasswordImage2] = useState(EyeOpen);
-    const [passwordType1, setPasswordType1] = useState("password");
-    const [passwordType2, setPasswordType2] = useState("password");
 
     const {
         register,
@@ -46,71 +39,46 @@ const ChangePassword = () => {
         }
     };
 
-    const togglePasswordVisibility = () => {
-        setPasswordType1(passwordType1 === "password" ? "text" : "password");
-        setPasswordImage1(passwordType1 === "password" ? EyeClosed : EyeOpen);
-    };
-
-    const togglePasswordVisibility2 = () => {
-        setPasswordType2(passwordType2 === "password" ? "text" : "password");
-        setPasswordImage2(passwordType2 === "password" ? EyeClosed : EyeOpen);
-    };
-
     return (
         <>
-            <div className="outlet-box">
-                <h1 className="sign-heading">Change Password</h1>
-                <CForm onSubmit={handleSubmit(onSubmit)}>
-                    <div className="input-row">
-                        <div className="custom-input">
-                            <div className="password-field">
-                                <CFormInput
-                                    id="oldPassword"
-                                    type={passwordType1}
-                                    placeholder="Old Password"
-                                    {...register("oldPassword", {
-                                        required: "Old Password is required",
-                                    })}
-                                />
-                                <span className="password-toggle" onClick={togglePasswordVisibility}>
-                                    <img src={passwordImage1} alt="Toggle Password Visibility" />
-                                </span>
-                            </div>
-                        </div>
-                            {errors.oldPassword && (
-                                <span className="error-message">
-                                    {errors.oldPassword.message}
-                                </span>
-                            )}
-                    </div>
-                    <div className="input-row">
-                        <div className="custom-input">
-                            <div className="password-field">
-                                <CFormInput
-                                    id="newPassword"
-                                    type={passwordType2}
-                                    placeholder="New Password"
-                                    {...register("newPassword", {
-                                        required: "New Password is required",
-                                    })}
-                                />
-                                <span className="password-toggle" onClick={togglePasswordVisibility2}>
-                                    <img src={passwordImage2} alt="Toggle Password Visibility" />
-                                </span>
-                            </div>
-                        </div>
-                                {errors.newPassword && (
-                                    <span className="error-message">
-                                        {errors.newPassword.message}
-                                    </span>
-                                )}
-                    </div>
+            <h1 className="Login-Header">Change Password</h1>
+            <CForm onSubmit={handleSubmit(onSubmit)}>
+                <div className="loginFields">
+                    <CFormInput
+                        type="password"
+                        id="oldPassword"
+                        floatingClassName="mb-3"
+                        floatingLabel="Old Password"
+                        placeholder="Old Password"
+                        {...register("oldPassword", { required: "Email is required" })}
+                        size="lg"
+                    />
+                    {errors.email && <span className="error">{errors.email.message}</span>}
+                    <CFormInput
+                        type="password"
+                        id="NewPassword"
+                        floatingClassName="mb-3"
+                        floatingLabel="New Password"
+                        placeholder="New Password"
+                        {...register("newPassword", { required: "Password is required" })}
+                        size="lg"
+                    />
+                    {errors.password && <span className="error">{errors.password.message}</span>}
+                </div>
+                <CButton
+                
+                style={{
+                    display:"flex",
+                    justifyContent:"center",
+                    alignItems:"center"
 
-                    <div className="login-btn">
-                        <CButton type="submit" color="primary" variant="outline">Change Password</CButton>
-                    </div>
-                </CForm>
-            </div>
+                }}
+                
+                color="dark" variant="outline" size="lg" type="submit">
+                    Change Password
+                    {/* {isLoading ? <LoaderW /> : "Login"} */}
+                </CButton>
+            </CForm>
         </>
     );
 };

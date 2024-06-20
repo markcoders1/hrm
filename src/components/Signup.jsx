@@ -6,11 +6,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { MenuItem, Select, FormControl, InputLabel, TextField } from '@mui/material';
 import { useSelector } from 'react-redux';
 import axiosInstance from '../auth/axiosInstance';
+import { useOutletContext } from 'react-router-dom';
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const Signup = () => {
     const user = useSelector(state => state.user);
+    const setHeadertext = useOutletContext()
 
     const admin_token = user?.user?.accessToken || '';
     const config_admin = {
@@ -18,8 +20,8 @@ const Signup = () => {
     };
 
     useEffect(() => {
-        console.log(admin_token);
-    }, [admin_token]);
+        setHeadertext('Register Employee')
+    }, []);
 
     const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm();
 
@@ -60,7 +62,6 @@ const Signup = () => {
     return (
         <div className="form-container-register">
             <div className='form-register'>
-                <h1 className="register-heading">Register New Employee</h1>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="input-row-register">
                         <div className='child-row'>

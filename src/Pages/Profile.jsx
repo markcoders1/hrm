@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react'
 import '../PagesCss/Profile.css'
-import { IoMenuOutline } from "react-icons/io5";
-import { useSelector, useDispatch } from "react-redux";
-import { toggleSidebar } from '../Redux/toggleSidebar';
 import axiosInstance from '../auth/axiosInstance';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useOutletContext } from 'react-router-dom';
 import Loader from '../components/Loader';
 
 
@@ -13,14 +10,7 @@ const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 const Profile = () => {
     const [yourData, setYourData] = useState([]);
     const [loading, setloading] = useState(true)
-    const user = useSelector((state) => state.user?.user);
-    const accessToken = user?.accessToken || "";
-    const dispatch = useDispatch();
-
-    const handleToggleSidebar = () => {
-        dispatch(toggleSidebar());
-        // staging edit
-    };
+    const setHeadertext = useOutletContext()
 
     useEffect(() => {
         const getProfileInfo = async () => {
@@ -28,9 +18,6 @@ const Profile = () => {
                 const response = await axiosInstance({
                     url: `${apiUrl}/api/getUser`,
                     method: "get",
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
 
                 });
                 console.log(response.data.user);
@@ -43,15 +30,13 @@ const Profile = () => {
         }
 
         getProfileInfo()
+        setHeadertext('User Profile')
     }, [])
 
 
 
     return (
         <div className='profile-container' >
-            <div className="profile-heading">
-                <h1>User Profile</h1>
-            </div>
             <div className={loading ? "profile-information-container" :"profile-information-container padding"}>
                 {loading ? <div className='loaderContainer'><Loader /></div>:
                     <>

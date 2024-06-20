@@ -33,7 +33,8 @@ axiosInstance.interceptors.response.use(
 
             try {
                 const refreshToken=sessionStorage.getItem("refreshToken")
-                const response = await axios.post(`${appUrl}/api/auth/token`, {refreshToken}, { withCredentials: true });
+                const response = await axios.post(`${appUrl}/api/auth/token`, {refreshToken});
+                console.log("response",response)
 
                 
                 if (response.status === 200) {

@@ -3,7 +3,7 @@
 // @import "variables";
 
 // Import styles
-@import "@coreui/coreui/scss/coreui";
+// @import "@coreui/coreui/scss/coreui";
 // @import "@coreui/chartjs/scss/coreui-chartjs";
 
 // Vendors
@@ -26,11 +26,69 @@
   @include ltr-rtl("padding-right", var(--cui-sidebar-occupy-end, 0));
   will-change: auto;
   @include transition(padding .15s);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
+
+.header > .container-fluid,
+.sidebar-header {
+  min-height: calc(4rem + 1px); // stylelint-disable-line function-disallowed-list
+}
+
+.sidebar-brand-full {
+  margin-left: 3px;
+}
+
+.sidebar-header {
+  .nav-underline-border {
+    --cui-nav-underline-border-link-padding-x: 1rem;
+    --cui-nav-underline-border-gap: 0;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    min-height: calc(4rem + 1px); // stylelint-disable-line function-disallowed-list
+  }
+}
+
+.sidebar-toggler {
+  @include ltr-rtl("margin-left", auto);
+}
+
+.sidebar-narrow,
+.sidebar-narrow-unfoldable:not(:hover) {
+  .sidebar-toggler {
+    @include ltr-rtl("margin-right", auto);
+  }
+}
+
+.header > .container-fluid + .container-fluid {
+  min-height: 3rem;
+}
+
+.footer {
+  min-height: calc(3rem + 1px); // stylelint-disable-line function-disallowed-list
+}
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    body {
+      background-color: var(--cui-dark-bg-subtle);
+    }
+
+    .footer {
+      --cui-footer-bg: var(--cui-body-bg);
+    }
+  }
+}
+
 
 .simplebar-content {
     display: flex;
     flex-direction: column;
     min-height: 100%;
-  }
+}
+
   

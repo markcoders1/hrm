@@ -1,35 +1,28 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import "../css/Progress.css";
-import { useSelector, useDispatch } from "react-redux";
-import { IoMenuOutline } from "react-icons/io5";
-import { toggleSidebar } from '../Redux/toggleSidebar';
 import axiosInstance from "../auth/axiosInstance";
 import Loader from "./Loader";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const AttendanceSheet = () => {
-    // const user = useSelector((state) => state.user);
+    const setHeadertext = useOutletContext()
     const [employeeData, setEmployeeData] = useState([]);
     const [loading, setloading] = useState(true);
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isAdmin, setIsAdmin] = useState(false)
-
-    const handleToggleSidebar = () => {
-        dispatch(toggleSidebar());
-        // console.log(isSidebarOpen)
-    };
     
     useEffect(() => {
         (async function () {
+            setHeadertext('Attendance')
             const res = await axiosInstance({
                 method: "get",
                 url: `${apiUrl}/api/isAdmin`,
@@ -75,9 +68,6 @@ const AttendanceSheet = () => {
                 const response = await axiosInstance({
                     url: `${apiUrl}/api/getUserAttendance`,
                     method: "get",
-                    // headers: {
-                    //     Authorization: `Bearer ${accessToken}`,
-                    // },
                     params: {
                         from: fromDate ? new Date(fromDate).getTime() : undefined,
                         to: toDate ? new Date(toDate).getTime() : undefined,
@@ -139,8 +129,6 @@ const AttendanceSheet = () => {
        
         
         <div className="sheet-container">
-            <h1><span className="heading-attendance" >Attendance Sheet</span>  </h1>
-
             <div className="progress-mini-container" >
                 <div className="date-filters">
                     <label>

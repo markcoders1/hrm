@@ -3,8 +3,7 @@ import "../css/Employee.css";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { TextField } from '@mui/material';
 import axiosInstance from "../auth/axiosInstance";
 import Loader from "./Loader";
@@ -15,6 +14,7 @@ const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 const Employee = () => {
     const navigate = useNavigate();
 
+    const setHeadertext=useOutletContext()
     // const user = useSelector((state) => state.user);
     const [allEmployee, setAllEmployee] = useState([]);
     const [loading, setLoading] = useState(true)
@@ -28,6 +28,7 @@ const Employee = () => {
     useEffect(() => {
         const getAllUser = async () => {
             try {
+                setHeadertext('Employees')
                 const response = await axiosInstance({
                     url: `${apiUrl}/api/admin/getAllUsers`,
                     method: "get",

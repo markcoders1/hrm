@@ -1,96 +1,75 @@
-import { Box } from '@mui/material';
-import React from 'react';
-import { IoMenuOutline } from "react-icons/io5";
-import { toggleSidebar } from "../Redux/toggleSidebar.js"; // Correct import
-import { useDispatch } from 'react-redux';
-import { useState,useEffect } from "react";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+/* eslint-disable react/prop-types */
+import { useEffect, useRef } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import {
+  CContainer,
+  CHeader,
+  CHeaderToggler,
+} from '@coreui/react'
+import CIcon from '@coreui/icons-react'
+import {cilMenu} from '@coreui/icons'
 
-const Header = () => {
-    const [refreshToken, setRefreshToken] = useState(null);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+// import { AppBreadcrumb } from './index'
+// import { AppHeaderDropdown } from './header/index'
 
-    const handleDispatchToggleFunc = () => {
-        dispatch(toggleSidebar());
-    };
+const AppHeader = (props) => {
+  const headerRef = useRef()
+  const {headertext} =props
+  const dispatch = useDispatch()
+  const sidebarShow = useSelector((state) => state.sidebarShow)
 
-    const handleLogout = async () => {
-        toast.success("You Have Successfully Logged Out");
-        sessionStorage.removeItem('accessToken');
-        sessionStorage.removeItem('refreshToken');
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('userData');
-        setRefreshToken(null);
-        navigate("/");
-    };
+  useEffect(() => {
+    document.addEventListener('scroll', () => {
+      headerRef.current &&
+        headerRef.current.classList.toggle('shadow-sm', document.documentElement.scrollTop > 0)
+    })
+  }, [])
 
-    useEffect(() => {
-        const token = sessionStorage.getItem("refreshToken") || localStorage.getItem("refreshToken");
-        setRefreshToken(token);
-    }, []);
-
-    return (
-        <Box className='Top-header'
-            sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                padding: "5px 40px",
-               
-                // border: "2px solid red",
-                // alignItems:"center"
-                
-            }}
+  return (
+    <CHeader position="sticky" className="mb-4 p-0" ref={headerRef}>
+      <CContainer className="border-bottom px-4" fluid>
+        <CHeaderToggler
+          onClick={() => dispatch({ type: 'set', sidebarShow: !sidebarShow })}
+          style={{ marginInlineStart: '-14px' }}
         >
-            <Box className="hamberger-div"
-                sx={{
-                    fontSize: "2.5rem",
-                    cursor: "pointer"
-                }}
-            >
-                <IoMenuOutline 
-                    onClick={handleDispatchToggleFunc}
-                />
-            </Box>
-            <Box className="profile-image"
-                sx={{
-                    
-                    display: "flex",
-                    gap:"4rem",
-                    alignItems:"center",
-                    justifyContent:"center"
-                   
-                }}
-            >
-                <p
-                style={{
-                    fontSize:"1.7rem",
-                    fontWeight:"600",
-                    color:"#034F75",
-                    cursor:"pointer",
-                    marginTop:"10px",
-                    fontWeight:"700"
-                   
-
-                }}
-                onClick={handleLogout}
-                >Logout</p>
-                <img src=""
-                style={{
-                    borderRadius: "50%",
-                    backgroundColor:"blue",
-                    height:"50px",
-                    width:"50px"
-
-
-                }}
-                alt="Profile"
-                />
-            </Box>
-        </Box>
-    );
+          <CIcon icon={cilMenu} size="lg" />
+        </CHeaderToggler>
+        {/* <CHeaderNav className="d-none d-md-flex">
+          <CNavItem>
+            <CNavLink to="/dashboard" as={NavLink}>
+              Dashboard
+            </CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink href="#">Users</CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink href="#">Settings</CNavLink>
+          </CNavItem>
+        </CHeaderNav> */}
+        {/* <CHeaderNav className="ms-auto">
+          <CNavItem>
+            <CNavLink href="#">
+              <CIcon icon={cilBell} size="lg" />
+            </CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink href="#">
+              <CIcon icon={cilList} size="lg" />
+            </CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink href="#">
+              <CIcon icon={cilEnvelopeOpen} size="lg" />
+            </CNavLink>
+          </CNavItem>
+        </CHeaderNav> */}
+      </CContainer>
+      <CContainer className="px-4 d-flex d-flex justify-content-center" fluid>
+        <h5>{headertext}</h5>
+      </CContainer>
+    </CHeader>
+  )
 }
 
-export default Header;
+export default AppHeader

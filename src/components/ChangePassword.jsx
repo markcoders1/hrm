@@ -3,14 +3,14 @@ import { CForm, CFormInput, CButton } from "@coreui/react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axiosInstance from "../auth/axiosInstance";
-import "../css/ChangePassword.css";
 import { useState } from "react";
+import { LoaderW } from "./Loaders";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const ChangePassword = () => {
 
-    const [isLoading,setIsLoading]=useState()
+    const [isLoading,setIsLoading]=useState(false)
 
     const {
         register,
@@ -22,12 +22,12 @@ const ChangePassword = () => {
     const onSubmit = async (data) => {
         const { oldPassword, newPassword } = data;
         try {
+            setIsLoading(true)
             const response = await axiosInstance.post(`${apiUrl}/api/change-password`, {
                 oldPassword,
                 newPassword
             });
-
-            console.log(response);
+            setIsLoading(false)
 
             toast.success(response.data.message, {
                 position: "top-center",
@@ -35,6 +35,7 @@ const ChangePassword = () => {
             reset();
         } catch (error) {
             console.log(error);
+            setIsLoading(false)
             const err = error?.response?.data?.message || error.message;
             toast.error(err, {
                 position: "top-center",

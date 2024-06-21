@@ -54,56 +54,33 @@ const ViewInformation = () => {
                     </div>
                 ) : (
                     <>
-                        <div className="input-box">
-                            <label>
-                                First Name : <span>{employeeData.firstName}</span>
-                            </label>
+                        <div className="input">
+                            <div className='input-label'>First Name : </div><div className='input-box'>{`  ${employeeData.firstName}`}</div>
                         </div>
-                        <div className="input-box">
-                            <label>
-                                Last Name : <span>{employeeData.lastName}</span>
-                            </label>
+                        <div className="input">
+                            <div className='input-label'>Last Name : </div><div className='input-box'>{`  ${employeeData.lastName}`}</div>
                         </div>
-                        <div className="input-box">
-                            <label>
-                                Email : <span>{employeeData.email}</span>
-                            </label>
+                        <div className="input">
+                            <div className='input-label'>Email : </div><div className='input-box'>{`  ${employeeData.email}`}</div>
                         </div>
-                        <div className="input-box">
-                            <label>
-                                Phone : <span>{employeeData.phone}</span>
-                            </label>
+                        <div className="input">
+                            <div className='input-label'>Phone : </div><div className='input-box'>{`  ${employeeData.phone}`}</div>
                         </div>
-                        <div className="input-box">
-                            <label>
-                                Department : <span>{employeeData.department}</span>
-                            </label>
+                        <div className="input">
+                            <div className='input-label'>Department : </div><div className='input-box'>{`  ${employeeData.department}`}</div>
                         </div>
-                        <div className="input-box">
-                            <label>
-                                Designation : <span>{employeeData.designation}</span>
-                            </label>
+                        <div className="input">
+                            <div className='input-label'>Designation : </div><div className='input-box'>{`  ${employeeData.designation}`}</div>
                         </div>
 
-                        <div className="input-box">
-                            <label>
-                                Shift : <span>{employeeData['shift']}</span>
-                            </label>
+                        <div className="input">
+                            <div className='input-label'>Shift : </div><div className='input-box'>{`  ${employeeData.shift}`}</div>
                         </div>
-                        <div className="input-box">
-                            <label>
-                                Team Lead : <span>{employeeData.teamLead}</span>
-                            </label>
+                        <div className="input">
+                            <div className='input-label'>Team Lead : </div><div className='input-box'>{`  ${employeeData.teamLead}`}</div>
                         </div>
-                        <div className="input-box">
-                            <label>
-                                Status : <span>{employeeData.status}</span>
-                            </label>
-                        </div>
-                        <div className="input-box">
-                            <label>
-                                Company ID : <span>{employeeData.companyId}</span>
-                            </label>
+                        <div className="input">
+                            <div className='input-label'>Status : </div><div className='input-box'>{`  ${employeeData.status}`}</div>
                         </div>
                     </>
                 )}

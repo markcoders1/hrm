@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import '../PagesCss/Profile.css'
 import axiosInstance from '../auth/axiosInstance';
-import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import {Loader} from '../components/Loaders';
 
 

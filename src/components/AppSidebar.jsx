@@ -135,10 +135,15 @@ const AppSidebar = () => {
                         </CNavItem>
                     </CNavGroup>
                 )}
+                <CNavItem>
+                    <div className="nav-link" onClick={()=>setVisible(true)} style={{cursor:'pointer'}} >
+                        <CIcon
+                            customClassName="nav-icon"
+                            icon={cilArrowCircleBottom}
+                        /> Logout 
+                    </div>
+                </CNavItem>
             </CSidebarNav>
-            <CSidebarFooter className="border-top d-none d-lg-flex text-end">
-                <div className="nav-link logout-button" onClick={()=>setVisible(true)}>Logout</div>
-            </CSidebarFooter>
             <CSidebarFooter className="border-top d-none d-lg-flex">
                 <CSidebarToggler
                     onClick={() =>

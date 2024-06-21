@@ -4,10 +4,13 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axiosInstance from "../auth/axiosInstance";
 import "../css/ChangePassword.css";
+import { useState } from "react";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const ChangePassword = () => {
+
+    const [isLoading,setIsLoading]=useState()
 
     const {
         register,
@@ -70,13 +73,12 @@ const ChangePassword = () => {
                 style={{
                     display:"flex",
                     justifyContent:"center",
-                    alignItems:"center"
-
+                    alignItems:"center",
+                    width:"100%"
                 }}
                 
                 color="dark" variant="outline" size="lg" type="submit">
-                    Change Password
-                    {/* {isLoading ? <LoaderW /> : "Login"} */}
+                    {isLoading ? <LoaderW /> : "Change Password"}
                 </CButton>
             </CForm>
         </>

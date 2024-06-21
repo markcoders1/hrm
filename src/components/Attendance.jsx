@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow } from "@coreui/react";
 import "../css/Attendance.css";
-import { useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 import axiosInstance from "../auth/axiosInstance";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const Attendance = () => {
+    const setHeadertext = useOutletContext()
+    // const user = useSelector((state) => state.user);
     const [loading, setLoading] = useState(true);
     const [employeeData, setEmployeeData] = useState([]);
     const [fromDate, setFromDate] = useState("");
@@ -14,6 +16,8 @@ const Attendance = () => {
     const { id } = useParams(); // Extracting id from the URL parameters
 
     const accessToken = sessionStorage.getItem('accessToken');
+
+    setHeadertext("User Attendance")
 
     function millisecondsToHMS(milliseconds) {
         const date = new Date(milliseconds);

@@ -1,19 +1,4 @@
-.profile-container{
-    width: 100%;
-   
- 
-}
-.profile-heading{
-    display: flex;
-    margin: auto;
-    background-color: #010115;
-    color: white;
-    padding: 10px 0px;
-    font-family: 'Poppins', sans-serif;
-    justify-content: center;
-    align-items: center;
-  
-}
+
 .profile-heading > h1{
     text-align: center;
     /* border: 2px solid red;    */
@@ -22,12 +7,9 @@
 
 
 .profile-information-container{
-    /* border: 3px solid black; */
     width: 100%;
     display: flex;
-    /* gap: 2rem; */
     flex-wrap: wrap;
-    /* margin-top: 45px; */
     justify-content: space-between;
     gap: 2rem;
     background-color: white;
@@ -35,21 +17,40 @@
     border-radius: 10px;
     
 }
-/* .padding{
-    padding: 0 50px;
-} */
-.profile-information-container > .input-box{
+.profile-information-container > .input{
     display: flex;
-   width: 48%;
-    /* border: 2px solid rgba(112, 128, 144,0.5); */
+    width: 48%;
     background-color: rgb(255, 255, 255);
-    padding: 15px 15px;
-    outline: none;
-    border-radius: 5px;
-    border: rgb(112, 128, 144,0.6) solid 1px;
-    
 }
-.profile-information-container > .input-box > label{
+
+.input-box{
+    border: 2px solid rgba(112, 128, 144,0.3);
+    border-radius: 5px;
+    width: 75%;
+    height: fit-content;
+    padding: 15px 15px;
+}
+
+.input-label{
+    width: 25%;
+    padding: 15px 15px;
+}
+.pwd-btn{
+    border: 2px solid rgba(112, 128, 144,0.3);
+    padding: 15px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    transition: background-color 0.2s ease-in-out,color 0.2s ease-in-out;
+}
+
+.pwd-btn:hover{
+    background-color: #33aee2;
+    color: white;
+}
+
+/* .profile-information-container > .input-box > label{
     display: flex;
     color: black;
     font-size: 1.1rem;
@@ -60,7 +61,7 @@
 #changePassword{
     text-decoration: none;
     cursor: pointer;
-}
+} */
 @media only screen and (max-width: 788px){
     .profile-information-container > .input-box{
         display: flex;

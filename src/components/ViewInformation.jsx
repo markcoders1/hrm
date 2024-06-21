@@ -1,41 +1,38 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
-import { useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 import axiosInstance from "../auth/axiosInstance";
 import "../PagesCss/Profile.css";
 import {Loader} from "./Loaders";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const ViewInformation = () => {
+    const setHeadertext = useOutletContext()
     const [accessToken, setAccessToken] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    const [allEmployee, setAllEmployee] = useState([]);
-    let { id } = useParams();
-
+    const [employeeData, setEmployeeData] = useState([]);
+    const { id } = useParams();
     useEffect(() => {
         const accessToken = localStorage.getItem("accessToken");
         setAccessToken(accessToken);
     }, []);
 
     useEffect(() => {
-        id = id.toString()
-        console.log(typeof id)
-
+        setHeadertext('Employee Data')
         const getSpecificUser = async () => {
             try {
                 const response = await axiosInstance({
                     url: `${apiUrl}/api/admin/getUser`,
                     method: "get",
                     params: {
-                        userId: id,
+                        id
                     },
                 });
-                // const dataAllEmployee = response.data;
-                // setAllEmployee(dataAllEmployee);
+                const dataAllEmployee = response.data.user;
+                setEmployeeData(dataAllEmployee);
                 setLoading(false);
-                console.log(response);
             } catch (error) {
                 console.error(error);
             }
@@ -45,15 +42,13 @@ const ViewInformation = () => {
 
     return (
         <div className="profile-container">
-            {id}
-            
             <div
                 className={
                     loading
                         ? "profile-information-container"
                         : "profile-information-container padding"
                 }>
-                {!loading ? (
+                {loading ? (
                     <div className="loaderContainer">
                         <Loader />
                     </div>
@@ -61,53 +56,53 @@ const ViewInformation = () => {
                     <>
                         <div className="input-box">
                             <label>
-                                First Name : <span>yourData.firstName</span>{" "}
+                                First Name : <span>{employeeData.firstName}</span>
                             </label>
                         </div>
                         <div className="input-box">
                             <label>
-                                Last Name : <span>yourData.lastName</span>{" "}
+                                Last Name : <span>{employeeData.lastName}</span>
                             </label>
                         </div>
                         <div className="input-box">
                             <label>
-                                Email : <span>yourData.email</span>{" "}
+                                Email : <span>{employeeData.email}</span>
                             </label>
                         </div>
                         <div className="input-box">
                             <label>
-                                Phone : <span>yourData.phone</span>{" "}
+                                Phone : <span>{employeeData.phone}</span>
                             </label>
                         </div>
                         <div className="input-box">
                             <label>
-                                Department : <span>yourData.department</span>{" "}
+                                Department : <span>{employeeData.department}</span>
                             </label>
                         </div>
                         <div className="input-box">
                             <label>
-                                Designation : <span>yourData.designation</span>{" "}
+                                Designation : <span>{employeeData.designation}</span>
                             </label>
                         </div>
 
                         <div className="input-box">
                             <label>
-                                Shift : <span>yourData.shift</span>{" "}
+                                Shift : <span>{employeeData['shift']}</span>
                             </label>
                         </div>
                         <div className="input-box">
                             <label>
-                                Team Lead : <span>yourData.teamLead</span>{" "}
+                                Team Lead : <span>{employeeData.teamLead}</span>
                             </label>
                         </div>
                         <div className="input-box">
                             <label>
-                                Status : <span>yourData.status</span>{" "}
+                                Status : <span>{employeeData.status}</span>
                             </label>
                         </div>
                         <div className="input-box">
                             <label>
-                                Company ID : <span>yourData.companyId</span>{" "}
+                                Company ID : <span>{employeeData.companyId}</span>
                             </label>
                         </div>
                     </>

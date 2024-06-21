@@ -18,7 +18,7 @@ const Login = () => {
         const refreshToken = localStorage.getItem("refreshToken");
         if (refreshToken) {
             sessionStorage.setItem("refreshToken", refreshToken);
-            navigate("/dashboard/profile")
+            navigate("/checkin")
         }
 
     }, []);
@@ -44,7 +44,7 @@ const Login = () => {
             if (rememberMe) {
                 localStorage.setItem("refreshToken", response.data.refreshToken);
             }
-            navigate("/dashboard/profile");
+            navigate("/checkin");
             toast.success("User Logged In Successfully", {
                 position: "top-center",
             });

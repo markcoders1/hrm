@@ -1,4 +1,7 @@
-
+.Home-container{
+    display: flex;
+    justify-content: center;
+}
 
 .check-container {
     /* border: 2px solid rgb(123, 104, 104); */

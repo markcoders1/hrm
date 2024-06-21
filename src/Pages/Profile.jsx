@@ -41,36 +41,36 @@ const Profile = () => {
             <div className={loading ? "profile-information-container" :"profile-information-container padding"}>
                 {loading ? <div className='loaderContainer'><Loader /></div>:
                     <>
-                        <div className="input-box">
-                            <label >First Name : <span>{`  ${yourData.firstName}`}</span> </label>
+                        <div className="input">
+                            <div className='input-label'>First Name : </div><div className='input-box'>{`  ${yourData.firstName}`}</div>
                         </div>
-                        <div className="input-box">
-                            <label >Last Name : <span>{`  ${yourData.lastName}`}</span> </label>
+                        <div className="input">
+                            <div className='input-label'>Last Name : </div><div className='input-box'>{`  ${yourData.lastName}`}</div>
                         </div>
-                        <div className="input-box">
-                            <label >Email : <span>{`  ${yourData.email}`}</span> </label>
+                        <div className="input">
+                            <div className='input-label'>Email : </div><div className='input-box'>{`  ${yourData.email}`}</div>
                         </div>
-                        <div className="input-box">
-                            <label >Phone : <span>{`  ${yourData.phone}`}</span> </label>
+                        <div className="input">
+                            <div className='input-label'>Phone : </div><div className='input-box'>{`  ${yourData.phone}`}</div>
                         </div>
-                        <div className="input-box">
-                            <label >Department : <span>{`  ${yourData.department}`}</span> </label>
+                        <div className="input">
+                            <div className='input-label'>Department : </div><div className='input-box'>{`  ${yourData.department}`}</div>
                         </div>
-                        <div className="input-box">
-                            <label >Designation : <span>{`  ${yourData.designation}`}</span> </label>
+                        <div className="input">
+                            <div className='input-label'>Designation : </div><div className='input-box'>{`  ${yourData.designation}`}</div>
                         </div>
 
-                        <div className="input-box">
-                            <label >Shift : <span>{`  ${yourData.shift}`}</span> </label>
+                        <div className="input">
+                            <div className='input-label'>Shift : </div><div className='input-box'>{`  ${yourData.shift}`}</div>
                         </div>
-                        <div className="input-box">
-                            <label >Team Lead : <span>{`  ${yourData.teamLead}`}</span> </label>
+                        <div className="input">
+                            <div className='input-label'>Team Lead : </div><div className='input-box'>{`  ${yourData.teamLead}`}</div>
                         </div>
-                        <div className="input-box">
-                            <label >Status : <span>{`  ${yourData.status}`}</span> </label>
+                        <div className="input">
+                            <div className='input-label'>Status : </div><div className='input-box'>{`  ${yourData.status}`}</div>
                         </div>
-                        <div className="input-box" onClick={()=>navigate('/changepassword')}>
-                            <label id='changePassword' >Change Password</label>
+                        <div className="input pwd-btn" onClick={()=>navigate('/changepassword')}>
+                            Change Password
                         </div>
                     </>}
 

@@ -1,6 +1,6 @@
 import { CFormInput, CButton, CForm, CFormCheck } from "@coreui/react";
 import { useForm } from "react-hook-form";
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate, NavLink, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosInstance from "../auth/axiosInstance";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,6 +12,8 @@ import '../css/Login.css'
 const Login = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
+    // const [accessToken,setAccessToken]= useState(null)
+    const setAccessToken = useOutletContext();
     const navigate = useNavigate();
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -42,10 +44,13 @@ const Login = () => {
 
             sessionStorage.setItem("accessToken", response.data.accessToken);
             sessionStorage.setItem("refreshToken", response.data.refreshToken);
+            setAccessToken(response.data.accessToken)
             if (rememberMe) {
                 localStorage.setItem("refreshToken", response.data.refreshToken);
             }
             navigate("/checkin");
+            // window.location.href = "/checkin";
+
             toast.success("User Logged In Successfully", {
                 position: "top-center",
             });

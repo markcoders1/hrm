@@ -3,6 +3,7 @@ import { CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTabl
 import "../css/Attendance.css";
 import { useOutletContext, useParams } from "react-router-dom";
 import axiosInstance from "../auth/axiosInstance";
+import { Loader } from "./Loaders";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 

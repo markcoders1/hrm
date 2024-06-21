@@ -1,43 +1,33 @@
 import { useEffect, useState } from "react";
 import "../css/Employee.css";
-import "primereact/resources/themes/lara-light-cyan/theme.css";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
+import { CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow, CButton  } from "@coreui/react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { TextField } from '@mui/material';
 import axiosInstance from "../auth/axiosInstance";
-import {Loader} from "./Loaders";
-
+import { Loader } from "./Loaders";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const Employee = () => {
     const navigate = useNavigate();
-
-    const setHeadertext=useOutletContext()
-    // const user = useSelector((state) => state.user);
+    const setHeadertext = useOutletContext();
     const [allEmployee, setAllEmployee] = useState([]);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
     const [filteredEmployees, setFilteredEmployees] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-
-
-
-    // const accessToken = user?.user?.accessToken || "";
 
     useEffect(() => {
         const getAllUser = async () => {
             try {
-                setHeadertext('Employees')
+                setHeadertext('Employees');
                 const response = await axiosInstance({
                     url: `${apiUrl}/api/admin/getAllUsers`,
                     method: "get",
-                   
                 });
                 const dataAllEmployee = response.data;
                 setAllEmployee(dataAllEmployee);
                 setFilteredEmployees(dataAllEmployee);
-                setLoading(false)
+                setLoading(false);
                 console.log(response);
             } catch (error) {
                 console.error(error);
@@ -57,86 +47,63 @@ const Employee = () => {
         const navigateUseInformation = () => {
             navigate(`viewInformation/${rowData._id}`);
         };
-        return <button className={"attendanceButton"} onClick={navigateUseInformation}>Detalis</button>;
+        return <button className={"attendanceButton"} onClick={navigateUseInformation}>Details</button>;
+        
     };
 
     useEffect(() => {
-        const getAllUser = async () => {
-            try {
-                const response = await axiosInstance({
-                    url: `${apiUrl}/api/admin/getAllUsers`,
-                    method: "get",
-                });
-                console.log("response", response.data);
-                const dataAllEmployee = response.data;
-                setAllEmployee(dataAllEmployee);
-                setFilteredEmployees(dataAllEmployee);
-                console.log(response);
-            } catch (error) {
-                console.error(error);
-            }
-        }
-        getAllUser();
-    }, []);
-
-    useEffect(() => {
         const results = allEmployee.filter(employee =>
-            employee.firstName.toLowerCase().includes(searchTerm.toLowerCase()) || employee.lastName.toLowerCase().includes(searchTerm.toLowerCase()) || employee.email.toLowerCase().includes(searchTerm.toLowerCase())
+            employee.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            employee.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            employee.email.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredEmployees(results);
     }, [searchTerm, allEmployee]);
+
     return (
-        <>
-            <div className='sheet-container-admin'>
-                <div className="search-container">
-                </div>
-                <div>
-                    <TextField
-                        style={{
-                            width: "300px",
-                            marginLeft: "20px"
-
-                        }}
-                        label="Search by Name & Email"
-                        variant="outlined"
-                        fullWidth
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                    {loading ? <div className="loaderContainer"><  Loader /></div> :
-                        <DataTable
-                            id='datatable-container'
-                            value={filteredEmployees}
-                            tableStyle={{ minWidth: '50rem', maxWidth: '100%', margin: 'auto' }}
-                            paginator
-                            rows={30}
-                            sortField="id"
-                            sortOrder={1}>
-
-
-                            <Column
-                                field="firstName"
-                                header="First Name"
-                                sortable></Column>
-                            <Column field="lastName" sortable header="Last Name"></Column>
-                            {/* <Column field="role" header="Role"></Column> */}
-                            {/* <Column field="phone" header="Phone"></Column> */}
-                            <Column field="email" sortable header="Email"></Column>
-                            {/* <Column field="department" header="Department"></Column> */}
-                            {/* <Column
-                                field="designation"
-                                header="Designation"></Column> */}
-                            {/* <Column field="shift" header="Shift"></Column> */}
-                            <Column
-                                body={buttonForViewDetails}
-                                header="Attendance"></Column>
-                            <Column
-                                body={buttonForViewInformation}
-                                header="View Details"></Column>
-                        </DataTable>}
-                </div>
+        <div className='sheet-container-admin'>
+            <div className="search-container">
+                <TextField
+                    style={{
+                        width: "300px",
+                        marginLeft: "20px"
+                    }}
+                    label="Search by Name & Email"
+                    variant="outlined"
+                    fullWidth
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
             </div>
-        </>
+            <div>
+                {loading ? (
+                    <div className="loaderContainer"><Loader /></div>
+                ) : (
+                    <CTable className="data-table" hover striped responsive>
+                        <CTableHead>
+                            <CTableRow>
+                                <CTableHeaderCell>First Name</CTableHeaderCell>
+                                <CTableHeaderCell>Last Name</CTableHeaderCell>
+                                <CTableHeaderCell>Email</CTableHeaderCell>
+                                <CTableHeaderCell>Attendance</CTableHeaderCell>
+                                <CTableHeaderCell>View Details</CTableHeaderCell>
+                            </CTableRow>
+                        </CTableHead>
+                        <CTableBody>
+                            {filteredEmployees.map((employee, index) => (
+                                <CTableRow  key={index}>
+                                    <CTableDataCell>{employee.firstName}</CTableDataCell>
+                                    <CTableDataCell>{employee.lastName}</CTableDataCell>
+                                    <CTableDataCell>{employee.email}</CTableDataCell>
+                                    <CTableDataCell>{buttonForViewDetails(employee)}</CTableDataCell>
+                                    <CTableDataCell>{buttonForViewInformation(employee)}</CTableDataCell>
+                                </CTableRow>
+                            ))}
+                        </CTableBody>
+                    </CTable>
+                )}
+            </div>
+        </div>
     );
 };
 

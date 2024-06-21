@@ -11,96 +11,24 @@
     padding: 30px 10px 30px 40px;
     display: flex;
     flex-direction: column;
-   
+
     background-color: white;
     /* border-radius: 10px; */
-
-
 }
 
-#datatable-container {
-    width: 100%;
-    margin: auto;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 30px;
-
-}
-
-.sheet-container-admin>h1 {
-    width: 100%;
-    padding: 10px 0px;
-    background-color: #010115;
-    color: white;
-    border-radius: 10px;
-    font-family: "Poppins", sans-serif;
-    letter-spacing: 1px;
-    font-weight: 500;
-    z-index: 10000;
-
-}
-
-/* custom-styles.css */
-#datatable-container .p-datatable {
-    background-color: #ffffff;
-    color: rgb(0, 0, 0);
-}
-
-#datatable-container .p-datatable-header {
-    background-color: #ffffff;
-    color: rgb(0, 0, 0);
-
-}
-
-#datatable-container .p-datatable-thead>tr>th {
-    padding: 25px 20px;
-    background-color: #ffffff;
-    color: #034F75;
-    font-size: 1.3rem;
-    /* background-color:  !important; */
-    font-weight: bolder !important;
-}
-
-#datatable-container .p-datatable-tbody>tr>td {
-    background-color: #ffffff;
-    color: #034F75;
-    padding: 15.5px 20px;
-    font-weight: 600;
-    /* letter-spacing: 1px; */
-    font-size: 1.2rem;
-}
-
-#datatable-container .p-datatable-footer {
-    background-color: #ffffff;
-    color: rgb(0, 0, 0);
-}
-
-#datatable-container .p-paginator {
-    background-color: rgba(255, 255, 255, 1);
-    color: rgb(0, 0, 0);
-}
-
-/* .attendanceButton{
-    padding:5px 10px;
-    background-color: #3498db;
-    border-radius: 20px;
-    border: none;
-    color: white;
-    cursor: pointer;
-} */
 
 
 .attendanceButton {
     border: none;
     outline: none;
-    padding: 8px 0px;
+    padding: 3px 5px;
     /* border: 1px solid red; */
     background-color: transparent;
-    width: 140px;
+    
     background-color: #010115;
     color: white;
     outline: none;
-    border-radius: 4px;
+    border-radius: 3px;
     cursor: pointer;
     transition: .3s ease;
 
@@ -109,5 +37,5 @@
 
 .attendanceButton:hover {
     color: rgb(255, 255, 255);
-    background-color: #212631;
+    background-color: #24A3D9;
 }

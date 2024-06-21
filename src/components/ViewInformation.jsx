@@ -12,7 +12,7 @@ const ViewInformation = () => {
     const [loading, setLoading] = useState(true);
 
     const [allEmployee, setAllEmployee] = useState([]);
-    const { id } = useParams();
+    let { id } = useParams();
 
     useEffect(() => {
         const accessToken = localStorage.getItem("accessToken");
@@ -20,6 +20,9 @@ const ViewInformation = () => {
     }, []);
 
     useEffect(() => {
+        id = id.toString()
+        console.log(typeof id)
+
         const getSpecificUser = async () => {
             try {
                 const response = await axiosInstance({
@@ -29,8 +32,8 @@ const ViewInformation = () => {
                         userId: id,
                     },
                 });
-                const dataAllEmployee = response.data;
-                setAllEmployee(dataAllEmployee);
+                // const dataAllEmployee = response.data;
+                // setAllEmployee(dataAllEmployee);
                 setLoading(false);
                 console.log(response);
             } catch (error) {
@@ -43,12 +46,7 @@ const ViewInformation = () => {
     return (
         <div className="profile-container">
             {id}
-            <div className="profile-heading">
-                <h1>User Profile</h1>
-                {/* <span className='menu-bar' onClick={handleToggleSidebar}  >
-                <IoMenuOutline />
-            </span> */}
-            </div>
+            
             <div
                 className={
                     loading

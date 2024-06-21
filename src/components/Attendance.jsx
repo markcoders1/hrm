@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import "primereact/resources/themes/lara-light-cyan/theme.css";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
+import { CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow } from "@coreui/react";
 import "../css/Attendance.css";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../auth/axiosInstance";
@@ -9,7 +7,6 @@ import axiosInstance from "../auth/axiosInstance";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const Attendance = () => {
-    // const user = useSelector((state) => state.user);
     const [loading, setLoading] = useState(true);
     const [employeeData, setEmployeeData] = useState([]);
     const [fromDate, setFromDate] = useState("");
@@ -29,7 +26,6 @@ const Attendance = () => {
 
     function millisecondsTo12HourFormat(milliseconds) {
         const date = new Date(milliseconds);
-        // Adjust to Pakistani timezone (UTC+5)
         const timezoneOffset = 5 * 60 * 60 * 1000; // 5 hours in milliseconds
         const pakistaniTime = new Date(date.getTime() + timezoneOffset);
 
@@ -53,7 +49,6 @@ const Attendance = () => {
                         to: toDate ? new Date(toDate).getTime() : undefined,
                     },
                 });
-                console.log(response);
 
                 const transformedData = response.data.result.map((item) => ({
                     ...item,
@@ -62,9 +57,7 @@ const Attendance = () => {
                     formattedCheckOut: millisecondsTo12HourFormat(item.checkOut),
                     formattedBreakDuration: millisecondsToHMS(item.breakDuration),
                     formattedNetDuration: millisecondsToHMS(item.netDuration),
-                    formattedTotalDuration: millisecondsToHMS(
-                        item.totalDuration
-                    ),
+                    formattedTotalDuration: millisecondsToHMS(item.totalDuration),
                 }));
 
                 setEmployeeData(transformedData);
@@ -76,32 +69,9 @@ const Attendance = () => {
         getEmployeeData();
     }, [accessToken, id, fromDate, toDate]); // Include fromDate and toDate in the dependency array
 
-    const netDurationBodyTemplate = (rowData) => {
-        return <span>{rowData.formattedNetDuration}</span>;
-    };
-    const checkInBodyTemplate = (rowData) => {
-        return <span>{rowData.formattedCheckIn}</span>;
-    };
-    const dateBodyTemplate = (rowData) => {
-        return <span>{rowData.formattedDate}</span>;
-    };
-    const checkOutBodyTemplate = (rowData) => {
-        return <span>{rowData.formattedCheckOut}</span>;
-    };
-
-    const breakDurationBodyTemplate = (rowData) => {
-        return <span>{rowData.formattedBreakDuration}</span>;
-    };
-
-    const totalDurationBodyTemplate = (rowData) => {
-        return <span>{rowData.formattedTotalDuration}</span>;
-    };
-
     return (
         <div className='sheet-container'>
-            <h1 style={{ textAlign: 'center' }}>ATTENDANCE SHEET</h1>
-
-            <div className="mini-container-attendance"  >
+            <div className="mini-container-attendance">
                 <div className="date-filters">
                     <label>
                         From : &nbsp;
@@ -112,7 +82,7 @@ const Attendance = () => {
                         />
                     </label>
                     <label>
-                        To :  &nbsp;
+                        To : &nbsp;
                         <input
                             type="date"
                             value={toDate}
@@ -120,27 +90,36 @@ const Attendance = () => {
                         />
                     </label>
                 </div>
-                {loading ? <div className="loaderContainer"><div className="loader"></div></div>
-                    : <DataTable
-                        id="datatable-container-user"
-                        value={employeeData}
-                        tableStyle={{
-                            minWidth: "30rem",
-                            maxWidth: "80%",
-                            margin: "auto",
-                        }}
-                        paginator
-                        rows={30}
-                        sortField="_id"
-                        sortOrder={1}
-                    >
-                        <Column body={dateBodyTemplate} header="DATE"></Column>
-                        <Column body={checkInBodyTemplate} header="Check IN"></Column>
-                        <Column body={checkOutBodyTemplate} header="CHECK OUT"></Column>
-                        <Column body={breakDurationBodyTemplate} header="BREAK DOWN"></Column>
-                        <Column body={totalDurationBodyTemplate} header="TOTAL DURATION"></Column>
-                        <Column body={netDurationBodyTemplate} header="NET DURATION"></Column>
-                    </DataTable>}
+                {loading ? (
+                    <div className="loaderContainer">
+                        <div className="loader"></div>
+                    </div>
+                ) : (
+                    <CTable className="data-table" hover striped responsive>
+                        <CTableHead>
+                            <CTableRow>
+                                <CTableHeaderCell className="table-head" >DATE</CTableHeaderCell>
+                                <CTableHeaderCell className="table-head">Check IN</CTableHeaderCell>
+                                <CTableHeaderCell className="table-head">CHECK OUT</CTableHeaderCell>
+                                <CTableHeaderCell className="table-head">BREAK DURATION</CTableHeaderCell>
+                                <CTableHeaderCell className="table-head">TOTAL DURATION</CTableHeaderCell>
+                                <CTableHeaderCell className="table-head">NET DURATION</CTableHeaderCell>
+                            </CTableRow>
+                        </CTableHead>
+                        <CTableBody  >
+                            {employeeData.map((item, index) => (
+                                <CTableRow className="table-body" key={index}>
+                                    <CTableDataCell>{item.formattedDate}</CTableDataCell>
+                                    <CTableDataCell>{item.formattedCheckIn}</CTableDataCell>
+                                    <CTableDataCell>{item.formattedCheckOut}</CTableDataCell>
+                                    <CTableDataCell>{item.formattedBreakDuration}</CTableDataCell>
+                                    <CTableDataCell>{item.formattedTotalDuration}</CTableDataCell>
+                                    <CTableDataCell>{item.formattedNetDuration}</CTableDataCell>
+                                </CTableRow>
+                            ))}
+                        </CTableBody>
+                    </CTable>
+                )}
             </div>
         </div>
     );

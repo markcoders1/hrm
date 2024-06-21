@@ -4,91 +4,40 @@
 }
 .mini-container-attendance{
     background-color: white;
-    margin-top: 20px;
+     
+    padding: 40px 20px;
     border-radius: 10px;
-    width: 100%;
-}
-#datatable-container-user{
-    width: 100%;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 30px;
-    background-color: #ffffff;
-}
-.sheet-container > h1{
-    width: 100%;
-    background-color:#010115;
-    color: white;
-   
-    font-family: "Poppins", sans-serif;
-    letter-spacing: 1px;
-    font-weight: 500;
-    font-size: 1.8rem;
-    
-}
-/* custom-styles.css */
-#datatable-container-user .p-datatable {
-    background-color: #ffffff;
-    color: rgb(0, 0, 0);
 }
 
-#datatable-container-user .p-datatable-header {
-    background-color:#010115;
-    color: rgb(0, 0, 0);
-
-}
-
-#datatable-container-user .p-datatable-thead > tr > th {
-    padding: 25px 20px ;
-    background-color: #ffffff;
-    color: #034F75;
-    font-size: 1.3rem;
-    /* background-color:  !important; */
-    font-weight: bolder !important;
-
-
-}
-
-#datatable-container-user .p-datatable-tbody > tr > td {
-    background-color: #ffffff;
-    color:  #012E88;
-    padding: 15.5px 20px; 
-    font-weight:500;
-    font-size: 1.05rem;
-}
-
-#datatable-container-user .p-datatable-footer {
-    background-color: #ffffff;
-    color: rgb(0, 0, 0);
-    
-}
-
-#datatable-container-user .p-paginator {
-    background-color: rgba(255, 255, 255, 1);
-    color: rgb(0, 0, 0);
-}
 
 .date-filters{
-    /* border: 2px solid red; */
-    padding: 30px 0px 0px 20px;
     display: flex;
-    gap: 2rem;
+    gap: 3rem;
+    /* border: 2px solid red; */
 }
-.date-filters > label {
-    font-size: 1.2rem;
+.date-filters > label{
+    color:#2495C6 ;
+    font-weight: 500;
 }
 .date-filters > label > input{
-   width: 190px;
-   height: 30px;
-   outline: none;
-   border: 1px solid ;
-   border: none;
-   border-bottom: 1px solid rgb(14, 14, 14);
-   padding: 0px 10px;
-   /* border-radius: 5px; */
-
-    
+    outline: none;
+    border: none;
+    border-bottom: 1px solid rgb(26, 26, 116);
+    /* border: 1px solid rgb(26, 26, 116); */
+    padding: 5px 10px;
+    /* border-radius: 3px; */
 }
+.data-table{
+    margin-top: 20px;
+}
+.table-head{
+    color: rgb(23, 23, 139) !important;
+    font-size: 1.2rem;
+    font-style: normal;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+}
+
 @media only screen and (max-width: 700px){
     .sheet-container{
         width: 100%;

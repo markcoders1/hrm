@@ -9,6 +9,7 @@ import { CButton, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle } 
 
 const SingleLayout = () => {
     const [refreshToken, setRefreshToken] = useState(null);
+    const [accessToken, setaccessToken] = useState(null);
     const navigate = useNavigate();
     const [visible,setVisible]=useState(false)
 
@@ -27,7 +28,12 @@ const SingleLayout = () => {
     useEffect(() => {
         const token = sessionStorage.getItem("refreshToken") || localStorage.getItem("refreshToken");
         setRefreshToken(token);
-    }, []);
+        const accessToken = localStorage.getItem("accessToken")
+        setaccessToken(accessToken)
+        
+    }, [setRefreshToken,accessToken]);
+
+
 
 
    
@@ -37,7 +43,7 @@ const SingleLayout = () => {
             <div className="dark-background"></div>
             <div className="dashboard-link">
                 {
-                    refreshToken ?
+                    refreshToken || accessToken ?
                         <>
                             <div className="dashboard-logo">
                                 <img src="/logo.svg" alt="hi" onClick={()=>navigate('/')}/>

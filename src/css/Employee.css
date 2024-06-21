@@ -21,10 +21,10 @@
 .attendanceButton {
     border: none;
     outline: none;
-    padding: 3px 5px;
+    padding: 3px 0px;
     /* border: 1px solid red; */
     background-color: transparent;
-    
+    width: 90px;
     background-color: #010115;
     color: white;
     outline: none;

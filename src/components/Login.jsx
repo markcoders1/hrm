@@ -1,11 +1,12 @@
 import { CFormInput, CButton, CForm, CFormCheck } from "@coreui/react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosInstance from "../auth/axiosInstance";
 import "react-toastify/dist/ReactToastify.css";
 import { LoaderW } from "./Loaders";
 import { useState, useEffect } from "react";
+
 import '../css/Login.css'
 
 const Login = () => {
@@ -89,6 +90,9 @@ const Login = () => {
                             size="lg"
                         />
                         {errors.password && <span className="error">{errors.password.message}</span>}
+                        <div
+                            className="forget-pass-btn"
+                        > <NavLink to='forgotPassword' >Forget Password</NavLink> </div>
                         <CFormCheck
                             className="mb-3"
                             label="Remember Me"
@@ -103,9 +107,9 @@ const Login = () => {
                             justifyContent: "center",
                             alignItems: "center",
                             height: "45px",
-                            width:"100%",
-                            backgroundColor:"#010115",
-                            color:"white"
+                            width: "100%",
+                            backgroundColor: "#010115",
+                            color: "white"
 
                         }}
 

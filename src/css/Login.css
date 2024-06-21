@@ -14,3 +14,14 @@
     padding: 2rem 4rem;
     
 }
+
+.forget-pass-btn{
+    color: rgb(23, 10, 78);
+    /* border: 2px solid red; */
+    text-align: end;
+    font-weight: 600;
+    cursor: pointer;
+}
+.forget-pass-btn:hover{
+    color: rgb(64, 64, 255);
+}

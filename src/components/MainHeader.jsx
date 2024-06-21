@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { CButton, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle } from "@coreui/react";
 
 
-const MainHeader = ({accessToken}) => {
+const MainHeader = ({accessToken,setAccessToken}) => {
 
     const [refreshToken, setRefreshToken] = useState(null);
     // const [accessToken, setaccessToken] = useState(null);
@@ -22,7 +22,7 @@ const MainHeader = ({accessToken}) => {
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('userData');
         setRefreshToken(null);
-        setaccessToken(null)
+        setAccessToken(null)
         setVisible(false);
         navigate("/");
     };

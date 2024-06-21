@@ -10,7 +10,7 @@ import MainHeader from "../components/MainHeader";
 
 const SingleLayout = () => {
     // const [refreshToken, setRefreshToken] = useState(null);
-    const [accessToken, setaccessToken] = useState(null);
+    const [accessToken, setAccessToken] = useState(null);
     // const navigate = useNavigate();
     // const [visible, setVisible] = useState(false)
 
@@ -69,11 +69,11 @@ const SingleLayout = () => {
                 }
 
             </div> */}
-            <MainHeader accessToken={accessToken} />
+            <MainHeader accessToken={accessToken} setAccessToken={setAccessToken} />
             <div className="form-container">
                 <div className="form">
                     <div className="form-left">
-                        <Outlet context={setaccessToken} />
+                        <Outlet context={setAccessToken} />
                     </div>
                     <div className="form-right-image">
                         <img src={PNG} alt="" />

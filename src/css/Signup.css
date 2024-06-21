@@ -87,7 +87,7 @@ form {
     /* border: 3px solid rgb(41, 7, 7); */
 }
 
-.register-btn>input {
+.register-btn>.signup-btn {
     color: rgb(228, 219, 219);
     background-color: #010115;
     padding: 17px 10px;
@@ -100,6 +100,18 @@ form {
     cursor: pointer;
 
 }
+
+.form-select-custom {
+    height: 55px; /* Adjust height to match CFormInput */
+    background-color: #F0F3F6; /* Ensure background color matches */
+    border: none; /* Match border style */
+    border-radius: 0.55rem; /* Match border radius */
+    padding: 0.375rem 0.75rem; /* Match padding */
+    font-size: 1rem; /* Ensure font size matches */
+    line-height: 1.5; /* Ensure line height matches */
+    color: #495057; /* Ensure text color matches */
+}
+
 
 
 @media only screen and (max-width: 800px){

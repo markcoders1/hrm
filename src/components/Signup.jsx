@@ -1,12 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import '../css/Signup.css';
+import { CForm, CFormInput, CFormSelect, CButton } from '@coreui/react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { MenuItem, Select, FormControl, InputLabel, TextField } from '@mui/material';
 import { useSelector } from 'react-redux';
 import axiosInstance from '../auth/axiosInstance';
 import { useOutletContext } from 'react-router-dom';
+import '../css/Signup.css';
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -16,21 +16,18 @@ const Signup = () => {
 
     const admin_token = user?.user?.accessToken || '';
     const config_admin = {
-        headers: { Authorization: `Bearer ${admin_token}`}
+        headers: { Authorization: `Bearer ${admin_token}` }
     };
 
     useEffect(() => {
-        setHeadertext('Register Employee')
+        setHeadertext('Register Employee');
     }, []);
 
     const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm();
 
     const onSubmit = async (data) => {
         try {
-            let { email, password, firstName, lastName, DOB, CNIC, designation, phone, teamLead, shift, department, role,companyId } = data;
-            
-            console.log(CNIC);
-            console.log(DOB)
+            let { email, password, firstName, lastName, DOB, CNIC, designation, phone, teamLead, shift, department, role, companyId } = data;
 
             const response = await axiosInstance.post(`${apiUrl}/api/admin/register`, {
                 email,
@@ -48,223 +45,189 @@ const Signup = () => {
                 companyId
             }, config_admin);
 
-            console.log(response);
             toast.success("User Registered Successfully", { position: "top-center" });
-            console.log(response.data);
             reset();
         } catch (error) {
             toast.error(error.response?.data?.message[0].message || error.message || "Failed to sign up", { position: "top-center" });
-            console.log(error.message);
-            console.log(error)
         }
     };
 
     return (
         <div className="form-container-register">
             <div className='form-register'>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <CForm onSubmit={handleSubmit(onSubmit)}>
                     <div className="input-row-register">
                         <div className='child-row'>
-                            <TextField
+                            <CFormInput
                                 label="First Name"
                                 id="firstName"
-                                variant="outlined"
-                                fullWidth
+                                placeholder="First Name"
                                 {...register('firstName', { required: "First Name is required" })}
-                                error={!!errors.firstName}
-                                helperText={errors.firstName ? errors.firstName.message : ''}
+                                invalid={!!errors.firstName}
+                                feedback={errors.firstName ? errors.firstName.message : ''}
                             />
                         </div>
                         <div className='child-row'>
-                            <TextField
+                            <CFormInput
                                 label="Last Name"
                                 id="lastName"
-                                variant="outlined"
-                                fullWidth
+                                placeholder="Last Name"
                                 {...register('lastName', { required: "Last Name is required" })}
-                                error={!!errors.lastName}
-                                helperText={errors.lastName ? errors.lastName.message : ''}
+                                invalid={!!errors.lastName}
+                                feedback={errors.lastName ? errors.lastName.message : ''}
                             />
                         </div>
                     </div>
 
                     <div className="input-row-register">
                         <div className='child-row'>
-                            <TextField
+                            <CFormInput
                                 label="Email"
                                 id="email"
                                 type="email"
-                                variant="outlined"
-                                fullWidth
+                                placeholder="Email"
                                 {...register('email', { required: "Email is required" })}
-                                error={!!errors.email}
-                                helperText={errors.email ? errors.email.message : ''}
+                                invalid={!!errors.email}
+                                feedback={errors.email ? errors.email.message : ''}
                             />
                         </div>
                         <div className='child-row'>
-                            <TextField
+                            <CFormInput
                                 label="Password"
                                 id="password"
                                 type="password"
-                                variant="outlined"
-                                fullWidth
+                                placeholder="Password"
                                 {...register('password', { required: "Password is required" })}
-                                error={!!errors.password}
-                                helperText={errors.password ? errors.password.message : ''}
+                                invalid={!!errors.password}
+                                feedback={errors.password ? errors.password.message : ''}
                             />
                         </div>
                     </div>
 
                     <div className="input-row-register">
                         <div className='child-row'>
-                            <TextField
+                            <CFormInput
                                 label="Date of Birth"
                                 id="DOB"
                                 type="date"
-                                variant="outlined"
-                                fullWidth
-                                InputLabelProps={{ shrink: true }}
                                 {...register('DOB', { required: "Date of Birth is required" })}
-                                error={!!errors.DOB}
-                                helperText={errors.DOB ? errors.DOB.message : ''}
+                                invalid={!!errors.DOB}
+                                feedback={errors.DOB ? errors.DOB.message : ''}
                             />
                         </div>
                         <div className='child-row'>
-                            <TextField
-                                label="ENTER CNIC WITHOUT ANY SPACE"
+                            <CFormInput
+                                label="CNIC"
                                 id="CNIC"
-                                variant="outlined"
-                                fullWidth
+                                placeholder="ENTER CNIC WITHOUT ANY SPACE"
                                 {...register('CNIC', { required: "CNIC is required" })}
-                                error={!!errors.CNIC}
-                                helperText={errors.CNIC ? errors.CNIC.message : ''}
+                                invalid={!!errors.CNIC}
+                                feedback={errors.CNIC ? errors.CNIC.message : ''}
                             />
                         </div>
                     </div>
 
                     <div className="input-row-register">
                         <div className='child-row'>
-                            <TextField
-                                label="ENTER PHONE NO. WITHOUT ANY SPACE"
+                            <CFormInput
+                                label="Phone Number"
                                 id="phone"
-                                variant="outlined"
-                                fullWidth
+                                placeholder="ENTER PHONE NO. WITHOUT ANY SPACE"
                                 {...register('phone', { required: "Phone Number is required" })}
-                                error={!!errors.phone}
-                                helperText={errors.phone ? errors.phone.message : ''}
+                                invalid={!!errors.phone}
+                                feedback={errors.phone ? errors.phone.message : ''} 
                             />
                         </div>
                         <div className='child-row'>
-                            <TextField
+                            <CFormInput
                                 label="Designation"
                                 id="designation"
-                                variant="outlined"
-                                fullWidth
+                                placeholder="Designation"
                                 {...register('designation', { required: "Designation is required" })}
-                                error={!!errors.designation}
-                                helperText={errors.designation ? errors.designation.message : ''}
+                                invalid={!!errors.designation}
+                                feedback={errors.designation ? errors.designation.message : ''}
                             />
                         </div>
                     </div>
 
                     <div className="input-row-register">
                         <div className='child-row'>
-                            <TextField
+                            <CFormInput
                                 label="Team Lead"
                                 id="teamLead"
-                                variant="outlined"
-                                fullWidth
+                                placeholder="Team Lead"
                                 {...register('teamLead', { required: "Team Lead is required" })}
-                                error={!!errors.teamLead}
-                                helperText={errors.teamLead ? errors.teamLead.message : ''}
+                                invalid={!!errors.teamLead}
+                                feedback={errors.teamLead ? errors.teamLead.message : ''}
                             />
                         </div>
                         <div className='child-row'>
-                            <FormControl fullWidth variant="outlined">
-                                <InputLabel id="shift-label">Shift</InputLabel>
-                                <Select
-                                    labelId="shift-label"
-                                    id="shift"
-                                    label="Shift"
-                                    defaultValue=""
-                                    {...register('shift', { required: "Shift is required" })}
-                                    onChange={(e) => setValue('shift', e.target.value)}
-                                    error={!!errors.shift}
-                                >
-                                    <MenuItem value="morning">Morning</MenuItem>
-                                    <MenuItem value="evening">Evening</MenuItem>
-                                    <MenuItem value="night">Night</MenuItem>
-                                </Select>
-                                {errors.shift && <p className="error">{errors.shift.message}</p>}
-                            </FormControl>
+                            <CFormSelect
+                            className="form-select-custom"
+                                label="Shift"
+                                id="shift"
+                                {...register('shift', { required: "Shift is required" })}
+                                onChange={(e) => setValue('shift', e.target.value)}
+                                invalid={!!errors.shift}
+                            >
+                                <option value="">Select Shift</option>
+                                <option value="morning">Morning</option>
+                                <option value="evening">Evening</option>
+                                <option value="night">Night</option>
+                            </CFormSelect>
+                            {errors.shift && <p className="error">{errors.shift.message}</p>}
                         </div>
                     </div>
 
                     <div className="input-row-register">
                         <div className='child-row'>
-                            <TextField
+                            <CFormInput
                                 label="Department"
                                 id="department"
-                                variant="outlined"
-                                fullWidth
+                                placeholder="Department"
                                 {...register('department', { required: "Department is required" })}
-                                error={!!errors.department}
-                                helperText={errors.department ? errors.department.message : ''}
+                                invalid={!!errors.department}
+                                feedback={errors.department ? errors.department.message : ''}
                             />
                         </div>
                         <div className='child-row'>
-                            <FormControl fullWidth variant="outlined">
-                                <InputLabel id="role-label">Role</InputLabel>
-                                <Select
-                                    labelId="role-label"
-                                    id="role"
-                                    label="Role"
-                                    defaultValue=""
-                                    {...register('role', { required: "Employee Role is required" })}
-                                    onChange={(e) => setValue('role', e.target.value)}
-                                    error={!!errors.role}
-                                >
-                                    <MenuItem value="user">User</MenuItem>
-                                    <MenuItem value="admin">Admin</MenuItem>
-                                </Select>
-                                {errors.role && <p className="error">{errors.role.message}</p>}
-                            </FormControl>
-                            
+                            <CFormSelect
+                            className="form-select-custom"
+                                label="Role"
+                                id="role"
+                                {...register('role', { required: "Employee Role is required" })}
+                                onChange={(e) => setValue('role', e.target.value)}
+                                invalid={!!errors.role}
+                            >
+                                <option value="">Select Role</option>
+                                <option value="user">User</option>
+                                <option value="admin">Admin</option>
+                            </CFormSelect>
+                            {errors.role && <p className="error">{errors.role.message}</p>}
                         </div>
                     </div>
 
                     <div className="input-row-register">
                         <div className='child-row'>
-                            <TextField
+                            <CFormInput
                                 label="Company ID"
                                 id="companyId"
-                                variant="outlined"
-                                fullWidth
+                                placeholder="Company ID"
                                 {...register('companyId', { required: "Company Id is required" })}
-                                error={!!errors.companyId}
-                                helperText={errors.companyId ? errors.companyId.message : ''}
+                                invalid={!!errors.companyId}
+                                feedback={errors.companyId ? errors.companyId.message : ''}
                             />
                         </div>
-                        {/* <div className='child-row'>
-                            <TextField
-                                label="Designation"
-                                id="designation"
-                                variant="outlined"
-                                fullWidth
-                                {...register('designation', { required: "Designation is required" })}
-                                error={!!errors.designation}
-                                helperText={errors.designation ? errors.designation.message : ''}
-                            />
-                        </div> */}
                     </div>
 
                     <div className="register-btn">
-                        <input type="submit" value="Sign up" />
+                        <CButton color="primary" type="submit" className='signup-btn'>Sign up</CButton>
                     </div>
-                </form>
+                </CForm>
             </div>
         </div>
     );
 }
 
 export default Signup;
+ 

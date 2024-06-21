@@ -2,5 +2,15 @@
     
 }
 .Login-Header{
-    margin: 40px 0 0 56px;
+    /* margin: 40px 0 0 56px; */
+   /* background-color: red; */
+}
+.login-container{
+    display: flex;
+    gap: 01rem;
+    /* border: 2px solid red; */
+    flex-direction: column;
+    /* background-color: pink; */
+    padding: 2rem 4rem;
+    
 }

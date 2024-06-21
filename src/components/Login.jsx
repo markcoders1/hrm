@@ -4,8 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosInstance from "../auth/axiosInstance";
 import "react-toastify/dist/ReactToastify.css";
-import {LoaderW} from "./Loaders";
+import { LoaderW } from "./Loaders";
 import { useState, useEffect } from "react";
+import '../css/Login.css'
 
 const Login = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -19,7 +20,7 @@ const Login = () => {
             sessionStorage.setItem("refreshToken", refreshToken);
             navigate("/dashboard/profile")
         }
-        
+
     }, []);
 
     const {
@@ -64,49 +65,53 @@ const Login = () => {
 
     return (
         <>
-            <h1 className="Login-Header">Login</h1>
-            <CForm onSubmit={handleSubmit(onSubmit)}>
-                <div className="loginFields">
-                    <CFormInput
-                        type="email"
-                        id="email"
-                        floatingClassName="mb-3"
-                        floatingLabel="Email address"
-                        placeholder="name@example.com"
-                        {...register("email", { required: "Email is required" })}
-                        size="lg"
-                    />
-                    {errors.email && <span className="error">{errors.email.message}</span>}
-                    <CFormInput
-                        type="password"
-                        id="password"
-                        floatingClassName="mb-3"
-                        floatingLabel="Password"
-                        placeholder="Password"
-                        {...register("password", { required: "Password is required" })}
-                        size="lg"
-                    />
-                    {errors.password && <span className="error">{errors.password.message}</span>}
-                    <CFormCheck
-                        className="mb-3"
-                        label="Remember Me"
-                        checked={rememberMe}
-                        onChange={handleRememberMe}
-                    />
-                </div>
-                <CButton
-                
-                style={{
-                    display:"flex",
-                    justifyContent:"center",
-                    alignItems:"center"
+            <div className="login-container">
+                <h1 className="Login-Header">Login</h1>
+                <CForm onSubmit={handleSubmit(onSubmit)}>
+                    <div className="loginFields">
+                        <CFormInput
+                            type="email"
+                            id="email"
+                            floatingClassName="mb-3"
+                            floatingLabel="Email address"
+                            placeholder="name@example.com"
+                            {...register("email", { required: "Email is required" })}
+                            size="lg"
+                        />
+                        {errors.email && <span className="error">{errors.email.message}</span>}
+                        <CFormInput
+                            type="password"
+                            id="password"
+                            floatingClassName="mb-3"
+                            floatingLabel="Password"
+                            placeholder="Password"
+                            {...register("password", { required: "Password is required" })}
+                            size="lg"
+                        />
+                        {errors.password && <span className="error">{errors.password.message}</span>}
+                        <CFormCheck
+                            className="mb-3"
+                            label="Remember Me"
+                            checked={rememberMe}
+                            onChange={handleRememberMe}
+                        />
+                    </div>
+                    <CButton
 
-                }}
-                
-                color="dark" variant="outline" size="lg" type="submit">
-                    {isLoading ? <LoaderW /> : "Login"}
-                </CButton>
-            </CForm>
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            height: "45px",
+                            width:"100%"
+
+                        }}
+
+                        color="dark" variant="outline" size="lg" type="submit">
+                        {isLoading ? <LoaderW /> : "Login"}
+                    </CButton>
+                </CForm>
+            </div>
         </>
     );
 };

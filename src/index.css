@@ -93,10 +93,6 @@ transition: 3s ease;
   cursor: pointer;
   display: none;
 }
-/* css for login */
-.Login-Header {
-  margin: 40px 0 0 56px;
-}
 
 .toggleShowHide {
   /* Ensure the sidebar retains height when toggled */
@@ -135,7 +131,10 @@ transition: 3s ease;
   display: flex;
   border: 2px solid red;
 }
-
+.error{
+  color: red;
+  font-size: 0.9rem;
+}
 
 @media only screen and (max-width: 998px){
   .sidebar{

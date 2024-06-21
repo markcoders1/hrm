@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ForgotPassword } from './components/forgotPassword.jsx';
 import { Suspense } from 'react';
 import React from 'react';
+import { PageLoader } from './components/Loaders.jsx';
 
 const Login = React.lazy(() => import('./components/Login.jsx'));
 const Check = React.lazy(() => import('./Pages/Checkin.jsx'));
@@ -31,7 +32,7 @@ function App() {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<PageLoader />}>
             <Routes>
               <Route path='/' element={<SingleLayout />}>
                 <Route path='' element={<Login />} />

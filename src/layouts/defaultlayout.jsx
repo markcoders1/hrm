@@ -13,7 +13,7 @@ const DefaultLayout = () => {
       <AppSidebar />
       <div className="wrapper d-flex flex-column min-vh-100">
         <Header headertext={headertext}/>
-        <div className="body flex-grow-1">
+        <div className="body flex-grow-1 p-4">
           <Outlet context={setHeadertext}/>
         </div>
       </div>

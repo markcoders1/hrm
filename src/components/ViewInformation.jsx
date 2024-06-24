@@ -52,7 +52,7 @@ const ViewInformation = () => {
                 className={
                     loading
                         ? "profile-information-container"
-                        : "profile-information-container padding"
+                        : "profile-information-container"
                 }>
                 {loading ? (
                     <div className="loaderContainer">

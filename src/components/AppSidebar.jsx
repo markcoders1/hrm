@@ -125,14 +125,14 @@ const AppSidebar = () => {
                             Employees
                           </NavLink>
                         </CNavItem>
-                        <CNavItem>
+                        {/* <CNavItem>
                           <NavLink to={"/dashboard/admin/register"} className={"nav-link"} end>
                               <span className="nav-icon">
                                   <span className="nav-icon-bullet"></span>
                               </span>{" "}
                               Register Employee
                           </NavLink>
-                        </CNavItem>
+                        </CNavItem> */}
                     </CNavGroup>
                 )}
                 <CNavItem>

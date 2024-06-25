@@ -1,32 +1,36 @@
-
-.progress-mini-container{
+.progress-mini-container {
     background-color: white;
-    
+
     padding: 40px 20px;
     border-radius: 10px;
 }
-.date-filters{
+
+.date-filters {
     /* border:2px solid red; */
     display: flex;
     gap: 3rem;
 }
-.date-filters > label{
-    color:#2495C6 ;
+
+.date-filters>label {
+    color: #2495C6;
     font-weight: 500;
 }
-.date-filters > label > input{
+
+.date-filters>label>input {
     outline: none;
     border: none;
     border-bottom: 1px solid rgb(26, 26, 116);
     /* border: 1px solid rgb(26, 26, 116); */
     padding: 5px 10px;
     /* border-radius: 3px; */
-    
+
 }
-.data-table{
+
+.data-table {
     margin-top: 20px;
 }
-.table-head{
+
+.table-head {
     color: rgb(23, 23, 139) !important;
     font-size: 1.1rem;
     font-style: normal;
@@ -34,14 +38,14 @@
     font-weight: 600;
 }
 
-.table-body{
-   /* border: 2px solid red; */
-   padding: 10px 0px !important;
+.table-body {
+    /* border: 2px solid red; */
+    padding: 10px 0px !important;
 
 }
 
 /* generate pdf button css */
-.generate{
+.generate {
     width: 100%;
     /* border: 2px solid blue; */
     display: flex;
@@ -49,7 +53,9 @@
     padding: 10px 0px;
 
 }
-#generatePdfBtn{
+
+#generatePdfBtn {
+   
     padding: 10px 35px;
     display: flex;
     background-color: #010115;
@@ -59,18 +65,20 @@
     margin-right: 0px;
     border-radius: 5px;
     cursor: pointer;
-transition: .15s ease-in all;
-border: none;
-outline: none;
-
-
+    transition: .15s ease-in all;
+    border: none;
+    outline: none;
+     margin-top: 20px;
 }
-#generatePdfBtn:hover{
+
+
+#generatePdfBtn:hover {
     background-color: #24A3D9;
     color: rgb(255, 255, 255);
 
 }
-#generatePdfBtn:active{
+
+#generatePdfBtn:active {
     background-color: rgb(86, 61, 228);
     color: rgb(50, 50, 50);
 

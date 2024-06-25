@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { useOutletContext, useParams } from "react-router-dom";
 import axiosInstance from "../auth/axiosInstance";
-import "../PagesCss/Profile.css";
+import "../css/ViewInformation.css";
 import {Loader} from "./Loaders";
 import { CForm, CFormInput,CButton } from "@coreui/react";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -47,7 +47,7 @@ const ViewInformation = () => {
     }
 
     return (
-        <div className="profile-container">
+        <div className="viewinfo-container">
             <CForm
                 className={
                     loading

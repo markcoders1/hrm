@@ -9,8 +9,7 @@ import { LoaderW } from "./Loaders";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const ChangePassword = () => {
-
-    const [isLoading,setIsLoading]=useState(false)
+    const [isLoading, setIsLoading] = useState(false);
 
     const {
         register,
@@ -22,12 +21,12 @@ const ChangePassword = () => {
     const onSubmit = async (data) => {
         const { oldPassword, newPassword } = data;
         try {
-            setIsLoading(true)
+            setIsLoading(true);
             const response = await axiosInstance.post(`${apiUrl}/api/change-password`, {
                 oldPassword,
                 newPassword
             });
-            setIsLoading(false)
+            setIsLoading(false);
 
             toast.success(response.data.message, {
                 position: "top-center",
@@ -35,7 +34,7 @@ const ChangePassword = () => {
             reset();
         } catch (error) {
             console.log(error);
-            setIsLoading(false)
+            setIsLoading(false);
             const err = error?.response?.data?.message || error.message;
             toast.error(err, {
                 position: "top-center",
@@ -54,31 +53,32 @@ const ChangePassword = () => {
                         floatingClassName="mb-3"
                         floatingLabel="Old Password"
                         placeholder="Old Password"
-                        {...register("oldPassword", { required: "Email is required" })}
+                        {...register("oldPassword", { required: "Old password is required" })}
                         size="lg"
                     />
-                    {errors.email && <span className="error">{errors.email.message}</span>}
+                    {errors.oldPassword && <span className="error">{errors.oldPassword.message}</span>}
                     <CFormInput
                         type="password"
-                        id="NewPassword"
+                        id="newPassword"
                         floatingClassName="mb-3"
                         floatingLabel="New Password"
                         placeholder="New Password"
-                        {...register("newPassword", { required: "Password is required" })}
+                        {...register("newPassword", { required: "New password is required" })}
                         size="lg"
                     />
-                    {errors.password && <span className="error">{errors.password.message}</span>}
+                    {errors.newPassword && <span className="error">{errors.newPassword.message}</span>}
                 </div>
                 <CButton
-                
-                style={{
-                    display:"flex",
-                    justifyContent:"center",
-                    alignItems:"center",
-                    width:"100%"
-                }}
-                
-                color="dark" variant="outline" size="lg" type="submit">
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "45px",
+                        width: "100%",
+                        backgroundColor: "blue",
+                    }}
+                    color="dark" variant="outline" size="lg" type="submit"
+                >
                     {isLoading ? <LoaderW /> : "Change Password"}
                 </CButton>
             </CForm>

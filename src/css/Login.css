@@ -4,6 +4,8 @@
 .Login-Header{
     /* margin: 40px 0 0 56px; */
    /* background-color: red; */
+   font-weight: 600;
+
 }
 .login-container{
     display: flex;
@@ -11,7 +13,7 @@
     /* border: 2px solid red; */
     flex-direction: column;
     /* background-color: pink; */
-    padding: 2rem 4rem;
+    padding: 2rem 4rem; 
     
 }
 

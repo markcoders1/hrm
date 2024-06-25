@@ -84,9 +84,20 @@ const AttendanceSheet = () => {
         getEmployeeData();
     }, [fromDate, toDate]);
 
+
+    const downloadPdf = async () => {
+        const response = await axiosInstance({
+            url: `${apiUrl}/api/getattendancepdf`,
+            method: "get"
+
+        })
+        console.log("pdf response",response)
+    }
     return (
         <div className="sheet-container">
+            
             <div className="progress-mini-container">
+            
                 <div className="date-filters">
                     <label>
                         From : &nbsp;
@@ -137,7 +148,11 @@ const AttendanceSheet = () => {
                         </CTableBody>
                     </CTable>
                 )}
+                <div className="generate">
+                <button id="generatePdfBtn" onClick={downloadPdf} >Generate PDF</button>
+                </div>
             </div>
+            
         </div>
     );
 };

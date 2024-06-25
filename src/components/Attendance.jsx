@@ -76,6 +76,7 @@ const Attendance = () => {
 
     return (
         <div className='sheet-container'>
+            
             <div className="mini-container-attendance">
                 <div className="date-filters">
                     <label>
@@ -123,8 +124,10 @@ const Attendance = () => {
                                 </CTableRow>
                             ))}
                         </CTableBody>
+                     
                     </CTable>
                 )}
+                
             </div>
         </div>
     );

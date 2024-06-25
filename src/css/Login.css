@@ -25,3 +25,10 @@
 .forget-pass-btn:hover{
     color: rgb(64, 64, 255);
 }
+
+
+@media only screen and (max-width: 600px) {
+   .login-container{
+    padding: 1rem 1rem;
+   }
+  }

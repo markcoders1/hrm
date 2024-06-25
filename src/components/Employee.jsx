@@ -90,6 +90,10 @@ const Employee = () => {
                         label="Search by Name & Email"
                         // variant="outlined"
                         // fullWidth
+                        style={{
+                            outline:"none",
+                            border:"none"
+                        }}
                         placeholder="search"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}

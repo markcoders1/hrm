@@ -8,7 +8,7 @@
     /* border: 1px solid red; */
     font-family: "Poppins", sans-serif;
     z-index: 100000;
-    padding: 30px 10px 30px 40px;
+    padding: 40px 25px 40px 25px;
     display: flex;
     flex-direction: column;
 
@@ -43,3 +43,81 @@
 .data-table{
     margin-top: 20px;
 }
+
+
+
+.search-container{
+    border: 2px solid rgba(112, 128, 144,0.5);
+    width: 330px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    /* border: 2px solid rgb(0, 0, 0) !important; */
+  }
+  
+  .search-container > input{
+    width: 78%;
+    height: 100%;
+    border: none;
+    margin-left: 10px;
+    font-size: 1.2rem;
+    /* border: 2px solid red !important;     */
+    border: none    ;
+    outline: none;
+    /* z-index: -1  ; */
+  }
+  .table-header{
+    display: flex;
+    justify-content: space-between;
+  }
+  .register-user{
+    background-color: #010115;
+    color:white;
+    padding: 9px 30px;
+    margin-right: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: .3s ease-in-out;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .register-user:hover{
+    background-color: #24A3D9;
+  }
+  
+
+  @media only screen and (max-width: 670px) {
+    .search-container{
+        width: 250px;
+    }
+    .register-user{
+        padding: 10px 20px;
+        font-size: .9rem;
+    }
+  }
+
+  @media only screen and (max-width: 510px) {
+    .search-container{
+        width: 180px;
+    }
+    .register-user{
+        padding: 5px 10px;
+        font-size: .9rem;
+        margin-right: 5px;
+    }
+  }
+
+  @media only screen and (max-width: 420px){
+    .search-container{
+        width: 160px;
+    }
+    .register-user{
+        padding: 2px 9px;
+        font-size: .7rem;
+        margin-right: 0px;
+    }
+  }

@@ -12,7 +12,7 @@ import { PageLoader } from './components/Loaders.jsx';
 
 const Login = React.lazy(() => import('./components/Login.jsx'));
 const Check = React.lazy(() => import('./Pages/Checkin.jsx'));
-const NotFound = React.lazy(() => import("./components/404.jsx"));
+const NotFound = React.lazy(() => import('./components/404.jsx'));
 const Progress = React.lazy(() => import('./components/Progress.jsx'));
 const ProtectedRoute = React.lazy(() => import('./components/ProtectedRoute'));
 const ProtectedAdmin = React.lazy(() => import('./components/ProtectedRouteForAdmin.jsx'));
@@ -24,7 +24,7 @@ const ChangePassword = React.lazy(() => import('./components/ChangePassword.jsx'
 const ViewInformation = React.lazy(() => import('./components/ViewInformation.jsx'));
 const Register = React.lazy(() => import('./components/Signup.jsx'));
 const Employee = React.lazy(() => import('./components/Employee.jsx'));
-
+const AttendanceRecordAdmin = React.lazy(() => import('./components/AttendanceRecord.jsx'));
 import store from './store.js';
 
 function App() {
@@ -46,7 +46,8 @@ function App() {
                 <Route path='' element={<Progress />} />
                 <Route path='profile' element={<Profile />} />
                 <Route path='admin' element={<ProtectedAdmin><Employee /></ProtectedAdmin>} />
-                <Route path='admin/attendance/:id' element={<ProtectedAdmin><Attendance /></ProtectedAdmin>} />
+                <Route path='admin/attendance' element={<ProtectedAdmin><AttendanceRecordAdmin /></ProtectedAdmin>} />
+                <Route path='admin/attendance/viewAttendance/:id' element={<ProtectedAdmin><Attendance /></ProtectedAdmin>} />
                 <Route path='admin/register' element={<ProtectedAdmin><Register /></ProtectedAdmin>} />
                 <Route path='admin/viewInformation/:id' element={<ProtectedAdmin><ViewInformation /></ProtectedAdmin>} />
               </Route>

@@ -83,3 +83,9 @@
     color: rgb(50, 50, 50);
 
 }
+
+@media only screen and (max-width: 600px) {
+    .date-filters{
+        gap: 1rem;
+    }
+}

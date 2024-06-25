@@ -9,7 +9,6 @@ const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const Attendance = () => {
     const setHeadertext = useOutletContext()
-    // const user = useSelector((state) => state.user);
     const [loading, setLoading] = useState(true);
     const [employeeData, setEmployeeData] = useState([]);
     const [fromDate, setFromDate] = useState("");

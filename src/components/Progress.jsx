@@ -86,11 +86,32 @@ const AttendanceSheet = () => {
 
 
     const downloadPdf = async () => {
+        // const response = await axiosInstance({
+        //     url: `${apiUrl}/api/getattendancepdf`,
+        //     method: "get"
+
+        // })
+
         const response = await axiosInstance({
             url: `${apiUrl}/api/getattendancepdf`,
-            method: "get"
+            method: "get",
+            responseType: 'blob'
+        });
 
-        })
+        const contentDisposition = response.headers['content-disposition'];
+        const filename = contentDisposition
+        ? contentDisposition.split('filename=')[1]
+        : 'download.pdf';
+    
+        console.log("resdata",response.data)
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          window.URL.revokeObjectURL(url);
         console.log("pdf response",response)
     }
     return (

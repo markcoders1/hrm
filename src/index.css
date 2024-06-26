@@ -148,6 +148,7 @@ transition: 3s ease;
     display: flex;
   }
 }
+
 @media only screen and (max-width: 700px) {
   .menu-bar {
     display: flex;

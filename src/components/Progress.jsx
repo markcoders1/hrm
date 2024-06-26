@@ -4,6 +4,8 @@ import "../css/Progress.css";
 import axiosInstance from "../auth/axiosInstance";
 import { Loader } from "./Loaders";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import { LoaderW } from "./Loaders";
+import { toast } from "react-toastify";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -15,6 +17,7 @@ const AttendanceSheet = () => {
     const [toDate, setToDate] = useState("");
     const navigate = useNavigate();
     const [isAdmin, setIsAdmin] = useState(false);
+    const [pdfLoading, setPdfLoading] = useState(false)
 
     useEffect(() => {
         (async function () {
@@ -86,39 +89,46 @@ const AttendanceSheet = () => {
 
 
     const downloadPdf = async () => {
-        // const response = await axiosInstance({
-        //     url: `${apiUrl}/api/getattendancepdf`,
-        //     method: "get"
 
-        // })
-
-        const response = await axiosInstance({
-            url: `${apiUrl}/api/getattendancepdf`,
-            method: "get",
-            responseType: 'blob'
-        });
-
-        const contentDisposition = response.headers['content-disposition'];
-        const filename = contentDisposition
-        ? contentDisposition.split('filename=')[1]
-        : 'download.pdf';
+        try {  
+            setPdfLoading(true)
+            const response = await axiosInstance({
+                url: `${apiUrl}/api/getattendancepdf`,
+                method: "get",
+                responseType: 'blob'
+            });
+          
     
-        console.log("resdata",response.data)
-          const url = window.URL.createObjectURL(new Blob([response.data]));
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = filename;
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-          window.URL.revokeObjectURL(url);
-        console.log("pdf response",response)
+            const contentDisposition = response.headers['content-disposition'];
+            const filename = contentDisposition
+                ? contentDisposition.split('filename=')[1]
+                : 'download.pdf';
+    
+            console.log("resdata", response.data)
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+            console.log("pdf response", response)
+        } catch (error) {
+            console.log(error)
+        }
+        finally{
+            setPdfLoading(false)
+        }
+
+
+        
     }
     return (
         <div className="sheet-container">
-            
+
             <div className="progress-mini-container">
-            
+
                 <div className="date-filters">
                     <label>
                         From : &nbsp;
@@ -153,10 +163,8 @@ const AttendanceSheet = () => {
                         </CTableHead>
                         <CTableBody className="table-body" >
                             {employeeData.map((item, index) => (
-                                <CTableRow key={index} 
-                                // style={{
-                                //     padding:"10px 0px"
-                                // }}
+                                <CTableRow key={index}
+                               
                                 >
                                     <CTableDataCell >{item.formattedDate}</CTableDataCell>
                                     <CTableDataCell>{item.formattedCheckIn}</CTableDataCell>
@@ -170,10 +178,10 @@ const AttendanceSheet = () => {
                     </CTable>
                 )}
                 <div className="generate">
-                <button id="generatePdfBtn" onClick={downloadPdf} >Generate PDF</button>
+                    <button id="generatePdfBtn" onClick={downloadPdf} >{pdfLoading ? <LoaderW/>: "Generate PDF"}</button>
                 </div>
             </div>
-            
+
         </div>
     );
 };

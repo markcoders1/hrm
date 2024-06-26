@@ -56,8 +56,11 @@
 
 #generatePdfBtn {
    
-    padding: 10px 35px;
+    width: 150px;
+    height: 40px;
     display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #010115;
     color: white;
     font-size: 1.2rem;
@@ -71,19 +74,11 @@
      margin-top: 20px;
 }
 
-
-#generatePdfBtn:hover {
-    background-color: #24A3D9;
-    color: rgb(255, 255, 255);
-
-}
-
 #generatePdfBtn:active {
     background-color: rgb(86, 61, 228);
     color: rgb(50, 50, 50);
 
 }
-
 @media only screen and (max-width: 600px) {
     .date-filters{
         gap: 1rem;

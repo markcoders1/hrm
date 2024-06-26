@@ -5,10 +5,12 @@ import axiosInstance from "../auth/axiosInstance";
 import { CForm, CFormInput, CButton } from "@coreui/react";
 import { useState } from "react";
 import { Loader } from "./Loaders";
+import { useParams } from "react-router-dom";
 // import "../css/ForgotPassword.css";
 
 export const ForgotPassword = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const {token} = userParams()
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
   const [loading, setLoading] = useState(false);

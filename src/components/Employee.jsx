@@ -67,6 +67,25 @@ const Employee = () => {
         variant="outline" color={`${rowData.active?"success":"danger"}`} onClick={handleToggle}>{rowData.active?"Active":"Inactive"}</CButton>
     }
 
+    const DeleteUser=(rowData)=>{
+        console.log(rowData)
+        const handleDelete=()=>{
+            axiosInstance({
+                method:"get",
+                url:`${apiUrl}/api/admin/delete-user`,
+                params:{
+                    id:`${rowData._id}`
+                }
+            }).then(()=>{
+                const updatedEmployees = allEmployee.filter(emp=>{
+                    return emp._id!==rowData._id
+                })
+                setAllEmployee(updatedEmployees);
+            })
+        }
+        return <CButton color='danger' variant="outline" onClick={handleDelete} >Delete</CButton>
+    }
+
     const buttonForViewInformation = (rowData) => {
         const navigateUserInformation = () => {
             navigate(`viewInformation/${rowData._id}`);
@@ -118,7 +137,8 @@ const Employee = () => {
                                 <CTableHeaderCell>Email</CTableHeaderCell>
                                 {/* <CTableHeaderCell>Attendance</CTableHeaderCell> */}
                                 <CTableHeaderCell>View Details</CTableHeaderCell>
-                                <CTableHeaderCell>Toggle status</CTableHeaderCell>
+                                <CTableHeaderCell>Toggle Status</CTableHeaderCell>
+                                <CTableHeaderCell>Delete User</CTableHeaderCell>
                             </CTableRow>
                         </CTableHead>
                         <CTableBody>
@@ -130,6 +150,7 @@ const Employee = () => {
                                     {/* <CTableDataCell>{buttonForViewDetails(employee)}</CTableDataCell> */}
                                     <CTableDataCell>{buttonForViewInformation(employee)}</CTableDataCell>
                                     <CTableDataCell>{ToggleUserStatus(employee)}</CTableDataCell>
+                                    <CTableDataCell>{DeleteUser(employee)}</CTableDataCell>
                                 </CTableRow>
                             ))}
                         </CTableBody>

@@ -39,8 +39,8 @@ function App() {
               <Route path='/' element={<SingleLayout />}>
                 <Route path='' element={<Login />} />
                 <Route path='checkin' element={<ProtectedRoute><ProtectedAdminCheckin><Check /></ProtectedAdminCheckin></ProtectedRoute>} />
-                <Route path='changePassword' element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
-                <Route path='forgotPassword' element={<ForgotPassword />} />
+                {/* <Route path='changePassword' element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} /> */}
+                <Route path='forgotPassword/:token' element={<ForgotPassword />} />
                 <Route path='*' element={<NotFound />} />
               </Route>
 

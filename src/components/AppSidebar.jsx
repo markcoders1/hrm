@@ -75,7 +75,8 @@ const AppSidebar = () => {
     return !pageloading ? (
         <>
             <CSidebar
-                className="border-end"
+                className="border-end small-screen"
+                
                 colorScheme="dark"
                 position="fixed"
                 unfoldable={unfoldable}

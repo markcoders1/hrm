@@ -137,8 +137,8 @@ transition: 3s ease;
 }
 
 @media only screen and (max-width: 998px){
-  .sidebar{
-    z-index: 1000;
+  .sidebar,.sidebar-backdrop.fade{
+    z-index: -1000;
     transform: translateX(-10px);
   }
   .toggleShowHide{
@@ -147,6 +147,7 @@ transition: 3s ease;
   .cross{
     display: flex;
   }
+  
 }
 
 @media only screen and (max-width: 700px) {
@@ -156,7 +157,12 @@ transition: 3s ease;
     color: white;
     background-color: red;
   }
-  
+  .small-screen{
+    background-color: red;
+  }
+  .sidebar-backdrop.fade {
+    opacity: 0;
+}
 }
 
 

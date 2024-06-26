@@ -3,7 +3,7 @@ import { CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTabl
 import "../css/Attendance.css";
 import { useOutletContext, useParams } from "react-router-dom";
 import axiosInstance from "../auth/axiosInstance";
-import { Loader } from "./Loaders";
+import { LoaderW } from "./Loaders";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -14,6 +14,7 @@ const Attendance = () => {
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
     const { id } = useParams(); // Extracting id from the URL parameters
+    const [pdfLoading, setPdfLoading] = useState(false)
 
     const accessToken = sessionStorage.getItem('accessToken');
 
@@ -71,11 +72,48 @@ const Attendance = () => {
             }
         };
         getEmployeeData();
-    }, [accessToken, id, fromDate, toDate]); // Include fromDate and toDate in the dependency array
+    }, [id, fromDate, toDate]);
+
+    // const downloadPdf = async () => {
+
+    //     try {
+    //         setPdfLoading(true)
+    //         const response = await axiosInstance({
+    //             url: `${apiUrl}/api/getattendancepdf`,
+    //             method: "get",
+    //             responseType: 'blob'
+    //         });
+
+
+    //         const contentDisposition = response.headers['content-disposition'];
+    //         const filename = contentDisposition
+    //             ? contentDisposition.split('filename=')[1]
+    //             : 'download.pdf';
+
+    //         console.log("resdata", response.data)
+    //         const url = window.URL.createObjectURL(new Blob([response.data]));
+    //         const a = document.createElement('a');
+    //         a.href = url;
+    //         a.download = filename;
+    //         document.body.appendChild(a);
+    //         a.click();
+    //         a.remove();
+    //         window.URL.revokeObjectURL(url);
+    //         console.log("pdf response", response)
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    //     finally {
+    //         setPdfLoading(false)
+    //     }
+
+
+
+    // }
 
     return (
         <div className='sheet-container'>
-            
+
             <div className="mini-container-attendance">
                 <div className="date-filters">
                     <label>
@@ -123,10 +161,12 @@ const Attendance = () => {
                                 </CTableRow>
                             ))}
                         </CTableBody>
-                     
+
                     </CTable>
                 )}
-                
+                <div className="generate">
+                    <button id="generatePdfBtn">{pdfLoading?<LoaderW/> : "Generate PDF" }</button>
+                </div>
             </div>
         </div>
     );

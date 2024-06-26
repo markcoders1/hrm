@@ -38,6 +38,41 @@
     font-weight: 600;
 }
 
+.generate {
+    width: 100%;
+    /* border: 2px solid blue; */
+    display: flex;
+    justify-content: end;
+    padding: 10px 0px;
+
+}
+
+#generatePdfBtn {
+   
+    width: 150px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #010115;
+    color: white;
+    font-size: 1.2rem;
+    /* margin: auto; */
+    margin-right: 0px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .15s ease-in all;
+    border: none;
+    outline: none;
+     margin-top: 20px;
+}
+
+#generatePdfBtn:active {
+    background-color: rgb(86, 61, 228);
+    color: rgb(50, 50, 50);
+
+}
+
 @media only screen and (max-width: 700px){
     .sheet-container{
         width: 100%;

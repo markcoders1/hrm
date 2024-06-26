@@ -40,7 +40,7 @@ const ViewInformation = () => {
             }
         };
         getSpecificUser();
-    }, []);
+    }, []);F
 
     const handleSubmit = () => {
         console.log("hi")

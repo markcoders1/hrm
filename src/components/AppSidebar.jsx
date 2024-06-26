@@ -60,17 +60,6 @@ const AppSidebar = () => {
         navigate('/');
     };
 
-    const handleSidebarVisibility = () => {
-        if (window.innerWidth <= 768) {
-            dispatch({ type: "set", sidebarShow: false });
-        }
-    };
-
-    useEffect(() => {
-        handleSidebarVisibility();
-        window.addEventListener('resize', handleSidebarVisibility);
-        return () => window.removeEventListener('resize', handleSidebarVisibility);
-    }, []);
 
     return !pageloading ? (
         <>

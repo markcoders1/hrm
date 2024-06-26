@@ -55,6 +55,7 @@
     align-items: center;
     border-radius: 30px;
     /* border: 2px solid rgb(0, 0, 0) !important; */
+    padding: 3px 5px;
   }
   
   .search-container > input{
@@ -88,7 +89,11 @@
   .register-user:hover{
     background-color: #24A3D9;
   }
-  
+  .search-box-input{
+    /* border: 2px solid red; */
+    /* background-color: red; */
+    border-radius: 5px;
+  }
 
   @media only screen and (max-width: 670px) {
     .search-container{

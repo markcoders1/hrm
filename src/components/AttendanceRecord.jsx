@@ -68,22 +68,13 @@ const AttendanceRecord = () => {
                     <input
                         type="text"
                         label="Search by Name & Email"
-                        style={{
-                            outline: "none",
-                            border: "none",
-                        }}
+                       className="search-box-input"
                         placeholder="search"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-                <div 
-                    className="register-user" 
-                    style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
-                    onClick={() => navigate('/dashboard/admin/register')}
-                >
-                    Register User
-                </div>
+                
             </div>
             <div>
                 {loading ? (

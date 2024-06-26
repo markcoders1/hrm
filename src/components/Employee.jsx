@@ -60,14 +60,20 @@ const Employee = () => {
                 setAllEmployee(updatedEmployees);
             })
         }
-        return <CButton variant="outline" color={`${rowData.active?"success":"danger"}`} onClick={handleToggle}>{rowData.active?"Active":"Inactive"}</CButton>
+        return <CButton
+        style={{
+            width:"100px"
+        }}
+        variant="outline" color={`${rowData.active?"success":"danger"}`} onClick={handleToggle}>{rowData.active?"Active":"Inactive"}</CButton>
     }
 
     const buttonForViewInformation = (rowData) => {
-        const navigateUseInformation = () => {
+        const navigateUserInformation = () => {
             navigate(`viewInformation/${rowData._id}`);
         };
-        return <button className={"attendanceButton"} onClick={navigateUseInformation}>Details</button>;
+        return <CButton style={{
+            width:"100px"
+        }} variant="outline" color={`${rowData.active?"success":"danger"}`} onClick={navigateUserInformation}>View Details</CButton>
         
     };
 
@@ -90,10 +96,8 @@ const Employee = () => {
                         label="Search by Name & Email"
                         // variant="outlined"
                         // fullWidth
-                        style={{
-                            outline:"none",
-                            border:"none"
-                        }}
+                       
+                        className="search-box-input"
                         placeholder="search"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}

@@ -49,8 +49,6 @@ const Login = () => {
                 localStorage.setItem("refreshToken", response.data.refreshToken);
             }
             navigate("/checkin");
-            // window.location.href = "/checkin";
-
             toast.success("User Logged In Successfully", {
                 position: "top-center",
             });

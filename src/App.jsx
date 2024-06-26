@@ -27,6 +27,8 @@ const Employee = React.lazy(() => import('./components/Employee.jsx'));
 const AttendanceRecordAdmin = React.lazy(() => import('./components/AttendanceRecord.jsx'));
 import store from './store.js';
 
+import ProtectedAdminCheckin from './components/ProtectedRouteForCheckinAdmin.jsx';
+
 function App() {
   return (
     <Provider store={store}>
@@ -36,7 +38,7 @@ function App() {
             <Routes>
               <Route path='/' element={<SingleLayout />}>
                 <Route path='' element={<Login />} />
-                <Route path='checkin' element={<ProtectedRoute><Check /></ProtectedRoute>} />
+                <Route path='checkin' element={<ProtectedRoute><ProtectedAdminCheckin><Check /></ProtectedAdminCheckin></ProtectedRoute>} />
                 <Route path='changePassword' element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
                 <Route path='forgotPassword' element={<ForgotPassword />} />
                 <Route path='*' element={<NotFound />} />

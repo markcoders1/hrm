@@ -70,6 +70,7 @@ const Login = () => {
     return (
         <>
             <div className="login-container">
+                {import.meta.env.VITE_hi=="hi"?console.log('yes'):console.log("no")}
                 <h1 className="Login-Header">Login</h1>
                 <CForm onSubmit={handleSubmit(onSubmit)}>
                     <div className="loginFields">

@@ -82,14 +82,14 @@ const AppSidebar = () => {
                 <CSidebarNav>
                     <CNavTitle>Hresque</CNavTitle>
                     <CNavItem>
-                        <NavLink to="/dashboard/profile" className="nav-link">
+                        <NavLink to="/dashboard/" end className="nav-link">
                             <CIcon customClassName="nav-icon" icon={cilUser} /> Profile
                         </NavLink>
                     </CNavItem>
                     {isAdmin !== "admin" && (
                         <>
                             <CNavItem>
-                                <NavLink to="/dashboard" end className="nav-link">
+                                <NavLink to="/dashboard/progress" end className="nav-link">
                                     <CIcon customClassName="nav-icon" icon={cilCalendar} /> Attendance
                                 </NavLink>
                             </CNavItem>

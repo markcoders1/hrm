@@ -45,7 +45,7 @@ const MainHeader = ({accessToken,setAccessToken}) => {
                             <img src="/logo.svg" alt="hi" onClick={() => navigate('/')} />
                         </div>
                         <div className="dashboard-buttons">
-                            <NavLink to='/dashboard/profile' replace >
+                            <NavLink to='/dashboard/' replace >
                                 Dashboard
                             </NavLink>
                             <button onClick={() => setVisible(true)} >Logout</button>

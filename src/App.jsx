@@ -45,8 +45,8 @@ function App() {
               </Route>
 
               <Route path='/dashboard' element={<ProtectedRoute><DefaultLayout /></ProtectedRoute>}>
-                <Route path='' element={<Progress />} />
-                <Route path='profile' element={<Profile />} />
+                <Route path='' element={<Profile />} />
+                <Route path='progress' element={<Progress />} />
                 <Route path='admin' element={<ProtectedAdmin><Employee /></ProtectedAdmin>} />
                 <Route path='admin/attendance' element={<ProtectedAdmin><AttendanceRecordAdmin /></ProtectedAdmin>} />
                 <Route path='admin/attendance/viewAttendance/:id' element={<ProtectedAdmin><Attendance /></ProtectedAdmin>} />

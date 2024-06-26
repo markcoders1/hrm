@@ -6,6 +6,7 @@ import axiosInstance from "../auth/axiosInstance";
 import "../css/ViewInformation.css";
 import {Loader} from "./Loaders";
 import { CForm, CFormInput,CButton } from "@coreui/react";
+import { useForm } from "react-hook-form";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const ViewInformation = () => {
@@ -16,6 +17,14 @@ const ViewInformation = () => {
 
     const [employeeData, setEmployeeData] = useState([]);
     const { id } = useParams();
+
+    const {
+        register,
+        handleSubmit,
+        reset,
+    } = useForm();
+
+
     useEffect(() => {
         const accessToken = localStorage.getItem("accessToken");
         setAccessToken(accessToken);
@@ -42,13 +51,37 @@ const ViewInformation = () => {
         getSpecificUser();
     }, []);F
 
-    const handleSubmit = () => {
-        console.log("hi")
+    const handleInfoChange = async (data) => {
+        try {
+            // const {firstName, LastName, email, phone, department, designation, shift, teamLead, CID, CNIC, DOB} = data
+            console.log(data)
+            // const response = await axiosInstance({
+            //     url: `${apiUrl}/api/admin/update-any-profile`,
+            //     method: "get",
+            //     data: {
+            //         id,
+            //         firstName,
+            //         LastName,
+            //         email,
+            //         phone,
+            //         department,
+            //         designation,
+            //         shift,
+            //         teamLead,
+            //         CID,
+            //         CNIC,
+            //         DOB,
+            //     },
+            // });
+            reset()
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
         <div className="viewinfo-container">
-            <CForm
+            <CForm onSubmit={handleSubmit(handleInfoChange)}
                 className={
                     loading
                         ? "profile-information-container"
@@ -61,38 +94,38 @@ const ViewInformation = () => {
                 ) : (
                     <>
                         <div className="input">
-                            <label className='input-label'>First Name : </label><CFormInput className='input-box' disabled={!inputAbled} placeholder={`${employeeData.firstName}`}></CFormInput>
+                            <label className='input-label'>First Name : </label><CFormInput className='input-box' disabled={!inputAbled} placeholder={`${employeeData.firstName}`} {...register("firstName")}></CFormInput>
                         </div>
                         <div className="input">
-                            <label className='input-label'>Last Name : </label><CFormInput className='input-box' disabled={!inputAbled} placeholder={`${employeeData.lastName}`}></CFormInput>
+                            <label className='input-label'>Last Name : </label><CFormInput className='input-box' disabled={!inputAbled} placeholder={`${employeeData.lastName}`} {...register("LastName")}></CFormInput>
                         </div>
                         <div className="input">
-                            <label className='input-label'>Email : </label><CFormInput className='input-box' disabled={!inputAbled} placeholder={`${employeeData.email}`}></CFormInput>
+                            <label className='input-label'>Email : </label><CFormInput className='input-box' disabled={!inputAbled} placeholder={`${employeeData.email}`} {...register("email")}></CFormInput>
                         </div>
                         <div className="input">
-                            <label className='input-label'>Phone : </label><CFormInput className='input-box' disabled={!inputAbled} placeholder={`${employeeData.phone}`}></CFormInput>
+                            <label className='input-label'>Phone : </label><CFormInput className='input-box' disabled={!inputAbled} placeholder={`${employeeData.phone}`} {...register("phone")}></CFormInput>
                         </div>
                         <div className="input">
-                            <label className='input-label'>Department : </label><CFormInput className='input-box' disabled={!inputAbled} placeholder={`${employeeData.department}`}></CFormInput>
+                            <label className='input-label'>Department : </label><CFormInput className='input-box' disabled={!inputAbled} placeholder={`${employeeData.department}`} {...register("department")}></CFormInput>
                         </div>
                         <div className="input">
-                            <label className='input-label'>Designation : </label><CFormInput className='input-box' disabled={!inputAbled} placeholder={`${employeeData.designation}`}></CFormInput>
+                            <label className='input-label'>Designation : </label><CFormInput className='input-box' disabled={!inputAbled} placeholder={`${employeeData.designation}`} {...register("designation")}></CFormInput>
                         </div>
 
                         <div className="input">
-                            <label className='input-label'>Shift : </label><CFormInput className='input-box' disabled={!inputAbled} placeholder={`${employeeData.shift}`}></CFormInput>
+                            <label className='input-label'>Shift : </label><CFormInput className='input-box' disabled={!inputAbled} placeholder={`${employeeData.shift}`} {...register("shift")}></CFormInput>
                         </div>
                         <div className="input">
-                            <label className='input-label'>Team Lead : </label><CFormInput className='input-box' disabled={!inputAbled} placeholder={`${employeeData.teamLead}`}></CFormInput>
+                            <label className='input-label'>Team Lead : </label><CFormInput className='input-box' disabled={!inputAbled} placeholder={`${employeeData.teamLead}`} {...register("teamLead")}></CFormInput>
                         </div>
                         <div className="input">
-                            <label className='input-label'>Company ID : </label><CFormInput className='input-box' disabled={!inputAbled} placeholder={`${employeeData.companyId}`}></CFormInput>
+                            <label className='input-label'>Company ID : </label><CFormInput className='input-box' disabled={!inputAbled} placeholder={`${employeeData.companyId}`} {...register("CID")}></CFormInput>
                         </div>
                         <div className="input">
-                            <label className='input-label'>CNIC : </label><CFormInput className='input-box' disabled={!inputAbled} placeholder={`${employeeData.CNIC}`}></CFormInput>
+                            <label className='input-label'>CNIC : </label><CFormInput className='input-box' disabled={!inputAbled} placeholder={`${employeeData.CNIC}`} {...register("CNIC")}></CFormInput>
                         </div>
                         <div className="input">
-                            <label className='input-label'>DOB : </label><CFormInput className='input-box' disabled={!inputAbled} placeholder={`${employeeData.DOB}`}></CFormInput>
+                            <label className='input-label'>DOB : </label><CFormInput className='input-box' disabled={!inputAbled} placeholder={`${employeeData.DOB}`} {...register("DOB")}></CFormInput>
                         </div>
                         <div className="input">
                             <label className='input-label'>Status : </label><CFormInput className='input-box' disabled placeholder={`${employeeData.status}`}></CFormInput>
@@ -105,7 +138,7 @@ const ViewInformation = () => {
             </CForm>
             <div className="ButtonsOMeth">
                 <CButton color="info" variant="outline" type="button" onClick={()=>setInputAbled(!inputAbled)}> change info</CButton>
-                <CButton color="info" type="button" onClick={()=>handleSubmit()} disabled={!inputAbled}> Submit Change</CButton>
+                <CButton color="info" type="button" onClick={()=>handleInfoChange()} disabled={!inputAbled}> Submit Change</CButton>
             </div>
         </div>
     );

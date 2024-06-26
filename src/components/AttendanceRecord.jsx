@@ -74,7 +74,6 @@ const AttendanceRecord = () => {
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-                
             </div>
             <div>
                 {loading ? (

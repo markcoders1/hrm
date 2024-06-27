@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axiosInstance from "../auth/axiosInstance";
 import { CForm, CFormInput, CButton } from "@coreui/react";
 import { useState } from "react";
-import { Loader } from "./Loaders";
+import { LoaderW } from "./Loaders";
 import { useParams } from "react-router-dom";
 // import "../css/ForgotPassword.css";
 
@@ -53,13 +53,14 @@ export const ForgotPassword = () => {
           <CButton
             color="dark"
             style={{
-              width: "100%"
+              width: "100%",
+              height:"45px",
             }}
             variant="outline"
             size="lg"
             type="submit"
           >
-            {loading ? <Loader /> : "Get New password"}
+            {loading ? <LoaderW /> : "Get New password"}
           </CButton>
         </CForm>
       </div>

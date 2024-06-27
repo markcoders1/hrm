@@ -51,28 +51,28 @@ const ViewInformation = () => {
         getSpecificUser();
     }, []);F
 
-    const handleInfoChange = async (data) => {
+    const onSubmit = async (data) => {
         try {
-            // const {firstName, LastName, email, phone, department, designation, shift, teamLead, CID, CNIC, DOB} = data
+            const {firstName, LastName, email, phone, department, designation, shift, teamLead, CID, CNIC, DOB} = data
             console.log(data)
-            // const response = await axiosInstance({
-            //     url: `${apiUrl}/api/admin/update-any-profile`,
-            //     method: "get",
-            //     data: {
-            //         id,
-            //         firstName,
-            //         LastName,
-            //         email,
-            //         phone,
-            //         department,
-            //         designation,
-            //         shift,
-            //         teamLead,
-            //         CID,
-            //         CNIC,
-            //         DOB,
-            //     },
-            // });
+            const response = await axiosInstance({
+                url: `${apiUrl}/api/admin/update-any-profile`,
+                method: "get",
+                data: {
+                    id,
+                    firstName,
+                    LastName,
+                    email,
+                    phone,
+                    department,
+                    designation,
+                    shift,
+                    teamLead,
+                    CID,
+                    CNIC,
+                    DOB,
+                },
+            });
             reset()
         } catch (error) {
             console.log(error)
@@ -81,7 +81,7 @@ const ViewInformation = () => {
 
     return (
         <div className="viewinfo-container">
-            <CForm onSubmit={handleSubmit(handleInfoChange)}
+            <CForm onSubmit={handleSubmit(onSubmit)}
                 className={
                     loading
                         ? "profile-information-container"
@@ -138,7 +138,7 @@ const ViewInformation = () => {
             </CForm>
             <div className="ButtonsOMeth">
                 <CButton color="info" variant="outline" type="button" onClick={()=>setInputAbled(!inputAbled)}> change info</CButton>
-                <CButton color="info" type="button" onClick={()=>handleInfoChange()} disabled={!inputAbled}> Submit Change</CButton>
+                <CButton color="info" type="submit" disabled={!inputAbled}> Submit Change</CButton>
             </div>
         </div>
     );

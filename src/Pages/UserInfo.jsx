@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { useOutletContext, useParams } from "react-router-dom";
 import axiosInstance from "../auth/axiosInstance";
-import "../css/ViewInformation.css";
-import { Loader } from "./Loaders";
+import "../PagesCss/ViewInformation.css";
+import { Loader } from "../components/Loaders";
 import { CForm, CFormInput, CButton } from "@coreui/react";
 import { useForm } from "react-hook-form";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-const ViewInformation = () => {
+const UserInfo = () => {
     const setHeadertext = useOutletContext();
     const [accessToken, setAccessToken] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -144,4 +144,4 @@ const ViewInformation = () => {
     );
 };
 
-export default ViewInformation;
+export default UserInfo;

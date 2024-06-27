@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import "../css/Employee.css";
+import "../PagesCss/Employee.css";
 import { CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow, CButton } from "@coreui/react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { TextField } from '@mui/material';
 import axiosInstance from "../auth/axiosInstance";
-import { Loader } from "./Loaders";
+import { Loader } from "../components/Loaders";
 import CIcon from "@coreui/icons-react";
 import { cilMagnifyingGlass } from "@coreui/icons";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-const Employee = () => {
+const EmployeeData = () => {
     const navigate = useNavigate();
     const setHeadertext = useOutletContext();
     const [allEmployee, setAllEmployee] = useState([]);
@@ -161,4 +161,4 @@ const Employee = () => {
     );
 };
 
-export default Employee;
+export default EmployeeData;

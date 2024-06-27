@@ -10,25 +10,27 @@ import { Suspense } from 'react';
 import React from 'react';
 import { PageLoader } from './components/Loaders.jsx';
 
+// protected Route
+const ProtectedRoute = React.lazy(() => import('./ProtectedRoutes/ProtectedRoute.jsx'));
+const ProtectedAdmin = React.lazy(() => import('./ProtectedRoutes/ProtectedRouteForAdmin.jsx'));
+
 const Login = React.lazy(() => import('./components/Login.jsx'));
 const Check = React.lazy(() => import('./Pages/Checkin.jsx'));
 const NotFound = React.lazy(() => import('./components/404.jsx'));
-const Progress = React.lazy(() => import('./components/Progress.jsx'));
-const ProtectedRoute = React.lazy(() => import('./components/ProtectedRoute'));
-const ProtectedAdmin = React.lazy(() => import('./components/ProtectedRouteForAdmin.jsx'));
-const Attendance = React.lazy(() => import('./components/Attendance.jsx'));
+const Attendance = React.lazy(() => import('./Pages/Attendance.jsx'));
+const UserAttendance = React.lazy(() => import('./Pages/UserAttendance.jsx'));
 const SingleLayout = React.lazy(() => import('./layouts/mainLayout.jsx'));
 const DefaultLayout = React.lazy(() => import('./layouts/defaultlayout.jsx'));
 const Profile = React.lazy(() => import('./Pages/Profile.jsx'));
 const ChangePassword = React.lazy(() => import('./components/ChangePassword.jsx'));
-const ViewInformation = React.lazy(() => import('./components/ViewInformation.jsx'));
-const Register = React.lazy(() => import('./components/Signup.jsx'));
-const Employee = React.lazy(() => import('./components/Employee.jsx'));
-const AttendanceRecordAdmin = React.lazy(() => import('./components/AttendanceRecord.jsx'));
-const Devices = React.lazy(()=> import('./components/Devices.jsx'))
+const UserInfo = React.lazy(() => import('./Pages/UserInfo.jsx'));
+const Register = React.lazy(() => import('./Pages/Register.jsx'));
+const EmployeeData = React.lazy(() => import('./Pages/EmployeeData.jsx'));
+const EmployeeAttendance = React.lazy(() => import('./Pages/EmployeeAttendance.jsx'));
+const Devices = React.lazy(() => import('./Pages/Devices.jsx'));
 import store from './store.js';
 
-import ProtectedAdminCheckin from './components/ProtectedRouteForCheckinAdmin.jsx';
+import ProtectedAdminCheckin from './ProtectedRoutes/ProtectedRouteForCheckinAdmin.jsx';
 
 function App() {
   return (
@@ -47,13 +49,13 @@ function App() {
 
               <Route path='/dashboard' element={<ProtectedRoute><DefaultLayout /></ProtectedRoute>}>
                 <Route path='' element={<Profile />} />
-                <Route path='progress' element={<Progress />} />
+                <Route path='progress' element={<Attendance />} />
                 <Route path='devices' element={<Devices />} />
-                <Route path='admin' element={<ProtectedAdmin><Employee /></ProtectedAdmin>} />
-                <Route path='admin/attendance' element={<ProtectedAdmin><AttendanceRecordAdmin /></ProtectedAdmin>} />
-                <Route path='admin/attendance/viewAttendance/:id' element={<ProtectedAdmin><Attendance /></ProtectedAdmin>} />
+                <Route path='admin' element={<ProtectedAdmin><EmployeeData /></ProtectedAdmin>} />
+                <Route path='admin/attendance' element={<ProtectedAdmin><EmployeeAttendance /></ProtectedAdmin>} /> 
+                <Route path='admin/attendance/viewAttendance/:id' element={<ProtectedAdmin><UserAttendance /></ProtectedAdmin>} />
                 <Route path='admin/register' element={<ProtectedAdmin><Register /></ProtectedAdmin>} />
-                <Route path='admin/viewInformation/:id' element={<ProtectedAdmin><ViewInformation /></ProtectedAdmin>} />
+                <Route path='admin/viewInformation/:id' element={<ProtectedAdmin><UserInfo /></ProtectedAdmin>} />
               </Route>
             </Routes>
           </Suspense>

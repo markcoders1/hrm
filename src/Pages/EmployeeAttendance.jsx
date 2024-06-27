@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import "../css/Employee.css";
+import "../PagesCss/Employee.css";
 import { CButton, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow } from "@coreui/react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import axiosInstance from "../auth/axiosInstance";
-import { Loader } from "./Loaders";
+import { Loader } from "../components/Loaders";
 import CIcon from "@coreui/icons-react";
 import { cilMagnifyingGlass } from "@coreui/icons";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-const AttendanceRecord = () => {
+const EmployeeAttendance = () => {
     const navigate = useNavigate();
     const setHeadertext = useOutletContext();
     const [allEmployee, setAllEmployee] = useState([]);
@@ -100,4 +100,4 @@ const AttendanceRecord = () => {
     );
 };
 
-export default AttendanceRecord;
+export default EmployeeAttendance;

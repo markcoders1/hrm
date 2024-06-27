@@ -10,7 +10,7 @@ import '../css/Signup.css';
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-const Signup = () => {
+const Register = () => {
     const user = useSelector(state => state.user);
     const setHeadertext = useOutletContext()
 
@@ -229,5 +229,5 @@ const Signup = () => {
     );
 }
 
-export default Signup;
+export default Register;
  

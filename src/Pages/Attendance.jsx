@@ -1,24 +1,38 @@
 import { useEffect, useState } from "react";
 import { CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow } from "@coreui/react";
-import "../css/Attendance.css";
-import { useOutletContext, useParams } from "react-router-dom";
+import "../PagesCss/Progress.css";
 import axiosInstance from "../auth/axiosInstance";
-import { LoaderW } from "./Loaders";
+import { Loader } from "../components/Loaders";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { LoaderW } from "../components/Loaders";
+import { toast } from "react-toastify";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const Attendance = () => {
-    const setHeadertext = useOutletContext()
-    const [loading, setLoading] = useState(true);
+    const setHeadertext = useOutletContext();
     const [employeeData, setEmployeeData] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
-    const { id } = useParams(); // Extracting id from the URL parameters
+    const navigate = useNavigate();
+    const [isAdmin, setIsAdmin] = useState(false);
     const [pdfLoading, setPdfLoading] = useState(false)
 
-    const accessToken = sessionStorage.getItem('accessToken');
+    useEffect(() => {
+        (async function () {
+            setHeadertext('Attendance');
+            const res = await axiosInstance({
+                method: "get",
+                url: `${apiUrl}/api/isAdmin`,
+            });
+            setIsAdmin(res.data.isAdmin);
 
-    setHeadertext("User Attendance")
+            if (res.data.isAdmin === "admin") {
+                navigate("profile");
+            }
+        })();
+    }, []);
 
     function millisecondsToHMS(milliseconds) {
         const date = new Date(milliseconds);
@@ -26,34 +40,32 @@ const Attendance = () => {
         const minutes = date.getUTCMinutes().toString().padStart(2, "0");
         const seconds = date.getUTCSeconds().toString().padStart(2, "0");
 
-        return isNaN(hours) ? "N/a" : `${hours}:${minutes}:${seconds}`;
+        return !isNaN(hours) ? `${hours}:${minutes}:${seconds}` : 'N/a';
     }
 
     function millisecondsTo12HourFormat(milliseconds) {
         const date = new Date(milliseconds);
-        const timezoneOffset = 5 * 60 * 60 * 1000; // 5 hours in milliseconds
+        const timezoneOffset = 5 * 60 * 60 * 1000;
         const pakistaniTime = new Date(date.getTime() + timezoneOffset);
 
         let hours = pakistaniTime.getUTCHours();
         const minutes = pakistaniTime.getUTCMinutes().toString().padStart(2, '0');
         const ampm = hours >= 12 ? 'PM' : 'AM';
         hours = hours % 12;
-        hours = hours ? hours : 12; // the hour '0' should be '12'
+        hours = hours ? hours : 12;
         return `${hours}:${minutes} ${ampm}`;
     }
 
     useEffect(() => {
         const getEmployeeData = async () => {
             try {
-                
                 const response = await axiosInstance({
-                    url: `${apiUrl}/api/admin/getUserAttendance`,
+                    url: `${apiUrl}/api/getUserAttendance`,
                     method: "get",
                     params: {
-                        userId: id, // Sending the id as a query parameter
                         from: fromDate ? new Date(fromDate).getTime() : undefined,
                         to: toDate ? new Date(toDate).getTime() : undefined,
-                    },
+                    }
                 });
 
                 const transformedData = response.data.result.map((item) => ({
@@ -73,25 +85,25 @@ const Attendance = () => {
             }
         };
         getEmployeeData();
-    }, [id, fromDate, toDate]);
+    }, [fromDate, toDate]);
+
 
     const downloadPdf = async () => {
 
-        try {
-            console.log(id);
+        try {  
             setPdfLoading(true)
             const response = await axiosInstance({
-                url: `${apiUrl}/api/admin/getAttendancePDF?userId=${id}`,
+                url: `${apiUrl}/api/getattendancepdf`,
                 method: "get",
                 responseType: 'blob'
             });
-
-
+          
+    
             const contentDisposition = response.headers['content-disposition'];
             const filename = contentDisposition
                 ? contentDisposition.split('filename=')[1]
                 : 'download.pdf';
-
+    
             console.log("resdata", response.data)
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const a = document.createElement('a');
@@ -105,15 +117,18 @@ const Attendance = () => {
         } catch (error) {
             console.log(error)
         }
-        finally {
-            setPdfLoading(false);
+        finally{
+            setPdfLoading(false)
         }
+
+
+        
     }
-
     return (
-        <div className='sheet-container'>
+        <div className="sheet-container">
 
-            <div className="mini-container-attendance">
+            <div className="progress-mini-container">
+
                 <div className="date-filters">
                     <label>
                         From : &nbsp;
@@ -133,25 +148,25 @@ const Attendance = () => {
                     </label>
                 </div>
                 {loading ? (
-                    <div className="loaderContainer">
-                        <div className="loader"></div>
-                    </div>
+                    <div className="loaderContainer"><Loader /></div>
                 ) : (
                     <CTable className="data-table" hover striped responsive>
                         <CTableHead>
-                            <CTableRow>
-                                <CTableHeaderCell className="table-head" >DATE</CTableHeaderCell>
-                                <CTableHeaderCell className="table-head">Check IN</CTableHeaderCell>
-                                <CTableHeaderCell className="table-head">CHECK OUT</CTableHeaderCell>
-                                <CTableHeaderCell className="table-head">BREAK DURATION</CTableHeaderCell>
-                                <CTableHeaderCell className="table-head">TOTAL DURATION</CTableHeaderCell>
-                                <CTableHeaderCell className="table-head">NET DURATION</CTableHeaderCell>
+                            <CTableRow >
+                                <CTableHeaderCell className="table-head" >Date</CTableHeaderCell>
+                                <CTableHeaderCell className="table-head" >Check In</CTableHeaderCell>
+                                <CTableHeaderCell className="table-head" >Check Out</CTableHeaderCell>
+                                <CTableHeaderCell className="table-head" >Break Duration</CTableHeaderCell>
+                                <CTableHeaderCell className="table-head" >Total Duration</CTableHeaderCell>
+                                <CTableHeaderCell className="table-head" >Net Duration</CTableHeaderCell>
                             </CTableRow>
                         </CTableHead>
-                        <CTableBody  >
+                        <CTableBody className="table-body" >
                             {employeeData.map((item, index) => (
-                                <CTableRow className="table-body" key={index}>
-                                    <CTableDataCell>{item.formattedDate}</CTableDataCell>
+                                <CTableRow key={index}
+                               
+                                >
+                                    <CTableDataCell >{item.formattedDate}</CTableDataCell>
                                     <CTableDataCell>{item.formattedCheckIn}</CTableDataCell>
                                     <CTableDataCell>{item.formattedCheckOut}</CTableDataCell>
                                     <CTableDataCell>{item.formattedBreakDuration}</CTableDataCell>
@@ -160,13 +175,13 @@ const Attendance = () => {
                                 </CTableRow>
                             ))}
                         </CTableBody>
-
                     </CTable>
                 )}
                 <div className="generate">
-                    <button id="generatePdfBtn" onClick={downloadPdf} >{pdfLoading?<LoaderW/> : "Generate PDF" }</button>
+                    <button id="generatePdfBtn" onClick={downloadPdf} >{pdfLoading ? <LoaderW/>: "Generate PDF"}</button>
                 </div>
             </div>
+
         </div>
     );
 };

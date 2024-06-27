@@ -1,5 +1,5 @@
 import { useOutletContext } from "react-router-dom"
-import { LoggedCards } from "./LoggedCards"
+import { LoggedCards } from "../components/LoggedCards.jsx"
 
 
 const Devices=()=>{

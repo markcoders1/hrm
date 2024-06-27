@@ -49,7 +49,7 @@ const ViewInformation = () => {
             }
         };
         getSpecificUser();
-    }, []);F
+    }, []);
 
     const onSubmit = async (data) => {
         try {

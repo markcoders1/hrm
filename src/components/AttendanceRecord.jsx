@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "../css/Employee.css";
-import { CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow } from "@coreui/react";
+import { CButton, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow } from "@coreui/react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import axiosInstance from "../auth/axiosInstance";
 import { Loader } from "./Loaders";
@@ -42,12 +42,7 @@ const AttendanceRecord = () => {
             navigate(`viewAttendance/${rowData._id}`);
         };
         return (
-            <button 
-                className="attendanceButton"
-                onClick={navigateUserdetail}
-            >
-                Attendance
-            </button>
+            <CButton type="button" onClick={navigateUserdetail} color="info" variant="outline">Attendance</CButton>
         );
     };
 

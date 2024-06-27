@@ -6,10 +6,12 @@ import axiosInstance from "../auth/axiosInstance";
 import "react-toastify/dist/ReactToastify.css";
 import { LoaderW } from "./Loaders";
 import { useState, useEffect } from "react";
+import UAParser from "ua-parser-js";
 
 import '../css/Login.css'
 
 const Login = () => {
+    let parser = new UAParser();
     const [isLoading, setIsLoading] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
     // const [accessToken,setAccessToken]= useState(null)
@@ -40,6 +42,7 @@ const Login = () => {
             const response = await axiosInstance.post(`${apiUrl}/api/auth/login`, {
                 email,
                 password,
+                "device": parser.getUA()
             });
 
             sessionStorage.setItem("accessToken", response.data.accessToken);
@@ -70,6 +73,7 @@ const Login = () => {
     return (
         <>
             <div className="login-container">
+                {import.meta.env.VITE_hi=="hi"?console.log('yes'):console.log("no")}
                 <h1 className="Login-Header">Login</h1>
                 <CForm onSubmit={handleSubmit(onSubmit)}>
                     <div className="loginFields">

@@ -81,9 +81,6 @@ transition: 3s ease;
 
 
 }
-.sidebar-dark {
-  /* Add any additional styles for dark theme if necessary */
-}
 .cross{
   position: absolute;
   top: 10px;
@@ -104,10 +101,11 @@ transition: 3s ease;
   margin-left: 56px;
 }
 
-.border-bottom {
-  /* Any additional styles for border bottom */
+.navItem{
+  cursor: pointer;
+  margin-left: 20px;
+  border-left: 1px solid rgba(112, 128, 144,0.4) !important;
 }
-
 /* loader div styling */
 .loaderContainer {
   display: fle;

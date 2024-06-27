@@ -25,6 +25,7 @@ const ViewInformation = React.lazy(() => import('./components/ViewInformation.js
 const Register = React.lazy(() => import('./components/Signup.jsx'));
 const Employee = React.lazy(() => import('./components/Employee.jsx'));
 const AttendanceRecordAdmin = React.lazy(() => import('./components/AttendanceRecord.jsx'));
+const Devices = React.lazy(()=> import('./components/Devices.jsx'))
 import store from './store.js';
 
 import ProtectedAdminCheckin from './components/ProtectedRouteForCheckinAdmin.jsx';
@@ -39,14 +40,15 @@ function App() {
               <Route path='/' element={<SingleLayout />}>
                 <Route path='' element={<Login />} />
                 <Route path='checkin' element={<ProtectedRoute><ProtectedAdminCheckin><Check /></ProtectedAdminCheckin></ProtectedRoute>} />
-                {/* <Route path='changePassword' element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} /> */}
-                <Route path='forgotPassword/:token' element={<ForgotPassword />} />
+                <Route path='password-reset/:token' element={<ChangePassword />} />
+                <Route path='forgotPassword' element={<ForgotPassword />} />
                 <Route path='*' element={<NotFound />} />
               </Route>
 
               <Route path='/dashboard' element={<ProtectedRoute><DefaultLayout /></ProtectedRoute>}>
                 <Route path='' element={<Profile />} />
                 <Route path='progress' element={<Progress />} />
+                <Route path='devices' element={<Devices />} />
                 <Route path='admin' element={<ProtectedAdmin><Employee /></ProtectedAdmin>} />
                 <Route path='admin/attendance' element={<ProtectedAdmin><AttendanceRecordAdmin /></ProtectedAdmin>} />
                 <Route path='admin/attendance/viewAttendance/:id' element={<ProtectedAdmin><Attendance /></ProtectedAdmin>} />

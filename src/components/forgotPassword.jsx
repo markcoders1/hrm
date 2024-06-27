@@ -10,7 +10,6 @@ import { useParams } from "react-router-dom";
 
 export const ForgotPassword = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const {token} = userParams()
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
   const [loading, setLoading] = useState(false);
@@ -18,9 +17,11 @@ export const ForgotPassword = () => {
     try {
       setLoading(true);
       const response = await axiosInstance({
-        method: "post",
-        url: `${apiUrl}/api/reset-password`,
-        data: { email: data.email },
+        method: "get",
+        url: `${apiUrl}/api/auth/reset-password?`,
+        params:{
+          ...data
+        }
       });
       console.log(response);
       toast.success("Check your Email");

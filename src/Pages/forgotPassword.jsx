@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axiosInstance from "../auth/axiosInstance";
 import { CForm, CFormInput, CButton } from "@coreui/react";
 import { useState } from "react";
-import { LoaderW } from "./Loaders";
+import { LoaderW } from "../components/Loaders";
 import { useParams } from "react-router-dom";
 // import "../css/ForgotPassword.css";
 

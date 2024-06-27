@@ -4,7 +4,7 @@ import { useNavigate, NavLink, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosInstance from "../auth/axiosInstance";
 import "react-toastify/dist/ReactToastify.css";
-import { LoaderW } from "./Loaders";
+import { LoaderW } from "../components/Loaders";
 import { useState, useEffect } from "react";
 import UAParser from "ua-parser-js";
 

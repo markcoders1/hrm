@@ -47,7 +47,6 @@
 /* generate pdf button css */
 .generate {
     width: 100%;
-    /* border: 2px solid blue; */
     display: flex;
     justify-content: end;
     padding: 10px 0px;

@@ -2,9 +2,7 @@
     margin: 0px;
     padding: 0px;
     font-family: "Urbanist", sans-serif;
-
 }
-
 .form-container {
     display: flex;
     width: 100%;
@@ -12,7 +10,6 @@
     align-items: center;
     height: 95vh;
 }
-
 .dark-background {
     height: 55%;
     position: fixed;
@@ -21,7 +18,6 @@
     top: 0px;
     z-index: -1000;
 }
-
 .form {
     width: 68%;
     border-radius: 50px;
@@ -32,7 +28,6 @@
     overflow: hidden;
     z-index: 1000;
 }
-
 .form-left {
     width: 50%;
     height: 100%;
@@ -41,9 +36,7 @@
     justify-content: center;
     padding: 0rem 2rem;
     gap: 1.7rem;
-
 }
-
 .form-right-image {
     display: flex;
     align-items: center;
@@ -51,16 +44,11 @@
     background-color: #F4FCFF;
     width: 50%;
     flex-direction: column;
-
 }
-
 .form-right-image>img {
     width: 340px;
-
 }
-
 .dashboard-link {
-
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -69,9 +57,7 @@
     margin-top: 20px;
     gap: 2rem;
     padding: 0 10%;
-
 }
-
 .dashboard-buttons>a,
 .dashboard-buttons>button {
     text-decoration: none;
@@ -85,45 +71,37 @@
     font-weight: bold;
     transition: color ease-in-out 0.2s;
 }
-
 .dashboard-buttons>a:hover,
 .dashboard-buttons>button:hover {
     color: #25A9E0;
 }
-
 .dashboard-buttons {
     width: 50%;
     display: flex;
     gap: 20px;
     justify-content: end;
     padding: 0 10px;
-
 }
-
 .dashboard-link>img {
     height: 100%;
 }
-
 .dashboard-link>.dashboard-logo {
     background-color: white;
     height: 70px;
     width: 70px;
     border-radius: 15px;
 }
-
 @media only screen and (max-width: 1200px) {
     .form-left {
         padding: 1rem 0rem;
         transition: .3s;
     }
 }
-
 @media only screen and (max-width: 1000px) {
     .form-right-image>img {
         width: 250px;
     }
 }
-
 @media only screen and (max-width: 800px) {
     .form-right-image {
         display: none;
@@ -140,23 +118,17 @@
         width: 90%;
 
     }
-
     .form-left {
         padding: 2rem 2rem;
         transition: .3s;
         gap: 0rem;
     }
-
     .dashboard-buttons>a,
     .dashboard-buttons>button {
         padding: 0px 3px;
-
-
     }
 }
-
 @media only screen and (max-width: 370px) {
-
     .dashboard-buttons>a,
     .dashboard-buttons>button {
         padding: 0px;

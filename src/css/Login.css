@@ -1,11 +1,6 @@
-.loginFields{
-    
-}
-.Login-Header{
-    /* margin: 40px 0 0 56px; */
-   /* background-color: red; */
-   font-weight: 600;
 
+.Login-Header{
+   font-weight: 600;
 }
 .login-container{
     display: flex;
@@ -14,12 +9,9 @@
     flex-direction: column;
     /* background-color: pink; */
     padding: 2rem 4rem; 
-    
 }
-
 .forget-pass-btn{
     color: rgb(23, 10, 78);
-    /* border: 2px solid red; */
     text-align: end;
     font-weight: 600;
     cursor: pointer;
@@ -27,8 +19,6 @@
 .forget-pass-btn:hover{
     color: rgb(64, 64, 255);
 }
-
-
 @media only screen and (max-width: 600px) {
    .login-container{
     padding: 1rem 1rem;

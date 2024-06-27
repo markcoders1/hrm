@@ -45,30 +45,7 @@ const SingleLayout = () => {
     return (
         <>
             <div className="dark-background"></div>
-            {/* <div className="dashboard-link">
-                {
-                    refreshToken || accessToken ?
-                        <>
-                            <div className="dashboard-logo">
-                                <img src="/logo.svg" alt="hi" onClick={() => navigate('/')} />
-                            </div>
-                            <div className="dashboard-buttons">
-                                <NavLink to='/dashboard/profile' replace >
-                                    Dashboard
-                                </NavLink>
-                                <button onClick={() => setVisible(true)} >Logout</button>
-                            </div>
-                        </>
-                        :
-                        <>
-                            <div className="dashboard-logo">
-                                <img src="/logo.svg" alt="hi" onClick={() => navigate('/')} />
-                            </div>
-                            <div className="dashboard-buttons"></div>
-                        </>
-                }
 
-            </div> */}
             <MainHeader accessToken={accessToken} setAccessToken={setAccessToken} />
             <div className="form-container">
                 <div className="form">
@@ -81,25 +58,6 @@ const SingleLayout = () => {
                     </div>
                 </div>
             </div>
-            {/* <CModal
-                alignment="center"
-                visible={visible}
-                onClose={() => setVisible(false)}
-                aria-labelledby="VerticallyCenteredExample"
-            >
-                <CModalHeader>
-                    <CModalTitle id="VerticallyCenteredExample">Logout</CModalTitle>
-                </CModalHeader>
-                <CModalBody>
-                    Are you sure you want to log out?
-                </CModalBody>
-                <CModalFooter>
-                    <CButton color="secondary" onClick={() => setVisible(false)}>
-                        Close
-                    </CButton>
-                    <CButton color="info" onClick={handleLogout}>Log Out</CButton>
-                </CModalFooter>
-            </CModal> */}
         </>
     );
 };

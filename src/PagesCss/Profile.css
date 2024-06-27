@@ -3,9 +3,6 @@
     border-radius: 10px;
     padding: 50px;
 }
-
-
-
 .profile-information-container{
     width: 100%;
     display: flex;
@@ -14,16 +11,12 @@
     gap: 2rem;
     background-color: white;
     border-radius: 10px;
-    /* border: 2px solid black; */
-    
 }
 .profile-information-container > .input{
     display: flex;
     width: 48%;
     background-color: rgb(255, 255, 255);
-    /* border: 2px solid red; */
 }
-
 .input-box{
     border: 2px solid rgba(112, 128, 144,0.3);
     border-radius: 5px;
@@ -34,9 +27,7 @@
 
 .input-label{
     width: 25%;
-    /* padding: 15px 15px; */
     display: flex;
-    /* justify-content: center; */
     align-items: center;
 }
 .pwd-btn{
@@ -48,12 +39,10 @@
     color: black;
     transition: background-color 0.2s ease-in-out,color 0.2s ease-in-out;
 }
-
 .pwd-btn:hover{
     background-color: #33aee2;
     color: white;
 }
-
 .ButtonsOMeth{
     display: flex;
     width: 100%;
@@ -62,19 +51,6 @@
     justify-content: flex-end;
     gap: 20px;
 }
-
-/* .profile-information-container > .input-box > label{
-    display: flex;
-    color: black;
-    font-size: 1.1rem;
-}
-.profile-information-container > .input-box > label > span{
-    margin:0 5px;
-}
-#changePassword{
-    text-decoration: none;
-    cursor: pointer;
-} */
 @media only screen and (max-width: 1200px){
     .profile-information-container > .input{
         display: flex;

@@ -10,7 +10,7 @@
   margin-top: 10px;
   margin: auto;
 }
-  
+ 
 @keyframes l21 {
   50%  {box-shadow: 19px 0 0 3px, 38px 0 0 7px, 57px 0 0 3px}
   100% {box-shadow: 19px 0 0 0  , 38px 0 0 3px, 57px 0 0 7px}
@@ -54,8 +54,8 @@
   background-size: 20% 100%;
   animation: l1 1s infinite linear;
   margin: auto;
-  
 }
+
 @keyframes l1 {
   0%  {background-size: 20% 100%,20% 100%,20% 100%}
   33% {background-size: 20% 10% ,20% 100%,20% 100%}

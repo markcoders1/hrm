@@ -1,10 +1,9 @@
-.Home-container{
+.Home-container {
     display: flex;
     justify-content: center;
 }
 
 .check-container {
-    /* border: 2px solid rgb(123, 104, 104); */
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -12,22 +11,20 @@
     justify-content: center;
     gap: 3rem;
     width: 400px;
-    
 }
 
-.check-container > h1{
+.check-container>h1 {
     font-size: 2rem;
 }
+
 .check-buttons {
     display: flex;
     gap: 2rem;
     flex-direction: column;
-    /* border: 2px solid red; */
     width: 100%;
-   
 }
 
-.check-buttons > button{
+.check-buttons>button {
     border: none;
     outline: none;
     background-color: #010115;
@@ -35,56 +32,57 @@
     font-weight: 400;
     font-size: 1.3rem;
     width: 100%;
- height: 55px;
- outline: none;
+    height: 55px;
+    outline: none;
     cursor: pointer;
     transition: all 0.15s ease-in-out;
-    /* animation: wavyBorderRadius 2s infinite; */
     font-size: 1.4rem;
-   border-radius: 10px;
-   font-family: "Poppins", sans-serif;
+    border-radius: 10px;
+    font-family: "Poppins", sans-serif;
 }
 
-.check-buttons > button:nth-child(1):hover{
-        background-color: #25A9E0;
-}
-.check-buttons > button:nth-child(2){
+.check-buttons>button:nth-child(1):hover {
     background-color: #25A9E0;
 }
 
-.check-buttons > button:nth-child(2):hover{
+.check-buttons>button:nth-child(2) {
+    background-color: #25A9E0;
+}
+
+.check-buttons>button:nth-child(2):hover {
     background-color: #010115;
 }
 
-.check-buttons > button:active {
+.check-buttons>button:active {
     background-color: blue;
 }
 
-.opacityLow{
+.opacityLow {
     opacity: 0.2;
 }
 
-@media screen and (max-width: 1200px){
-    .check-container{
+@media screen and (max-width: 1200px) {
+    .check-container {
         width: 300px;
     }
-} 
-@media screen and (max-width: 900px){
-    .check-container{
+}
+
+@media screen and (max-width: 900px) {
+    .check-container {
         width: 250px;
     }
 }
 
 @media screen and (max-width: 600px) {
-    .clocked > h2{
+    .clocked>h2 {
         width: fit-content;
         margin: auto;
         position: sticky;
-    }    
+    }
 
 }
 
-.smallLoaderContainer{
+.smallLoaderContainer {
     height: 100%;
     width: 100%;
     display: flex;

@@ -2,27 +2,19 @@
     --main-bg-color: #3498db;
     --color1-navy: #010115;
 }
-
 .sheet-container-admin {
     width: 100%;
-    /* border: 1px solid red; */
     font-family: "Poppins", sans-serif;
     z-index: 100000;
     padding: 40px 25px 40px 25px;
     display: flex;
     flex-direction: column;
-
     background-color: white;
-    /* border-radius: 10px; */
 }
-
-
-
 .attendanceButton {
     border: none;
     outline: none;
     padding: 3px 0px;
-    /* border: 1px solid red; */
     background-color: transparent;
     width: 90px;
     background-color: #010115;
@@ -31,21 +23,15 @@
     border-radius: 3px;
     cursor: pointer;
     transition: .3s ease;
-
-
 }
 
 .attendanceButton:hover {
     color: rgb(255, 255, 255);
     background-color: #24A3D9;
 }
-
 .data-table{
     margin-top: 20px;
 }
-
-
-
 .search-container{
     border: 2px solid rgba(112, 128, 144,0.5);
     width: 330px;
@@ -54,7 +40,6 @@
     justify-content: center;
     align-items: center;
     border-radius: 30px;
-    /* border: 2px solid rgb(0, 0, 0) !important; */
     padding: 3px 5px;
   }
   
@@ -64,10 +49,8 @@
     border: none;
     margin-left: 10px;
     font-size: 1.2rem;
-    /* border: 2px solid red !important;     */
     border: none    ;
     outline: none;
-    /* z-index: -1  ; */
   }
   .table-header{
     display: flex;
@@ -90,11 +73,8 @@
     background-color: #24A3D9;
   }
   .search-box-input{
-    /* border: 2px solid red; */
-    /* background-color: red; */
     border-radius: 5px;
   }
-
   @media only screen and (max-width: 670px) {
     .search-container{
         width: 250px;
@@ -104,7 +84,6 @@
         font-size: .9rem;
     }
   }
-
   @media only screen and (max-width: 510px) {
     .search-container{
         width: 180px;
@@ -115,7 +94,6 @@
         margin-right: 5px;
     }
   }
-
   @media only screen and (max-width: 420px){
     .search-container{
         width: 160px;

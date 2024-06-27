@@ -92,7 +92,7 @@ const Employee = () => {
         };
         return <CButton style={{
             width:"100px"
-        }} variant="outline" color={`${rowData.active?"success":"danger"}`} onClick={navigateUserInformation}>View Details</CButton>
+        }} variant="outline" color='info' onClick={navigateUserInformation}>Details</CButton>
     };
 
     useEffect(() => {

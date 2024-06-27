@@ -5,11 +5,13 @@ import "react-toastify/dist/ReactToastify.css";
 import axiosInstance from "../auth/axiosInstance";
 import { useState } from "react";
 import { LoaderW } from "./Loaders";
+import { useParams } from "react-router-dom";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const ChangePassword = () => {
     const [isLoading, setIsLoading] = useState(false);
+    const {token} = useParams() 
 
     const {
         register,
@@ -19,12 +21,12 @@ const ChangePassword = () => {
     } = useForm();
 
     const onSubmit = async (data) => {
-        const { oldPassword, newPassword } = data;
+        const { newPassword } = data;
         try {
             setIsLoading(true);
-            const response = await axiosInstance.post(`${apiUrl}/api/change-password`, {
-                oldPassword,
-                newPassword
+            const response = await axiosInstance.post(`${apiUrl}/api/auth/reset-password`, {
+                password:newPassword,
+                token
             });
             setIsLoading(false);
 
@@ -47,16 +49,6 @@ const ChangePassword = () => {
             <h1 className="Login-Header">Change Password</h1>
             <CForm onSubmit={handleSubmit(onSubmit)}>
                 <div className="loginFields">
-                    <CFormInput
-                        type="password"
-                        id="oldPassword"
-                        floatingClassName="mb-3"
-                        floatingLabel="Old Password"
-                        placeholder="Old Password"
-                        {...register("oldPassword", { required: "Old password is required" })}
-                        size="lg"
-                    />
-                    {errors.oldPassword && <span className="error">{errors.oldPassword.message}</span>}
                     <CFormInput
                         type="password"
                         id="newPassword"

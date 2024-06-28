@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import axiosInstance from "../auth/axiosInstance";
 import { Loader, LoaderW } from "../components/Loaders.jsx";
-import { scheduleNotification } from "../helpers/notificationHelper";
+import { scheduleNotification } from "../Helper/notificationHelper";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -13,7 +13,6 @@ const Check = () => {
     const [loading, setLoading] = useState(true);
     const [loadingForCheckBtn, setLoadingForCheckBtn] = useState(false);
     const [loadingForBreakBtn, setLoadingForBreakBtn] = useState(false);
-    const [isOnBreak, setIsOnBreak] = useState(false);
 
     const requestNotificationPermission = async () => {
         if (!("Notification" in window)) {
@@ -39,6 +38,11 @@ const Check = () => {
             console.log(response);
             toast.success(response.data.message);
             setStatus(response.data.status);
+
+            // Store check-in time
+            const checkInTime = new Date();
+            localStorage.setItem('checkInTime', checkInTime.toISOString());
+            console.log("Check-in time stored:", checkInTime.toISOString());
         } catch (error) {
             console.error(error);
             toast.error(error.response.data.message);
@@ -57,23 +61,17 @@ const Check = () => {
             console.log(response);
             setStatus(response.data.status);
             toast.success(response.data.message);
-
-            if (!isOnBreak) {
-                const breakTime = new Date();
-                localStorage.setItem('breakTime', breakTime.toISOString());
-                console.log("Break time stored:", breakTime.toISOString());
-
-                // Schedule a notification for 2 minutes later
-                scheduleNotification("Time to take a break from work! Please relax and stretch your muscles.", 2);
-            }
-
-            setIsOnBreak(!isOnBreak);
         } catch (error) {
             console.error(error);
             toast.error(error.response.data.message);
         } finally {
             setLoadingForBreakBtn(false);
         }
+    };
+
+    const handleNotifyMe = () => {
+        // Schedule a notification for 40 seconds later
+        scheduleNotification("It's been 5 seconds since you clicked notify me. Please take a break.", 5);
     };
 
     useEffect(() => {
@@ -119,9 +117,20 @@ const Check = () => {
                     onClick={handleBreak} 
                     disabled={loadingForBreakBtn}
                 >
-                    {loadingForBreakBtn ? <LoaderW /> : (isOnBreak ? "Break Out" : "Break In")}
+                    {loadingForBreakBtn ? <LoaderW /> : (status === "checkin" ? "Break In" : "Break Out")}
                 </button>
             )}
+            <button
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "10px"
+                }}
+                onClick={handleNotifyMe}
+            >
+                Notify Me
+            </button>
         </>
     );
 

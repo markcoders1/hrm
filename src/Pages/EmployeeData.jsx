@@ -83,7 +83,7 @@ const EmployeeData = () => {
                 setAllEmployee(updatedEmployees);
             })
         }
-        return <CButton color='danger' variant="outline" onClick={handleDelete} >Delete</CButton>
+        return <CButton style={{width: "100px"}} color='danger' variant="outline" onClick={handleDelete} >Delete</CButton>
     }
 
     const buttonForViewInformation = (rowData) => {
@@ -113,7 +113,7 @@ const EmployeeData = () => {
                         type="text"
                         label="Search by Name & Email"
                         // variant="outlined"
-                        // fullWidth
+                        // fullWidthz
                        
                         className="search-box-input"
                         placeholder="search"

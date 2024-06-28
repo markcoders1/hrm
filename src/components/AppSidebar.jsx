@@ -201,4 +201,4 @@ const AppSidebar = () => {
     ) : <PageLoader />;
 };
 
-export default React.memo(AppSidebar);
+export default AppSidebar;

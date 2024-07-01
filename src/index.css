@@ -21,8 +21,10 @@ body {
   box-sizing: border-box;
   /* background-color: rgba(204, 219, 253, 1) !important; */
   background-color: rgb(220, 220, 220) !important;
+
+
   color: black;
-  
+
 }
 
 .menu-bar {
@@ -45,8 +47,8 @@ body {
   margin: 0px;
 }
 
-.margin-small{
-transition: 3s ease;
+.margin-small {
+  transition: 3s ease;
 }
 
 .layout-container {
@@ -67,10 +69,12 @@ transition: 3s ease;
 .hide-sidebar {
   transform: translateX(-100px);
 }
-#logo{
+
+#logo {
   margin-top: 49px;
 }
-#logo > img{
+
+#logo>img {
   border: 3px solid white;
   margin: auto;
   background-color: #fff;
@@ -78,7 +82,8 @@ transition: 3s ease;
 
 
 }
-.cross{
+
+.cross {
   position: absolute;
   top: 10px;
   right: 7px;
@@ -98,51 +103,59 @@ transition: 3s ease;
   margin-left: 56px;
 }
 
-.navItem{
+.navItem {
   cursor: pointer;
   margin-left: 20px;
-  border-left: 1px solid rgba(112, 128, 144,0.4) !important;
+  border-left: 1px solid rgba(112, 128, 144, 0.4) !important;
 }
+
 /* loader div styling */
 .loaderContainer {
   display: fle;
-  margin-top:50px;
-  padding:30px 0px;
- 
-  justify-content:center;
-  align-items:center;
+  margin-top: 50px;
+  padding: 30px 0px;
+
+  justify-content: center;
+  align-items: center;
   width: 100%;
 
 }
 
-.wrapper{
- 
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+
+.wrapper {
+  background-color: rgb(220, 220, 220) !important;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 
 }
-.layout-main{
+
+.layout-main {
   display: flex;
   border: 2px solid red;
 }
-.error{
+
+.error {
   color: red;
   font-size: 0.9rem;
 }
 
-@media only screen and (max-width: 998px){
-  .sidebar,.sidebar-backdrop.fade{
+@media only screen and (max-width: 998px) {
+
+  .sidebar,
+  .sidebar-backdrop.fade {
     z-index: -1000;
     transform: translateX(-10px);
   }
-  .toggleShowHide{
+
+  .toggleShowHide {
     transform: translateX(220px);
   }
-  .cross{
+
+  .cross {
     display: flex;
   }
-  
+
 }
 
 @media only screen and (max-width: 700px) {
@@ -152,30 +165,34 @@ transition: 3s ease;
     color: white;
     background-color: red;
   }
-  .small-screen{
+
+  .small-screen {
     background-color: red;
   }
+
   .sidebar-backdrop.fade {
     opacity: 0;
-}
+  }
 }
 
 
 /* sidebar */
-.logout-button{
+.logout-button {
   width: 100%;
   height: 100%;
   text-align: start;
   border-radius: 20px;
   cursor: pointer;
 }
-.img-thumbnail{
+
+.img-thumbnail {
   height: 55px;
   width: 55px;
   justify-self: center;
   cursor: pointer;
 }
-.img-thumbnail-container{
+
+.img-thumbnail-container {
   display: flex;
   justify-content: center;
   width: 100%;
@@ -183,4 +200,3 @@ transition: 3s ease;
 }
 
 /* employee.jsx */
-

@@ -4,14 +4,14 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axiosInstance from "../auth/axiosInstance";
 import { useState } from "react";
-import { LoaderW } from "./Loaders";
+import { LoaderW } from "../components/Loaders";
 import { useParams } from "react-router-dom";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const ChangePassword = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const {token} = useParams() 
+    const { token } = useParams()
 
     const {
         register,
@@ -25,7 +25,7 @@ const ChangePassword = () => {
         try {
             setIsLoading(true);
             const response = await axiosInstance.post(`${apiUrl}/api/auth/reset-password`, {
-                password:newPassword,
+                password: newPassword,
                 token
             });
             setIsLoading(false);
@@ -45,7 +45,11 @@ const ChangePassword = () => {
     };
 
     return (
-        <>
+        <div
+            style={{
+                padding: "0px 30px"
+            }}
+        >
             <h1 className="Login-Header">Change Password</h1>
             <CForm onSubmit={handleSubmit(onSubmit)}>
                 <div className="loginFields">
@@ -67,14 +71,14 @@ const ChangePassword = () => {
                         alignItems: "center",
                         height: "45px",
                         width: "100%",
-                        backgroundColor: "blue",
+
                     }}
                     color="dark" variant="outline" size="lg" type="submit"
                 >
                     {isLoading ? <LoaderW /> : "Change Password"}
                 </CButton>
             </CForm>
-        </>
+        </div>
     );
 };
 

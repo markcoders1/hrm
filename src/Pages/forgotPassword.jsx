@@ -33,7 +33,11 @@ export const ForgotPassword = () => {
   };
 
   return (
-    <>
+    <div
+    style={{
+      padding:"0px 30px"
+  }}
+    >
       <div className="login-container">
         <h1 className="sign-heading">Get New Password</h1>
         <CForm onSubmit={handleSubmit(onSubmit)}>
@@ -64,6 +68,6 @@ export const ForgotPassword = () => {
           </CButton>
         </CForm>
       </div>
-    </>
+    </div>
   );
 };

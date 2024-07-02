@@ -1,20 +1,24 @@
-import React from 'react'
-import { CCard, CCardBody, CCardTitle, CCardText, CButton } from "@coreui/react";
+import React from 'react';
+import { CCard, CCardBody, CCardTitle, CButton } from "@coreui/react";
 
-export const LoggedCards = () => {
 
-    
-
+export const LoggedCards = ({ deviceId, buttonText, logoutFrom, ind }) => {
     return (
-        <div >
-
-            <CCard style={{ width: '18rem' }}>
-                <CCardBody>
-                    <CCardTitle >Special title treatment</CCardTitle>
-                    <CCardText>With supporting text below as a natural lead-in to additional content.</CCardText>
-                    <CButton color="primary">Go somewhere</CButton>
+        <div key={ind}>
+            <CCard style={{ width: '18rem', height: '100%' }}>
+                <CCardBody style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div>
+                        <CCardTitle style={{ fontSize: "16px", color: "black", fontWeight: "500", letterSpacing: "1px" }}>
+                            {deviceId}
+                        </CCardTitle>
+                    </div>
+                    <div>
+                        <CButton onClick={logoutFrom} color="primary">{buttonText}</CButton>
+                    </div>
                 </CCardBody>
             </CCard>
         </div>
-    )
-}
+    );
+};
+
+    

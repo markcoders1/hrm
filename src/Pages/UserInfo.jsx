@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { useOutletContext, useParams } from "react-router-dom";
 import axiosInstance from "../auth/axiosInstance";
-import "../PagesCss/ViewInformation.css";
+import "../PagesCss/UserInfo.css";  
 import { Loader } from "../components/Loaders";
 import { CForm, CFormInput, CButton } from "@coreui/react";
 import { useForm } from "react-hook-form";

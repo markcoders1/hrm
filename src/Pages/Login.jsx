@@ -25,7 +25,7 @@ const Login = () => {
             sessionStorage.setItem("refreshToken", refreshToken);
             navigate("/checkin")
         }
-
+        
     }, []);
 
     const {
@@ -42,16 +42,17 @@ const Login = () => {
             const response = await axiosInstance.post(`${apiUrl}/api/auth/login`, {
                 email,
                 password,
-                "device": parser.getUA()
+                "device": `${parser.getBrowser().name} | ${parser.getCPU().architecture} | ${parser.getOS().name}`
+                
             });
-
+            console.log(response)
             sessionStorage.setItem("accessToken", response.data.accessToken);
             sessionStorage.setItem("refreshToken", response.data.refreshToken);
             setAccessToken(response.data.accessToken)
             if (rememberMe) {
                 localStorage.setItem("refreshToken", response.data.refreshToken);
             }
-            navigate("/checkin");
+            // navigate("/checkin");
             toast.success("User Logged In Successfully", {
                 position: "top-center",
             });

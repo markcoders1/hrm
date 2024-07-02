@@ -3,35 +3,42 @@ import { LoggedCards } from "../components/LoggedCards.jsx"
 import { useEffect, useState } from "react";
 import axiosInstance from "../auth/axiosInstance.js";
 
+import { CCard, CCardBody, CCardTitle, CButton } from "@coreui/react";
+import { Key } from "@mui/icons-material";
+
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+
+
 const Devices = () => {
-    const [deviceName, setDeviceName] = useState([]);
+    const [userDevices, setUserDevices] = useState([]);
     const setHeadertext = useOutletContext();
-    setHeadertext("Your Devices")
     const { id } = useParams();
 
     useEffect(() => {
-        const getProfileInfo = async () => {
+        const getDeviceInfo = async () => {
             try {
                 const response = await axiosInstance({
                     url: `${apiUrl}/api/getUser`,
                     method: 'get',
                     params: { id },
                 });
-                setDeviceName(response.data.user.devices);
+
+                setUserDevices(response.data.user.devices)
+
             } catch (error) {
                 console.log(error);
             }
         };
-        getProfileInfo();
+        getDeviceInfo();
+        setHeadertext("Your Devices")
     }, [id]);
 
     const logoutFromSpecificDevice = async (deviceId) => {
         try {
             const response = await axiosInstance({
-                url: `${apiUrl}/api/logoutDevice`,
+                url: `${apiUrl}/api/logout-specific`,
                 method: 'post',
-                data: {
+                params: {
                     userId: id,
                     deviceId: deviceId,
                 }
@@ -52,19 +59,38 @@ const Devices = () => {
                 borderRadius: "5px",
                 display: "flex",
                 gap: "2rem",
-                flexWrap: "wrap",   
+                flexWrap: "wrap",
             }}
         >
             {
-                deviceName.map((device, ind) => (
-                    <LoggedCards
-                        key={ind}
-                        deviceId={device.deviceId} // Adjust according to your device object structure
-                        buttonText="Logged out from here"
-                        logoutFrom={() => logoutFromSpecificDevice(device.deviceId)}
-                        ind={ind}
-                    />
-                ))
+                userDevices.map((device, ind) => {
+                    let deviceName = device.deviceId.split(" | ")
+
+                    return (
+                        <div Key={ind} >
+                            <CCard style={{ width: '24rem', height: '100%' }}>
+                                <CCardBody style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between',gap:'1.6rem' }}>
+                                    <div>
+                                        <CCardTitle style={{ fontSize: "16px", color: "black", fontWeight: "500", letterSpacing: "1px" }}>
+                                            Browser : {deviceName[0]}
+                                        </CCardTitle>
+                                        <CCardTitle style={{ fontSize: "16px", color: "black", fontWeight: "500", letterSpacing: "1px" }}>
+                                            CPU : {deviceName[1]}
+                                        </CCardTitle>
+                                        <CCardTitle style={{ fontSize: "16px", color: "black", fontWeight: "500", letterSpacing: "1px" }}>
+                                            Operating system : {deviceName[2]}
+                                        </CCardTitle>
+
+                                    </div>
+                                    <div>
+                                        <CButton color="primary">button</CButton>
+                                    </div>
+                                </CCardBody>
+                            </CCard>
+                        </div>
+                    )
+                })
+
             }
         </div>
     );

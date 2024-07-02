@@ -13,6 +13,8 @@ const Check = () => {
     const [loading, setLoading] = useState(true);
     const [loadingForCheckBtn, setLoadingForCheckBtn] = useState(false);
     const [loadingForBreakBtn, setLoadingForBreakBtn] = useState(false);
+    const [latitude, setLatitude] = useState();
+    const [longitude, setLongitude] = useState();
 
     const requestNotificationPermission = async () => {
         if (!("Notification" in window)) {
@@ -27,22 +29,46 @@ const Check = () => {
         }
     };
 
+
+
     const handleCheck = async () => {
         try {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    setLatitude(position.coords.latitude);
+                    setLongitude(position.coords.longitude);
+
+                },
+               
+                (error) => {
+                    console.error('Error getting location:', error);
+                }
+            );
+
             setLoadingForCheckBtn(true);
+
+            
             const response = await axiosInstance({
                 url: `${apiUrl}/api/check`,
                 method: "post",
+                data : {
+                    latitude:latitude,
+                    longitude: longitude,
+                }
+            
             });
+            console.log(latitude)
+            console.log(longitude)
+
 
             console.log(response);
             toast.success(response.data.message);
             setStatus(response.data.status);
 
             // Store check-in time
-            const checkInTime = new Date();
-            localStorage.setItem('checkInTime', checkInTime.toISOString());
-            console.log("Check-in time stored:", checkInTime.toISOString());
+            // const checkInTime = new Date();
+            // localStorage.setItem('checkInTime', checkInTime.toISOString());
+            // console.log("Check-in time stored:", checkInTime.toISOString());
         } catch (error) {
             console.error(error);
             toast.error(error.response.data.message);
@@ -69,10 +95,10 @@ const Check = () => {
         }
     };
 
-    const handleNotifyMe = () => {
-        // Schedule a notification for 40 seconds later
-        scheduleNotification("It's been 5 seconds since you clicked notify me. Please take a break.", 5);
-    };
+    // const handleNotifyMe = () => {
+    //     // Schedule a notification for 40 seconds later
+    //     scheduleNotification("It's been 5 seconds since you clicked notify me. Please take a break.", 5);
+    // };
 
     useEffect(() => {
         requestNotificationPermission();
@@ -90,9 +116,17 @@ const Check = () => {
                 console.error(error);
                 setLoading(false);
             }
+            // const location =  navigator.geolocation.getCurrentPosition((e) => {console.log(e)});
+
         };
         getStatus();
     }, []);
+
+
+    useEffect(()=>{
+        console.log(latitude)
+        console.log(longitude)
+    },[])
 
     const CheckButtons = () => (
         <>
@@ -102,7 +136,7 @@ const Check = () => {
                     justifyContent: "center",
                     alignItems: "center"
                 }}
-                onClick={handleCheck} 
+                onClick={handleCheck}
                 disabled={loadingForCheckBtn}
             >
                 {loadingForCheckBtn ? <LoaderW /> : (status === "checkin" || status === "inbreak" ? "Check Out" : "Check In")}
@@ -114,13 +148,13 @@ const Check = () => {
                         justifyContent: "center",
                         alignItems: "center"
                     }}
-                    onClick={handleBreak} 
+                    onClick={handleBreak}
                     disabled={loadingForBreakBtn}
                 >
                     {loadingForBreakBtn ? <LoaderW /> : (status === "checkin" ? "Break In" : "Break Out")}
                 </button>
             )}
-            <button
+            {/* <button
                 style={{
                     display: "flex",
                     justifyContent: "center",
@@ -130,7 +164,7 @@ const Check = () => {
                 onClick={handleNotifyMe}
             >
                 Notify Me
-            </button>
+            </button> */}
         </>
     );
 

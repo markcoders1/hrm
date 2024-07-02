@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from 'react-redux';
 import axiosInstance from '../auth/axiosInstance';
 import { useOutletContext } from 'react-router-dom';
-import '../css/Register.css';
+import '../PagesCss/Register.css'
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 

@@ -52,7 +52,7 @@ const Login = () => {
             if (rememberMe) {
                 localStorage.setItem("refreshToken", response.data.refreshToken);
             }
-            // navigate("/checkin");
+            navigate("/checkin");
             toast.success("User Logged In Successfully", {
                 position: "top-center",
             });

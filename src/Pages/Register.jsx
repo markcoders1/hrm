@@ -27,13 +27,11 @@ const Register = () => {
 
     const onSubmit = async (data) => {
         try {
-            let { email, password, firstName, lastName, DOB, CNIC, designation, phone, teamLead, shift, department, role, companyId } = data;
+            let {address, email, fullName, DOB, CNIC, designation, phone, teamLead, shift, department, role, companyId } = data;
 
             const response = await axiosInstance.post(`${apiUrl}/api/admin/register`, {
                 email,
-                password,
-                firstName,
-                lastName,
+                fullName,
                 DOB,
                 CNIC,
                 designation,
@@ -42,7 +40,8 @@ const Register = () => {
                 shift,
                 department,
                 role,
-                companyId
+                companyId,
+                address
             }, config_admin);
 
             toast.success("User Registered Successfully", { position: "top-center" });
@@ -59,47 +58,22 @@ const Register = () => {
                     <div className="input-row-register">
                         <div className='child-row'>
                             <CFormInput
-                                label="First Name"
-                                id="firstName"
-                                placeholder="First Name"
-                                {...register('firstName', { required: "First Name is required" })}
-                                invalid={!!errors.firstName}
-                                feedback={errors.firstName ? errors.firstName.message : ''}
+                                label="Full Name*"
+                                id="fullName"
+                                placeholder="Full Name"
+                                {...register('fullName', { required: "Full Name is required" })}
+                                invalid={!!errors.fullName}
+                                feedback={errors.fullName ? errors.fullName.message : ''}
                             />
                         </div>
                         <div className='child-row'>
                             <CFormInput
-                                label="Last Name"
-                                id="lastName"
-                                placeholder="Last Name"
-                                {...register('lastName', { required: "Last Name is required" })}
-                                invalid={!!errors.lastName}
-                                feedback={errors.lastName ? errors.lastName.message : ''}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="input-row-register">
-                        <div className='child-row'>
-                            <CFormInput
-                                label="Email"
-                                id="email"
-                                type="email"
-                                placeholder="Email"
-                                {...register('email', { required: "Email is required" })}
-                                invalid={!!errors.email}
-                                feedback={errors.email ? errors.email.message : ''}
-                            />
-                        </div>
-                        <div className='child-row'>
-                            <CFormInput
-                                label="Password"
-                                id="password"
-                                type="password"
-                                placeholder="Password"
-                                {...register('password', { required: "Password is required" })}
-                                invalid={!!errors.password}
-                                feedback={errors.password ? errors.password.message : ''}
+                                label="Company ID*"
+                                id="companyId"
+                                placeholder="Company ID"
+                                {...register('companyId', { required: "Company Id is required" })}
+                                invalid={!!errors.companyId}
+                                feedback={errors.companyId ? errors.companyId.message : ''}
                             />
                         </div>
                     </div>
@@ -107,40 +81,7 @@ const Register = () => {
                     <div className="input-row-register">
                         <div className='child-row'>
                             <CFormInput
-                                label="Date of Birth"
-                                id="DOB"
-                                type="date"
-                                {...register('DOB', { required: "Date of Birth is required" })}
-                                invalid={!!errors.DOB}
-                                feedback={errors.DOB ? errors.DOB.message : ''}
-                            />
-                        </div>
-                        <div className='child-row'>
-                            <CFormInput
-                                label="CNIC"
-                                id="CNIC"
-                                placeholder="ENTER CNIC WITHOUT ANY SPACE"
-                                {...register('CNIC', { required: "CNIC is required" })}
-                                invalid={!!errors.CNIC}
-                                feedback={errors.CNIC ? errors.CNIC.message : ''}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="input-row-register">
-                        <div className='child-row'>
-                            <CFormInput
-                                label="Phone Number"
-                                id="phone"
-                                placeholder="ENTER PHONE NO. WITHOUT ANY SPACE"
-                                {...register('phone', { required: "Phone Number is required" })}
-                                invalid={!!errors.phone}
-                                feedback={errors.phone ? errors.phone.message : ''} 
-                            />
-                        </div>
-                        <div className='child-row'>
-                            <CFormInput
-                                label="Designation"
+                                label="Designation*"
                                 id="designation"
                                 placeholder="Designation"
                                 {...register('designation', { required: "Designation is required" })}
@@ -148,41 +89,9 @@ const Register = () => {
                                 feedback={errors.designation ? errors.designation.message : ''}
                             />
                         </div>
-                    </div>
-
-                    <div className="input-row-register">
                         <div className='child-row'>
                             <CFormInput
-                                label="Team Lead"
-                                id="teamLead"
-                                placeholder="Team Lead"
-                                {...register('teamLead', { required: "Team Lead is required" })}
-                                invalid={!!errors.teamLead}
-                                feedback={errors.teamLead ? errors.teamLead.message : ''}
-                            />
-                        </div>
-                        <div className='child-row'>
-                            <CFormSelect
-                            className="form-select-custom"
-                                label="Shift"
-                                id="shift"
-                                {...register('shift', { required: "Shift is required" })}
-                                onChange={(e) => setValue('shift', e.target.value)}
-                                invalid={!!errors.shift}
-                            >
-                                <option value="">Select Shift</option>
-                                <option value="morning">Morning</option>
-                                <option value="evening">Evening</option>
-                                <option value="night">Night</option>
-                            </CFormSelect>
-                            {errors.shift && <p className="error">{errors.shift.message}</p>}
-                        </div>
-                    </div>
-
-                    <div className="input-row-register">
-                        <div className='child-row'>
-                            <CFormInput
-                                label="Department"
+                                label="Department*"
                                 id="department"
                                 placeholder="Department"
                                 {...register('department', { required: "Department is required" })}
@@ -190,10 +99,71 @@ const Register = () => {
                                 feedback={errors.department ? errors.department.message : ''}
                             />
                         </div>
+                    </div>
+
+                    <div className="input-row-register">
+                        <div className='child-row'>
+                            <CFormInput
+                                label="CNIC*"
+                                id="CNIC"
+                                placeholder="ENTER CNIC WITHOUT ANY SPACE"
+                                {...register('CNIC', { required: "CNIC is required" })}
+                                invalid={!!errors.CNIC}
+                                feedback={errors.CNIC ? errors.CNIC.message : ''}
+                            />
+                        </div>
+                        <div className='child-row'>
+                            <CFormInput
+                                label="Phone Number*"
+                                id="phone"
+                                placeholder="ENTER PHONE NO. WITHOUT ANY SPACE"
+                                {...register('phone', { required: "Phone Number is required" })}
+                                invalid={!!errors.phone}
+                                feedback={errors.phone ? errors.phone.message : ''} 
+                            />
+                        </div>
+                    </div>
+
+                    <div className="input-row-register">
+                    
+                        <div className='child-row'>
+                            <CFormInput
+                                label="Official Email*"
+                                id="email"
+                                type="email"
+                                placeholder="Official Email"
+                                {...register('email', { required: "Email is required" })}
+                                invalid={!!errors.email}
+                                feedback={errors.email ? errors.email.message : ''}
+                            />
+                        </div>
+                            
+                        <div className='child-row'>
+                            <CFormInput
+                                label="Password"
+                                placeholder="Designation"
+                                value={"admin1"}
+                                disabled
+                            />
+                        </div>
+                    </div>
+
+                    <div className="input-row-register">
+                    <div className='child-row'>
+                            <CFormInput
+                                label="Team Lead"
+                                id="teamLead"
+                                placeholder="Team Lead"
+                                {...register('teamLead')}
+                                invalid={!!errors.teamLead}
+                                feedback={errors.teamLead ? errors.teamLead.message : ''}
+                            />
+                        </div>
+
                         <div className='child-row'>
                             <CFormSelect
                             className="form-select-custom"
-                                label="Role"
+                                label="Role*"
                                 id="role"
                                 {...register('role', { required: "Employee Role is required" })}
                                 onChange={(e) => setValue('role', e.target.value)}
@@ -210,15 +180,48 @@ const Register = () => {
                     <div className="input-row-register">
                         <div className='child-row'>
                             <CFormInput
-                                label="Company ID"
-                                id="companyId"
-                                placeholder="Company ID"
-                                {...register('companyId', { required: "Company Id is required" })}
-                                invalid={!!errors.companyId}
-                                feedback={errors.companyId ? errors.companyId.message : ''}
+                                label="Date of Birth*"
+                                id="DOB"
+                                type="date"
+                                {...register('DOB', { required: "Date of Birth is required" })}
+                                invalid={!!errors.DOB}
+                                feedback={errors.DOB ? errors.DOB.message : ''}
+                            />
+                        </div>
+
+                        <div className='child-row'>
+                            <CFormSelect
+                            className="form-select-custom"
+                                label="Shift*"
+                                id="shift"
+                                {...register('shift', { required: "Shift is required" })}
+                                onChange={(e) => setValue('shift', e.target.value)}
+                                invalid={!!errors.shift}
+                            >
+                                <option value="">Select Shift</option>
+                                <option value="morning">Morning</option>
+                                <option value="evening">Evening</option>
+                                <option value="night">Night</option>
+                            </CFormSelect>
+                            {errors.shift && <p className="error">{errors.shift.message}</p>}
+                        </div>
+                    </div>
+
+                    <div className="input-row-register">
+                        <div className='child-row' style={{width:"100%"}}>
+                            <CFormInput
+                                label="address"
+                                id="address"
+                                type="address"
+                                placeholder='address'
+                                {...register('address')}
+                                invalid={!!errors.address}
+                                feedback={errors.address ? errors.address.message : ''}
                             />
                         </div>
                     </div>
+
+                    
 
                     <div className="register-btn">
                         <CButton color="primary" type="submit" className='signup-btn'>Sign up</CButton>

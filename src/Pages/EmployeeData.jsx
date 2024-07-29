@@ -97,8 +97,8 @@ const EmployeeData = () => {
 
     useEffect(() => {
         const results = allEmployee.filter(employee =>
-            employee.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            employee.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            // employee.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            employee.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
             employee.email.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredEmployees(results);
@@ -132,8 +132,6 @@ const EmployeeData = () => {
                     <CTable className="data-table" hover striped responsive>
                         <CTableHead>
                             <CTableRow>
-                                <CTableHeaderCell>First Name</CTableHeaderCell>
-                                <CTableHeaderCell>Last Name</CTableHeaderCell>
                                 <CTableHeaderCell>Email</CTableHeaderCell>
                                 {/* <CTableHeaderCell>Attendance</CTableHeaderCell> */}
                                 <CTableHeaderCell>View Details</CTableHeaderCell>
@@ -144,8 +142,7 @@ const EmployeeData = () => {
                         <CTableBody>
                             {filteredEmployees.map((employee, index) => (
                                 <CTableRow  key={index}>
-                                    <CTableDataCell>{employee.firstName}</CTableDataCell>
-                                    <CTableDataCell>{employee.lastName}</CTableDataCell>
+                                    <CTableDataCell>{employee.fullName}</CTableDataCell>
                                     <CTableDataCell>{employee.email}</CTableDataCell>
                                     {/* <CTableDataCell>{buttonForViewDetails(employee)}</CTableDataCell> */}
                                     <CTableDataCell>{buttonForViewInformation(employee)}</CTableDataCell>

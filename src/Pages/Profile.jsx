@@ -40,14 +40,13 @@ const Profile = () => {
 
     const onSubmit = async (data) => {
         try {
-            const { firstName, lastName, email, phone, department, designation, shift, teamLead, CID, CNIC, DOB } = data;
+            const { fullName, email, phone, department, designation, shift, teamLead, CID, CNIC, DOB } = data;
             const response = await axiosInstance({
                 url: `${apiUrl}/api/update-profile`,
                 method: 'post',
                 data: {
                     id,
-                    firstName,
-                    lastName,
+                    fullName,
                     email,
                     phone,
                     department,
@@ -76,12 +75,8 @@ const Profile = () => {
                 ) : (
                     <>
                         <div className="input">
-                            <label className="input-label">First Name : </label>
-                            <CFormInput className="input-box" disabled={!inputAbled} placeholder={yourData.firstName} {...register('firstName')} />
-                        </div>
-                        <div className="input">
-                            <label className="input-label">Last Name : </label>
-                            <CFormInput className="input-box" disabled={!inputAbled} placeholder={yourData.lastName} {...register('lastName')} />
+                            <label className="input-label">Full Name : </label>
+                            <CFormInput className="input-box" disabled={!inputAbled} placeholder={yourData.fullName} {...register('fullName')} />
                         </div>
                         <div className="input">
                             <label className="input-label">CNIC : </label>

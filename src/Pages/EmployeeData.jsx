@@ -97,7 +97,6 @@ const EmployeeData = () => {
 
     useEffect(() => {
         const results = allEmployee.filter(employee =>
-            // employee.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
             employee.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
             employee.email.toLowerCase().includes(searchTerm.toLowerCase())
         );
@@ -132,6 +131,7 @@ const EmployeeData = () => {
                     <CTable className="data-table" hover striped responsive>
                         <CTableHead>
                             <CTableRow>
+                                <CTableHeaderCell>Full Name</CTableHeaderCell>
                                 <CTableHeaderCell>Email</CTableHeaderCell>
                                 {/* <CTableHeaderCell>Attendance</CTableHeaderCell> */}
                                 <CTableHeaderCell>View Details</CTableHeaderCell>

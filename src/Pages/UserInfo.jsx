@@ -46,23 +46,23 @@ const UserInfo = () => {
 
     const onSubmit = async (data) => {
         try {
-            const { firstName, lastName, email, phone, department, designation, shift, teamLead, CID, CNIC, DOB } = data;
+            const { fullName, email, phone, department, designation, shift, teamLead, CID, CNIC, DOB, address } = data;
             const response = await axiosInstance({
                 url: `${apiUrl}/api/admin/update-any-profile`,
                 method: "post",
                 data: {
                     id,
-                    firstName,
-                    lastName,
-                    email,
+                    fullName,
                     phone,
-                    department,
+                    email,
+                    address,
                     designation,
+                    DOB,
+                    department,
                     shift,
                     teamLead,
-                    CID,
                     CNIC,
-                    DOB,
+                    CID
                 },
             });
             console.log(response);
@@ -82,12 +82,8 @@ const UserInfo = () => {
                 ) : (
                     <>
                         <div className="input">
-                            <label className='input-label'>First Name : </label>
-                            <CFormInput className='input-box' disabled={!inputAbled} placeholder={employeeData.firstName} {...register("firstName")} />
-                        </div>
-                        <div className="input">
-                            <label className='input-label'>Last Name : </label>
-                            <CFormInput className='input-box' disabled={!inputAbled} placeholder={employeeData.lastName} {...register("lastName")} />
+                            <label className='input-label'>Full Name : </label>
+                            <CFormInput className='input-box' disabled={!inputAbled} placeholder={employeeData.fullName} {...register("fullName")} />
                         </div>
                         <div className="input">
                             <label className='input-label'>Email : </label>
@@ -132,6 +128,10 @@ const UserInfo = () => {
                         <div className="input">
                             <label className='input-label'>Role : </label>
                             <CFormInput className='input-box' disabled placeholder={employeeData.role} />
+                        </div>
+                        <div className="input">
+                            <label className='input-label'>Address : </label>
+                            <CFormInput className='input-box' disabled={!inputAbled} placeholder={employeeData.address} {...register("address")} />
                         </div>
                     </>
                 )}

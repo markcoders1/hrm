@@ -26,7 +26,7 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
           local-dir: dist/
-          server-dir: /home/hresquec/public_html
+          server-dir: /home/hresquec/public_html/
           log-level: verbose
 
       - name: fart on goats

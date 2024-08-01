@@ -37,7 +37,9 @@ import {
     cilNotes,
 } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
-import { UAParser } from "ua-parser-js";
+import UAParser from "ua-parser-js";
+
+const parser = new UAParser()
 
 const AppSidebar = () => {
     const navigate = useNavigate();
@@ -71,11 +73,12 @@ const AppSidebar = () => {
             method:'post',
             data:{
                 refreshToken:sessionStorage.getItem('refreshToken'),
-                deviceId:new UAParser().getUA()
+                deviceId:`${parser.getBrowser().name} | ${parser.getCPU().architecture} | ${parser.getOS().name}`
             }
         })
         sessionStorage.clear();
         localStorage.clear();
+        navigate('/')
     };
 
     const handleLogoutAll=async ()=>{

@@ -1,6 +1,8 @@
 import axios from "axios";
+import UAParser from "ua-parser-js";
 
 const appUrl= import.meta.env.VITE_REACT_APP_API_URL
+let parser = new UAParser()
 
 const axiosInstance=axios.create({
   baseURL:appUrl
@@ -34,7 +36,7 @@ axiosInstance.interceptors.response.use(
 
             try {
                 const refreshToken=sessionStorage.getItem("refreshToken")
-                const response = await axios.post(`${appUrl}/api/auth/token`, {refreshToken});
+                const response = await axios.post(`${appUrl}/api/auth/token`, {refreshToken,deviceId:`${parser.getBrowser().name} | ${parser.getCPU().architecture} | ${parser.getOS().name}`});
                 console.log("response",response)
 
                 
@@ -58,4 +60,4 @@ axiosInstance.interceptors.response.use(
 );
 
 
-export default axiosInstance
+export default axiosInstance    

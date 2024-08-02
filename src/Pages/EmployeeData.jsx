@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import "../PagesCss/Employee.css";
-import { CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow, CButton } from "@coreui/react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { TextField } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box, Typography } from '@mui/material';
 import axiosInstance from "../auth/axiosInstance";
 import { Loader } from "../components/Loaders";
-import CIcon from "@coreui/icons-react";
-import { cilMagnifyingGlass } from "@coreui/icons";
+import CustomTextField from "../components/CustomInput/CustomInput"; // Adjust the import path as needed
+import CustomButton from "../components/CustomButton/CustomButton"; // Adjust the import path as needed
+import SearchIcon from '@mui/icons-material/Search';
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -21,7 +21,7 @@ const EmployeeData = () => {
     useEffect(() => {
         const getAllUser = async () => {
             try {
-                setHeadertext('Employees');
+                setHeadertext('User Management');
                 const response = await axiosInstance({
                     url: `${apiUrl}/api/admin/getAllUsers`,
                     method: "get",
@@ -38,61 +38,90 @@ const EmployeeData = () => {
         getAllUser();
     }, []);
 
-    // const buttonForViewDetails = (rowData) => {
-    //     const navigateUserdetail = () => {
-    //         navigate(`attendance/${rowData._id}`);
-    //     };
-    //     return <button className={"attendanceButton"} onClick={navigateUserdetail}>Attendance</button>;
-    // };
-
-    const ToggleUserStatus=(rowData)=>{
-        const handleToggle=()=>{
+    const ToggleUserStatus = (rowData) => {
+        const handleToggle = () => {
             axiosInstance({
-                method:"get",
-                url:`${apiUrl}/api/admin/toggleuseraccount`,
-                params:{
-                    userId:rowData._id
+                method: "get",
+                url: `${apiUrl}/api/admin/toggleuseraccount`,
+                params: {
+                    userId: rowData._id
                 }
-            }).then(()=>{
+            }).then(() => {
                 const updatedEmployees = allEmployee.map(employee =>
                     employee._id === rowData._id ? { ...employee, active: !employee.active } : employee
                 );
                 setAllEmployee(updatedEmployees);
             })
         }
-        return <CButton
-        style={{
-            width:"100px"
-        }}
-        variant="outline" color={`${rowData.active?"success":"danger"}`} onClick={handleToggle}>{rowData.active?"Active":"Inactive"}</CButton>
+        return <CustomButton
+            border="1px solid"
+            borderRadius="4px"
+            ButtonText={rowData.active ? "Active" : "Inactive"}
+            fontSize="14px"
+            color={rowData.active ? "green" : "red"}
+            fontWeight="500"
+            fullWidth={false}
+            variant="outlined"
+            padding="5px 10px"
+            onClick={handleToggle}
+            background="#fff"
+            hoverBg="#f5f5f5"
+            hovercolor={rowData.active ? "darkgreen" : "darkred"}
+            type="button"
+        />
     }
 
-    const DeleteUser=(rowData)=>{
-        console.log(rowData)
-        const handleDelete=()=>{
+    const DeleteUser = (rowData) => {
+        const handleDelete = () => {
             axiosInstance({
-                method:"get",
-                url:`${apiUrl}/api/admin/delete-user`,
-                params:{
-                    id:`${rowData._id}`
+                method: "get",
+                url: `${apiUrl}/api/admin/delete-user`,
+                params: {
+                    id: `${rowData._id}`
                 }
-            }).then(()=>{
-                const updatedEmployees = allEmployee.filter(emp=>{
-                    return emp._id!==rowData._id
-                })
+            }).then(() => {
+                const updatedEmployees = allEmployee.filter(emp => emp._id !== rowData._id);
                 setAllEmployee(updatedEmployees);
             })
         }
-        return <CButton style={{width: "100px"}} color='danger' variant="outline" onClick={handleDelete} >Delete</CButton>
+        return <CustomButton
+            border="1px solid"
+            borderRadius="4px"
+            ButtonText="Delete"
+            fontSize="14px"
+            color="red"
+            fontWeight="500"
+            fullWidth={false}
+            variant="outlined"
+            padding="5px 10px"
+            onClick={handleDelete}
+            background="#fff"
+            hoverBg="#f5f5f5"
+            hovercolor="darkred"
+            type="button"
+        />
     }
 
     const buttonForViewInformation = (rowData) => {
         const navigateUserInformation = () => {
             navigate(`viewInformation/${rowData._id}`);
         };
-        return <CButton style={{
-            width:"100px"
-        }} variant="outline" color='info' onClick={navigateUserInformation}>Details</CButton>
+        return <CustomButton
+            border="1px solid"
+            borderRadius="4px"
+            ButtonText="Details"
+            fontSize="14px"
+            color="blue"
+            fontWeight="500"
+            fullWidth={false}
+            variant="outlined"
+            padding="5px 10px"
+            onClick={navigateUserInformation}
+            background="#fff"
+            hoverBg="#f5f5f5"
+            hovercolor="darkblue"
+            type="button"
+        />
     };
 
     useEffect(() => {
@@ -104,57 +133,65 @@ const EmployeeData = () => {
     }, [searchTerm, allEmployee]);
 
     return (
-        <div className='sheet-container-admin'>
-            <div className="table-header">
-                <div className="search-container">
-                    <CIcon icon={cilMagnifyingGlass} size="xl" className="search-icon"></CIcon>
-                    <input
+        <Box className='sheet-container-admin'>
+            <Box className="table-header">
+                {/* <Box className="search-container" sx={{ display: 'flex', alignItems: 'center' }}>
+                    <SearchIcon sx={{ color: 'white', marginRight: 1 }} />
+                    <CustomTextField
+                        placeholder="Search by Name & Email"
                         type="text"
-                        label="Search by Name & Email"
-                        // variant="outlined"
-                        // fullWidthz
-                       
-                        className="search-box-input"
-                        placeholder="search"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
-                </div>
-                <div className="register-user" onClick={()=>navigate('/dashboard/admin/register')}>
-                    Register User
-                </div>
-            </div>
-            <div>
+                </Box> */}
+                <CustomButton
+                    ButtonText="Add User +"
+                    fontSize="18px"
+                    color="white"
+                    fontWeight="500"
+                    fullWidth={false}
+                    variant="contained"
+                    padding="10px 20px"
+                    onClick={() => navigate('/dashboard/admin/register')}
+                    background="#157AFF"
+                    hoverBg="#303f9f"
+                    hovercolor="white"
+                    type="button"
+                    width={"150px"}
+                    borderRadius="7px"
+                />
+            </Box>
+            <Box>
                 {loading ? (
-                    <div className="loaderContainer"><Loader /></div>
+                    <Box className="loaderContainer"><Loader /></Box>
                 ) : (
-                    <CTable className="data-table" hover striped responsive>
-                        <CTableHead>
-                            <CTableRow>
-                                <CTableHeaderCell>Full Name</CTableHeaderCell>
-                                <CTableHeaderCell>Email</CTableHeaderCell>
-                                {/* <CTableHeaderCell>Attendance</CTableHeaderCell> */}
-                                <CTableHeaderCell>View Details</CTableHeaderCell>
-                                <CTableHeaderCell>Toggle Status</CTableHeaderCell>
-                                <CTableHeaderCell>Delete User</CTableHeaderCell>
-                            </CTableRow>
-                        </CTableHead>
-                        <CTableBody>
-                            {filteredEmployees.map((employee, index) => (
-                                <CTableRow  key={index}>
-                                    <CTableDataCell>{employee.fullName}</CTableDataCell>
-                                    <CTableDataCell>{employee.email}</CTableDataCell>
-                                    {/* <CTableDataCell>{buttonForViewDetails(employee)}</CTableDataCell> */}
-                                    <CTableDataCell>{buttonForViewInformation(employee)}</CTableDataCell>
-                                    <CTableDataCell>{ToggleUserStatus(employee)}</CTableDataCell>
-                                    <CTableDataCell>{DeleteUser(employee)}</CTableDataCell>
-                                </CTableRow>
-                            ))}
-                        </CTableBody>
-                    </CTable>
+                    <TableContainer>
+                        <Table className="data-table"  >
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Full Name</TableCell>
+                                    <TableCell>Email</TableCell>
+                                    <TableCell>View Details</TableCell>
+                                    <TableCell>Toggle Status</TableCell>
+                                    <TableCell>Delete User</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {filteredEmployees.map((employee, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell>{employee.fullName}</TableCell>
+                                        <TableCell>{employee.email}</TableCell>
+                                        <TableCell>{buttonForViewInformation(employee)}</TableCell>
+                                        <TableCell>{ToggleUserStatus(employee)}</TableCell>
+                                        <TableCell>{DeleteUser(employee)}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 )}
-            </div>
-        </div>
+            </Box>
+        </Box>
     );
 };
 

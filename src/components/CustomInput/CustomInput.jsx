@@ -67,7 +67,7 @@ const CustomTextField = forwardRef(({
             height: "56px",
             '& .MuiOutlinedInput-root': {
               borderRadius: "12px",
-              border: "1px solid rgba(102, 102, 102, 0)",
+              // border: "1px solid rgba(102, 102, 102, 0)",
               color: "white", // Ensures the text color in the input field is white
             },
             '& .MuiInputBase-input': {

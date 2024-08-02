@@ -118,7 +118,7 @@ const Login = () => {
                                 )}
                             />
                         </Typography>
-                        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                        <Box sx={{ display: "flex", justifyContent: "space-between" , alignItems:"center" }}>
                             <FormControlLabel
                                 style={{ color: "white" }}
                                 control={

@@ -138,7 +138,7 @@ const AppSidebar = () => {
                         <CNavGroup toggler={<><CIcon customClassName="nav-icon" icon={cilFlagAlt} /> Admin</>}>
                             <CNavItem>
                                 <NavLink to={"/dashboard/admin"} className={"nav-link navItem"} end>
-                                    <CIcon customClassName='nav-icon' icon={cilPeople} /> Employees
+                                    <CIcon customClassName='nav-icon' icon={cilPeople} /> User Management
                                 </NavLink>
                             </CNavItem>
                             <CNavItem>

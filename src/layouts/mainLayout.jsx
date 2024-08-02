@@ -46,7 +46,7 @@ const SingleLayout = () => {
                 position: "relative",
                 width: {
                     xs: "100vw",
-                    sm: "90vw",
+                    sm: "100%",
                     md: "90%",
                 },
                 maxWidth: "1440px",
@@ -58,6 +58,8 @@ const SingleLayout = () => {
                 minWidth: {
                     md: "400px"
                 },
+                position: "relative",  
+                 
             }}
         >
             <Box
@@ -69,14 +71,21 @@ const SingleLayout = () => {
                     backgroundPosition: "center", // Adjust this based on your preference
                     backgroundRepeat: "no-repeat", // Ensure the image does not repeat
                     backgroundAttachment: "fixed",
-                    padding: "20px", // Add padding to prevent content from touching the edges
+                    padding: {
+                        xs:"0px",
+                        md:"20px"
+                    }, // Add padding to prevent content from touching the edges
                     // borderRadius:"90px"
                     // border: "2px solid red",
                     backgroundSize: "center",
-                    position: "relative",
+                    background: {
+                        xs: "linear-gradient(180deg, #010115 0%, #00003E 100%)",
+                        md:"none"
+                    }
+                   
                 }}
             >
-                <img src={layoutImage} alt=""
+                <img className="mainLayoutScreenImages" src={layoutImage} alt=""
                 style={{
                     zIndex:"-2000",
                     position:"absolute",
@@ -90,18 +99,31 @@ const SingleLayout = () => {
                     // border:"2px solid red",
                 }}
                 >
-                    <Box sx={{display:"flex", justifyContent:"end"}} >
-                        <Box sx={{width:"600px", mr:"50px", mt:"60px"}} >
+                    <Box sx={{display:"flex", justifyContent:{
+                        md:"end",
+                        xs:"start"
+
+                    }}} >
+                        <Box sx={{width:{
+                        md:"600px",
+                        xs:"100%",
+                        }, mr:{
+                            md:"50px",
+                            xs:"0px"
+                        }, mt:"60px",
+                       }} >
                             <Outlet context={setAccessToken} />
                         </Box>
                     </Box>
+                
                 </Box>
             </Box>
-            <img src={belowlayoutImage} alt="" style={{
+            <img className="mainLayoutScreenImages" src={belowlayoutImage} alt="" style={{
                 position: "absolute",
-                bottom: "80px",
+                bottom: "70px",
                 left: "35px",
-                width: "41%"
+                width: "41%",
+                height:"100px"
             }} />
         </Box>
     );

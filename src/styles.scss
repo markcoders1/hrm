@@ -38,12 +38,14 @@
 
 .sidebar-brand-full {
   margin-left: 3px;
+  
 }
 
 .sidebar-header {
   .nav-underline-border {
-    --cui-nav-underline-border-link-padding-x: 1rem;
+    --cui-nav-underline-border-link-padding-x: 4rem;
     --cui-nav-underline-border-gap: 0;
+   
   }
 
   .nav-link {
@@ -60,12 +62,12 @@
 .sidebar-narrow,
 .sidebar-narrow-unfoldable:not(:hover) {
   .sidebar-toggler {
-    @include ltr-rtl("margin-right", auto);
+    // @include ltr-rtl("margin-right", auto);
   }
 }
 
 .header > .container-fluid + .container-fluid {
-  min-height: 3rem;
+  min-height: 0rem;
 }
 
 .footer {

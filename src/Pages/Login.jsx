@@ -1,5 +1,5 @@
-import { CFormInput, CButton, CForm, CFormCheck } from "@coreui/react";
-import { useForm } from "react-hook-form";
+import { Box, Typography, FormControlLabel, Checkbox } from "@mui/material";
+import { useForm, Controller } from "react-hook-form";
 import { useNavigate, NavLink, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosInstance from "../auth/axiosInstance";
@@ -7,35 +7,31 @@ import "react-toastify/dist/ReactToastify.css";
 import { LoaderW } from "../components/Loaders";
 import { useState, useEffect } from "react";
 import UAParser from "ua-parser-js";
-
-import '../css/Login.css'
-
+import CustomTextField from "../components/CustomInput/CustomInput"; // Adjust the import path as needed
+import CustomButton from "../components/CustomButton/CustomButton"; // Adjust the import path as needed
+import '../css/Login.css';
 const Login = () => {
     let parser = new UAParser();
     const [isLoading, setIsLoading] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
-    // const [accessToken,setAccessToken]= useState(null)
     const setAccessToken = useOutletContext();
     const navigate = useNavigate();
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
     useEffect(() => {
         const refreshToken = localStorage.getItem("refreshToken");
         if (refreshToken) {
             sessionStorage.setItem("refreshToken", refreshToken);
             navigate("/checkin")
         }
-        
     }, []);
-
     const {
-        register,
+        control,
         handleSubmit,
         reset,
         formState: { errors }
     } = useForm();
-
     const onSubmit = async (data) => {
+        console.log(data)
         const { email, password } = data;
         setIsLoading(true);
         try {
@@ -43,12 +39,11 @@ const Login = () => {
                 email,
                 password,
                 "device": `${parser.getBrowser().name} | ${parser.getCPU().architecture} | ${parser.getOS().name}`
-                
             });
-            console.log(response)
+            console.log(response);
             sessionStorage.setItem("accessToken", response.data.accessToken);
             sessionStorage.setItem("refreshToken", response.data.refreshToken);
-            setAccessToken(response.data.accessToken)
+            setAccessToken(response.data.accessToken);
             if (rememberMe) {
                 localStorage.setItem("refreshToken", response.data.refreshToken);
             }
@@ -66,71 +61,115 @@ const Login = () => {
             setIsLoading(false);
         }
     };
-
     const handleRememberMe = () => {
         setRememberMe(!rememberMe);
     };
-
     return (
         <>
-            <div className="login-container">
-                {import.meta.env.VITE_hi=="hi"?console.log('yes'):console.log("no")}
-                <h1 className="Login-Header">Login</h1>
-                <CForm onSubmit={handleSubmit(onSubmit)}>
-                    <div className="loginFields">
-                        <CFormInput
-                            type="email"
-                            id="email"
-                            floatingClassName="mb-3"
-                            floatingLabel="Email address"
-                            placeholder="name@example.com"
-                            {...register("email", { required: "Email is required" })}
-                            size="lg"
-                        />
-                        {errors.email && <span className="error">{errors.email.message}</span>}
-                        <CFormInput
-                            type="password"
-                            id="password"
-                            floatingClassName="mb-3"
-                            floatingLabel="Password"
-                            placeholder="Password"
-                            {...register("password", { required: "Password is required" })}
-                            size="lg"
-                        />
-                        {errors.password && <span className="error">{errors.password.message}</span>}
-                        <div
-                            className="forget-pass-btn"
-                        > <NavLink to='forgotPassword' >Forget Password</NavLink> </div>
-                        <CFormCheck
-                            className="mb-3"
-                            label="Remember Me"
-                            checked={rememberMe}
-                            onChange={handleRememberMe}
-                        />
-                    </div>
-                    <CButton
-
-                        style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            height: "45px",
-                            width: "100%",
-                            backgroundColor: "#010115",
-                            color: "white"
-
-                        }}
-
-                        color="dark" variant="outline" size="lg" type="submit">
-                        {isLoading ? <LoaderW /> : "Login"}
-                    </CButton>
-                </CForm>
-            </div>
+            <Box className="login-container">
+                <Box>
+                    <Typography sx={{
+                        fontWeight: "600",
+                        fontSize: "45px",
+                        color: "#FFFFFF"
+                    }}>Sign in</Typography>
+                    <Typography sx={{
+                        fontWeight: "400",
+                        fontSize: "16px",
+                        color: "#A0A4A9"
+                    }}>Welcome back! Please enter your login details.</Typography>
+                </Box>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <Box className="loginFields">
+                        <Typography sx={{ display: "flex", gap: "5px", flexDirection: "column", marginTop: "30px" }}>
+                            <label style={{ color: "white", fontWeight: "400", fontSize: "18px" }}>Email</label>
+                            <Controller
+                                name="email"
+                                control={control}
+                                defaultValue=""
+                                rules={{ required: "Email is required" }}
+                                render={({ field }) => (
+                                    <CustomTextField
+                                        border={true}
+                                        error={errors.email?.message}
+                                        type="email"
+                                        rows={1}
+                                        {...field}
+                                    />
+                                )}
+                            />
+                        </Typography>
+                        <Typography sx={{ display: "flex", gap: "5px", flexDirection: "column", marginTop: "30px" }}>
+                            <label style={{ color: "white", fontWeight: "400", fontSize: "18px" }}>Password</label>
+                            <Controller
+                                name="password"
+                                control={control}
+                                defaultValue=""
+                                rules={{ required: "Password is required" }}
+                                render={({ field }) => (
+                                    <CustomTextField
+                                        border={true}
+                                        error={errors.password?.message}
+                                        type="password"
+                                        rows={1}
+                                        showPasswordToggle={true}
+                                        {...field}
+                                    />
+                                )}
+                            />
+                        </Typography>
+                        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                            <FormControlLabel
+                                style={{ color: "white" }}
+                                control={
+                                    <Checkbox 
+                                        checked={rememberMe} 
+                                        onChange={handleRememberMe} 
+                                        sx={{
+                                            color: "white",
+                                            '&.Mui-checked': {
+                                                color: "white",
+                                            },
+                                            // '& .MuiSvgIcon-root': {
+                                            //     border: '1px solid white',
+                                            // },
+                                        }}
+                                    />
+                                }
+                                label="Remember me"
+                            />
+                            <Box  >
+                                <NavLink style={{color:"white", textDecoration:"none"}} to='forgotPassword'>Forget Password</NavLink>
+                            </Box>
+                        </Box>
+                    </Box>
+                    <Box
+                    sx={{
+                        mt:"60px"
+                    }}
+                    >
+                    <CustomButton
+                        border="none"
+                        borderRadius="32px"
+                        buttonTextStyle={{ color: "white" }}
+                        buttonStyle={{ color: "white" }}
+                        ButtonText="Sign in"
+                        fontSize="20px"
+                        color="white"
+                        fontWeight="400"
+                        fullWidth={true}
+                        variant="contained"
+                        padding="16px 0"
+                        background="#157AFF"
+                        hoverBg="#157A99F"
+                        hovercolor="white"
+                        type="submit"
+                        loading={isLoading}
+                    />
+                       </Box>
+                </form>
+            </Box>
         </>
     );
 };
-
 export default Login;
-
-
-

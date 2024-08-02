@@ -9,11 +9,9 @@ import { ForgotPassword } from './Pages/forgotPassword.jsx';
 import { Suspense } from 'react';
 import React from 'react';
 import { PageLoader } from './components/Loaders.jsx';
-
 // protected Route
 const ProtectedRoute = React.lazy(() => import('./ProtectedRoutes/ProtectedRoute.jsx'));
 const ProtectedAdmin = React.lazy(() => import('./ProtectedRoutes/ProtectedRouteForAdmin.jsx'));
-
 const Login = React.lazy(() => import('./Pages/Login.jsx'));
 const Check = React.lazy(() => import('./Pages/Checkin.jsx'));
 const NotFound = React.lazy(() => import('./Pages/404.jsx'));
@@ -29,9 +27,7 @@ const EmployeeData = React.lazy(() => import('./Pages/EmployeeData.jsx'));
 const EmployeeAttendance = React.lazy(() => import('./Pages/EmployeeAttendance.jsx'));
 const Devices = React.lazy(() => import('./Pages/Devices.jsx'));
 import store from './store.js';
-
 import ProtectedAdminCheckin from './ProtectedRoutes/ProtectedRouteForCheckinAdmin.jsx';
-
 function App() {
   return (
     <Provider store={store}>
@@ -46,7 +42,6 @@ function App() {
                 <Route path='forgotPassword' element={<ForgotPassword />} />
                 <Route path='*' element={<NotFound />} />
               </Route>
-
               <Route path='/dashboard' element={<ProtectedRoute><DefaultLayout /></ProtectedRoute>}>
                 <Route path='' element={<Profile />} />
                 <Route path='progress' element={<Attendance />} />
@@ -64,5 +59,4 @@ function App() {
     </Provider>
   );
 }
-
 export default App;

@@ -3,36 +3,32 @@
   --main-card-color: #010115;
   --font-color: rgba(37, 169, 224, 1);
 }
-
 html {
   height: 100vh;
   font-size: 14px;
 }
-
-* {
+*,
+:root,
+html,
+body {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  margin: 0px;
-  padding: 0px;
+  font-family: "Poppins", sans-serif !important;
 }
-
 body {
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
   /* background-color: rgba(204, 219, 253, 1) !important; */
-  background-color: rgb(220, 220, 220) !important;
-
-
+  background-color: white !important;
   color: black;
-
 }
-
 .menu-bar {
   display: none;
   font-size: 2rem;
   color: white;
 }
-
 @font-face {
   font-family: 'MyCustomFont';
   src: url('./assets/clash-display/ClashDisplayBold.otf') format('otf'),
@@ -41,48 +37,37 @@ body {
   font-weight: normal;
   font-style: normal;
 }
-
 .outlet-box {
   width: 100%;
   margin: 0px;
 }
-
 .margin-small {
   transition: 3s ease;
 }
-
 .layout-container {
   display: flex;
   background-color: rgb(214, 214, 214);
   height: 100%;
   width: 100%;
 }
-
-
 .sidebar {
   height: 100%;
   position: relative;
   background-color: #010115 !important;
   position: fixed !important;
 }
-
 .hide-sidebar {
   transform: translateX(-100px);
 }
-
 #logo {
   margin-top: 49px;
 }
-
 #logo>img {
   border: 3px solid white;
   margin: auto;
   background-color: #fff;
   padding: 0px;
-
-
 }
-
 .cross {
   position: absolute;
   top: 10px;
@@ -92,72 +77,54 @@ body {
   cursor: pointer;
   display: none;
 }
-
 .toggleShowHide {
   /* Ensure the sidebar retains height when toggled */
   height: 100vh;
-
 }
-
 #foldable-sidebar {
   margin-left: 56px;
 }
-
 .navItem {
   cursor: pointer;
   margin-left: 20px;
   border-left: 1px solid rgba(112, 128, 144, 0.4) !important;
 }
-
 /* loader div styling */
 .loaderContainer {
   display: fle;
   margin-top: 50px;
   padding: 30px 0px;
-
   justify-content: center;
   align-items: center;
   width: 100%;
-
 }
-
-
 .wrapper {
   background-color: rgb(220, 220, 220) !important;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-
 }
-
 .layout-main {
   display: flex;
   border: 2px solid red;
 }
-
 .error {
   color: red;
   font-size: 0.9rem;
 }
-
 @media only screen and (max-width: 998px) {
-
   .sidebar,
   .sidebar-backdrop.fade {
     z-index: -1000;
     transform: translateX(-10px);
   }
-
   .toggleShowHide {
     transform: translateX(220px);
   }
-
   .cross {
     display: flex;
   }
-
 }
-
 @media only screen and (max-width: 700px) {
   .menu-bar {
     display: flex;
@@ -165,17 +132,13 @@ body {
     color: white;
     background-color: red;
   }
-
   .small-screen {
     background-color: red;
   }
-
   .sidebar-backdrop.fade {
     opacity: 0;
   }
 }
-
-
 /* sidebar */
 .logout-button {
   width: 100%;
@@ -184,19 +147,15 @@ body {
   border-radius: 20px;
   cursor: pointer;
 }
-
 .img-thumbnail {
   height: 55px;
   width: 55px;
   justify-self: center;
   cursor: pointer;
 }
-
 .img-thumbnail-container {
   display: flex;
   justify-content: center;
   width: 100%;
   height: 100%;
 }
-
-/* employee.jsx */

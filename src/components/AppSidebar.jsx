@@ -4,7 +4,9 @@ import axiosInstance from "../auth/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import { PageLoader } from "./Loaders";
 import { toast } from "react-toastify";
-
+import SnackAlert from "./SnackAlert/SnackAlert";
+import { Box, Typography } from "@mui/material";
+import ChangePasswordModal from "./ChangePasswordModal/ChangePasswordModal";
 import {
     CSidebar,
     CSidebarFooter,
@@ -35,13 +37,15 @@ import {
     cilRoom,
     cilPeople,
     cilNotes,
+    cilLockUnlocked
 } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import UAParser from "ua-parser-js";
 
-const parser = new UAParser()
+const parser = new UAParser();
 
 const AppSidebar = () => {
+    const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
     const dispatch = useDispatch();
@@ -69,11 +73,11 @@ const AppSidebar = () => {
 
     const handleLogout = () => {
         axiosInstance({
-            url:`${apiUrl}/api/auth/logout`,
-            method:'post',
-            data:{
-                refreshToken:sessionStorage.getItem('refreshToken'),
-                deviceId:`${parser.getBrowser().name} | ${parser.getCPU().architecture} | ${parser.getOS().name}`
+            url: `${apiUrl}/api/auth/logout`,
+            method: 'post',
+            data: {
+                refreshToken: sessionStorage.getItem('refreshToken'),
+                deviceId: `${parser.getBrowser().name} | ${parser.getCPU().architecture} | ${parser.getOS().name}`
             }
         })
         sessionStorage.clear();
@@ -81,25 +85,23 @@ const AppSidebar = () => {
         navigate('/')
     };
 
-    const handleLogoutAll=async ()=>{
-        const response=await axiosInstance({
-            url:`${apiUrl}/api/auth/logout-all-except`,
-            method:'post',
-            data:{
-                refreshToken:sessionStorage.getItem('refreshToken'),
-                deviceId:new UAParser().getUA()
+    const handleLogoutAll = async () => {
+        const response = await axiosInstance({
+            url: `${apiUrl}/api/auth/logout-all-except`,
+            method: 'post',
+            data: {
+                refreshToken: sessionStorage.getItem('refreshToken'),
+                deviceId: new UAParser().getUA()
             }
         })
         setLogoutAllVisible(false)
         toast.success(response.data.message)
     }
 
-
     return !pageloading ? (
         <>
             <CSidebar
                 className="border-end small-screen"
-                
                 colorScheme="dark"
                 position="fixed"
                 unfoldable={unfoldable}
@@ -132,6 +134,7 @@ const AppSidebar = () => {
                                     <CIcon customClassName="nav-icon" icon={cilArrowCircleBottom} /> Checkin
                                 </NavLink>
                             </CNavItem>
+                            
                         </>
                     )}
                     {isAdmin === "admin" && (
@@ -143,24 +146,29 @@ const AppSidebar = () => {
                             </CNavItem>
                             <CNavItem>
                                 <NavLink to={"admin/attendance"} className={"nav-link  navItem"} end>
-                                <CIcon customClassName='nav-icon' icon={cilNotes} /> Attendance Record
+                                    <CIcon customClassName='nav-icon' icon={cilNotes} /> Attendance Record
                                 </NavLink>
                             </CNavItem>
                         </CNavGroup>
                     )}
                     <CNavGroup toggler={<><CIcon customClassName="nav-icon" icon={cilLockLocked} /> Account</>}>
                         <CNavItem>
-                            <div className="nav-link navItem" onClick={() => setLogoutAllVisible(true)} >
+                                <div className="nav-link navItem" onClick={() => setOpen(true)}>
+                                    <CIcon customClassName="nav-icon" icon={cilLockUnlocked} /> Change Password
+                                </div>
+                            </CNavItem>
+                        <CNavItem>
+                            <div className="nav-link navItem" onClick={() => setLogoutAllVisible(true)}>
                                 <CIcon customClassName="nav-icon" icon={cilArrowCircleTop} /> Logout Everywhere
                             </div>
                         </CNavItem>
                         <CNavItem>
                             <NavLink to={"/dashboard/devices"} className="nav-link navItem" end>
-                            <CIcon customClassName="nav-icon" icon={cilLaptop} /> logged in devices
+                                <CIcon customClassName="nav-icon" icon={cilLaptop} /> logged in devices
                             </NavLink>
                         </CNavItem>
                         <CNavItem>
-                            <div className="nav-link navItem" onClick={() => console.log("hi")} >
+                            <div className="nav-link navItem" onClick={() => console.log("hi")}>
                                 <CIcon customClassName="nav-icon" icon={cilGraph} /> Activity
                             </div>
                         </CNavItem>
@@ -175,9 +183,7 @@ const AppSidebar = () => {
                     <CSidebarToggler onClick={() => dispatch({ type: "set", sidebarUnfoldable: !unfoldable })} />
                 </CSidebarFooter>
             </CSidebar>
-            
-            
-            
+
             <CModal alignment="center" visible={logoutVisible} onClose={() => setLogoutVisible(false)} aria-labelledby="VerticallyCenteredExample">
                 <CModalHeader>
                     <CModalTitle id="VerticallyCenteredExample">Logout</CModalTitle>
@@ -189,7 +195,6 @@ const AppSidebar = () => {
                 </CModalFooter>
             </CModal>
 
-
             <CModal alignment="center" visible={logoutAllVisible} onClose={() => setLogoutAllVisible(false)} aria-labelledby="VerticallyCenteredExample">
                 <CModalHeader>
                     <CModalTitle id="VerticallyCenteredExample">Logout</CModalTitle>
@@ -200,6 +205,17 @@ const AppSidebar = () => {
                     <CButton color="info" onClick={handleLogoutAll}>Log Out</CButton>
                 </CModalFooter>
             </CModal>
+
+            <ChangePasswordModal
+                open={open}
+                handleClose={() => setOpen(false)}
+            />
+
+            <SnackAlert
+                handleClose={() => {
+                    setSnackAlertData((prev) => ({ ...prev, open: false }));
+                }}
+            />
         </>
     ) : <PageLoader />;
 };

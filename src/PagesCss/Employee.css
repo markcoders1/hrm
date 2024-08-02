@@ -54,7 +54,8 @@
   }
   .table-header{
     display: flex;
-    justify-content: end;
+    justify-content: space-between !important;
+    border: 2px solid red;
   }
   .register-user{
     background-color: #010115;
@@ -104,3 +105,9 @@
         margin-right: 0px;
     }
   }
+
+
+
+
+
+  

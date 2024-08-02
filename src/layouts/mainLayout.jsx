@@ -52,14 +52,14 @@ const SingleLayout = () => {
                 maxWidth: "1440px",
                 maxHeight:"1000px",
                 height:{
-                    md:"100vh",
-                    xs:"100vh"
+                    md:"100%",
+                    xs:"100%"
                 },
                 minWidth: {
                     md: "400px"
                 },
                 position: "relative",  
-                 
+                 minHeight:"900px"
             }}
         >
             <Box

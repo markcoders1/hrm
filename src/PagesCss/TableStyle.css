@@ -1,0 +1,56 @@
+.datatable-responsive-demo .MuiTable-root {
+    border: none;
+}
+
+.MuiTable-root {
+    border-collapse: separate !important;
+    border-spacing: 0px 30px !important;
+}
+
+.MuiTableContainer-root {
+    background-color: rgb(255, 255, 255) !important;
+    box-shadow: none !important;
+}
+
+.MuiTableHead-root {
+    color:  #010120;
+    font-weight: 500 !important;
+    text-align: center;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+}
+
+.MuiTableCell-root {
+    color: #FDFDFD;
+    text-align: start;
+    font-weight: 600;
+    padding: 10px;
+}
+
+.MuiTableBody-root {
+    display: flex;
+    flex-direction: column;
+}
+
+.MuiTableBody-root .MuiTableCell-root {
+    text-align: center;
+    padding: 10px;
+    color: #333333;
+    font-weight: 500;
+}
+
+.colorsGivingSpecific {
+    color: #A0A4A9 !important;
+}
+/* row data */
+
+.MuiTableRow-root {
+    background: white;
+    box-shadow: 4px 5px 15px 0px #dbdada;
+    border-radius: 10px !important;
+}
+/* row daa hover */
+.MuiTableRow-root:hover {
+    background: #f1f1f1;
+}

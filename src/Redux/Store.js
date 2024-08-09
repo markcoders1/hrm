@@ -5,6 +5,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import userReducer from './userSlice';
 // import persistReducer from "redux-persist/es/persistReducer";
 import sidebarReducer from './toggleSidebar';
+import SnackAlertReducer from './SnackAlertSlice'
 
 const persistConfig = {
     key: 'root',
@@ -12,7 +13,7 @@ const persistConfig = {
     whitelist: ['cart', 'user']
 }
 const reducer = combineReducers({
-  
+    snackAlert: SnackAlertReducer,
     user: userReducer, 
     sidebar: sidebarReducer,
 })

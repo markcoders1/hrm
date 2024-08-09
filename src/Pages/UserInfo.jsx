@@ -125,7 +125,7 @@ const UserInfo = () => {
                             :
                             <Box className='input-box' sx={{
                                 backgroundColor:"#e7eaee",
-                                color:"#7d8189",
+                                color:"#626771",
                                 borderColor:"#d4d9dd"
                             }}>{employeeData.DOB}</Box>}
                         </div>

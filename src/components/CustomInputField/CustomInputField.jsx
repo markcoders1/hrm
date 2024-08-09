@@ -1,7 +1,7 @@
 import { Box, FormControl, TextField, Typography, IconButton } from "@mui/material";
 import { forwardRef, useState } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fontawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fontawesome/free-solid-svg-icons';
 
 const CustomTextField = forwardRef(({
   type = "text",

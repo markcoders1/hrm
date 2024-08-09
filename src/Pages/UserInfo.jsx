@@ -7,6 +7,7 @@ import "../PagesCss/UserInfo.css";
 import { Loader } from "../components/Loaders";
 import { CForm, CFormInput, CButton } from "@coreui/react";
 import { useForm } from "react-hook-form";
+import { Box } from "@mui/material";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const UserInfo = () => {
@@ -119,7 +120,14 @@ const UserInfo = () => {
                         </div>
                         <div className="input">
                             <label className='input-label'>DOB : </label>
-                            <CFormInput className='input-box' type="date" disabled={!inputAbled} placeholder={employeeData.DOB} {...register("DOB")} />
+                            {inputAbled?
+                            <CFormInput className='input-box' type="date" disabled={!inputAbled} {...register("DOB")} />
+                            :
+                            <Box className='input-box' sx={{
+                                backgroundColor:"#e7eaee",
+                                color:"#7d8189",
+                                borderColor:"#d4d9dd"
+                            }}>{employeeData.DOB}</Box>}
                         </div>
                         <div className="input">
                             <label className='input-label'>Status : </label>

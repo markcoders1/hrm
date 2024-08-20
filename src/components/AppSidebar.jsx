@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import SnackAlert from "./SnackAlert/SnackAlert";
 import { Box, Typography } from "@mui/material";
 import ChangePasswordModal from "./ChangePasswordModal/ChangePasswordModal";
+import hresquelogo from '../assets/hresquelogo.png'
 import {
     CSidebar,
     CSidebarFooter,
@@ -101,7 +102,7 @@ const AppSidebar = () => {
     return !pageloading ? (
         <>
             <CSidebar
-                className="border-end small-screen"
+                className="border-end small-screen" 
                 colorScheme="dark"
                 position="fixed"
                 unfoldable={unfoldable}
@@ -110,15 +111,20 @@ const AppSidebar = () => {
                     dispatch({ type: "set", sidebarShow: visible });
                 }}
             >
-                <CSidebarHeader className="border-bottom">
+                <CSidebarHeader style={{marginTop:"10px"}}>
                     <div className="img-thumbnail-container">
-                        <img src="/logo.svg" alt="123" className="img-thumbnail" onClick={() => navigate('/')} />
+                        {/* <img src="/logo.svg" alt="123" className="img-thumbnail" onClick={() => navigate('/')} /> */}
+                        <img src={hresquelogo} style={{width:"120px", height:"42px"}} alt="" />
                     </div>
                 </CSidebarHeader>
-                <CSidebarNav>
-                    <CNavTitle>Hresque</CNavTitle>
-                    <CNavItem>
+                <CSidebarNav className="nav-top" >
+                <CNavItem>
                         <NavLink to="/dashboard/" end className="nav-link">
+                            <CIcon customClassName="nav-icon" icon={cilUser} /> Dashboard
+                        </NavLink>
+                    </CNavItem>
+                    <CNavItem>
+                        <NavLink to="/dashboard/profile" end className="nav-link">
                             <CIcon customClassName="nav-icon" icon={cilUser} /> Profile
                         </NavLink>
                     </CNavItem>
@@ -129,11 +135,11 @@ const AppSidebar = () => {
                                     <CIcon customClassName="nav-icon" icon={cilCalendar} /> Attendance
                                 </NavLink>
                             </CNavItem>
-                            <CNavItem>
+                            {/* <CNavItem>
                                 <NavLink to="/checkin" className="nav-link">
                                     <CIcon customClassName="nav-icon" icon={cilArrowCircleBottom} /> Checkin
                                 </NavLink>
-                            </CNavItem>
+                            </CNavItem> */}
                             
                         </>
                     )}

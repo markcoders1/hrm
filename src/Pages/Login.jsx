@@ -17,11 +17,12 @@ const Login = () => {
     const setAccessToken = useOutletContext();
     const navigate = useNavigate();
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+
     useEffect(() => {
         const refreshToken = localStorage.getItem("refreshToken");
         if (refreshToken) {
             sessionStorage.setItem("refreshToken", refreshToken);
-            navigate("/checkin")
+            navigate("/dashboard")
         }
     }, []);
     const {
@@ -47,7 +48,7 @@ const Login = () => {
             if (rememberMe) {
                 localStorage.setItem("refreshToken", response.data.refreshToken);
             }
-            navigate("/checkin");
+            navigate("/dashboard")
             toast.success("User Logged In Successfully", {
                 position: "top-center",
             });
@@ -57,6 +58,7 @@ const Login = () => {
             toast.error(err, {
                 position: "top-center",
             });
+            console.log(error)
         } finally {
             setIsLoading(false);
         }

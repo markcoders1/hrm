@@ -28,6 +28,7 @@ const EmployeeAttendance = React.lazy(() => import('./Pages/EmployeeAttendance.j
 const Devices = React.lazy(() => import('./Pages/Devices.jsx'));
 import store from './store.js';
 import ProtectedAdminCheckin from './ProtectedRoutes/ProtectedRouteForCheckinAdmin.jsx';
+// import Home from './Pages/Home.jsx'
 function App() {
   return (
     <Provider store={store}>
@@ -43,7 +44,11 @@ function App() {
                 <Route path='*' element={<NotFound />} />
               </Route>
               <Route path='/dashboard' element={<ProtectedRoute><DefaultLayout /></ProtectedRoute>}>
-                <Route path='' element={<Profile />} />
+              <Route path='' element={<Check />} />
+
+                <Route path='profile' element={<Profile />} />
+                {/* <Route path='home' element={<Home />} /> */}
+
                 <Route path='progress' element={<Attendance />} />
                 <Route path='devices' element={<Devices />} />
                 <Route path='admin' element={<ProtectedAdmin><EmployeeData /></ProtectedAdmin>} />

@@ -91,22 +91,39 @@
     width: 70px;
     border-radius: 15px;
 }
+
+
+.logoimage{
+    width: 360px;
+    /* border: 2px solid red; */
+}
+
 @media only screen and (max-width: 1200px) {
     .form-left {
         padding: 1rem 0rem;
         transition: .3s;
+    }
+    .logoimage{
+        width: 260px;
+        /* border: 2px solid blue !important; */
     }
 }
 @media only screen and (max-width: 1000px) {
     .form-right-image>img {
         width: 250px;
     }
+
 }
 @media only screen and (max-width: 900px) {
     .mainLayoutScreenImages{
         display: none;
        
     }
+    .logoimage{
+        width: 260px;
+        border: 2px solid blue !important;
+    }
+    
 }
 
 @media only screen and (max-width: 600px) {

@@ -9,6 +9,7 @@ import MainHeader from "../components/MainHeader";
 import { Box, Typography } from "@mui/material";
 import layoutImage from "../assets/VectorLayout.png"
 import belowlayoutImage from "../assets/Vector 3.png"
+import hresqueLogo from '../assets/hresquelogo.png'
 const SingleLayout = () => {
     // const [refreshToken, setRefreshToken] = useState(null);
     const [accessToken, setAccessToken] = useState(null);
@@ -100,17 +101,48 @@ const SingleLayout = () => {
                 }}
                 >
                     <Box sx={{display:"flex", justifyContent:{
-                        md:"end",
+                        md:"space-between",
                         xs:"start"
 
-                    }}} >
+                    },}} >
                         <Box sx={{width:{
                         md:"600px",
                         xs:"100%",
+                        // border:"2px solid red"
+                        },
+                        ml:"100px",
+                        mt:"60px",
+                        color:"black",
+                        height:"570px ",
+                        backgroundColor:"white",
+                        borderRadius:"59px",
+                        display:{
+                            md:"flex",
+                            xs:"none"
+                        },
+                        justifyContent:"center",
+                        alignItems:"center",
+                        
+
+                       }} >
+                            <img 
+                            style={{
+                                width:{
+                                    lg:"360px",
+                                    md:"260px"
+                                }
+                            }}
+                            className="logoimage"
+                            src={hresqueLogo} alt="" />
+                        </Box>
+                        <Box sx={{width:{
+                        md:"600px", 
+                        xs:"100%",
                         }, mr:{
-                            md:"50px",
+                            md:"40px",
                             xs:"0px"
                         }, mt:"60px",
+                        // border:"3px solid yellow"
                        }} >
                             <Outlet context={setAccessToken} />
                         </Box>

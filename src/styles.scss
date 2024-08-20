@@ -56,7 +56,7 @@
 }
 
 .sidebar-toggler {
-  @include ltr-rtl("margin-left", auto);
+  @include ltr-rtl("margin-left", 300px);  
 }
 
 .sidebar-narrow,

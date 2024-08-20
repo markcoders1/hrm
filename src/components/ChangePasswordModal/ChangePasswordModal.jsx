@@ -3,12 +3,10 @@ import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Heading from '../Heading/Heading';
+import Button from '@mui/material/Button';import Heading from '../Heading/Heading';
 import CustomTextField from '../CustomInputField/CustomInputField';
 import CustomButton from '../CustomButton/CustomButton';
-
+import { Typography } from '@mui/material';
 import SnackAlert from '../SnackAlert/SnackAlert';
 import axiosInstance from '../../auth/axiosInstance';
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;

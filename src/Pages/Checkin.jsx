@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import axiosInstance from "../auth/axiosInstance";
 import { Loader, LoaderW } from "../components/Loaders.jsx";
 import { scheduleNotification } from "../Helper/notificationHelper";
+import { useOutletContext } from "react-router-dom";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -15,6 +16,8 @@ const Check = () => {
     const [loadingForBreakBtn, setLoadingForBreakBtn] = useState(false);
     const [latitude, setLatitude] = useState();
     const [longitude, setLongitude] = useState();
+    const setHeadertext = useOutletContext();
+
 
     const requestNotificationPermission = async () => {
         if (!("Notification" in window)) {
@@ -102,6 +105,7 @@ const Check = () => {
 
     useEffect(() => {
         requestNotificationPermission();
+        setHeadertext("Dashboard")
 
         const getStatus = async () => {
             try {
@@ -139,7 +143,7 @@ const Check = () => {
                 onClick={handleCheck}
                 disabled={loadingForCheckBtn}
             >
-                {loadingForCheckBtn ? <LoaderW /> : (status === "checkin" || status === "inbreak" ? "Check Out" : "Check In")}
+                {loadingForCheckBtn ? <LoaderW /> : (status === "checki-in" || status === "inbreak" ? "Check Out" : "Check-In")}
             </button>
             {status === "checkout" ? null : (
                 <button
@@ -151,7 +155,7 @@ const Check = () => {
                     onClick={handleBreak}
                     disabled={loadingForBreakBtn}
                 >
-                    {loadingForBreakBtn ? <LoaderW /> : (status === "checkin" ? "Break In" : "Break Out")}
+                    {loadingForBreakBtn ? <LoaderW /> : (status === "check-In" ? "Break In" : "Break Out")}
                 </button>
             )}
             {/* <button
@@ -169,13 +173,27 @@ const Check = () => {
     );
 
     return (
-        <div className='Home-container'>
+        <>
+        {
+            loading ? <div className="loaderContainer"><Loader /></div>  : 
+            <div className='Home-container'>
             <div className="check-container">
                 <div className="check-buttons">
-                    {loading ? <div className="loaderContainer"><Loader /></div> : <CheckButtons />}
+                    <CheckButtons />
                 </div>
             </div>
         </div>
+        }
+        
+        {/* <div className='Home-container'>
+            <div className="check-container">
+                <div className="check-buttons">
+                    {loading ? <div className="loaderContainer"><Loader /></div> : <CheckButtons />}    
+                </div>
+            </div>
+        </div> */}
+        </>
+
     );
 };
 

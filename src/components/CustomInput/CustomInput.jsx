@@ -1,8 +1,8 @@
-
 import { Box, FormControl, TextField, Typography, IconButton } from "@mui/material";
 import { forwardRef, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+
 const CustomTextField = forwardRef(({
   type = "text",
   rows = 4,
@@ -23,6 +23,7 @@ const CustomTextField = forwardRef(({
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
   return (
     <Box sx={{ mb: mb }}>
       <FormControl variant="standard" fullWidth
@@ -52,13 +53,16 @@ const CustomTextField = forwardRef(({
           sx={{
             '& ::placeholder': {
               fontSize: {
-                lg: "20px"
+                lg: "20px",
+                xs: "16px"
               },
               lineHeight: {
-                lg: "30px"
+                lg: "30px",
+                xs: "24px"
               },
               fontWeight: {
-                lg: "600"
+                lg: "600",
+                xs: "500"
               },
               color: "#2a2b2d",
               fontFamily: "poppins"
@@ -67,20 +71,43 @@ const CustomTextField = forwardRef(({
             height: "56px",
             '& .MuiOutlinedInput-root': {
               borderRadius: "12px",
-              // border: "1px solid rgba(102, 102, 102, 0)",
               color: "white", // Ensures the text color in the input field is white
             },
             '& .MuiInputBase-input': {
               color: "white", // Ensures the text color in the input field is white
+              '&:-webkit-autofill': {
+                WebkitBoxShadow: '0 0 0 1000px #010115 inset !important', // Ensure background color of the autofill
+                WebkitTextFillColor: 'white', // Text color of the autofill
+                borderRadius: "12px",
+                border: "none", // Ensure no border is added
+              },
+              '&:-webkit-autofill:hover': {
+                WebkitBoxShadow: '0 0 0 1000px #010115 inset !important', // Background color on hover
+                WebkitTextFillColor: 'white',
+                border: "none", // Ensure no border is added
+              },
+              '&:-webkit-autofill:focus': {
+                WebkitBoxShadow: '0 0 0 1000px #010115 inset !important', // Background color on focus
+                WebkitTextFillColor: 'white',
+                border: "none", // Ensure no border is added
+              },
+              '&:-webkit-autofill:active': {
+                WebkitBoxShadow: '0 0 0 1000px #010115 inset !important', // Background color on active
+                WebkitTextFillColor: 'white',
+                border: "none", // Ensure no border is added
+              },
             },
             fontSize: {
-              lg: "20px"
+              lg: "20px",
+              xs: "16px"
             },
             lineHeight: {
-              lg: "30px"
+              lg: "30px",
+              xs: "24px"
             },
             fontWeight: {
-              lg: "500"
+              lg: "500",
+              xs: "400"
             },
             backgroundColor: "none"
           }}
@@ -91,6 +118,7 @@ const CustomTextField = forwardRef(({
             maxLength: maxLength // Set the maxLength prop here
           }}
         />
+
         {showPasswordToggle && (
           <IconButton
             onClick={handleTogglePasswordVisibility}
@@ -99,7 +127,7 @@ const CustomTextField = forwardRef(({
               right: 25,
               top: '50%',
               transform: 'translateY(-50%)',
-              color:"white"
+              color: "white"
             }}
           >
             {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
@@ -113,7 +141,8 @@ const CustomTextField = forwardRef(({
           color: "black",
           mt: "8px",
           wordBreak: "break-word",
-          fontWeight: "500"
+          fontWeight: "500",
+          borderRadius:"5px"
         }}>
           {error}
         </Typography>
@@ -121,4 +150,5 @@ const CustomTextField = forwardRef(({
     </Box>
   );
 });
+
 export default CustomTextField;

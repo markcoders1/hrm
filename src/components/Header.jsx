@@ -25,24 +25,27 @@ const AppHeader = (props) => {
 
   return (
     <CHeader position="sticky" className="mb-4 p-0 px-5" ref={headerRef}>
-      <CContainer className=" " fluid>
-        <CHeaderToggler
-          onClick={() => dispatch({ type: 'set', sidebarShow: !sidebarShow })}
-          style={{ marginInlineStart: '-14px' }}
-        >
-          <CIcon icon={cilMenu} size="lg" />
-        </CHeaderToggler>
-      </CContainer>
-      <CContainer className=" d-flex d-flex" fluid>
-        <Typography
-        sx={{color:"#010120" , fontWeight:"600", fontSize:"40px"}}
-        >{headertext}</Typography>
-      </CContainer>
-      <CContainer className=" d-flex d-flex" fluid>
-        <Typography
-        sx={{color:"#878787" , fontWeight:"400", fontSize:"17px"}}
-        >{"50 Total Users"}</Typography>
-      </CContainer>
+      <div>
+        <CContainer className=" " fluid>
+          <CHeaderToggler
+            onClick={() => dispatch({ type: 'set', sidebarShow: !sidebarShow })}
+            style={{ marginInlineStart: '-14px' }}
+          >
+            <CIcon icon={cilMenu} size="lg" />
+          </CHeaderToggler>
+        </CContainer>
+        <CContainer className=" d-flex d-flex" fluid>
+          <Typography
+          sx={{color:"#010120" , fontWeight:"600", fontSize:"40px"}}
+          >{headertext}</Typography>
+        </CContainer>
+        <CContainer className=" d-flex d-flex" fluid>
+          <Typography
+          sx={{color:"#878787" , fontWeight:"400", fontSize:"17px"}}
+          >{"50 Total Users"}</Typography>
+        </CContainer>
+
+      </div>
     </CHeader>
   )
 }

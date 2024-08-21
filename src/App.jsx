@@ -51,7 +51,7 @@ function App() {
 
                 <Route path='progress' element={<Attendance />} />
                 <Route path='devices' element={<Devices />} />
-                <Route path='admin' element={<ProtectedAdmin><EmployeeData /></ProtectedAdmin>} />
+                <Route path='admin' element={<EmployeeData />} /> {/* here protecte Admin will be implement */}
                 <Route path='admin/attendance' element={<ProtectedAdmin><EmployeeAttendance /></ProtectedAdmin>} /> 
                 <Route path='admin/attendance/viewAttendance/:id' element={<ProtectedAdmin><UserAttendance /></ProtectedAdmin>} />
                 <Route path='admin/register' element={<ProtectedAdmin><Register /></ProtectedAdmin>} />

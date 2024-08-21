@@ -78,6 +78,7 @@ const Attendance = () => {
                     formattedTotalDuration: millisecondsToHMS(item.totalDuration),
                 }));
 
+                console.log("response",response)
                 setEmployeeData(transformedData);
                 setLoading(false);
             } catch (error) {
@@ -148,7 +149,8 @@ const Attendance = () => {
                     </label>
                 </div>
                 {loading ? (
-                    <div className="loaderContainer"><Loader /></div>
+                    // <div className="loaderContainer"><Loader /></div> 
+                   
                 ) : (
                     <CTable className="data-table" hover striped responsive>
                         <CTableHead>

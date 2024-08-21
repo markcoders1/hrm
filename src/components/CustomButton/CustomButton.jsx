@@ -19,7 +19,8 @@ const CustomButton = ({
     hovercolor = "",
     type,
     width,
-    loading = false
+    loading = false,
+    hoverBorder = ""
 }) => {
     return (
         <Button
@@ -41,7 +42,8 @@ const CustomButton = ({
                 ...buttonStyle,
                 '&:hover': {
                     background: hoverBg,
-                    color: hovercolor
+                    color: hovercolor,
+                    border: hoverBorder
                 }
             }}
             type={`${type}`}

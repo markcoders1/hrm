@@ -6,7 +6,7 @@ import axiosInstance from "../auth/axiosInstance";
 import { Loader } from "../components/Loaders";
 import CustomButton from "../components/CustomButton/CustomButton"; // Adjust the import path as needed
 import "../PagesCss/Employee.css"; // Import the CSS file for custom styles
-import editIcon from '../assets/editIcon.png'
+import editIcon from '../assets/EditIcon.png'
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -137,12 +137,40 @@ const EmployeeData = () => {
         />
     };
 
-    const buttonForEditInformation = (rowData) => {
-        const navigateUserInformation = () => {
-            navigate(`viewInformation/${rowData._id}`);
+        const buttonForEditInformation = (rowData) => {
+            const navigateUserInformation = () => {
+                navigate(`user-detail/${rowData._id}`);
+            };
+        
+            return (
+                <Box
+                    onClick={navigateUserInformation}
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        border: "none",
+                        borderRadius: "7px",
+                        fontSize: "14px",
+                        color: "#010120",
+                        fontWeight: "500",
+                        width: "27px",
+                        height: "27px",
+                        padding: "5px 10px",
+                        backgroundColor: "#fff",
+                        cursor: "pointer",
+                        transition: "background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease",
+                        '&:hover': {
+                            backgroundColor: "#157AFF", // Or any other color you prefer
+                            color: "darkgreen",
+                            borderColor: "#010120",
+                        },
+                    }}
+                >
+                    <img src={editIcon} style={{ width: "21.75px", height: "21.75px" }} alt="Edit" />
+                </Box>
+            );
         };
-        return <img src={editIcon} style={{width:"21.75px", height:"21.75px"}} alt="" />
-    };
 
     const filterEmployees = (tabValue, searchTerm) => {
         let filtered = allEmployee;
@@ -250,6 +278,17 @@ const EmployeeData = () => {
                                         borderRadius: "8px 0px 0px 8px",
                                         color: "#010120",
                                         paddingLeft: "40px"
+                                    }}>E ID</TableCell>
+                                    <TableCell className="MuiTableCell-root-head" sx={{
+                                        fontWeight: "500",
+                                        padding: "0px 0px",
+                                        fontSize: {
+                                            sm: "21px",
+                                            xs: "16px"
+                                        },
+                                        textAlign: "start",
+                                        color: "#010120",
+                                        paddingLeft: "40px"
                                     }}>Full Name</TableCell>
                                     <TableCell className="MuiTableCell-root-head" sx={{
                                         fontWeight: "500",
@@ -291,7 +330,9 @@ const EmployeeData = () => {
                                     <TableRow key={index} sx={{
                                         border: "2px solid #FFA100"
                                     }} className="MuiTableRow-root">
-                                        <TableCell sx={{ borderRadius: "8px 0px 0px 8px", color: "white", textAlign: "start !important", paddingLeft: "40px !important"
+                                         <TableCell sx={{ borderRadius: "8px 0px 0px 8px", color: "white", textAlign: "start !important", paddingLeft: "40px !important"
+                                        }} className="MuiTableCell-root">{employee.companyId}</TableCell>
+                                        <TableCell sx={{  color: "white", textAlign: "start !important", paddingLeft: "40px !important"
                                         }} className="MuiTableCell-root">{employee.fullName}</TableCell>
                                         <TableCell sx={{ textAlign: "start !important", paddingLeft: "0px !important" }} className="MuiTableCell-root">{employee.email}</TableCell>
                                         <TableCell sx={{ textAlign: "start !important", paddingLeft: "0px !important", color:"#99999C !important" }} className="MuiTableCell-root">{formatDate(employee.createdAt)}</TableCell>

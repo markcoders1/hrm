@@ -1,0 +1,28 @@
+.user-details-container {
+    padding:40px 50px;
+    border-radius: 8px;
+    background-color: #fff;
+    border: 1px solid rgba(197, 197, 197, 0.6);
+  }
+  
+  .user-details-item {
+    display: flex;
+    flex-direction: column;
+    gap:.7rem
+  }
+  
+  .user-details-label {
+    color: #9B9B9B;
+    font-weight: 400;
+    font-size: 12px;
+  }
+  
+  .user-details-value {
+    color: #010120;
+    font-weight: 500;
+    font-size: 16px;
+  }
+
+    /* .user-details-item:not(:first-child){
+        margin-top: 20px;
+    } */

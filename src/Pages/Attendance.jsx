@@ -149,7 +149,7 @@ const Attendance = () => {
                     </label>
                 </div>
                 {loading ? (
-                    // <div className="loaderContainer"><Loader /></div> 
+                    <div className="loaderContainer"><Loader /></div> 
                    
                 ) : (
                     <CTable className="data-table" hover striped responsive>

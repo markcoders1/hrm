@@ -17,7 +17,7 @@ const CustomButton = ({
     background = "",
     hoverBg = "",
     hovercolor = "",
-    type,
+    type = "",
     width,
     loading = false,
     hoverBorder = ""
@@ -28,6 +28,7 @@ const CustomButton = ({
             fullWidth={fullWidth}
             onClick={onClick}
             disabled={loading}
+            type={type}
             sx={{
                 border: border,
                 borderRadius,
@@ -36,7 +37,6 @@ const CustomButton = ({
                 color,
                 background,
                 fontWeight,
-                type,
                 width,
                 textTransform: "none",  // Ensures the text is displayed as provided
                 ...buttonStyle,

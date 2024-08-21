@@ -59,10 +59,16 @@
   color: white;
 }
 
-.MuiTableRow-root:not(:first-child):hover .MuiTableCell-root {
+.MuiTableRow-root:hover .MuiTableCell-root {
   color: white !important;
 }
 
+.header-row .MuiTableCell-root-head{
+  color: black !important;
+}
+.header-row:hover .MuiTableCell-root-head{
+  color: black !important;
+}
 
 
 .MuiTableRow-root:hover {
@@ -164,7 +170,4 @@ table > tbody > tr {
       font-size: 12px !important;
   }
 
-  .MuiTableRow-root:hover {
-      background: #5A3D0A;
-  }
 }

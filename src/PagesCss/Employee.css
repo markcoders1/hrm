@@ -68,6 +68,7 @@
 }
 .header-row:hover .MuiTableCell-root-head{
   color: black !important;
+  font-weight: 500 !important;
 }
 
 

@@ -2,19 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axiosInstance from "../auth/axiosInstance";
 import { useNavigate } from "react-router-dom";
-import { PageLoader } from "./Loaders";
 import { toast } from "react-toastify";
-import SnackAlert from "./SnackAlert/SnackAlert";
-import { Box, Typography } from "@mui/material";
 import ChangePasswordModal from "./ChangePasswordModal/ChangePasswordModal";
-import hresquelogo from '../assets/hresquelogo.png'
+import hresquelogo from '../assets/hresquelogo.png';
 import {
     CSidebar,
     CSidebarFooter,
     CSidebarHeader,
     CSidebarToggler,
     CSidebarNav,
-    CNavTitle,
     CNavItem,
     CNavGroup,
     CModal,
@@ -24,12 +20,10 @@ import {
     CModalTitle,
     CButton
 } from "@coreui/react";
-
 import { NavLink } from "react-router-dom";
 import {
     cilUser,
     cilCalendar,
-    cilArrowCircleBottom,
     cilFlagAlt,
     cilLockLocked,
     cilGraph,
@@ -42,6 +36,8 @@ import {
 } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import UAParser from "ua-parser-js";
+import { Box, Typography } from "@mui/material";
+import logoutIcon from '../assets/logoutIcon.png'
 
 const parser = new UAParser();
 
@@ -55,7 +51,6 @@ const AppSidebar = () => {
     const [isAdmin, setIsAdmin] = useState(false);
     const [logoutVisible, setLogoutVisible] = useState(false);
     const [logoutAllVisible, setLogoutAllVisible] = useState(false);
-
     const [pageloading, setPageloading] = useState(true);
 
     useEffect(() => {
@@ -80,10 +75,10 @@ const AppSidebar = () => {
                 refreshToken: sessionStorage.getItem('refreshToken'),
                 deviceId: `${parser.getBrowser().name} | ${parser.getCPU().architecture} | ${parser.getOS().name}`
             }
-        })
+        });
         sessionStorage.clear();
         localStorage.clear();
-        navigate('/')
+        navigate('/');
     };
 
     const handleLogoutAll = async () => {
@@ -94,15 +89,14 @@ const AppSidebar = () => {
                 refreshToken: sessionStorage.getItem('refreshToken'),
                 deviceId: new UAParser().getUA()
             }
-        })
-        setLogoutAllVisible(false)
-        toast.success(response.data.message)
-    }
+        });
+        setLogoutAllVisible(false);
+        toast.success(response.data.message);
+    };
 
-    return !pageloading ? (
-        <>
+    return   <>
             <CSidebar
-                className="border-end small-screen" 
+                className="custom-sidebar"
                 colorScheme="dark"
                 position="fixed"
                 unfoldable={unfoldable}
@@ -110,15 +104,17 @@ const AppSidebar = () => {
                 onVisibleChange={(visible) => {
                     dispatch({ type: "set", sidebarShow: visible });
                 }}
+                style={{position:"relative", border:"1px solid red !important"}}
             >
-                <CSidebarHeader style={{marginTop:"10px"}}>
+                <CSidebarHeader>
                     <div className="img-thumbnail-container">
-                        {/* <img src="/logo.svg" alt="123" className="img-thumbnail" onClick={() => navigate('/')} /> */}
-                        <img src={hresquelogo} style={{width:"120px", height:"42px"}} alt="" />
+                        <img src={hresquelogo} style={{ width: "120px", height: "42px", margin:"auto" }} alt="Logo" />
                     </div>
                 </CSidebarHeader>
-                <CSidebarNav className="nav-top" >
-                <CNavItem>
+                <CSidebarNav className="nav-top">
+                    {
+                        !isAdmin && (
+                            <>                    <CNavItem>
                         <NavLink to="/dashboard/" end className="nav-link">
                             <CIcon customClassName="nav-icon" icon={cilUser} /> Dashboard
                         </NavLink>
@@ -128,66 +124,70 @@ const AppSidebar = () => {
                             <CIcon customClassName="nav-icon" icon={cilUser} /> Profile
                         </NavLink>
                     </CNavItem>
-                    {isAdmin !== "admin" && (
+                    </>
+
+                        ) 
+                    }
+                    {!isAdmin && (
+                        <CNavItem>
+                            <NavLink to="/dashboard/progress" end className="nav-link">
+                                <CIcon customClassName="nav-icon" icon={cilCalendar} /> Attendance
+                            </NavLink>
+                        </CNavItem>
+                    )}
+                    {isAdmin && (
+                        
                         <>
                             <CNavItem>
-                                <NavLink to="/dashboard/progress" end className="nav-link">
-                                    <CIcon customClassName="nav-icon" icon={cilCalendar} /> Attendance
-                                </NavLink>
-                            </CNavItem>
-                            {/* <CNavItem>
-                                <NavLink to="/checkin" className="nav-link">
-                                    <CIcon customClassName="nav-icon" icon={cilArrowCircleBottom} /> Checkin
-                                </NavLink>
-                            </CNavItem> */}
-                            
-                        </>
-                    )}
-                    {isAdmin === "admin" && (
-                        <CNavGroup toggler={<><CIcon customClassName="nav-icon" icon={cilFlagAlt} /> Admin</>}>
-                            <CNavItem>
-                                <NavLink to={"/dashboard/admin"} className={"nav-link navItem"} end>
-                                    <CIcon customClassName='nav-icon' icon={cilPeople} /> User Management
+                                <NavLink to="/dashboard/user-management" className="nav-link" end>
+                                    <CIcon customClassName="nav-icon" icon={cilPeople} /> User Management
                                 </NavLink>
                             </CNavItem>
                             <CNavItem>
-                                <NavLink to={"admin/attendance"} className={"nav-link  navItem"} end>
-                                    <CIcon customClassName='nav-icon' icon={cilNotes} /> Attendance Record
+                                <NavLink to="/dashboard/attendance" className="nav-link" end>
+                                    <CIcon customClassName="nav-icon" icon={cilNotes} /> Attendance Management
                                 </NavLink>
                             </CNavItem>
-                        </CNavGroup>
+                            </>
+                    
                     )}
                     <CNavGroup toggler={<><CIcon customClassName="nav-icon" icon={cilLockLocked} /> Account</>}>
                         <CNavItem>
-                                <div className="nav-link navItem" onClick={() => setOpen(true)}>
-                                    <CIcon customClassName="nav-icon" icon={cilLockUnlocked} /> Change Password
-                                </div>
-                            </CNavItem>
+                            <div className="nav-link" onClick={() => setOpen(true)}>
+                                <CIcon customClassName="nav-icon" icon={cilLockUnlocked} /> Change Password
+                            </div>
+                        </CNavItem>
                         <CNavItem>
-                            <div className="nav-link navItem" onClick={() => setLogoutAllVisible(true)}>
+                            <div className="nav-link" onClick={() => setLogoutAllVisible(true)}>
                                 <CIcon customClassName="nav-icon" icon={cilArrowCircleTop} /> Logout Everywhere
                             </div>
                         </CNavItem>
                         <CNavItem>
-                            <NavLink to={"/dashboard/devices"} className="nav-link navItem" end>
-                                <CIcon customClassName="nav-icon" icon={cilLaptop} /> logged in devices
+                            <NavLink to="/dashboard/devices" className="nav-link" end>
+                                <CIcon customClassName="nav-icon" icon={cilLaptop} /> Logged in Devices
                             </NavLink>
                         </CNavItem>
                         <CNavItem>
-                            <div className="nav-link navItem" onClick={() => console.log("hi")}>
+                            <div className="nav-link" onClick={() => console.log("hi")}>
                                 <CIcon customClassName="nav-icon" icon={cilGraph} /> Activity
                             </div>
                         </CNavItem>
                     </CNavGroup>
+                    <Box sx={{
+                        position:"absolute",
+                        bottom:"40px", width:"260px"
+                    }} >
                     <CNavItem>
-                        <div className="nav-link" onClick={() => setLogoutVisible(true)} style={{ cursor: 'pointer' }}>
-                            <CIcon customClassName="nav-icon" icon={cilRoom} /> Logout
+                        <div className="nav-link"  onClick={() => setLogoutVisible(true)} style={{ cursor: 'pointer',display:"flex", alignItems:"center", gap:"1rem"  }}>
+                            <img customClassName="nav-icon" src={logoutIcon} /> <Typography  sx={{fontSize:"22px !important"}} >Logout</Typography>
                         </div>
                     </CNavItem>
+
+                    </Box>
                 </CSidebarNav>
-                <CSidebarFooter className="border-top d-none d-lg-flex">
+                {/* <CSidebarFooter className="d-none d-lg-flex">
                     <CSidebarToggler onClick={() => dispatch({ type: "set", sidebarUnfoldable: !unfoldable })} />
-                </CSidebarFooter>
+                </CSidebarFooter> */}
             </CSidebar>
 
             <CModal alignment="center" visible={logoutVisible} onClose={() => setLogoutVisible(false)} aria-labelledby="VerticallyCenteredExample">
@@ -216,14 +216,8 @@ const AppSidebar = () => {
                 open={open}
                 handleClose={() => setOpen(false)}
             />
-
-            <SnackAlert
-                handleClose={() => {
-                    setSnackAlertData((prev) => ({ ...prev, open: false }));
-                }}
-            />
         </>
-    ) : <PageLoader />;
+   
 };
 
 export default AppSidebar;

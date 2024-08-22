@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const Attendance = () => {
-    const setHeadertext = useOutletContext();
+    const {setHeadertext} = useOutletContext();
     const [employeeData, setEmployeeData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [fromDate, setFromDate] = useState("");

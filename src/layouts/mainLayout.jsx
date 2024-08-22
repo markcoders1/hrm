@@ -60,7 +60,8 @@ const SingleLayout = () => {
                     md: "400px"
                 },
                 position: "relative",  
-                 minHeight:"900px"
+                 minHeight:"900px",
+                 zIndex:"2000"
             }}
         >
             <Box

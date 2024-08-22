@@ -15,7 +15,7 @@ const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const Register = () => {
   const user = useSelector((state) => state.user);
-  const setHeadertext = useOutletContext();
+  const {setHeadertext, setParaText} = useOutletContext();
 
   const admin_token = user?.user?.accessToken || "";
   const config_admin = {
@@ -23,7 +23,8 @@ const Register = () => {
   };
 
   useEffect(() => {
-    setHeadertext("Register Employee");
+    setHeadertext("Add User");
+    setParaText("User Details")
   }, []);
 
   const {

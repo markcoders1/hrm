@@ -22,7 +22,7 @@ const StyledTab = styled((props) => <Tab {...props} />)(({ theme }) => ({
     fontWeight: theme.typography,
     marginRight: theme.spacing(4),
     color: '#9B9B9B',
-    fontSize: '22px',
+    fontSize: "22px",
     '&.Mui-selected': {
         color: 'black',
     },
@@ -33,7 +33,7 @@ const StyledTab = styled((props) => <Tab {...props} />)(({ theme }) => ({
 
 const EmployeeData = () => {
     const navigate = useNavigate();
-    const setHeadertext = useOutletContext();
+    const {setHeadertext , setParaText} = useOutletContext();
     const [allEmployee, setAllEmployee] = useState([]);
     const [loading, setLoading] = useState(true);
     const [filteredEmployees, setFilteredEmployees] = useState([]);
@@ -44,36 +44,22 @@ const EmployeeData = () => {
         const getAllUser = async () => {
             try {
                 setHeadertext('User Management');
-                
-                // Dummy data for styling purposes
-                const dummyData = [
-                    { _id: "1", fullName: "John Doe", email: "john@example.com", createdAt: "2023-01-15T10:00:00Z", active: true },
-                    { _id: "2", fullName: "Jane Smith", email: "jane@example.com", createdAt: "2023-02-20T12:00:00Z", active: false },
-                    { _id: "3", fullName: "Michael Johnson", email: "michael@example.com", createdAt: "2023-03-10T09:30:00Z", active: true },
-                    { _id: "4", fullName: "Emily Davis", email: "emily@example.com", createdAt: "2023-04-25T14:45:00Z", active: false },
-                ];
+                setParaText(`${allEmployee.length} Users Found`)
+               
 
                 const response = await axiosInstance({
                     url: `${apiUrl}/api/admin/getAllUsers`,
                     method: "get",
                 });
                 
-                const dataAllEmployee = response.data || dummyData; // Use response data or fallback to dummy data
+                const dataAllEmployee = response.data 
                 
                 setAllEmployee(dataAllEmployee);
                 setFilteredEmployees(dataAllEmployee);
                 setLoading(false);
             } catch (error) {
                 console.error(error);
-                // In case of error, fallback to dummy data for UI styling
-                const dummyData = [
-                    { _id: "1", fullName: "John Doe", email: "john@example.com", createdAt: "2023-01-15T10:00:00Z", active: true },
-                    { _id: "2", fullName: "Jane Smith", email: "jane@example.com", createdAt: "2023-02-20T12:00:00Z", active: false },
-                    { _id: "3", fullName: "Michael Johnson", email: "michael@example.com", createdAt: "2023-03-10T09:30:00Z", active: true },
-                    { _id: "4", fullName: "Emily Davis", email: "emily@example.com", createdAt: "2023-04-25T14:45:00Z", active: false },
-                ];
-                setAllEmployee(dummyData);
-                setFilteredEmployees(dummyData);
+               
                 setLoading(false);
             }
         };
@@ -114,7 +100,7 @@ const EmployeeData = () => {
 
     const buttonForViewInformation = (rowData) => {
         const navigateUserInformation = () => {
-            navigate(`viewInformation/${rowData._id}`);
+            navigate(`/dashboard/user-management/viewInformation/${rowData._id}`);
         };
         return <CustomButton
             border="1px solid #010120"
@@ -226,9 +212,16 @@ const EmployeeData = () => {
                 justifyContent: "space-between",
                 position: "relative",
                 mb: "20px",
+                padding:"0px 20px",
+                flexDirection:{
+                    md:"row",
+                    xs:"column",
+                },
+                flexWrap:"wrap",
+                gap:"2rem"
             }}
             className="table-header">
-                <StyledTabs value={tabValue} onChange={handleTabChange} aria-label="user tabs">
+                <StyledTabs value={tabValue} onChange={handleTabChange} aria-label="user tabs" >
                     <StyledTab label="Activated" />
                     <StyledTab label="Deactivated" />
                     <StyledTab label="All" />
@@ -241,14 +234,14 @@ const EmployeeData = () => {
                     fullWidth={false}
                     variant="contained"
                     padding="10px 20px"
-                    onClick={() => navigate('/dashboard/admin/register')}
+                    onClick={() => navigate('/dashboard/user-management/register')}
                     background="#157AFF"
                     hoverBg="#303f9f"
                     hovercolor="white"
                     type="button"
                     width={"150px"}
                     borderRadius="7px"
-                    buttonStyle={{position: "absolute", right: "0px", top: "0px"}}
+                    buttonStyle={{fontSize:{sm:"18px",xs:"15px"}}}
                 />
             </Box>
             <Box sx={{ mt: "30px" , padding: "0px 20px" }}>
@@ -278,7 +271,7 @@ const EmployeeData = () => {
                                         borderRadius: "8px 0px 0px 8px",
                                         color: "#010120",
                                         paddingLeft: "40px"
-                                    }}>E ID</TableCell>
+                                    }}>Emp ID</TableCell>
                                     <TableCell className="MuiTableCell-root-head" sx={{
                                         fontWeight: "500",
                                         padding: "0px 0px",

@@ -23,7 +23,7 @@ const Profile = React.lazy(() => import('./Pages/Profile.jsx'));
 const ChangePassword = React.lazy(() => import('./Pages/ChangePassword.jsx'));
 const UserInfo = React.lazy(() => import('./Pages/UserInfo.jsx'));
 const Register = React.lazy(() => import('./Pages/Register.jsx'));
-const EmployeeData = React.lazy(() => import('./Pages/EmployeeData.jsx'));
+const EmployeeData = React.lazy(() => import('./Pages/UserManagement.jsx'));
 const EmployeeAttendance = React.lazy(() => import('./Pages/EmployeeAttendance.jsx'));
 const Devices = React.lazy(() => import('./Pages/Devices.jsx'));
 import store from './store.js';
@@ -52,12 +52,12 @@ function App() {
 
                 <Route path='progress' element={<Attendance />} />
                 <Route path='devices' element={<Devices />} />
-                <Route path='admin' element={<EmployeeData />} /> {/* here protecte Admin will be implement */}
-                <Route path='admin/attendance' element={<ProtectedAdmin><EmployeeAttendance /></ProtectedAdmin>} /> 
-                <Route path='admin/attendance/viewAttendance/:id' element={<ProtectedAdmin><UserAttendance /></ProtectedAdmin>} />
-                <Route path='admin/register' element={<ProtectedAdmin><Register /></ProtectedAdmin>} />
-                <Route path='admin/viewInformation/:id' element={<ProtectedAdmin><UserInfo /></ProtectedAdmin>} />
-                <Route path='admin/user-detail/:id' element={<ProtectedAdmin><UserDetailsStatic /></ProtectedAdmin>} />
+                <Route path='user-management' element={<EmployeeData />} /> {/* here protecte Admin will be implement */}
+                <Route path='attendance' element={<ProtectedAdmin><EmployeeAttendance /></ProtectedAdmin>} /> 
+                <Route path='attendance-management/viewAttendance/:id' element={<ProtectedAdmin><UserAttendance /></ProtectedAdmin>} />
+                <Route path='user-management/register' element={<ProtectedAdmin><Register /></ProtectedAdmin>} />
+                <Route path='user-management/viewInformation/:id' element={<ProtectedAdmin><UserInfo /></ProtectedAdmin>} />
+                <Route path='user-management/user-detail/:id' element={<ProtectedAdmin><UserDetailsStatic /></ProtectedAdmin>} />
 
               </Route>
             </Routes>

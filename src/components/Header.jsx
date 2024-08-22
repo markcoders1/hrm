@@ -12,7 +12,7 @@ import {cilMenu} from '@coreui/icons'
 
 const AppHeader = (props) => {
   const headerRef = useRef()
-  const {headertext} =props
+  const {headertext, paraText} =props
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
 
@@ -26,7 +26,7 @@ const AppHeader = (props) => {
   return (
     <CHeader position="sticky" className="mb-4 p-0 px-5" ref={headerRef}>
       <div>
-        <CContainer className=" " fluid>
+        <CContainer className="" fluid>
           <CHeaderToggler
             onClick={() => dispatch({ type: 'set', sidebarShow: !sidebarShow })}
             style={{ marginInlineStart: '-14px' }}
@@ -42,7 +42,7 @@ const AppHeader = (props) => {
         <CContainer className=" d-flex d-flex" fluid>
           <Typography
           sx={{color:"#878787" , fontWeight:"400", fontSize:"17px"}}
-          >{"50 Total Users"}</Typography>
+          >{paraText}</Typography>
         </CContainer>
 
       </div>

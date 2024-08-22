@@ -1,63 +1,52 @@
 .nav-link {
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    align-items: center;
-    color: white;
-    border-radius: 12px;
+  text-decoration: none;
+  color: white; /* White Text */
+  display: flex;
+  align-items: center;
+  border-radius: 12px;
+  width: 100%; /* Full width */
+  height: 63px; /* Height adjustment */
+  justify-content: flex-start;
+  padding-left: 10px;
+}
 
-  }
- 
-  
-  .active-nav-link {
-    text-decoration: none;
-    color: red;
-    display: flex;
-    align-items: center;
-    background-color: white;
-    border-radius: 12px;
-  
-    transition: .3s ease-in all;
-  }
-  
-  .active-nav-link .MuiTypography-root {
-    color: red !important;
-  }
-  
-  .anchortag {
-    font-weight: 600;
-    font-size: 1.2rem;
-    color: #6985bd;
-    transition: .3s ease-in all;
-  }
-  
-  .anchorActive {
-    font-weight: 600;
-    font-size: 1.2rem;
-    color: rgb(119, 119, 119);
-    transition: .3s ease-in all;
-  }
-  
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.244);
+  border-radius: 12px;
+  transition: .3s ease-in all;
+  text-decoration: none;
+  color: rgb(255, 255, 255) !important;
+  display: flex;
+  align-items: center;
+}
 
-  .logo-admin {
-    animation: fadeIn 1s ease-in-out 1s forwards;
-    opacity: 0; /* Ensure the initial state is hidden */
-  }
-  
-  @keyframes fadeIn {
-    to {
-      opacity: 1;
-    }
-  }
-  
+.active-nav-link {
+  text-decoration: none;
+  color: blue;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 12px;
+  transition: .3s ease-in all;
+}
 
-  .nav-link:hover{
-    background-color: rgba(255, 255, 255, 0.244);
-    border-radius: 12px;
-  
-    transition: .3s ease-in all;
-    text-decoration: none;
-    color: rgb(255, 0, 0) !important;
-    display: flex;
-    align-items: center;
-  }
+.active-nav-link .MuiTypography-root {
+  color: blue !important;
+}
+
+.nav-link .CIcon {
+  margin-right: 10px; /* Adjust icon margin */
+}
+
+.img-thumbnail-container {
+  text-align: center;
+  margin: 10px auto;
+}
+
+.navItem {
+  height: 63px; /* Height for each tab */
+}
+
+/* .d-none.d-lg-flex { */
+  /* justify-content: start !important; */
+}

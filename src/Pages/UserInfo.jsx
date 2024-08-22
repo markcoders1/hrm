@@ -12,7 +12,7 @@ import { Loader } from "../components/Loaders";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const UserInfo = () => {
-  const setHeadertext = useOutletContext();
+  const {setHeadertext} = useOutletContext();
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [inputAbled, setInputAbled] = useState(false);

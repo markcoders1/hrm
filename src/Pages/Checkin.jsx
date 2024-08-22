@@ -16,7 +16,7 @@ const Check = () => {
     const [loadingForBreakBtn, setLoadingForBreakBtn] = useState(false);
     const [latitude, setLatitude] = useState();
     const [longitude, setLongitude] = useState();
-    const setHeadertext = useOutletContext();
+    const {setHeadertext} = useOutletContext();
 
 
     const requestNotificationPermission = async () => {

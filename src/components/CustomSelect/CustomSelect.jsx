@@ -70,8 +70,8 @@ const CustomSelectForType = ({ label, options, handleChange, value, error, boxSh
             },
             "& .MuiSvgIcon-root": {
               color: "#424242",
-            }
-          }}
+            }   
+          }}  Average Duration
           MenuProps={{
             PaperProps: {
               sx: {

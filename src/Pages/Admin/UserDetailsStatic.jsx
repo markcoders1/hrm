@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Typography, Button } from '@mui/material';
-import axiosInstance from '../auth/axiosInstance';
-import '../PagesCss/UserDetailsStatic.css';
-import { Loader } from '../components/Loaders';
+import axiosInstance from '../../auth/axiosInstance';
+import '../../PagesCss/UserDetailsStatic.css';
+import { Loader } from '../../components/Loaders';
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 

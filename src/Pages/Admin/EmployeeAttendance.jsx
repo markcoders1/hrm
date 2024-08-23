@@ -9,18 +9,15 @@ import {
   TableRow,
   Box,
   Paper,
-  InputBase,
-  IconButton,
   Typography,
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import CustomButton from "../components/CustomButton/CustomButton"; // Adjust the import path as needed
-import { Loader } from "../components/Loaders";
-import axiosInstance from "../auth/axiosInstance";
-import "../PagesCss/Employee.css";
-import deleteIcon from "../assets/deleteIcon.png";
-import editIcon from "../assets/EditIcon.png";
-import editIconWhite from "../assets/editIconWhite.png";
+import CustomButton from "../../components/CustomButton/CustomButton"; // Adjust the import path as needed
+import { Loader } from "../../components/Loaders";
+import axiosInstance from "../../auth/axiosInstance";
+import "../../PagesCss/Employee.css";
+import deleteIcon from "../../assets/deleteIcon.png";
+import editIcon from "../../assets/EditIcon.png";
+import editIconWhite from "../../assets/editIconWhite.png";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -29,8 +26,6 @@ const EmployeeAttendance = () => {
   const { setHeadertext, setParaText } = useOutletContext();
   const [allEmployee, setAllEmployee] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filteredEmployees, setFilteredEmployees] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
   const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
 
   useEffect(() => {
@@ -39,12 +34,11 @@ const EmployeeAttendance = () => {
         setHeadertext("Attendance Management");
         setParaText("Lorem Ipsum");
         const response = await axiosInstance({
-          url: `${apiUrl}/api/admin/getAllUsers`,
+          url: `${apiUrl}/api/admin/getToday`,
           method: "get",
         });
-        const dataAllEmployee = response.data;
+        const dataAllEmployee = response.data.users;
         setAllEmployee(dataAllEmployee);
-        setFilteredEmployees(dataAllEmployee);
         setLoading(false);
         console.log(response);
       } catch (error) {
@@ -54,7 +48,7 @@ const EmployeeAttendance = () => {
     getAllUser();
   }, [setHeadertext]);
 
-  const buttonForViewDetails = (rowData, isHovered) => {
+  const buttonForDeleteEdit = (rowData, isHovered) => {
     return (
       <Box
         sx={{
@@ -73,7 +67,6 @@ const EmployeeAttendance = () => {
             alignItems: "center",
             borderRadius: "8px",
             transition: "background-color 0.3s ease",
-            // backgroundColor: isHovered ? "#D1E4FF" : "white" ,// Change background color on hover
             "&:hover": {
               backgroundColor: "rgba(255, 255, 255, 0.2)", // White color with 0.3 opacity
             },
@@ -91,7 +84,6 @@ const EmployeeAttendance = () => {
             alignItems: "center",
             borderRadius: "8px",
             transition: "background-color 0.3s ease",
-            // backgroundColor: isHovered ? "#D1E4FF" : "#E0EBFF" ,// Change background color on hover
             "&:hover": {
               backgroundColor: "rgba(255, 255, 255, 0.2)", // White color with 0.3 opacity
             },
@@ -103,35 +95,13 @@ const EmployeeAttendance = () => {
     );
   };
 
-  useEffect(() => {
-    const results = allEmployee.filter(
-      (employee) =>
-        employee.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        employee.email.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredEmployees(results);
-  }, [searchTerm, allEmployee]);
+  const handleNavigateToSeeAttendance = (rowData) => {
+    navigate(`/dashboard/attendance-management/viewAttendance`); 
+    // ${rowData._id}
+  };
 
   return (
     <Box className="sheet-container-admin">
-      <Box
-        className="table-header"
-        sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}
-      >
-        <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
-          <InputBase
-            sx={{ ml: 1, flex: 1 }}
-            placeholder="Search by Name & Email"
-            inputProps={{ "aria-label": "search" }}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="search-box-input"
-          />
-          <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
-            <SearchIcon />
-          </IconButton>
-        </Box>
-      </Box>
       <Box>
         {loading ? (
           <Box className="loaderContainer">
@@ -165,7 +135,7 @@ const EmployeeAttendance = () => {
                       color: "#010120",
                       paddingLeft: "40px",
                     }}
-                  >
+                  > 
                     Emp Id
                   </TableCell>
                   <TableCell
@@ -240,10 +210,10 @@ const EmployeeAttendance = () => {
                         sm: "21px",
                         xs: "16px",
                       },
-                      textAlign: "center",
+                      textAlign: "start !important",
+                      paddingLeft: "10px !important",
                       borderRadius: "0px 8px 8px 0px",
                       color: "#010120",
-                      paddingLeft: "10px !important",
                     }}
                   >
                     Actions
@@ -251,16 +221,18 @@ const EmployeeAttendance = () => {
                 </TableRow>
               </TableHead>
               <TableBody className="MuiTableBody-root">
-                {filteredEmployees.map((employee, index) => (
+                {allEmployee.map((employee, index) => (
                   <TableRow
                     key={index}
                     className="MuiTableRow-root"
                     onMouseEnter={() => setHoveredRow(index)}
                     onMouseLeave={() => setHoveredRow(null)}
+                    onClick={() => handleNavigateToSeeAttendance(employee)}
                     sx={{
                       backgroundColor:
                         hoveredRow === index ? "#D1E4FF" : "inherit", // Row hover color
                       transition: "background-color 0.3s ease",
+                      cursor: "pointer", // Pointer cursor to indicate clickable rows
                     }}
                   >
                     <TableCell
@@ -272,13 +244,22 @@ const EmployeeAttendance = () => {
                       }}
                       className="MuiTableCell-root"
                     >
-                      {employee.companyId}
+                      {employee.employeeId}
                     </TableCell>
                     <TableCell
                       sx={{ color: "#010120", textAlign: "start !important" }}
                       className="MuiTableCell-root"
                     >
-                      {employee.fullName}
+                      <Box sx={{ display: "flex", justifyContent: "start", alignItems: "center" }}>
+                        <Typography>
+                          <img
+                            src={employee.image}
+                            style={{ width: "38px", height: "38px", backgroundColor: "red", borderRadius: "50%" }}
+                            alt=""
+                          />
+                        </Typography>
+                        <Typography sx={{ ml: "10px" }}>{employee.fullName}</Typography>
+                      </Box>
                     </TableCell>
                     <TableCell
                       sx={{
@@ -288,7 +269,7 @@ const EmployeeAttendance = () => {
                       }}
                       className="MuiTableCell-root"
                     >
-                      "hello
+                      {employee.checkedInDate || "N/A"}
                     </TableCell>
                     <TableCell
                       sx={{
@@ -297,7 +278,7 @@ const EmployeeAttendance = () => {
                       }}
                       className="MuiTableCell-root"
                     >
-                      "hello
+                      {employee.checkIn ? employee.checkIn : "-- : --"}
                     </TableCell>
                     <TableCell
                       sx={{
@@ -306,7 +287,7 @@ const EmployeeAttendance = () => {
                       }}
                       className="MuiTableCell-root"
                     >
-                      "hello
+                      {employee.checkOut ? employee.checkOut : "-- : --"}
                     </TableCell>
                     <TableCell
                       sx={{
@@ -316,7 +297,7 @@ const EmployeeAttendance = () => {
                       }}
                       className="MuiTableCell-root"
                     >
-                      {buttonForViewDetails(employee, hoveredRow === index)}
+                      {buttonForDeleteEdit(employee, hoveredRow === index)}
                     </TableCell>
                   </TableRow>
                 ))}

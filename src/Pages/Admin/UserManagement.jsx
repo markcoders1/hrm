@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box, Tabs, Tab, Paper } from '@mui/material';
 import { styled } from '@mui/system';
-import axiosInstance from "../auth/axiosInstance";
-import { Loader } from "../components/Loaders";
-import CustomButton from "../components/CustomButton/CustomButton"; // Adjust the import path as needed
-import "../PagesCss/Employee.css"; // Import the CSS file for custom styles
-import editIcon from '../assets/EditIcon.png'
+import axiosInstance from "../../auth/axiosInstance";
+import { Loader } from "../../components/Loaders";
+import CustomButton from "../../components/CustomButton/CustomButton"; // Adjust the import path as needed
+import "../../PagesCss/Employee.css"; // Import the CSS file for custom styles
+import editIcon from '../../assets/EditIcon.png'
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 

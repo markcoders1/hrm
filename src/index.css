@@ -316,7 +316,7 @@ body {
 .outlet-box {
   margin-left: 300px; /* This should match the sidebar width */
   width: calc(100% - 300px); /* Adjust width based on sidebar */
-  padding: 20px; /* Optional padding for content */
+ 
   overflow-x: hidden;
   position: relative;
 }
@@ -381,7 +381,7 @@ html, body {
   margin-left: 300px;
   width: 100%;
   transition: margin-left 0.3s ease, width 0.3s ease;
-  padding: 20px;
+  
   overflow-x: hidden;
 }
 

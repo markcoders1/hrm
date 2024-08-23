@@ -114,7 +114,8 @@ const AppSidebar = () => {
                 <CSidebarNav className="nav-top">
                     {
                         !isAdmin && (
-                            <>                    <CNavItem>
+                            <>           
+                     <CNavItem>
                         <NavLink to="/dashboard/" end className="nav-link">
                             <CIcon customClassName="nav-icon" icon={cilUser} /> Dashboard
                         </NavLink>
@@ -129,15 +130,22 @@ const AppSidebar = () => {
                         ) 
                     }
                     {!isAdmin && (
+                        <>
                         <CNavItem>
                             <NavLink to="/dashboard/progress" end className="nav-link">
                                 <CIcon customClassName="nav-icon" icon={cilCalendar} /> Attendance
                             </NavLink>
                         </CNavItem>
+                        </>
                     )}
                     {isAdmin && (
                         
                         <>
+                          <CNavItem>
+                                <NavLink to="/dashboard/admin" className="nav-link" end>
+                                    <CIcon customClassName="nav-icon" icon={cilPeople} /> Dashboard
+                                </NavLink>
+                            </CNavItem>
                             <CNavItem>
                                 <NavLink to="/dashboard/user-management" className="nav-link" end>
                                     <CIcon customClassName="nav-icon" icon={cilPeople} /> User Management
@@ -148,9 +156,19 @@ const AppSidebar = () => {
                                     <CIcon customClassName="nav-icon" icon={cilNotes} /> Attendance Management
                                 </NavLink>
                             </CNavItem>
+                            <CNavItem>
+                                <NavLink to="/dashboard/leave-management" className="nav-link" end>
+                                    <CIcon customClassName="nav-icon" icon={cilNotes} /> Leave Management
+                                </NavLink>
+                            </CNavItem>
                             </>
                     
                     )}
+                    <CNavItem>
+                        <NavLink to="/dashboard/notifications" end className="nav-link">
+                            <CIcon customClassName="nav-icon" icon={cilUser} /> Notifications
+                        </NavLink>
+                    </CNavItem>
                     <CNavGroup toggler={<><CIcon customClassName="nav-icon" icon={cilLockLocked} /> Account</>}>
                         <CNavItem>
                             <div className="nav-link" onClick={() => setOpen(true)}>

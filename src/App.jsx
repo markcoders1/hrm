@@ -22,13 +22,25 @@ const DefaultLayout = React.lazy(() => import('./layouts/defaultlayout.jsx'));
 const Profile = React.lazy(() => import('./Pages/Profile.jsx'));
 const ChangePassword = React.lazy(() => import('./Pages/ChangePassword.jsx'));
 const UserInfo = React.lazy(() => import('./Pages/UserInfo.jsx'));
-const Register = React.lazy(() => import('./Pages/Register.jsx'));
-const EmployeeData = React.lazy(() => import('./Pages/UserManagement.jsx'));
-const EmployeeAttendance = React.lazy(() => import('./Pages/EmployeeAttendance.jsx'));
+const Register = React.lazy(() => import('./Pages/Admin/Register.jsx'));
+const EmployeeData = React.lazy(() => import('./Pages/Admin/UserManagement.jsx'));
+const EmployeeAttendance = React.lazy(() => import('./Pages/Admin/EmployeeAttendance.jsx'));
 const Devices = React.lazy(() => import('./Pages/Devices.jsx'));
 import store from './store.js';
 import ProtectedAdminCheckin from './ProtectedRoutes/ProtectedRouteForCheckinAdmin.jsx';
-import UserDetailsStatic from './Pages/UserDetailsStatic.jsx';
+// const Dashboard = React.lazy(() => import('./Pages/Dashboard.jsx')
+// const UserDetailsStatic = React.lazy(() => import('./Pages/UserDetailsStatic.jsx')
+
+const Dashboard = React.lazy(() => import('./Pages/Admin/Dashboard.jsx'));
+const UserDetailsStatic = React.lazy(() => import('./Pages/Admin/UserDetailsStatic.jsx'));
+const Notifications = React.lazy(() => import('./Pages/Notification.jsx'));
+const LeaveManagement = React.lazy(() => import('./Pages/Admin/LeaveManagement.jsx'));
+
+
+
+
+
+
 // import Home from './Pages/Home.jsx'
 function App() {
   return (
@@ -48,13 +60,16 @@ function App() {
               <Route path='' element={<Check />} />
 
                 <Route path='profile' element={<Profile />} />
-                {/* <Route path='home' element={<Home />} /> */}
+                <Route path='notifications' element={<Notifications />} />
 
+                <Route path='admin' element={<Dashboard />} />
                 <Route path='progress' element={<Attendance />} />
                 <Route path='devices' element={<Devices />} />
                 <Route path='user-management' element={<EmployeeData />} /> {/* here protecte Admin will be implement */}
                 <Route path='attendance' element={<ProtectedAdmin><EmployeeAttendance /></ProtectedAdmin>} /> 
-                <Route path='attendance-management/viewAttendance/:id' element={<ProtectedAdmin><UserAttendance /></ProtectedAdmin>} />
+                <Route path='leave-management' element={<ProtectedAdmin><LeaveManagement /></ProtectedAdmin>} /> 
+
+                <Route path='attendance-management/viewAttendance' element={<ProtectedAdmin><UserAttendance /></ProtectedAdmin>} />
                 <Route path='user-management/register' element={<ProtectedAdmin><Register /></ProtectedAdmin>} />
                 <Route path='user-management/viewInformation/:id' element={<ProtectedAdmin><UserInfo /></ProtectedAdmin>} />
                 <Route path='user-management/user-detail/:id' element={<ProtectedAdmin><UserDetailsStatic /></ProtectedAdmin>} />

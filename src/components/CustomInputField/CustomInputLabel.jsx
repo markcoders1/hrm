@@ -132,12 +132,14 @@ const CustomInputLabel = forwardRef(({
       </FormControl>
       {error && (
         <Typography sx={{
-          background: "white",
+          background: "#010120",
           p: "10px",
-          color: "#F44336",
+          color: "white",
           mt: "8px",
           wordBreak: "break-word",
-          fontWeight: "500"
+          fontWeight: "500",
+          borderRadius:"4px",
+          letterSpacing:".4px"
         }}>
           {error}
         </Typography>

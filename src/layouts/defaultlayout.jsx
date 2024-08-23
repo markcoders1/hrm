@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 const DefaultLayout = () => {
   const sidebarShow = useSelector((state) => state.sidebarShow);
   const [headertext, setHeadertext] = useState("hi")
-  const [paraText, setParaText] = useState("hi")
+  const [paraText, setParaText] = useState("")
 
 
   return (

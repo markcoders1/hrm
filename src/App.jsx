@@ -35,6 +35,8 @@ const Dashboard = React.lazy(() => import('./Pages/Admin/Dashboard.jsx'));
 const UserDetailsStatic = React.lazy(() => import('./Pages/Admin/UserDetailsStatic.jsx'));
 const Notifications = React.lazy(() => import('./Pages/Notification.jsx'));
 const LeaveManagement = React.lazy(() => import('./Pages/Admin/LeaveManagement.jsx'));
+const LeaveDetailsAdmin = React.lazy(() => import('./Pages/Admin/LeaveDetails.jsx'));
+
 
 
 
@@ -68,6 +70,8 @@ function App() {
                 <Route path='user-management' element={<EmployeeData />} /> {/* here protecte Admin will be implement */}
                 <Route path='attendance' element={<ProtectedAdmin><EmployeeAttendance /></ProtectedAdmin>} /> 
                 <Route path='leave-management' element={<ProtectedAdmin><LeaveManagement /></ProtectedAdmin>} /> 
+                <Route path='leave-management/leave-details' element={<ProtectedAdmin><LeaveDetailsAdmin /></ProtectedAdmin>} /> 
+
 
                 <Route path='attendance-management/viewAttendance' element={<ProtectedAdmin><UserAttendance /></ProtectedAdmin>} />
                 <Route path='user-management/register' element={<ProtectedAdmin><Register /></ProtectedAdmin>} />

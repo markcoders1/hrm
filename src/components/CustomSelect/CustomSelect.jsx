@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 
-const CustomSelectForType = ({ label, options, handleChange, value, error, boxShadow = "0px 8px 26px -4px rgba(0, 0, 0, 0.1)" }) => {
+const CustomSelectForType = ({ label, options, handleChange, value, error, boxShadow = "0px 8px 26px -4px rgba(0, 0, 0, 0.1)", width = "100%", height, border="1px solid #E0E0E0" }) => {
   const [selectedValue, setSelectedValue] = useState(value);
 
   useEffect(() => {
@@ -22,16 +22,18 @@ const CustomSelectForType = ({ label, options, handleChange, value, error, boxSh
           flexDirection: "column",
           justifyContent: "center",
           borderRadius: "8px",
-          width: '100%',
-          position: "relative",
-          backgroundColor: "white",
+          width: width,
+          height:height,
+         position: "relative",
+          backgroundColor: "transparent",
           "& .MuiOutlinedInput-root": {
             borderRadius: "8px",
-            border: "1px solid #E0E0E0",
+            border: border,
         
           },
           "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-            borderColor: "",
+            borderColor: " ",
+            border:"none"
           }
         }}
         variant="outlined"
@@ -60,10 +62,10 @@ const CustomSelectForType = ({ label, options, handleChange, value, error, boxSh
           sx={{
             width: "100%",
             fontSize: "16px",
-            padding: "10px 12px",
+            // padding: "10px 12px",
             color: selectedValue ? "black" : "#424242",
             "& .MuiSelect-select": {
-              padding: "16px 12px",
+              // padding: "16px 12px",
             },
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: "transparent",

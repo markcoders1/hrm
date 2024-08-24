@@ -9,21 +9,26 @@ import {
   TableRow,
   Paper,
   Button,
-  Select,
-  MenuItem,
   TextField,
   Typography,
   InputLabel,
   FormControl
 } from '@mui/material';
 import '../../PagesCss/Employee.css'; // Link the same CSS file
+import { useNavigate, useOutletContext } from 'react-router-dom';
+
+import CustomSelectForType from '../../components/CustomSelect/CustomSelect';
 
 const LeaveManagement = () => {
   const [month, setMonth] = useState('');
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [status, setStatus] = useState({});
-  
+  const { setHeadertext, setParaText } = useOutletContext();
+  const navigate = useNavigate();
+
+  setHeadertext("Leave Management")
+  setParaText(" ") 
   const handleMonthChange = (event) => {
     setMonth(event.target.value);
   };
@@ -40,11 +45,17 @@ const LeaveManagement = () => {
     setStatus(prev => ({ ...prev, [id]: value }));
   };
 
+  const handleNavigateToLeaveDetail = () => {
+    navigate("/dashboard/leave-management/leave-details");
+    console.log("head");
+  };
+
   const leaveData = [
     {
       id: '1',
       empId: '005',
       name: 'M. Aman Raza',
+      img: '/path/to/image1.png', // Replace with actual image paths
       balance: '9',
       type: 'Sick',
       from: '08-20-2024',
@@ -57,6 +68,7 @@ const LeaveManagement = () => {
       id: '2',
       empId: '006',
       name: 'Syed Muzammil',
+      img: '/path/to/image2.png', // Replace with actual image paths
       balance: '7',
       type: 'Sick',
       from: '08-20-2024',
@@ -69,6 +81,7 @@ const LeaveManagement = () => {
       id: '3',
       empId: '007',
       name: 'Muzammil Mansoori',
+      img: '/path/to/image3.png', // Replace with actual image paths
       balance: '5',
       type: 'Casual',
       from: '08-20-2024',
@@ -111,20 +124,23 @@ const LeaveManagement = () => {
         <Box sx={{ display: 'flex', gap: 2 }}>
           <FormControl sx={{ width: '160px' }}>
             <InputLabel sx={{ fontSize: '14px' }}>Month</InputLabel>
-            <Select
+            <CustomSelectForType
+              label="Month"
               value={month}
-              onChange={handleMonthChange}
+              handleChange={handleMonthChange}
+              options={[
+                { value: '1', label: 'January' },
+                { value: '2', label: 'February' },
+                // Add more options as needed
+              ]}
               sx={{
                 fontSize: '14px',
                 '& .MuiSelect-select': {
                   padding: '10px',
                 },
               }}
-            >
-              <MenuItem value="7">July</MenuItem>
-              <MenuItem value="8">August</MenuItem>
-              <MenuItem value="9">September</MenuItem>
-            </Select>
+            />
+
           </FormControl>
         </Box>
       </Box>
@@ -255,27 +271,33 @@ const LeaveManagement = () => {
               }}>Actions</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody className="MuiTableBody-root">
+          <TableBody className="MuiTableBody-root"  >
             {leaveData.map((row) => (
-              <TableRow key={row.id} className="MuiTableRow-root" sx={{
+              <TableRow onClick={ handleNavigateToLeaveDetail} key={row.id} className="MuiTableRow-root" sx={{
                 border: '2px solid #FFA100',
                 '&:hover': {
                   background: '#157AFF',
                   transition: 'ease-in .18s all',
                   cursor: 'pointer',
                 }
-              }}>
+              }}
+              
+              >
                 <TableCell className="MuiTableCell-root" sx={{
                   borderRadius: '8px 0px 0px 8px',
                   color: 'white',
                   textAlign: 'start !important',
                   paddingLeft: '40px !important',
                 }}>{row.empId}</TableCell>
-                <TableCell className="MuiTableCell-root" sx={{
+               <TableCell className="MuiTableCell-root" sx={{
                   color: 'white',
                   textAlign: 'start !important',
                   paddingLeft: '40px !important',
-                }}>{row.name}</TableCell>
+                }}>
+                  <img src={row.img} alt={`${row.name}`} style={{ width: '32px', height: '32px', borderRadius: '50%', marginRight: '8px' }} />
+                  {row.name}
+                </TableCell>
+
                 <TableCell className="MuiTableCell-root" sx={{
                   color: '#99999C',
                   textAlign: 'start !important',
@@ -309,26 +331,22 @@ const LeaveManagement = () => {
                 <TableCell className="MuiTableCell-root" sx={{
                   textAlign: 'start !important',
                   paddingLeft: '40px !important',
+                  display:"flex",
+                  justifyContent:"center", 
+                  alignItems:"center"
                 }}>
-                  {status[row.id] ? (
-                    status[row.id]
-                  ) : (
-                    <Select
-                      value={status[row.id] || 'Pending'}
-                      onChange={(e) => handleStatusChange(row.id, e.target.value)}
-                      displayEmpty
-                      sx={{
-                        width: '120px',
-                        '& .MuiSelect-select': {
-                          padding: '10px',
-                        },
-                      }}
-                    >
-                      <MenuItem value="Pending">Pending</MenuItem>
-                      <MenuItem value="Approved">Approved</MenuItem>
-                      <MenuItem value="Rejected">Rejected</MenuItem>
-                    </Select>
-                  )}
+                 <CustomSelectForType
+                 height={"42px"}
+                 border=''
+                    value={status[row.id] || 'Pending'}
+                    handleChange={(value) => handleStatusChange(row.id, value)}
+                    options={[
+                      { value: 'Pending', label: 'Pending' },
+                      { value: 'Approved', label: 'Approved' },
+                      { value: 'Rejected', label: 'Rejected' },
+                    ]}
+                    // sx={{ width: '120px', height: '32px' }}
+                  />
                 </TableCell>
                 <TableCell className="MuiTableCell-root" sx={{
                   borderRadius: '0px 8px 8px 0px',

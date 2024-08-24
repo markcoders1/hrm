@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useOutletContext, useParams } from 'react-router-dom';
 import { Box, Typography, Button } from '@mui/material';
 import axiosInstance from '../../auth/axiosInstance';
 import '../../PagesCss/UserDetailsStatic.css';
@@ -8,11 +8,14 @@ import { Loader } from '../../components/Loaders';
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const UserDetailsStatic = () => {
+  const {setHeadertext , setParaText} = useOutletContext()
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
+    setHeadertext("User Details");
+    setParaText("User Details")
     const getUserDetails = async () => {
       try {
         const response = await axiosInstance.get(`${apiUrl}/api/admin/getUser`, { params: { id } });
@@ -35,7 +38,7 @@ const UserDetailsStatic = () => {
   }
 
   return (
-    <Box className="user-details-container">
+    <Box className="user-details-container" sx={{p:{sm: "40px 50px", xs:"40px 15px"}}} >
       {/* Full Name, Phone Number, Email */}
       <Box sx={{ display: 'flex', gap: '40px', flexDirection: { md: 'row', xs: 'column' }, mb: '20px', pb: '20px', borderBottom: { md: '1px solid #E0E0E0', xs: 'none' } }}>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>

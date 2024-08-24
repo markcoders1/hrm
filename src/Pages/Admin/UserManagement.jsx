@@ -100,7 +100,7 @@ const EmployeeData = () => {
 
     const buttonForViewInformation = (rowData) => {
         const navigateUserInformation = () => {
-            navigate(`/dashboard/user-management/viewInformation/${rowData._id}`);
+            navigate(`user-detail/${rowData._id}`);
         };
         return <CustomButton
             border="1px solid #010120"
@@ -125,8 +125,8 @@ const EmployeeData = () => {
 
         const buttonForEditInformation = (rowData) => {
             const navigateUserInformation = () => {
-                navigate(`user-detail/${rowData._id}`);
-            };
+                navigate(`/dashboard/user-management/viewInformation/${rowData._id}`);
+            }; 
         
             return (
                 <Box

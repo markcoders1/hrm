@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Box, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 
-const CustomSelectForType = ({ label, options, handleChange, value, error, boxShadow = "0px 8px 26px -4px rgba(0, 0, 0, 0.1)", width = "100%", height, border="1px solid #E0E0E0" }) => {
+const CustomSelectForType = ({ 
+  label, 
+  options, 
+  handleChange, 
+  value, 
+  error, 
+  boxShadow = "0px 8px 26px -4px rgba(0, 0, 0, 0.1)", 
+  width = "100%", 
+  height, 
+  border="1px solid #E0E0E0",
+  focusBorder = true // New prop to control border behavior on focus
+}) => {
   const [selectedValue, setSelectedValue] = useState(value);
 
   useEffect(() => {
@@ -23,32 +34,35 @@ const CustomSelectForType = ({ label, options, handleChange, value, error, boxSh
           justifyContent: "center",
           borderRadius: "8px",
           width: width,
-          height:height,
-         position: "relative",
+          height: height,
+          position: "relative",
           backgroundColor: "transparent",
           "& .MuiOutlinedInput-root": {
             borderRadius: "8px",
             border: border,
-        
+          },
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: focusBorder ? "black" : "transparent",
           },
           "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-            borderColor: " ",
-            border:"none"
+            borderColor: focusBorder ? "black" : "transparent",
+          },
+          "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: focusBorder ? "black" : "transparent",
           }
         }}
         variant="outlined"
       >
         <InputLabel
           sx={{
-            position: 'absolute',
-            top: '0px',
+            position: selectedValue ? 'static' : 'absolute',
+            top: selectedValue ? '0px' : '50%',
             left: "10px",
-            transform: 'translateY(-50%)',
+            transform: selectedValue ? 'translateY(0%)' : 'translateY(-50%)',
             backgroundColor: 'white',
             padding: '0px 10px',
             fontSize: "14px",
             color: "#9E9E9E",
-            
           }}
           id={`select-${label}-label`}
         >
@@ -62,22 +76,21 @@ const CustomSelectForType = ({ label, options, handleChange, value, error, boxSh
           sx={{
             width: "100%",
             fontSize: "16px",
-            // padding: "10px 12px",
             color: selectedValue ? "black" : "#424242",
             "& .MuiSelect-select": {
-              // padding: "16px 12px",
+              padding: "10px 12px",
             },
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: "transparent",
             },
             "& .MuiSvgIcon-root": {
               color: "#424242",
-            }   
-          }}  Average Duration
+            }
+          }}
           MenuProps={{
             PaperProps: {
               sx: {
-                bgcolor: "white     ",
+                bgcolor: "white",
                 "& .MuiMenuItem-root": {
                   fontSize: "16px",
                   color: "#424242",

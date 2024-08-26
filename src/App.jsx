@@ -36,6 +36,8 @@ const UserDetailsStatic = React.lazy(() => import('./Pages/Admin/UserDetailsStat
 const Notifications = React.lazy(() => import('./Pages/Notification.jsx'));
 const LeaveManagement = React.lazy(() => import('./Pages/Admin/LeaveManagement.jsx'));
 const LeaveDetailsAdmin = React.lazy(() => import('./Pages/Admin/LeaveDetails.jsx'));
+const WFHManagement = React.lazy(() => import('./Pages/WFHManagement.jsx'));
+
 
 
 
@@ -77,6 +79,9 @@ function App() {
                 <Route path='user-management/register' element={<ProtectedAdmin><Register /></ProtectedAdmin>} />
                 <Route path='user-management/viewInformation/:id' element={<ProtectedAdmin><UserInfo /></ProtectedAdmin>} />
                 <Route path='user-management/user-detail/:id' element={<ProtectedAdmin><UserDetailsStatic /></ProtectedAdmin>} />
+
+                <Route path='wfh-management' element={<ProtectedAdmin><WFHManagement /></ProtectedAdmin>} />
+
 
               </Route>
             </Routes>

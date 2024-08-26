@@ -111,6 +111,12 @@ table tr td:last-child {
 
 table > tbody > tr {
   height: 75px;
+  border-top: 1px solid rgba(197, 197, 197, 0.6) !important;
+  border-bottom: 1px solid rgba(197, 197, 197, 0.6) !important;
+
+}
+.MuiTableBody-root {
+  border: 2px solid red !important;
 }
 
 
@@ -121,6 +127,7 @@ table > tbody > tr {
 
   .MuiTableBody-root .MuiTableCell-root {
       font-size: 18px;
+      
   }
 }
 

@@ -31,7 +31,7 @@ import ProtectedAdminCheckin from './ProtectedRoutes/ProtectedRouteForCheckinAdm
 // const Dashboard = React.lazy(() => import('./Pages/Dashboard.jsx')
 // const UserDetailsStatic = React.lazy(() => import('./Pages/UserDetailsStatic.jsx')
 
-const Dashboard = React.lazy(() => import('./Pages/Admin/Dashboard.jsx'));
+const Dashboard = React.lazy(() => import('./Pages/Admin/DashboarAdmin.jsx'));
 const UserDetailsStatic = React.lazy(() => import('./Pages/Admin/UserDetailsStatic.jsx'));
 const Notifications = React.lazy(() => import('./Pages/Notification.jsx'));
 const LeaveManagement = React.lazy(() => import('./Pages/Admin/LeaveManagement.jsx'));

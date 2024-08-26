@@ -5,7 +5,7 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const CustomInputLabel = forwardRef(({
   type = "text",
-  rows = 4,
+  rows = 6,
   multiline = false,
   onChange,  // Ensure onChange is passed as a prop
   name = "",
@@ -20,6 +20,9 @@ const CustomInputLabel = forwardRef(({
   label = "",
   fullWidth = true, // Add fullWidth prop to control width
   height = "64px", // Default height
+  bgcolor="",
+  color= "#424242",
+  fontSize = "16px"
 }, ref) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -31,7 +34,7 @@ const CustomInputLabel = forwardRef(({
     <Box sx={{ mb: mb, width: fullWidth ? '100%' : 'auto' }}>
       <FormControl variant="standard" fullWidth={fullWidth}
         sx={{
-          border: "1px solid #E0E0E0",
+          border: border ?  "1px solid #E0E0E0" : "",
           '& fieldset': {
             display: "none",
           },
@@ -47,6 +50,7 @@ const CustomInputLabel = forwardRef(({
           '&:hover': {
             borderColor: '#BDBDBD',
           },
+          backgroundColor: bgcolor
         }}
       >
         <Typography
@@ -77,12 +81,12 @@ const CustomInputLabel = forwardRef(({
             },
             '& .MuiInputBase-input': {
               padding: "5 0px 12px",
-              fontSize: "16px",
-              color: "#424242",
+              fontSize: fontSize,
+              color: color,
               height: "100%",
             },
             '& .MuiInputBase-input': {
-              color: "black", // Ensures the text color in the input field is white
+              color:color, // Ensures the text color in the input field is white
               '&:-webkit-autofill': {
                 // WebkitBoxShadow: '0 0 0 1000px #010115 inset !important', // Ensure background color of the autofill
                 WebkitTextFillColor: 'black', // Text color of the autofill

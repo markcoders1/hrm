@@ -38,6 +38,8 @@ const LeaveManagement = React.lazy(() => import('./Pages/Admin/LeaveManagement.j
 const LeaveDetailsAdmin = React.lazy(() => import('./Pages/Admin/LeaveDetails.jsx'));
 const WFHManagement = React.lazy(() => import('./Pages/Admin/WFHManagement.jsx'));
 const WFHDetails = React.lazy(() => import('./Pages/Admin/WFHDetails.jsx'));
+const MyNotifications = React.lazy(() => import('./Pages/User/MyNotifications.jsx'));
+
 
 
 
@@ -66,6 +68,8 @@ function App() {
               <Route path='' element={<Check />} />
 
                 <Route path='profile' element={<Profile />} />
+                <Route path='my-notifications' element={<MyNotifications />} />
+
                 <Route path='notifications' element={<Notifications />} />
 
                 <Route path='admin' element={<Dashboard />} />

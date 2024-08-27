@@ -44,7 +44,8 @@ const Profile = () => {
   }
 
   return (
-    <Box
+    <Box >
+            <Box
       className="user-details-container"
       sx={{ p: { sm: "40px 50px", xs: "40px 15px" } }}
     >
@@ -315,8 +316,10 @@ const Profile = () => {
         </Box>
       </Box>
 
-      {/* Edit Password & Request Changes */}
-      <Box
+    </Box>
+     <br />
+     {/* Edit Password & Request Changes */}
+     <Box
         sx={{
           display: "flex",
           gap: "20px",
@@ -332,12 +335,15 @@ const Profile = () => {
             backgroundColor: "#157AFF",
             padding: "10px 20px",
             borderRadius: "7px",
+
           }}
+          
         >
-          Request Changes
+          Edit
         </Button>
       </Box>
     </Box>
+
   );
 };
 

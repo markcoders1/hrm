@@ -48,7 +48,12 @@ const Login = () => {
             if (rememberMe) {
                 localStorage.setItem("refreshToken", response.data.refreshToken);
             }
-            navigate("/dashboard")
+            if (response.data.role === "user" ){
+                navigate("/dashboard")
+
+            } else if (response.data.role === "admin" ) {
+                navigate("/dashboard/admin")
+            }
             toast.success("User Logged In Successfully", {
                 position: "top-center",
             });

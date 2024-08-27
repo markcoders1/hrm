@@ -177,7 +177,7 @@ const Check = () => {
           "Check-In"
         )}
       </button>
-      {status === "checkout" ? null : (
+      {/* {status === "checkout" ? null : (
         <button
           style={{
             display: "flex",
@@ -195,7 +195,7 @@ const Check = () => {
             "Break Out"
           )}
         </button>
-      )}
+      )} */}
       {/* <button
                 style={{
                     display: "flex",
@@ -210,6 +210,15 @@ const Check = () => {
     </>
   );
 
+   {/* <div className="Home-container">
+                <div className="check-container">
+                  <div className="check-buttons">
+                    <CheckButtons />
+                  </div>
+                </div>
+              </div>
+              */}
+
   return (
     <>
 
@@ -222,7 +231,7 @@ const Check = () => {
               sx={{
                 width: "100%",
                 display: "flex",
-                gap: "1rem",
+                gap: "2rem",
                 justifyContent: "space-between",
                 flexDirection: {
                   md: "row",
@@ -230,13 +239,22 @@ const Check = () => {
                 },
               }}
             >
-              <div className="Home-container">
-                <div className="check-container">
-                  <div className="check-buttons">
-                    <CheckButtons />
-                  </div>
-                </div>
-              </div>
+
+                <Box sx={{  flexBasis: "50%",
+                backgroundColor: "white ",}} >
+                <CustomButton
+                onClick={handleCheck}
+                ButtonText={status === "checkin" ? "Checkout": "Check IN"}
+                fullWidth={true}
+                background="#157AFF"
+                color="white"
+               fontWeight="500"
+               fontSize="32px"
+               hoverBg="#303f9f"
+               padding="26px 0px"
+               borderRadius="12px"
+                />
+                </Box>
           
       
         

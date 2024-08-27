@@ -46,9 +46,9 @@ const NotificationBox = ({notificationText, notificationDate}) => {
           </Typography>
         </Box>
       </Box>
-      <Box sx={{ fontFamily: "'Plus Jakarta Sans', sans-serif !important !important" , position:"absolute",
+      {/* <Box sx={{ fontFamily: "'Plus Jakarta Sans', sans-serif !important !important" , position:"absolute",
       top:"42px", right:"30px   " 
-      }}> <img src={crossIcon} alt="" /> </Box>
+      }}> <img src={crossIcon} alt="" /> </Box> */}
     </Box>
   );
 }

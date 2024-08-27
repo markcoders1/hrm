@@ -2,6 +2,7 @@ import { Box, FormControl, TextField, Typography, IconButton } from "@mui/materi
 import { forwardRef, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import SearchIcon from '../../assets/searchIcon.png'
 
 const CustomInputLabel = forwardRef(({
   type = "text",
@@ -16,6 +17,7 @@ const CustomInputLabel = forwardRef(({
   border = true,
   boxShadow = false,
   showPasswordToggle = false,
+  showSearchIcon = false,
   maxLength,
   label = "",
   fullWidth = true, // Add fullWidth prop to control width
@@ -50,7 +52,7 @@ const CustomInputLabel = forwardRef(({
           '&:hover': {
             borderColor: '#BDBDBD',
           },
-          backgroundColor: bgcolor
+          backgroundColor: bgcolor,
         }}
       >
         <Typography
@@ -133,13 +135,29 @@ const CustomInputLabel = forwardRef(({
             {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
           </IconButton>
         )}
+
+        { showSearchIcon && (
+          <IconButton
+          onClick={handleTogglePasswordVisibility}
+          sx={{
+            position: 'absolute',
+            right: 25,
+            top: '50%',
+            transform: 'translateY(-50%)',
+          }}
+        >
+          <img src={SearchIcon} alt="" />
+        </IconButton>
+        )
+
+        }
       </FormControl>
       {error && (
         <Typography sx={{
-          background: "#010120",
+          background: "transparent",
           p: "10px",
-          color: "white",
-          mt: "8px",
+          color: "red ",
+          mt: "-15px",
           wordBreak: "break-word",
           fontWeight: "500",
           borderRadius:"4px",

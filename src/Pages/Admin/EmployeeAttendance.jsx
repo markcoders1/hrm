@@ -167,7 +167,7 @@ const EmployeeAttendance = () => {
                       paddingLeft: "0px",
                     }}
                   >
-                    Checked-In Date
+                    Checked-In Date 
                   </TableCell>
                   <TableCell
                     className="MuiTableCell-root-head"

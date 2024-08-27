@@ -233,7 +233,7 @@ const UserAttendance = () => {
                         sm: "21px",
                         xs: "16px",
                       },
-                      textAlign: "center",
+                      textAlign: "start",
                       borderRadius: "8px 0px 0px 8px",
                       color: "#010120",
                       paddingLeft: "40px",
@@ -252,7 +252,7 @@ const UserAttendance = () => {
                       },
                       textAlign: "center",
                       color: "#010120",
-                      paddingLeft: "40px",
+                      // paddingLeft: "40px",
                     }}
                   >
                     Day
@@ -268,7 +268,7 @@ const UserAttendance = () => {
                       },
                       textAlign: "center",
                       color: "#010120",
-                      paddingLeft: "-10px",
+                      paddingLeft: "-30px",
                     }}
                   >
                     Date
@@ -368,8 +368,8 @@ const UserAttendance = () => {
                       sx={{
                         borderRadius: "8px 0px 0px 8px",
                         color: "white",
-                        textAlign: "center !important",
-                        paddingLeft: "40px !important",
+                        textAlign: "start !important",
+                        paddingLeft: "60px !important",
                       }}
                     >
                       {item.employeeId}
@@ -379,7 +379,7 @@ const UserAttendance = () => {
                       sx={{
                         color: "white",
                         textAlign: "center !important",
-                        paddingLeft: "40px !important",
+                        // paddingLeft: "40px !important",
                       }}
                     >
                       {item.formattedDay}

@@ -46,7 +46,7 @@ const CustomButton = ({
                     border: hoverBorder
                 }
             }}
-            type={`${type}`}
+            
         >
             {loading ? <LoaderW color="white" /> : ButtonText}
         </Button>

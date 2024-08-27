@@ -14,8 +14,8 @@ const LeaveDetails = () => {
   const [, set] = useState(null);
 
   useEffect(() => {
-    setHeadertext("User Details");
-    setParaText("User Details")
+    setHeadertext("Leave Details");
+    setParaText(" ")
     const getUserDetails = async () => {
       try {
         const response = await axiosInstance.get(`${apiUrl}/api/admin/getUser`, { params: { id } });

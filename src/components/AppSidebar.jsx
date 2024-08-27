@@ -166,6 +166,12 @@ const AppSidebar = () => {
                                     <CIcon customClassName="nav-icon" icon={cilNotes} />    WFH Management
                                 </NavLink>
                             </CNavItem>
+                            <CNavItem>
+                        <NavLink to="/dashboard/profile" end className="nav-link">
+                            <CIcon customClassName="nav-icon" icon={cilUser} /> Profile
+                        </NavLink>
+                    </CNavItem>
+                            
                             </>
                     
                     )}

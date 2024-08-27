@@ -36,7 +36,9 @@ const UserDetailsStatic = React.lazy(() => import('./Pages/Admin/UserDetailsStat
 const Notifications = React.lazy(() => import('./Pages/Notification.jsx'));
 const LeaveManagement = React.lazy(() => import('./Pages/Admin/LeaveManagement.jsx'));
 const LeaveDetailsAdmin = React.lazy(() => import('./Pages/Admin/LeaveDetails.jsx'));
-const WFHManagement = React.lazy(() => import('./Pages/WFHManagement.jsx'));
+const WFHManagement = React.lazy(() => import('./Pages/Admin/WFHManagement.jsx'));
+const WFHDetails = React.lazy(() => import('./Pages/Admin/WFHDetails.jsx'));
+
 
 
 
@@ -81,6 +83,8 @@ function App() {
                 <Route path='user-management/user-detail/:id' element={<ProtectedAdmin><UserDetailsStatic /></ProtectedAdmin>} />
 
                 <Route path='wfh-management' element={<ProtectedAdmin><WFHManagement /></ProtectedAdmin>} />
+                <Route path='wfh-management/wfh-details/:id' element={<ProtectedAdmin><WFHDetails  /></ProtectedAdmin>} />
+
 
 
               </Route>

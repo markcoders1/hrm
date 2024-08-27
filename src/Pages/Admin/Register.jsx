@@ -8,7 +8,7 @@ import axiosInstance from "../../auth/axiosInstance";
 import { useOutletContext } from "react-router-dom";
 import "../../PagesCss/Register.css";
 import CustomInputLabel from "../../components/CustomInputField/CustomInputLabel";
-import CustomSelectForType from "../../components/CustomSelect/CustomSelect";
+import CustomSelectForRole from "../../components/CustomSelectForRole/CustomSelectForRole";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomCheckbox from "../../components/CustomCheckbox/CustomCheckbox"; // Import the CustomCheckbox component
 
@@ -18,7 +18,15 @@ const Register = () => {
   const user = useSelector((state) => state.user);
   const { setHeadertext, setParaText } = useOutletContext();
   const [selectedDays, setSelectedDays] = useState([]);
-  const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  const daysOfWeek = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
 
   const admin_token = user?.user?.accessToken || "";
   const config_admin = {
@@ -30,11 +38,18 @@ const Register = () => {
     setParaText("User Details");
   }, []);
 
-  const { control, handleSubmit, formState: { errors }, reset } = useForm();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
 
   const handleDayChange = (day) => {
-    setSelectedDays(prevSelected => 
-      prevSelected.includes(day) ? prevSelected.filter(d => d !== day) : [...prevSelected, day]
+    setSelectedDays((prevSelected) =>
+      prevSelected.includes(day)
+        ? prevSelected.filter((d) => d !== day)
+        : [...prevSelected, day]
     );
   };
 
@@ -62,8 +77,22 @@ const Register = () => {
     <Box className="form-container-register">
       <Box className="form-register">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Box sx={{ display: "flex", gap: "20px", mb: "20px", flexDirection: { md: "row", xs: "column" } }}>
-            <Typography sx={{ display: "flex", gap: "5px", flexDirection: "column", flexBasis: "33%" }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: "20px",
+              mb: "20px",
+              flexDirection: { md: "row", xs: "column" },
+            }}
+          >
+            <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
               <Controller
                 name="fullName"
                 control={control}
@@ -78,7 +107,14 @@ const Register = () => {
                 )}
               />
             </Typography>
-            <Typography sx={{ display: "flex", gap: "5px", flexDirection: "column", flexBasis: "33%" }}>
+            <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
               <Controller
                 name="phone"
                 control={control}
@@ -93,7 +129,14 @@ const Register = () => {
                 )}
               />
             </Typography>
-            <Typography sx={{ display: "flex", gap: "5px", flexDirection: "column", flexBasis: "33%" }}>
+            <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
               <Controller
                 name="email"
                 control={control}
@@ -112,11 +155,14 @@ const Register = () => {
           </Box>
 
           <Box sx={{ mb: "20px" }}>
-            <Typography sx={{ display: "flex", gap: "5px", flexDirection: "column" }}>
+            <Typography
+              sx={{ display: "flex", gap: "5px", flexDirection: "column" }}
+            >
               <Controller
                 name="address"
                 control={control}
                 defaultValue=""
+                rules={{ required: "Address is Required" }}
                 render={({ field }) => (
                   <CustomInputLabel
                     label="Address"
@@ -129,8 +175,22 @@ const Register = () => {
             </Typography>
           </Box>
 
-          <Box sx={{ display: "flex", gap: "20px", mb: "20px", flexDirection: { md: "row", xs: "column" } }}>
-            <Typography sx={{ display: "flex", gap: "5px", flexDirection: "column", flexBasis: "33%" }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: "20px",
+              mb: "20px",
+              flexDirection: { md: "row", xs: "column" },
+            }}
+          >
+            <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
               <Controller
                 name="CNIC"
                 control={control}
@@ -145,7 +205,14 @@ const Register = () => {
                 )}
               />
             </Typography>
-            <Typography sx={{ display: "flex", gap: "5px", flexDirection: "column", flexBasis: "33%" }}>
+            <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
               <Controller
                 name="DOB"
                 control={control}
@@ -162,7 +229,14 @@ const Register = () => {
               />
             </Typography>
 
-            <Typography sx={{ display: "flex", gap: "5px", flexDirection: "column", flexBasis: "33%" }}>
+            <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
               <Controller
                 name="companyId"
                 control={control}
@@ -179,16 +253,45 @@ const Register = () => {
             </Typography>
           </Box>
 
-          <Box sx={{ display: "flex", gap: "20px", mb: "20px", flexDirection: { md: "row", xs: "column" } }}>
-            <Typography sx={{ display: "flex", gap: "5px", flexDirection: "column", flexBasis: "33%" }}>
-              <CustomInputLabel
-                label="Password"
-                placeholder="Password"
-                value="admin1"
-                disabled
+          <Box
+            sx={{
+              display: "flex",
+              gap: "20px",
+              mb: "20px",
+              flexDirection: { md: "row", xs: "column" },
+            }}
+          >
+            <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
+              <Controller
+                name="emergencyNumber"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Emergency Number is required" }}
+                render={({ field }) => (
+                  <CustomInputLabel
+                    label="Emergency Number*"
+                    type="number"
+                    error={errors.emergencyNumber?.message}
+                    {...field}
+                  />
+                )}
               />
             </Typography>
-            <Typography sx={{ display: "flex", gap: "5px", flexDirection: "column", flexBasis: "33%" }}>
+            <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
               <Controller
                 name="timefrom"
                 control={control}
@@ -204,7 +307,14 @@ const Register = () => {
                 )}
               />
             </Typography>
-            <Typography sx={{ display: "flex", gap: "5px", flexDirection: "column", flexBasis: "33%" }}>
+            <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
               <Controller
                 name="timeto"
                 control={control}
@@ -222,16 +332,114 @@ const Register = () => {
             </Typography>
           </Box>
 
-          <Box sx={{ display: "flex", gap: "20px", mb: "20px", flexDirection: { md: "row", xs: "column" } }}>
-            <Typography sx={{ display: "flex", gap: "5px", flexDirection: "column", flexBasis: "33%" }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: "20px",
+              mb: "20px",
+              flexDirection: { md: "row", xs: "column" },
+            }}
+          >
+            <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
+              <Controller
+                name="totalShiftDuration"
+                control={control}
+                defaultValue="9 hours"
+                render={({ field }) => (
+                  <CustomInputLabel
+                    label="Total Shift Duration*"
+                    type="text"
+                    error={errors.totalShiftDuration?.message}
+                    value={"9 hours"}
+                    // {...field}
+                    readOnly
+                    disabled
+                  />
+                )}
+              />
+            </Typography>
+            <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
+              <Controller
+                name="joiningDate"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Joining Date From is required" }}
+                render={({ field }) => (
+                  <CustomInputLabel
+                    label="Joining Date*"
+                    type="date"
+                    error={errors.joiningDate?.message}
+                    {...field}
+                  />
+                )}
+              />
+            </Typography>
+            <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
+              <Controller
+                name="duration"
+                control={control}
+                defaultValue="9 hours"
+                render={({ field }) => (
+                  <CustomInputLabel
+                    label="Duration*"
+                    type="text"
+                    // error={errors.totalShiftDuration?.message}
+                    value={"9 hours"}
+                    // {...field}
+                    readOnly
+                    disabled
+                  />
+                )}
+              />
+            </Typography>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              gap: "20px",
+              mb: "20px",
+              flexDirection: { md: "row", xs: "column" },
+            }}
+          >
+            <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
               <Controller
                 name="role"
                 control={control}
                 defaultValue=""
                 rules={{ required: "User Role is required" }}
                 render={({ field }) => (
-                  <CustomSelectForType
+                  <CustomSelectForRole
                     label="User Role"
+                    height={"75px"}
                     options={[
                       { value: "admin", label: "Admin" },
                       { value: "user", label: "User" },
@@ -244,22 +452,43 @@ const Register = () => {
                 )}
               />
             </Typography>
-            <Typography sx={{ display: "flex", gap: "5px", flexDirection: "column", flexBasis: "33%" }}>
+            <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
               <Controller
-                name="designation"
+                name="lead"
                 control={control}
                 defaultValue=""
-                rules={{ required: "Designation is required" }}
+                rules={{ required: "Lead is Required" }}
                 render={({ field }) => (
-                  <CustomInputLabel
-                    label="Designation*"
-                    error={errors.designation?.message}
-                    {...field}
+                  <CustomSelectForRole
+                    label="Lead"
+                    height={"75px"}
+                    options={[
+                      { value: "uzaima", label: "Uzaima Iftikhar" },
+                      { value: "ammad", label: "Ammad" },
+                      
+                    ]}
+                    value={field.value}
+                    handleChange={field.onChange}
+                    error={errors.lead?.message}
                   />
                 )}
               />
             </Typography>
-            <Typography sx={{ display: "flex", gap: "5px", flexDirection: "column", flexBasis: "33%" }}>
+            <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
               <Controller
                 name="department"
                 control={control}
@@ -276,47 +505,91 @@ const Register = () => {
             </Typography>
           </Box>
 
+          <Box
+            sx={{
+              display: "flex",
+              gap: "20px",
+              flexDirection: { md: "row", xs: "column" },
+              position: "relative",
+            }}
+          >
+            {/* Custom Checkboxes for Working Days */}
+            <Box sx={{ flexBasis: "33%" }}>
+              <Typography
+                sx={{
+                  fontSize: "14px",
+                  color: "#9E9E9E",
+                  position: "absolute",
+                  top: "0px",
+                  left: "10px",
+                  backgroundColor: "white",
+                  padding: "0 10px",
+                  transform: "translateY(-50%)",
+                }}
+              >
+                Working Days
+              </Typography>
 
-          <Box sx={{ display: "flex", gap: "20px",flexDirection: { md: "row", xs: "column" }, position:"relative" }}>
-
-          {/* Custom Checkboxes for Working Days */}
-          <Box sx={{flexBasis:"33%"}} >
-<Typography sx={{fontSize: "14px",
-            color: "#9E9E9E",position: 'absolute',
-            top: '0px',
-            left: '10px',
-            backgroundColor: 'white',
-            padding: '0 10px',
-            transform: 'translateY(-50%)',}} >
-  Working Days
-</Typography>
-          
-          <Box sx={{ display: "flex", gap: "10px", mt: "20px", flexWrap: "wrap", justifyContent: "start", flexBasis:"33" }}>
-            {daysOfWeek.map(day => (
-              <CustomCheckbox
-                key={day}
-                label={day}
-                selected={selectedDays.includes(day)}
-                onChange={handleDayChange}
-              />
-            ))}
-          </Box>
-          </Box>
-            <Typography sx={{ display: "flex", gap: "5px", flexDirection: "column", flexBasis: "33%" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: "10px",
+                  mt: "20px",
+                  flexWrap: "wrap",
+                  justifyContent: "start",
+                  flexBasis: "33",
+                }}
+              >
+                {daysOfWeek.map((day) => (
+                  <CustomCheckbox
+                    key={day}
+                    label={day}
+                    selected={selectedDays.includes(day)}
+                    onChange={handleDayChange}
+                  />
+                ))}
+              </Box>
+            </Box>
+            <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
               <Controller
                 name="hod"
                 control={control}
                 defaultValue=""
+                rules={{ required: "HOD is Required" }}
                 render={({ field }) => (
-                  <CustomInputLabel
+                  <CustomSelectForRole
                     label="HOD*"
-                    error={errors.hod?.message}
-                    {...field}
+                    height={"75px"}
+                    options={[
+                      { value: "bial", label: "Bila Tunio" },
+                      { value: "saraang", label: "Saraang Ali" },
+                      { value: "shameekh", label: "Syed Shameekh" },
+                      { value: "muzammil", label: "Muzammil Ahmed" },
+
+                      
+                    ]}
+                    value={field.value}
+                    handleChange={field.onChange}
+                    error={errors.lead?.message}
                   />
                 )}
               />
             </Typography>
-            <Typography sx={{ display: "flex", gap: "5px", flexDirection: "column", flexBasis: "33%" }}>
+            <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
               <Controller
                 name="teamLead"
                 control={control}
@@ -332,9 +605,22 @@ const Register = () => {
             </Typography>
           </Box>
 
-          <Box sx={{ display: "flex", gap: "20px",flexDirection: { md: "row", xs: "column" }, position:"relative" }}>
-
-          <Typography sx={{ display: "flex", gap: "5px", flexDirection: "column", flexBasis: "32%" }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: "20px",
+              flexDirection: { md: "row", xs: "column" },
+              position: "relative",
+            }}
+          >
+            <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
               <Controller
                 name="annualLeaves"
                 control={control}
@@ -348,7 +634,14 @@ const Register = () => {
                 )}
               />
             </Typography>
-            <Typography sx={{ display: "flex", gap: "5px", flexDirection: "column", flexBasis: "32%" }}>
+            <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
               <Controller
                 name="netSalary"
                 control={control}
@@ -358,7 +651,53 @@ const Register = () => {
                     label="Net Salary"
                     error={errors.netSalary?.message}
                     {...field}
-                   
+                  />
+                )}
+              />
+            </Typography>
+            <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
+              <CustomInputLabel
+                label="Password"
+                placeholder="Password"
+                value="admin1"
+                disabled
+              />
+            </Typography>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              gap: "20px",
+              flexDirection: { md: "row", xs: "column" },
+              position: "relative",
+            }}
+          >
+            <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
+              <Controller
+                name="designation"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Designation is required" }}
+                render={({ field }) => (
+                  <CustomInputLabel
+                    label="Designation*"
+                    error={errors.designation?.message}
+                    {...field}
                   />
                 )}
               />
@@ -367,7 +706,7 @@ const Register = () => {
 
           <Box sx={{ display: "flex", justifyContent: "end", mt: "20px" }}>
             <CustomButton
-              ButtonText="Save"
+              ButtonText="\Add +"
               fontSize="18px"
               color="white"
               fontWeight="500"

@@ -213,13 +213,13 @@ const AppSidebar = () => {
                   <CIcon customClassName="nav-icon" icon={cilUser} /> Profile
                 </NavLink>
               </CNavItem>
-            </>
-          )}
           <CNavItem>
             <NavLink to="/dashboard/notifications" end className="nav-link">
               <CIcon customClassName="nav-icon" icon={cilUser} /> Notifications
             </NavLink>
           </CNavItem>
+            </>
+          )}
           <CNavGroup
             toggler={
               <>

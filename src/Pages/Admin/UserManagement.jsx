@@ -59,8 +59,7 @@ const EmployeeData = () => {
   useEffect(() => {
     const getAllUser = async () => {
       try {
-        setHeadertext("User Management");
-        setParaText(`${allEmployee.length} Users Found`);
+      
 
         const response = await axiosInstance({
           url: `${apiUrl}/api/admin/getAllUsers`,
@@ -72,6 +71,8 @@ const EmployeeData = () => {
         setAllEmployee(dataAllEmployee);
         setFilteredEmployees(dataAllEmployee);
         setLoading(false);
+        setHeadertext("User Management");
+        setParaText(`${response.data.length} Users Found`);
       } catch (error) {
         console.error(error);
 
@@ -185,9 +186,7 @@ const EmployeeData = () => {
       filtered = allEmployee.filter((employee) => employee.active);
     } else if (tabValue === 1) {
       filtered = allEmployee.filter((employee) => !employee.active);
-    } else if (tabValue === 2) {
-      filtered = allEmployee.filter((employee) => employee);
-    }
+    } 
 
     if (searchTerm) {
       filtered = filtered.filter(
@@ -234,9 +233,9 @@ const EmployeeData = () => {
   };
 
   return (
-    <Box className="sheet-container-admin" sx={{position:"relative"}} >
+    <Box className="sheet-container-admin" >
       {/* add search input field here with functionality */}
-      <Box sx={{width:{lg:"380px", xs:"100%"},position:{lg:"absolute", xs:"static"}, right:"40px", top:"-120px"}} >
+      <Box sx={{width:{lg:"380px", xs:"100%"},position:{lg:"absolute", xs:"static"}, right:"40px", top:"40px", zIndex:"100000 "}} >
 
   
       <CustomInputLabel
@@ -269,9 +268,9 @@ const EmployeeData = () => {
           onChange={handleTabChange}
           aria-label="user tabs"
         >
-          <StyledTab label="Activated" />
+          <StyledTab label="Active" />
           <StyledTab label="Deactivated" />
-          <StyledTab label="All" />
+         
         </StyledTabs>
         <CustomButton
           ButtonText="Add User +"

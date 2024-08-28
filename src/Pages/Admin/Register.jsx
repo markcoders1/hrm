@@ -144,7 +144,7 @@ const Register = () => {
                 rules={{ required: "Email is required" }}
                 render={({ field }) => (
                   <CustomInputLabel
-                    label="Official Email*"
+                    label="Email*"
                     type="email"
                     error={errors.email?.message}
                     {...field}
@@ -154,9 +154,9 @@ const Register = () => {
             </Typography>
           </Box>
 
-          <Box sx={{ mb: "20px" }}>
+          <Box sx={{ mb: "20px", display:"flex", gap:"20px" }}>
             <Typography
-              sx={{ display: "flex", gap: "5px", flexDirection: "column" }}
+              sx={{ display: "flex", gap: "5px", flexDirection: "column", flexBasis:"66.66%" }}
             >
               <Controller
                 name="address"
@@ -168,6 +168,29 @@ const Register = () => {
                     label="Address"
                     fullWidth
                     error={errors.address?.message}
+                    {...field}
+                  />
+                )}
+              />
+            </Typography>
+            <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
+              <Controller
+                name="emergencyNumber"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Emergency Number is required" }}
+                render={({ field }) => (
+                  <CustomInputLabel
+                    label="Emergency Number*"
+                    type="number"
+                    error={errors.emergencyNumber?.message}
                     {...field}
                   />
                 )}
@@ -261,7 +284,7 @@ const Register = () => {
               flexDirection: { md: "row", xs: "column" },
             }}
           >
-            <Typography
+           <Typography
               sx={{
                 display: "flex",
                 gap: "5px",
@@ -270,16 +293,18 @@ const Register = () => {
               }}
             >
               <Controller
-                name="emergencyNumber"
+                name="password"
                 control={control}
-                defaultValue=""
-                rules={{ required: "Emergency Number is required" }}
+                defaultValue="Admin1"
+                rules={{ required: "Password is required" }}
                 render={({ field }) => (
                   <CustomInputLabel
-                    label="Emergency Number*"
-                    type="number"
-                    error={errors.emergencyNumber?.message}
+                    label="Employee ID*"
+                    error={errors.companyId?.message}
                     {...field}
+                    showPasswordToggle={true}
+                    type={"password"}
+
                   />
                 )}
               />
@@ -439,7 +464,7 @@ const Register = () => {
                 render={({ field }) => (
                   <CustomSelectForRole
                     label="User Role"
-                    height={"75px"}
+                    height={"66px"}
                     options={[
                       { value: "admin", label: "Admin" },
                       { value: "user", label: "User" },
@@ -461,14 +486,14 @@ const Register = () => {
               }}
             >
               <Controller
-                name="lead"
+                name="lineManager"
                 control={control}
                 defaultValue=""
-                rules={{ required: "Lead is Required" }}
+                rules={{ required: "Line Manager is Required" }}
                 render={({ field }) => (
                   <CustomSelectForRole
-                    label="Lead"
-                    height={"75px"}
+                    label="Line Manager"
+                    height={"66px"}
                     options={[
                       { value: "uzaima", label: "Uzaima Iftikhar" },
                       { value: "ammad", label: "Ammad" },
@@ -476,7 +501,7 @@ const Register = () => {
                     ]}
                     value={field.value}
                     handleChange={field.onChange}
-                    error={errors.lead?.message}
+                    error={errors.lineManager?.message}
                   />
                 )}
               />
@@ -490,19 +515,20 @@ const Register = () => {
               }}
             >
               <Controller
-                name="department"
+                name="designation"
                 control={control}
                 defaultValue=""
-                rules={{ required: "Department is required" }}
+                rules={{ required: "Designation is required" }}
                 render={({ field }) => (
                   <CustomInputLabel
-                    label="Department*"
-                    error={errors.department?.message}
+                    label="Designation*"
+                    error={errors.designation?.message}
                     {...field}
                   />
                 )}
               />
             </Typography>
+           
           </Box>
 
           <Box
@@ -566,7 +592,7 @@ const Register = () => {
                 render={({ field }) => (
                   <CustomSelectForRole
                     label="HOD*"
-                    height={"75px"}
+                    height={"66px"}
                     options={[
                       { value: "bial", label: "Bila Tunio" },
                       { value: "saraang", label: "Saraang Ali" },
@@ -577,7 +603,7 @@ const Register = () => {
                     ]}
                     value={field.value}
                     handleChange={field.onChange}
-                    error={errors.lead?.message}
+                    error={errors.hod?.message}
                   />
                 )}
               />
@@ -591,18 +617,20 @@ const Register = () => {
               }}
             >
               <Controller
-                name="teamLead"
+                name="department"
                 control={control}
                 defaultValue=""
+                rules={{ required: "Department is required" }}
                 render={({ field }) => (
                   <CustomInputLabel
-                    label="Team Lead"
-                    error={errors.teamLead?.message}
+                    label="Department*"
+                    error={errors.department?.message}
                     {...field}
                   />
                 )}
               />
             </Typography>
+           
           </Box>
 
           <Box
@@ -663,11 +691,25 @@ const Register = () => {
                 flexBasis: "33%",
               }}
             >
-              <CustomInputLabel
-                label="Password"
-                placeholder="Password"
-                value="admin1"
-                disabled
+              <Controller
+                name="employementType"
+                control={control}
+                defaultValue=""
+                rules={{ required: "User Role is required" }}
+                render={({ field }) => (
+                  <CustomSelectForRole
+                    label="User Role"
+                    height={"66px"}
+                    options={[
+                      { value: "partTime", label: "Part Time" },
+                      { value: "fullTime", label: "Full Time" },
+                      { value: "remote", label: "Remote" },
+                    ]}
+                    value={field.value}
+                    handleChange={field.onChange}
+                    error={errors.employementType?.message}
+                  />
+                )}
               />
             </Typography>
           </Box>
@@ -680,6 +722,35 @@ const Register = () => {
               position: "relative",
             }}
           >
+           <Typography
+              sx={{
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+                flexBasis: "33%",
+              }}
+            >
+              <Controller
+                name="locaionType"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Location Type is Required" }}
+                render={({ field }) => (
+                  <CustomSelectForRole
+                    label="Location Type"
+                    height={"66px"}
+                    options={[
+                      { value: "1", label: "location type 1" },
+                      { value: "2", label: "location type 1" },
+                      { value: "3", label: "location type 1" },
+                    ]}
+                    value={field.value}
+                    handleChange={field.onChange}
+                    error={errors.employementType?.message}
+                  />
+                )}
+              />
+            </Typography>
             <Typography
               sx={{
                 display: "flex",
@@ -689,15 +760,21 @@ const Register = () => {
               }}
             >
               <Controller
-                name="designation"
+                name="onProbation"
                 control={control}
                 defaultValue=""
-                rules={{ required: "Designation is required" }}
+                rules={{ required: " On Probation is required" }}
                 render={({ field }) => (
-                  <CustomInputLabel
-                    label="Designation*"
-                    error={errors.designation?.message}
-                    {...field}
+                  <CustomSelectForRole
+                    label="On Probation"
+                    height={"66px"}
+                    options={[
+                      { value: true, label: "Yes" },
+                      { value: false, label: "No" },
+                    ]}
+                    value={field.value}
+                    handleChange={field.onChange}
+                    error={errors.employementType?.message}
                   />
                 )}
               />
@@ -706,7 +783,7 @@ const Register = () => {
 
           <Box sx={{ display: "flex", justifyContent: "end", mt: "20px" }}>
             <CustomButton
-              ButtonText="\Add +"
+              ButtonText="Add +"
               fontSize="18px"
               color="white"
               fontWeight="500"

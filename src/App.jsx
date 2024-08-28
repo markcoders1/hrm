@@ -28,6 +28,8 @@ const EmployeeAttendance = React.lazy(() => import('./Pages/Admin/EmployeeAttend
 const Devices = React.lazy(() => import('./Pages/Devices.jsx'));
 import store from './store.js';
 import ProtectedAdminCheckin from './ProtectedRoutes/ProtectedRouteForCheckinAdmin.jsx';
+import EditMyLeave from './Pages/User/EditMyLeaves.jsx';
+import EditWFHRequest from './Pages/User/EditWfhRequest.jsx';
 // const Dashboard = React.lazy(() => import('./Pages/Dashboard.jsx')
 // const UserDetailsStatic = React.lazy(() => import('./Pages/UserDetailsStatic.jsx')
 
@@ -41,6 +43,19 @@ const WFHDetails = React.lazy(() => import('./Pages/Admin/WFHDetails.jsx'));
 const MyNotifications = React.lazy(() => import('./Pages/User/MyNotifications.jsx'));
 const MyLeaves = React.lazy(() => import('./Pages/User/MyLeaves.jsx'));
 const NewLeave = React.lazy(() => import('./Pages/User/NewLeave.jsx'));
+const MyLeaveDetails = React.lazy(() => import('./Pages/User/MyLeaveDetails.jsx'));
+
+const RemoteWork = React.lazy(() => import('./Pages/User/RemoteWork.jsx'));
+const MyWfhDetail = React.lazy(() => import('./Pages/User/MyWFHDetail.jsx'));
+const NewWFHRequest = React.lazy(() => import('./Pages/User/NewWfhRequest.jsx'));
+const EditFHRequest = React.lazy(() => import('./Pages/User/EditWfhRequest.jsx'));
+
+
+
+
+
+
+
 
 
 
@@ -80,6 +95,19 @@ function App() {
                 <Route path='my-attendance' element={<Attendance />} />
                 <Route path='my-leaves' element={<MyLeaves />} />
                 <Route path='my-leaves/new-leave' element={<NewLeave />} />
+                <Route path='my-leaves/my-leave-detail' element={<MyLeaveDetails />} />
+                <Route path='my-leaves/edit-leave/:id' element={<EditMyLeave />} />
+
+                <Route path='remote-work' element={<RemoteWork />} />
+                <Route path='remote-work/wfh-detail' element={<MyWfhDetail />} />
+                <Route path='remote-work/new-wfh-request' element={<NewWFHRequest />} />
+                <Route path='remote-work/edit-wfh-request' element={<EditWFHRequest />} />
+
+
+
+
+
+
 
 
                 <Route path='devices' element={<Devices />} />

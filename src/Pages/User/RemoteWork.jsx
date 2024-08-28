@@ -18,14 +18,16 @@ import editIcon from "../../assets/EditIcon.png";
 import deleteIcon from "../../assets/deleteIcon.png";
 import disabledDelete from "../../assets/disabledDelete.png";
 import disabledEdit from "../../assets/disabledEdit.png";
+import IconButton from '@mui/material/IconButton';
 
 
-const MyLeaves = () => {
+const RemoteWork = () => {
   const navigate = useNavigate();
-  const { setHeadertext } = useOutletContext();
+  const { setHeadertext, setParaText } = useOutletContext();
 
   useEffect(() => {
-    setHeadertext("My Leaves");
+    setHeadertext("Remote Work");
+    setParaText(" ")
   }, []);
 
   // Dummy data for the table
@@ -110,7 +112,7 @@ const MyLeaves = () => {
 
   const handleEditClick = (event, leaveId) => {
     event.stopPropagation();
-    navigate(`/dashboard/my-leaves/edit-leave/${leaveId}`);
+    navigate(`/dashboard/remote-work/edit-wfh-request`);
   };
 
   const handleDeleteClick = (event, leaveId) => {
@@ -163,9 +165,9 @@ const MyLeaves = () => {
             </Box>
           </Box>
 
-          <Tooltip title="Request For New Leave">
+          <Tooltip title="Request New WFH">
             <CustomButton
-              ButtonText="Request New Leave"
+              ButtonText="Request For New WFH"
               fontSize="12px"
               color="white"
               fontWeight="500"
@@ -178,7 +180,7 @@ const MyLeaves = () => {
               hovercolor="white"
               width={"189px"}
               borderRadius="7px"
-              onClick={() => navigate("/dashboard/my-leaves/new-leave")}
+              onClick={() => navigate("/dashboard/remote-work/new-wfh-request")}
             />
           </Tooltip>
         </Box>
@@ -214,6 +216,7 @@ const MyLeaves = () => {
                 >
                   #
                 </TableCell>
+                
                 <TableCell
                   className="MuiTableCell-root-head"
                   sx={{
@@ -227,22 +230,7 @@ const MyLeaves = () => {
                     color: "#010120",
                   }}
                 >
-                  From
-                </TableCell>
-                <TableCell
-                  className="MuiTableCell-root-head"
-                  sx={{
-                    fontWeight: "500",
-                    padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "start",
-                    color: "#010120",
-                  }}
-                >
-                  To
+                  Date
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root-head"
@@ -259,21 +247,7 @@ const MyLeaves = () => {
                 >
                   Day
                 </TableCell>
-                <TableCell
-                  className="MuiTableCell-root-head"
-                  sx={{
-                    fontWeight: "500",
-                    padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "start",
-                    color: "#010120",
-                  }}
-                >
-                  Type
-                </TableCell>
+                
                 <TableCell
                   className="MuiTableCell-root-head"
                   sx={{
@@ -327,7 +301,7 @@ const MyLeaves = () => {
                 <TableRow
                   key={index}
                   className="MuiTableRow-root"
-                  onClick={() => navigate(`/dashboard/my-leaves/my-leave-detail`)}
+                  onClick={() => navigate(`/dashboard/remote-work/wfh-detail`)}
                   sx={{ cursor: "pointer" }}
                 >
                   <TableCell
@@ -341,12 +315,7 @@ const MyLeaves = () => {
                   >
                     {leave.id}
                   </TableCell>
-                  <TableCell
-                    sx={{ textAlign: "start !important" }}
-                    className="MuiTableCell-root"
-                  >
-                    {leave.from}
-                  </TableCell>
+                  
                   <TableCell
                     sx={{ textAlign: "start !important" }}
                     className="MuiTableCell-root"
@@ -359,12 +328,7 @@ const MyLeaves = () => {
                   >
                     {leave.day}
                   </TableCell>
-                  <TableCell
-                    sx={{ textAlign: "start !important" }}
-                    className="MuiTableCell-root"
-                  >
-                    {leave.type}
-                  </TableCell>
+                
                   <TableCell
                     sx={{
                       textAlign: "start !important",
@@ -408,6 +372,7 @@ const MyLeaves = () => {
                       }}
                     >
                       <Tooltip title={isActionDisabled(leave.statusManager, leave.statusHOD) ? "could not edit": "Click to Edit"}>
+                      <IconButton>
                       <Box
                         component="img"
                         src={
@@ -429,9 +394,11 @@ const MyLeaves = () => {
                           !isActionDisabled(leave.statusManager, leave.statusHOD) &&
                           handleEditClick(event, leave.id)
                         }
-                      />
+                      /> 
+                       </IconButton>
                       </Tooltip>
                       <Tooltip title={isActionDisabled(leave.statusManager, leave.statusHOD) ? "could not Delete": "Click to Delete"}>
+                      <IconButton>
                       <Box
                         component="img"
                         src={
@@ -454,6 +421,7 @@ const MyLeaves = () => {
                           handleDeleteClick(event, leave.id)
                         }
                       />
+                     </IconButton>
                       </Tooltip>
                     </Box>
                   </TableCell>
@@ -467,4 +435,4 @@ const MyLeaves = () => {
   );
 };
 
-export default MyLeaves;
+export default RemoteWork;

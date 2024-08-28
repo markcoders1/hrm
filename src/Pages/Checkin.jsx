@@ -159,7 +159,7 @@ const Check = () => {
 
   const CheckButtons = () => (
     <>
-     
+
       <button
         style={{
           display: "flex",
@@ -210,7 +210,7 @@ const Check = () => {
     </>
   );
 
-   {/* <div className="Home-container">
+  {/* <div className="Home-container">
                 <div className="check-container">
                   <div className="check-buttons">
                     <CheckButtons />
@@ -222,42 +222,44 @@ const Check = () => {
   return (
     <>
 
-    {
+      {
         loading ? (
-            <div className="loaderContainer">
+          <div className="loaderContainer">
             <Loader />
-          </div> ) :(
-              <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                gap: "2rem",
-                justifyContent: "space-between",
-                flexDirection: {
-                  md: "row",
-                  xs: "column",
-                },
-              }}
-            >
+          </div>) : (
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              gap: "2rem",
+              justifyContent: "space-between",
+              flexDirection: {
+                md: "row",
+                xs: "column",
+              },
+            }}
+          >
 
-                <Box sx={{  flexBasis: "50%",
-                backgroundColor: "white ",}} >
-                <CustomButton
+            <Box sx={{
+              flexBasis: "50%",
+              backgroundColor: "white ",
+            }} >
+              <CustomButton
                 onClick={handleCheck}
-                ButtonText={status === "checkin" ? "Checkout": "Check IN"}
+                ButtonText={status === "checkin" ? "Checkout" : "Check IN"}
                 fullWidth={true}
                 background="#157AFF"
                 color="white"
-               fontWeight="500"
-               fontSize="32px"
-               hoverBg="#303f9f"
-               padding="26px 0px"
-               borderRadius="12px"
-                />
-                </Box>
-          
-      
-        
+                fontWeight="500"
+                fontSize="32px"
+                hoverBg="#303f9f"
+                padding="26px 0px"
+                borderRadius="12px"
+              />
+            </Box>
+
+
+
             <Box
               sx={{
                 flexBasis: "50%",
@@ -278,22 +280,7 @@ const Check = () => {
                 <Typography sx={{ fontSize: "24px", fontWeight: "500" }}>
                   Announcement
                 </Typography>
-                <CustomButton
-                  ButtonText="Add +"
-                  fontSize="14px"
-                  color="white"
-                  fontWeight="500"
-                  fullWidth={false}
-                  variant="contained"
-                  padding="5px 20px"
-                  background="#157AFF"
-                  hoverBg="#303f9f"
-                  hovercolor="white"
-                  type="button"
-                  width={"120px"}
-                  borderRadius="7px"
-                  buttonStyle={{ fontSize: { sm: "18px", xs: "15px" } }}
-                />
+
               </Box>
               <Box
                 sx={{
@@ -301,16 +288,24 @@ const Check = () => {
                   display: "flex",
                   flexDirection: "column",
                   gap: "1rem",
+                  height: "50vh", // Fixed height with a scrollbar
+                  overflowY: "auto",
+                  // Custom scrollbar styles
+                  "&::-webkit-scrollbar": {
+                    width: "8px",
+                  },
+                  "&::-webkit-scrollbar-track": {
+                    backgroundColor: "#f1f1f1",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    backgroundColor: "#157AFF",
+                    borderRadius: "10px",
+                    border: "2px solid #f1f1f1",
+                  },
+                  scrollbarWidth: "thin",
+                  scrollbarColor: "#157AFF #f1f1f1",
                 }}
               >
-                <CustomInputLabel
-                  multiline="true"
-                  height={"150px"}
-                  border={false}
-                  bgcolor="#272741"
-                  color="white"
-                  fontSize="14px"
-                />
                 {announcements.map((announcement, index) => (
                   <AnnouncementBox
                     key={index}
@@ -318,18 +313,20 @@ const Check = () => {
                   />
                 ))}
               </Box>
-            </Box>
-      
-      
-      
-            </Box>
-         
-          )
 
-        
-    }
 
-  
+            </Box>
+
+
+
+          </Box>
+
+        )
+
+
+      }
+
+
     </>
   );
 };

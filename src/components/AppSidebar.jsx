@@ -146,7 +146,7 @@ const AppSidebar = () => {
                 </NavLink>
               </CNavItem>
               <CNavItem>
-                <NavLink to="/dashboard/remote-word" end className="nav-link">
+                <NavLink to="/dashboard/remote-work" end className="nav-link">
                   <CIcon customClassName="nav-icon" icon={cilCalendar} />
                   Remote Work
                 </NavLink>

@@ -24,7 +24,8 @@ const CustomInputLabel = forwardRef(({
   height = "64px", // Default height
   bgcolor="",
   color= "#424242",
-  fontSize = "16px"
+  fontSize = "16px",
+  id= ""
 }, ref) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -47,7 +48,7 @@ const CustomInputLabel = forwardRef(({
           mb: 2,
           width: '100%',
           position: "relative",
-          padding: "5px 15px",
+          // padding: "5px 15px",
           boxShadow: boxShadow ? "0px 8px 26px -4px rgba(0, 0, 0, 0.15)" : "",
           '&:hover': {
             borderColor: '#BDBDBD',
@@ -74,6 +75,7 @@ const CustomInputLabel = forwardRef(({
           placeholder={placeholder}
           type={showPassword ? "text" : type}
           ref={ref}
+          id={id}
           sx={{
             borderRadius: "8px",
             height: height,

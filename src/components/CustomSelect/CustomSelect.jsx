@@ -55,8 +55,8 @@ const CustomSelectForType = ({
       >
         <InputLabel
           sx={{
-            position: selectedValue ? 'static' : 'absolute',
-            top: selectedValue ? '0px' : '50%',
+            position: selectedValue ? 'absolute' : 'absolute',
+            top: selectedValue ? '-10px' : '50%',
             left: "10px",
             transform: selectedValue ? 'translateY(0%)' : 'translateY(-50%)',
             backgroundColor: 'white',
@@ -73,9 +73,11 @@ const CustomSelectForType = ({
           id={`select-${label}`}
           value={selectedValue}
           onChange={handleSelectionChange}
+
           sx={{
             width: "100%",
             fontSize: "16px",
+            height:height,
             color: selectedValue ? "black" : "#424242",
             "& .MuiSelect-select": {
               padding: "10px 12px",

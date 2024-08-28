@@ -466,8 +466,8 @@ const LeaveManagement = () => {
                       row.lineManagerStatus === "Approved"
                         ? "green"
                         : row.lineManagerStatus === "Pending"
-                        ? "orange"
-                        : "red",
+                          ? "orange"
+                          : "red",
                     textAlign: "center !important",
                     // paddingLeft: "40px !important",
                   }}
@@ -525,7 +525,7 @@ const LeaveManagement = () => {
                     type="button"
                     width={"120px"}
                     borderRadius="8px"
-                    buttonStyle={{ fontSize: { sm: "18px", xs: "15px", mb:"2px" } }}
+                    buttonStyle={{ fontSize: { sm: "18px", xs: "15px", mb: "2px" } }}
                     border="1px solid black"
                     hoverBorder="1px solid black"
                     onClick={(e) => {

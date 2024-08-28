@@ -73,7 +73,7 @@ function App() {
                 <Route path='notifications' element={<Notifications />} />
 
                 <Route path='admin' element={<Dashboard />} />
-                <Route path='progress' element={<Attendance />} />
+                <Route path='my-attendance' element={<Attendance />} />
                 <Route path='devices' element={<Devices />} />
                 <Route path='user-management' element={<EmployeeData />} /> {/* here protecte Admin will be implement */}
                 <Route path='attendance' element={<ProtectedAdmin><EmployeeAttendance /></ProtectedAdmin>} /> 

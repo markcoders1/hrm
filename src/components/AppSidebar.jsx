@@ -134,7 +134,7 @@ const AppSidebar = () => {
                 </NavLink>
               </CNavItem>
               <CNavItem>
-                <NavLink to="/dashboard/progress" end className="nav-link">
+                <NavLink to="/dashboard/my-attendance" end className="nav-link">
                   <CIcon customClassName="nav-icon" icon={cilCalendar} />
                   My Attendance
                 </NavLink>
@@ -164,7 +164,7 @@ const AppSidebar = () => {
             </>
           )}
 
-          {isAdmin === "admin" && (
+          {isAdmin === "HOD" && (
             <>
               <CNavItem>
                 <NavLink to="/dashboard/admin" className="nav-link" end>

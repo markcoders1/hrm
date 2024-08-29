@@ -235,7 +235,7 @@ const EmployeeData = () => {
   return (
     <Box className="sheet-container-admin" >
       {/* add search input field here with functionality */}
-      <Box sx={{width:{lg:"380px", xs:"100%"},position:{lg:"absolute", xs:"static"}, right:"40px", top:"40px", zIndex:"100000 "}} >
+      <Box sx={{width:{lg:"380px", xs:"100%"},position:{lg:"fixed", xs:"static"}, right:"40px", top:"40px", zIndex:"100000 "}} >
 
   
       <CustomInputLabel

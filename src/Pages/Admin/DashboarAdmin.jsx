@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from '@mui/material';
 import CustomInputLabel from '../../components/CustomInputField/CustomInputLabel';
 import AnnouncementBox from '../../components/AnnouncementBox/AnnouncementBox';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import '../../PagesCss/Employee.css'
 import { Loader } from '../../components/Loaders';
+import plusIcon from '../../assets/plusIcon.png'
 
 const DashboardAdmin = () => {
   const { setHeadertext, setParaText } = useOutletContext();
@@ -63,10 +64,10 @@ const DashboardAdmin = () => {
       }}>
         {loading ? (
           <Box className="loaderContainer">
-             <Loader />
+            <Loader />
           </Box>
         ) : (
-          <TableContainer component={Paper} sx={{ boxShadow: 'none', border: 'none', mt:"-14px" }}>
+          <TableContainer component={Paper} sx={{ boxShadow: 'none', border: 'none', mt: "-14px" }}>
             <Table sx={{ minWidth: 650 }}>
               <TableHead>
                 <TableRow
@@ -138,7 +139,7 @@ const DashboardAdmin = () => {
                     }}
                     onMouseEnter={() => setHoveredRow(index)}
                     onMouseLeave={() => setHoveredRow(null)}
-                   
+
                   >
                     <TableCell
                       sx={{
@@ -149,12 +150,12 @@ const DashboardAdmin = () => {
                       }}
                     >
                       <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <Box sx={{width: "50px", height: "50px", }} >
-                           <img
-                          src={employee.image}
-                          style={{ borderRadius: "50%", width:"100%", height:"100%" }}
-                          alt=""
-                        /> </Box>
+                        <Box sx={{ width: "50px", height: "50px", }} >
+                          <img
+                            src={employee.image}
+                            style={{ borderRadius: "50%", width: "100%", height: "100%" }}
+                            alt=""
+                          /> </Box>
                         <Typography sx={{ ml: "10px" }}>{employee.fullName}</Typography>
                       </Box>
                     </TableCell>
@@ -170,7 +171,7 @@ const DashboardAdmin = () => {
                       sx={{
                         textAlign: "center !important",
                         paddingLeft: "0px !important",
-                      borderRadius: "0px 8px 8px 0px",
+                        borderRadius: "0px 8px 8px 0px",
 
                       }}
                     >
@@ -188,7 +189,7 @@ const DashboardAdmin = () => {
         backgroundColor: "#010120",
         color: "white",
         p: "24px 17px",
-        borderRadius:"8px"
+        borderRadius: "8px"
       }}>
         <Box
           sx={{
@@ -199,32 +200,46 @@ const DashboardAdmin = () => {
           }}
         >
           <Typography sx={{ fontSize: "24px", fontWeight: "500" }}>Announcement</Typography>
-          <CustomButton
-            ButtonText="Add +"
-            fontSize="14px"
-            color="white"
-            fontWeight="500"
-            fullWidth={false}
-            variant="contained"
-            padding="5px 20px"
-            background="#157AFF"
-            hoverBg="#303f9f"
-            hovercolor="white"
-            type="button"
-            width={"120px"}
-            borderRadius="7px"
-            buttonStyle={{ fontSize: { sm: "18px", xs: "15px" } }}
-          />
+
         </Box>
         <Box sx={{ mt: "30px", display: "flex", flexDirection: "column", gap: "1rem" }}>
-          <CustomInputLabel
-            multiline="true"
-            height={"150px"}
-            border={false}
-            bgcolor="#272741"
-            color="white"
-            fontSize="14px"
-          />
+          <Box sx={{ position: "relative" }} >
+
+
+            <CustomInputLabel
+              multiline="true"
+              height={"150px"}
+              border={false}
+              bgcolor="#272741"
+              color="white"
+              fontSize="14px"
+
+            />
+            <Tooltip title="Add">
+              <Box
+                sx={{
+                  width: "42px",
+                  height: "42px",
+                  borderRadius: "50%",
+                  backgroundColor: "#157AFF",
+                  position: "absolute",
+                  right: "10px",
+                  bottom: "25px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  cursor: "pointer",
+                  transition: "background-color 0.3s ease", // Smooth transition for hover effect
+                  "&:hover": {
+                    backgroundColor: "#0e5bb5", // Darker shade on hover
+                  },
+                }}
+              >
+                <img src={plusIcon} alt="Add Icon" style={{ width: "16px", height: "16px" }} />
+              </Box>
+            </Tooltip>
+
+          </Box>
           {announcements.map((announcement, index) => (
             <AnnouncementBox
               key={index}

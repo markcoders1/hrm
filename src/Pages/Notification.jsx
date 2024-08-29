@@ -1,14 +1,18 @@
-import React, { useEffect } from 'react';
-import { Box } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Typography } from '@mui/material';
 import NotificationBox from '../components/NotificationBox/NotificationBox';
 import { useOutletContext } from 'react-router-dom';
+import CustomInputLabel from '../components/CustomInputField/CustomInputLabel';
 
 const Notification = () => {
   const { setHeadertext, setParaText } = useOutletContext();
+  const [searchTerm, setSearchTerm] = useState(""); // State to manage search term
+  const [filteredNotifications, setFilteredNotifications] = useState([]); // State to manage filtered notifications
 
   useEffect(() => {
     setHeadertext("Notifications");
     setParaText("Keep Yourself Updated!");
+    setFilteredNotifications(notifications); // Initially, all notifications are displayed
   }, []);
 
   const notifications = [
@@ -38,16 +42,41 @@ const Notification = () => {
     }
   ];
 
+  // Function to filter notifications based on search term
+  useEffect(() => {
+    const filtered = notifications.filter(notification =>
+      notification.notificationText.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      notification.notificationDate.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredNotifications(filtered);
+  }, [searchTerm]); // Re-run the filter function whenever the search term changes
+
   return (
-    <Box sx={{display:"flex", flexDirection:"column", gap:"1.5rem"}} >
-      {notifications.map((notification, index) => (
-        <NotificationBox
-          key={index}
-          notificationText={notification.notificationText}
-          notificationDate={notification.notificationDate}
+    <>
+      <Box sx={{ width: { lg: "380px", xs: "100%" }, position: { lg: "fixed", xs: "static" }, right: "40px", top: "40px", zIndex: "100000 " }} >
+        <CustomInputLabel
+          height={"56px"}
+          fontSize={"20px"}
+          showSearchIcon={true}
+          placeholder={"Search Notifications"}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)} // Update the search term state
         />
-      ))}
-    </Box>
+      </Box>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "1.5rem", mt: '80px' }}>
+        {filteredNotifications.length > 0 ? (
+          filteredNotifications.map((notification, index) => (
+            <NotificationBox
+              key={index}
+              notificationText={notification.notificationText}
+              notificationDate={notification.notificationDate}
+            />
+          ))
+        ) : (
+          <Typography >No notifications found</Typography> // Message when no notifications match the search term
+        )}
+      </Box>
+    </>
   );
 }
 

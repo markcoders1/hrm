@@ -82,8 +82,12 @@ const EmployeeAttendance = () => {
               backgroundColor: "rgba(255, 255, 255, 0.2)", // White color with 0.3 opacity
             },
           }}
+          onClick={(e) => {
+            e.stopPropagation();
+            alert("Edit clicked for " + rowData.fullName);
+          }}
         >
-          <img src={isHovered ? editIconWhite : editIcon} alt="" />{" "}
+          <img src={isHovered ? editIconWhite : editIcon} alt="edit" />{" "}
         </Typography>
         <Typography
           sx={{
@@ -98,8 +102,12 @@ const EmployeeAttendance = () => {
               backgroundColor: "rgba(255, 255, 255, 0.2)", // White color with 0.3 opacity
             },
           }}
+          onClick={(e) => {
+            e.stopPropagation();
+            alert("Delete clicked for " + rowData.fullName);
+          }}
         >
-          <img src={deleteIcon} alt="" />
+          <img src={deleteIcon} alt="delete" />
         </Typography>
       </Box>
     );
@@ -109,9 +117,34 @@ const EmployeeAttendance = () => {
     navigate(`/dashboard/attendance-management/viewAttendance`);
   };
 
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    return `${(date.getMonth() + 1).toString().padStart(2, "0")}-${date
+      .getDate()
+      .toString()
+      .padStart(2, "0")}-${date.getFullYear()}`;
+  };
+
+  const formatTime = (timestamp) => {
+    const date = new Date(timestamp);
+    let hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12; // Convert 0 to 12
+    return `${hours}:${minutes} ${ampm}`;
+  };
+
   return (
     <Box className="sheet-container-admin">
-      <Box sx={{ width: { lg: "380px", xs: "100%" }, position: { lg: "fixed", xs: "static" }, right: "70px", top: "40px", zIndex: "100000 " }} >
+      <Box
+        sx={{
+          width: { lg: "220px", xs: "100%" },
+          position: { lg: "fixed", xs: "static" },
+          right: "70px",
+          top: "40px",
+          zIndex: "100000 ",
+        }}
+      >
         <CustomInputLabel
           height={"56px"}
           fontSize={"20px"}
@@ -120,7 +153,8 @@ const EmployeeAttendance = () => {
           type={"date"}
           value={new Date(selectedDate).toISOString().split("T")[0]} // Display the selected date in the input
           onChange={handleDateChange} // Handle date change
-        />
+           fullWidth={false}
+           />
       </Box>
       <Box>
         {loading ? (
@@ -129,14 +163,23 @@ const EmployeeAttendance = () => {
           </Box>
         ) : (
           <>
-            <Box sx={{ display: "flex", justifyContent: "space-between" }} >
-              <Typography sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }} >
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Typography
+                sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
+              >
                 {`Active Users (${allEmployee.length})`}
               </Typography>
-              <Typography sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }} >
-                {`${new Date(selectedDate).getMonth() + 1}`.padStart(2, '0') + '-' +
-                  `${new Date(selectedDate).getDate()}`.padStart(2, '0') + '-' +
-                  new Date(selectedDate).getFullYear()}
+              <Typography
+                sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
+              >
+                {`${(new Date(selectedDate).getMonth() + 1)
+                  .toString()
+                  .padStart(2, "0")}-${new Date(selectedDate)
+                  .getDate()
+                  .toString()
+                  .padStart(2, "0")}-${new Date(
+                  selectedDate
+                ).getFullYear()}`}
               </Typography>
             </Box>
             <TableContainer component={Paper} className="MuiTableContainer-root">
@@ -281,15 +324,28 @@ const EmployeeAttendance = () => {
                         sx={{ color: "#010120", textAlign: "start !important" }}
                         className="MuiTableCell-root"
                       >
-                        <Box sx={{ display: "flex", justifyContent: "start", alignItems: "center" }}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "start",
+                            alignItems: "center",
+                          }}
+                        >
                           <Typography>
                             <img
                               src={employee.image}
-                              style={{ width: "38px", height: "38px", backgroundColor: "red", borderRadius: "50%" }}
+                              style={{
+                                width: "38px",
+                                height: "38px",
+                                backgroundColor: "red",
+                                borderRadius: "50%",
+                              }}
                               alt=""
                             />
                           </Typography>
-                          <Typography sx={{ ml: "10px" }}>{employee.fullName}</Typography>
+                          <Typography sx={{ ml: "10px" }}>
+                            {employee.fullName}
+                          </Typography>
                         </Box>
                       </TableCell>
                       <TableCell
@@ -300,7 +356,9 @@ const EmployeeAttendance = () => {
                         }}
                         className="MuiTableCell-root"
                       >
-                        {employee.checkedInDate || "N/A"}
+                        {employee.checkIn
+                          ? formatDate(employee.checkIn)
+                          : "N/A"}
                       </TableCell>
                       <TableCell
                         sx={{
@@ -309,7 +367,9 @@ const EmployeeAttendance = () => {
                         }}
                         className="MuiTableCell-root"
                       >
-                        {employee.checkIn ? employee.checkIn : "-- : --"}
+                        {employee.checkIn
+                          ? formatTime(employee.checkIn)
+                          : "-- : --"}
                       </TableCell>
                       <TableCell
                         sx={{
@@ -318,7 +378,9 @@ const EmployeeAttendance = () => {
                         }}
                         className="MuiTableCell-root"
                       >
-                        {employee.checkOut ? employee.checkOut : "-- : --"}
+                        {employee.checkOut
+                          ? formatTime(employee.checkOut)
+                          : "-- : --"}
                       </TableCell>
                       <TableCell
                         sx={{

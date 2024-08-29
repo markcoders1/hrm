@@ -24,6 +24,21 @@ const Check = () => {
   const [latitude, setLatitude] = useState();
   const [longitude, setLongitude] = useState();
   const { setHeadertext, setParaText } = useOutletContext();
+  const [fetchAnnouncements, setFetchAnnouncements] = useState([]);
+
+  const fetchAnnouncementsData = async () => {
+    try {
+      const response = await axiosInstance({
+        url: `${apiUrl}/api/announcements`,
+        method: "get",
+      });
+      setFetchAnnouncements(response.data.announcements);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const requestNotificationPermission = async () => {
     if (!("Notification" in window)) {
@@ -106,6 +121,7 @@ const Check = () => {
   useEffect(() => {
     requestNotificationPermission();
     setHeadertext("Dashboard");
+    fetchAnnouncementsData()
 
     const getStatus = async () => {
       try {
@@ -288,7 +304,7 @@ const Check = () => {
                   display: "flex",
                   flexDirection: "column",
                   gap: "1rem",
-                  height: "50vh", // Fixed height with a scrollbar
+                  height: "65vh", // Fixed height with a scrollbar
                   overflowY: "auto",
                   // Custom scrollbar styles
                   "&::-webkit-scrollbar": {
@@ -306,10 +322,10 @@ const Check = () => {
                   scrollbarColor: "#157AFF #f1f1f1",
                 }}
               >
-                {announcements.map((announcement, index) => (
+                {fetchAnnouncements.map((announcement, index) => (
                   <AnnouncementBox
                     key={index}
-                    announcementContent={announcement.content}
+                    announcementContent={announcement.announcement}
                   />
                 ))}
               </Box>

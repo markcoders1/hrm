@@ -25,7 +25,8 @@ const CustomInputLabel = forwardRef(({
   bgcolor="",
   color= "#424242",
   fontSize = "16px",
-  id= ""
+  id= "",
+  width = ""
 }, ref) => {
   const [showPassword, setShowPassword] = useState(false);
 

@@ -57,8 +57,15 @@ const EmployeeAttendance = () => {
   const handleDateChange = (e) => {
     const newDateTimestamp = new Date(e.target.value).getTime();
     setSelectedDate(newDateTimestamp);
+    console.log(newDateTimestamp)
   };
+//   const hello = (dateTimestamp) => {
 
+//     console.log(dateTimestamp)
+//   }
+// useEffect(()=>{
+
+// },[])
   const buttonForDeleteEdit = (rowData, isHovered) => {
     return (
       <Box

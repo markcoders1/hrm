@@ -23,10 +23,11 @@ const CustomInputLabel = forwardRef(({
   fullWidth = true, // Add fullWidth prop to control width
   height = "64px", // Default height
   bgcolor="",
-  color= "#424242",
-  fontSize = "16px",
+  color= "#010120",
+  fontSize = "18px",
   id= "",
-  width = ""
+  width = "",
+  disabled= false
 }, ref) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -77,6 +78,7 @@ const CustomInputLabel = forwardRef(({
           type={showPassword ? "text" : type}
           ref={ref}
           id={id}
+          disabled={disabled}
           sx={{
             borderRadius: "8px",
             height: height,

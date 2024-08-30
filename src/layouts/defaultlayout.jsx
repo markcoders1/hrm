@@ -1,24 +1,26 @@
-import {useState} from 'react'
-import AppSidebar from '../components/AppSidebar'
-import Header from '../components/Header'
-import { Outlet } from 'react-router-dom'
-
+import { useState } from 'react';
+import AppSidebar from '../components/AppSidebar';
+import Header from '../components/Header';
+import { Outlet } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const DefaultLayout = () => {
+  const sidebarShow = useSelector((state) => state.sidebarShow);
+  const [headertext, setHeadertext] = useState("hi")
+  const [paraText, setParaText] = useState("")
 
-  const [headertext,setHeadertext]=useState('hi')
 
   return (
-    <div className='layout'>
+    <div className={`layout-container ${sidebarShow ? 'sidebar-open' : 'sidebar-closed'}`}>
       <AppSidebar />
-      <div className="wrapper d-flex flex-column min-vh-100">
-        <Header headertext={headertext}/>
+      <div className="outlet-box">
+        <Header headertext={headertext} paraText={paraText} />
         <div className="body flex-grow-1 p-4">
-          <Outlet context={setHeadertext}/>
+          <Outlet  context={{setHeadertext, setParaText}}  />
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default DefaultLayout
+export default DefaultLayout;

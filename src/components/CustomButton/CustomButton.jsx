@@ -1,6 +1,6 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 import React from 'react';
-
+import { LoaderW } from '../Loaders'; // Adjust the import path as needed
 const CustomButton = ({
     border = "",
     borderRadius = "",
@@ -17,16 +17,18 @@ const CustomButton = ({
     background = "",
     hoverBg = "",
     hovercolor = "",
-    type,
+    type = "",
     width,
-    loading = false
+    loading = false,
+    hoverBorder = ""
 }) => {
     return (
-        <Button 
+        <Button
             variant={variant} 
             fullWidth={fullWidth}
             onClick={onClick}
             disabled={loading}
+            type={type}
             sx={{
                 border: border,
                 borderRadius,
@@ -35,20 +37,19 @@ const CustomButton = ({
                 color,
                 background,
                 fontWeight,
-                type,
                 width,
                 textTransform: "none",  // Ensures the text is displayed as provided
                 ...buttonStyle,
                 '&:hover': {
                     background: hoverBg,
-                    color: hovercolor
+                    color: hovercolor,
+                    border: hoverBorder
                 }
-            }} 
-            type={`${type}`}
+            }}
+            
         >
-            {loading ? "Loading..." : ButtonText}
+            {loading ? <LoaderW color="white" /> : ButtonText}
         </Button>
     );
 }
-
 export default CustomButton;

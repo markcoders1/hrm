@@ -1,0 +1,52 @@
+.nav-link {
+  text-decoration: none;
+  color: white; /* White Text */
+  display: flex;
+  align-items: center;
+  border-radius: 12px;
+  width: 100%; /* Full width */
+  height: 63px; /* Height adjustment */
+  justify-content: flex-start;
+  padding-left: 10px;
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.244);
+  border-radius: 12px;
+  transition: .3s ease-in all;
+  text-decoration: none;
+  color: rgb(255, 255, 255) !important;
+  display: flex;
+  align-items: center;
+}
+
+.active-nav-link {
+  text-decoration: none;
+  color: blue;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 12px;
+  transition: .3s ease-in all;
+}
+
+.active-nav-link .MuiTypography-root {
+  color: blue !important;
+}
+
+.nav-link .CIcon {
+  margin-right: 10px; /* Adjust icon margin */
+}
+
+.img-thumbnail-container {
+  text-align: center;
+  margin: 10px auto;
+}
+
+.navItem {
+  height: 63px; /* Height for each tab */
+}
+
+/* .d-none.d-lg-flex { */
+  /* justify-content: start !important; */
+}

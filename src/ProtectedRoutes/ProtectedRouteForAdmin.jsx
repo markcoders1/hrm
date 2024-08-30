@@ -13,7 +13,7 @@ const ProtectedAdmin = ({ children }) => {
             method:"get",
             url:`${apiUrl}/api/isAdmin`,
         })
-        if (res.data.isAdmin!=="admin"){
+        if (res.data.isAdmin!=="HOD"){
           navigate("/dashboard")
       }
     })()

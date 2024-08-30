@@ -1,106 +1,181 @@
-:root {
-    --main-bg-color: #3498db;
-    --color1-navy: #010115;
-}
 .sheet-container-admin {
-    width: 100%;
-    font-family: "Poppins", sans-serif;
-    z-index: 100000;
-    padding: 40px 25px 40px 25px;
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-}
-.attendanceButton {
-    border: none;
-    outline: none;
-    padding: 3px 0px;
-    background-color: transparent;
-    width: 90px;
-    background-color: #010115;
-    color: white;
-    outline: none;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: .3s ease;
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+  z-index: 100000;
+  padding: 0px 25px 40px 25px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
 }
 
-.attendanceButton:hover {
-    color: rgb(255, 255, 255);
-    background-color: #24A3D9;
+.data-table {
+  margin-top: 20px;
 }
-.data-table{
-    margin-top: 20px;
+
+.MuiTable-root {
+  border-collapse: separate !important;
+  border-spacing: 0px 15px !important;
+ 
 }
-.search-container{
-    border: 2px solid rgba(112, 128, 144,0.5);
-    width: 330px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 30px;
-    padding: 3px 5px;
+
+.MuiTableContainer-root {
+  background-color: transparent !important;
+  color: white;
+  box-shadow: 0px 0px 0px 0px !important;
+}
+
+.MuiTableCell-root {
+  color: #FDFDFD;
+  text-align: start;
+  font-weight: 600;
+  background-color: transparent !important;
+  font-size: 20px !important;
+  /* border: none !important; */
+}
+
+.MuiTableBody-root {
+  background-color: transparent !important;
+}
+
+.MuiTableBody-root .MuiTableCell-root {
+  text-align: center;
+  padding: 10px;
+  color: #010120;
+  font-weight: 400;
+  font-size: 14px;
+  background-color: transparent !important;
+ 
+}
+
+.MuiTableRow-root {
+  /* background: #ffffff;  */
+  /* border-radius: 12px !important; */
+  /* border: 2px solid #FFA100 !important; */
+  /* margin-bottom: 10px !important; */
+  /* color: rgb(180, 34, 34) !important; */
+  /* font-size: 21px; */
+}
+.MuiTableBody-root .MuiTableCell-root :hover {
+  color: white;
+}
+
+.MuiTableRow-root:hover .MuiTableCell-root {
+  color: white !important;
+}
+
+.header-row .MuiTableCell-root-head{
+  color: black !important;
+}
+.header-row:hover .MuiTableCell-root-head{
+  color: black !important;
+  font-weight: 500 !important;
+}
+
+
+.MuiTableRow-root:hover {
+  background: #157AFF;
+  transition: ease-in .18s all;
+  cursor: pointer;
+}
+/* 
+.header-row .MuiTableCell-root-head:hover {
+  background: #5A3D0A !important;
+} */
+
+/* .table-header {
+  display: flex;
+  justify-content: space-between !important;
+  border: none;
+} */
+
+table tr td:first-child {
+  border-top: 1px solid rgba(197, 197, 197, 0.6) !important;
+  border-bottom: 1px solid rgba(197, 197, 197, 0.6) !important;
+}
+
+table tr td:last-child{
+  border-top: 1px solid rgba(197, 197, 197, 0.6) !important;
+  border-bottom: 1px solid rgba(197, 197, 197, 0.6) !important;
+}
+table tr td:nth-child(2),table tr td:nth-child(3) ,table tr td:nth-child(4), table tr td:nth-child(5), table tr td:nth-child(6), table tr td:nth-child(7),  table tr td:nth-child(8),  table tr td:nth-child(9){
+  border-top: 1px solid rgba(197, 197, 197, 0.6) !important;
+  border-bottom: 1px solid rgba(197, 197, 197, 0.6) !important;
+}
+table tr td:first-child {
+  border-left: 1px solid rgba(197, 197, 197, 0.6) !important;
+}
+
+table tr td:last-child {
+  border-right: 1px solid rgba(197, 197, 197, 0.6) !important;
+}
+
+table > tbody > tr {
+  height: 75px;
+  border-top: 1px solid rgba(197, 197, 197, 0.6) !important;
+  border-bottom: 1px solid rgba(197, 197, 197, 0.6) !important;
+
+}
+.MuiTableBody-root {
+  border: 2px solid red !important;
+}
+
+
+@media (max-width: 1200px) {
+  .MuiTableCell-root {
+      font-size: 18px;
   }
-  
-  .search-container > input{
-    width: 78%;
-    height: 100%;
-    border: none;
-    margin-left: 10px;
-    font-size: 1.2rem;
-    border: none    ;
-    outline: none;
+
+  .MuiTableBody-root .MuiTableCell-root {
+      font-size: 18px;
+      
   }
-  .table-header{
-    display: flex;
-    justify-content: space-between;
+}
+
+@media (max-width: 992px) {
+  .MuiTableCell-root {
+      font-size: 16px;
+      padding-left: 0px !important;
   }
-  .register-user{
-    background-color: #010115;
-    color:white;
-    padding: 9px 30px;
-    margin-right: 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: .3s ease-in-out;
-    font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+  .MuiTableBody-root .MuiTableCell-root {
+      font-size: 16px;
+      padding-left: 20px !important;
   }
-  .register-user:hover{
-    background-color: #24A3D9;
+}
+
+@media (max-width: 768px) {
+  .MuiTableCell-root {
+      font-size: 14px;
+      padding-left: 15px !important;
   }
-  .search-box-input{
-    border-radius: 5px;
+
+  .MuiTableBody-root .MuiTableCell-root {
+      font-size: 14px;
+      padding-left: 15px !important;
   }
-  @media only screen and (max-width: 670px) {
-    .search-container{
-        width: 250px;
-    }
-    .register-user{
-        padding: 10px 20px;
-        font-size: .9rem;
-    }
+
+  .MuiTableHead-root {
+      font-size: 14px !important;
   }
-  @media only screen and (max-width: 510px) {
-    .search-container{
-        width: 180px;
-    }
-    .register-user{
-        padding: 5px 10px;
-        font-size: .9rem;
-        margin-right: 5px;
-    }
+}
+
+@media (max-width: 576px) {
+  .MuiTableCell-root {
+      font-size: 12px !important;
+      padding-left: 10px !important;
   }
-  @media only screen and (max-width: 420px){
-    .search-container{
-        width: 160px;
-    }
-    .register-user{
-        padding: 2px 9px;
-        font-size: .7rem;
-        margin-right: 0px;
-    }
+
+  .MuiTableBody-root .MuiTableCell-root {
+      font-size: 12px !important;
+      padding-left: 10px !important;
   }
+
+  .MuiTableHead-root {
+      font-size: 12px !important;
+  }
+
+  .MuiTableRow-root {
+      font-size: 12px !important;
+  }
+
+}

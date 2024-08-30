@@ -1,75 +1,26 @@
-@import "@coreui/coreui/scss/coreui";
-// If you want to override variables do it here
-// @import "variables";
-
-// Import styles
-// @import "@coreui/coreui/scss/coreui";
-// @import "@coreui/chartjs/scss/coreui-chartjs";
-
-// Vendors
-// @import "vendors/simplebar";
-
-// Custom styles for this theme
-// @import "theme";
-
-// If you want to add custom CSS you can put it here
-// @import "custom";
-
+@import "@coreui/coreui/scss/coreui"; // CoreUI styles
 
 :root {
-    --cui-sidebar-width: #{ $sidebar-width };
+  --cui-sidebar-width: 300px;
 }
 
 .wrapper {
   width: 100%;
-  @include ltr-rtl("padding-left", var(--cui-sidebar-occupy-start, 0));
-  @include ltr-rtl("padding-right", var(--cui-sidebar-occupy-end, 0));
-  will-change: auto;
-  @include transition(padding .15s);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-.header > .container-fluid,
 .sidebar-header {
-  min-height: calc(4rem + 1px); // stylelint-disable-line function-disallowed-list
-}
-
-.sidebar-brand-full {
-  margin-left: 3px;
-}
-
-.sidebar-header {
-  .nav-underline-border {
-    --cui-nav-underline-border-link-padding-x: 1rem;
-    --cui-nav-underline-border-gap: 0;
-  }
-
   .nav-link {
     display: flex;
     align-items: center;
-    min-height: calc(4rem + 1px); // stylelint-disable-line function-disallowed-list
+    min-height: 4rem;
   }
-}
-
-.sidebar-toggler {
-  @include ltr-rtl("margin-left", auto);
-}
-
-.sidebar-narrow,
-.sidebar-narrow-unfoldable:not(:hover) {
-  .sidebar-toggler {
-    @include ltr-rtl("margin-right", auto);
-  }
-}
-
-.header > .container-fluid + .container-fluid {
-  min-height: 3rem;
 }
 
 .footer {
-  min-height: calc(3rem + 1px); // stylelint-disable-line function-disallowed-list
+  min-height: 3rem;
 }
 
 @if $enable-dark-mode {
@@ -84,11 +35,8 @@
   }
 }
 
-
 .simplebar-content {
-    display: flex;
-    flex-direction: column;
-    min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
 }
-
-  

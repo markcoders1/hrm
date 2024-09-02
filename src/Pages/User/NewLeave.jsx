@@ -3,9 +3,13 @@ import { Box, Button, Typography } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import CustomInputLabel from '../../components/CustomInputField/CustomInputLabel';
 import CustomSelectForRole from '../../components/CustomSelect/CustomSelect';
+import axiosInstance from '../../auth/axiosInstance';
 
 import dateIcon from '../../assets/dateIcon.png';
 import { useOutletContext } from 'react-router-dom';
+
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+
 
 const NewLeave = () => {
   const { control, handleSubmit, setValue, watch, formState: { errors } } = useForm();
@@ -40,19 +44,31 @@ const NewLeave = () => {
     return days;
   };
 
-  const onSubmit = (data) => {
+  const onSubmit =async (data) => {
     // Convert dates to Unix timestamps
     const fromDateTimestamp = new Date(data.fromDate).getTime();
     const toDateTimestamp = new Date(data.toDate).getTime();
 
     const formData = {
-      ...data,
-      fromDate: fromDateTimestamp,
-      toDate: toDateTimestamp
+      leaveType: data.leaveType,
+      startDate: fromDateTimestamp,
+      endDate: toDateTimestamp,
+      comment: data.comment
     };
 
     console.log('Form Data with Unix Timestamps:', formData);
     // Handle form submission logic here
+try {
+  const response = await axiosInstance({
+    url: `${apiUrl}/api/leaves`,
+    method: "post",
+    data : formData
+  });
+  console.log(response)
+  
+} catch (error) {
+  console.log("error making leave request", error)
+}
   };
 
   return (
@@ -112,7 +128,7 @@ const NewLeave = () => {
         </Box>
 
         <Controller
-          name="type"
+          name="leaveType"
           control={control}
           defaultValue=""
           rules={{ required: "Leave type is required" }}
@@ -126,14 +142,14 @@ const NewLeave = () => {
               ]}
               value={field.value}
               handleChange={field.onChange}
-              error={errors.type?.message}
+              error={errors.leaveType?.message}
               height="64px"
             />
           )}
         />
 
         <Controller
-          name="description"
+          name="comment"
           control={control}
           defaultValue=""
           rules={{ required: "Description is required" }}
@@ -142,7 +158,7 @@ const NewLeave = () => {
               label="Description"
               multiline
               rows={4}
-              error={errors.description?.message}
+              error={errors.comment?.message}
               {...field}
               height="200px"
             />

@@ -10,19 +10,22 @@ import UAParser from "ua-parser-js";
 import CustomTextField from "../components/CustomInput/CustomInput"; // Adjust the import path as needed
 import CustomButton from "../components/CustomButton/CustomButton"; // Adjust the import path as needed
 import '../css/Login.css';
+import { useSelector, useDispatch } from "react-redux";
+import {login} from '../Redux/userSlice'
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 const Login = () => {
     let parser = new UAParser();
     const [isLoading, setIsLoading] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
     const setAccessToken = useOutletContext();
     const navigate = useNavigate();
-    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const refreshToken = localStorage.getItem("refreshToken");
         if (refreshToken) {
             sessionStorage.setItem("refreshToken", refreshToken);
-            navigate("/dashboard")
+            // navigate("/dashboard")
         }
     }, []);
     const {
@@ -42,22 +45,36 @@ const Login = () => {
                 "device": `${parser.getBrowser().name} | ${parser.getCPU().architecture} | ${parser.getOS().name}`
             });
             console.log(response);
+
+            const userData = {
+                image: response?.data?.image,
+                name: response?.data?.name,
+                accessToken: response?.data?.accessToken,
+                refreshToken: response?.data?.refreshToken,
+                email: response?.data?.email,
+                userId: response?.data?._id,
+                role: response?.data?.role
+
+            };
+        
+            dispatch(login(userData));
+
             sessionStorage.setItem("accessToken", response.data.accessToken);
             sessionStorage.setItem("refreshToken", response.data.refreshToken);
             setAccessToken(response.data.accessToken);
-            if (rememberMe) {
-                localStorage.setItem("refreshToken", response.data.refreshToken);
-            }
-            if (response.data.role === "user" || response.data.role === "TL" ){
-                navigate("/dashboard")
+            // if (rememberMe) {
+            //     localStorage.setItem("refreshToken", response.data.refreshToken);
+            // }
+            // if (response.data.role === "user" || response.data.role === "TL" ){
+            //     navigate("/dashboard")
 
-            } else if (response.data.role === "HOD" ) {
-                navigate("/dashboard/admin")
-            }
-            toast.success("User Logged In Successfully", {
-                position: "top-center",
-            });
-            reset();
+            // } else if (response.data.role === "HOD" ) {
+            //     navigate("/dashboard/admin")
+            // }
+            // toast.success("User Logged In Successfully", {
+            //     position: "top-center",
+            // });
+            // reset();
         } catch (error) {
             const err = error?.response?.data?.message || error.message;
             toast.error(err, {

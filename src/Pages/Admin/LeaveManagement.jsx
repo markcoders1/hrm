@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Table,
@@ -17,6 +17,10 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import CustomButton from "../../components/CustomButton/CustomButton";
 
 import CustomSelectForType from "../../components/CustomSelect/CustomSelect";
+import axiosInstance from "../../auth/axiosInstance";
+
+
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const LeaveManagement = () => {
   const [month, setMonth] = useState("");
@@ -25,6 +29,7 @@ const LeaveManagement = () => {
   const [status, setStatus] = useState({});
   const { setHeadertext, setParaText } = useOutletContext();
   const navigate = useNavigate();
+  // const [leaveData, setLeaveData] = useState([]);
 
   setHeadertext("Leave Management");
   setParaText(" ");
@@ -98,6 +103,24 @@ const LeaveManagement = () => {
       hodStatus: "Pending",
     },
   ];
+
+  const fetchAllLeaves =async () => {
+    try {
+      const response = await axiosInstance({
+        url: `${apiUrl}//api/admin/getallleaves`,
+        method: "get",
+      });
+      console.log(response.data)
+      // setLeaveData(response.data.leaves)
+      
+    } catch (error) {
+      console.log("error making leave request", error)
+    }
+  }
+
+  useEffect(()=>{
+    fetchAllLeaves();
+  },[])
 
   return (
     <Box className="sheet-container-admin">

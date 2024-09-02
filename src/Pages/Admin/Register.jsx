@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Box, Typography } from "@mui/material";
+import { Box, duration, Typography } from "@mui/material";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
@@ -22,6 +22,8 @@ const Register = () => {
   const [hods, setHods] = useState([]);
   const [teamLeads, setTeamLeads] = useState([]);
   const [departments, setDepartments] = useState([]);
+  const [joiningDuration, setJoiningDuration] = useState("");
+
 
   const [shiftDuration, setShiftDuration] = useState("");
   const daysOfWeek = [
@@ -78,7 +80,7 @@ const Register = () => {
       const payload = {
         ...data,
         workDays,
-        joiningDate,
+        // joiningDate, 
         shiftTimingFrom,
         shiftTimingTo,
       };
@@ -88,7 +90,7 @@ const Register = () => {
       const response = await axiosInstance.post(
         `${apiUrl}/api/admin/register`,
         payload,
-        config_admin
+       
       );
 
       toast.success("User Registered Successfully", { position: "top-center" });
@@ -716,7 +718,7 @@ const Register = () => {
                   label="Duration*"
                   type="text"
                   // error={errors.totalShiftDuration?.message}
-                  // value={.value}
+                  // value={}
                   // {...field}
                   border={false}
                   readOnly

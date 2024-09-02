@@ -36,7 +36,7 @@ const MyLeaves = () => {
   const fetchAllLeaves =async () => {
     try {
       const response = await axiosInstance({
-        url: `${apiUrl}/api/getmyleave`,
+        url: `${apiUrl}/api/leaves`,
         method: "get",
       });
       console.log(response.data)

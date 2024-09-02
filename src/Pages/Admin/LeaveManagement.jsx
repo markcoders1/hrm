@@ -422,7 +422,7 @@ const LeaveManagement = () => {
                     textAlign: "center !important",
                   }}
                 >
-                  {row?.userID || "-- -- "}
+                  {row?.employeeId || "-- -- "}
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root"
@@ -432,7 +432,7 @@ const LeaveManagement = () => {
                   }}
                 >
                   <img
-                    src={row.img}
+                    src={row?.image}
                     style={{
                       width: "32px",
                       height: "32px",
@@ -441,7 +441,7 @@ const LeaveManagement = () => {
                     }}
                     alt="employee"
                   />
-                  {row.name}
+                  {row?.fullName}
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root"
@@ -450,7 +450,7 @@ const LeaveManagement = () => {
                     textAlign: "center !important",
                   }}
                 >
-                  {row.balance}
+                  {row?.balance}
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root"
@@ -459,7 +459,7 @@ const LeaveManagement = () => {
                     textAlign: "center !important",
                   }}
                 >
-                  {row.leaveType}
+                  {row?.leaveType}
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root"
@@ -468,7 +468,7 @@ const LeaveManagement = () => {
                     textAlign: "center !important",
                   }}
                 >
-                  {formatDate(row.startDate)}
+                  {formatDate(row?.startDate)}
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root"
@@ -477,7 +477,7 @@ const LeaveManagement = () => {
                     textAlign: "center !important",
                   }}
                 >
-                  {formatDate(row.endDate)}
+                  {formatDate(row?.endDate)}
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root"
@@ -500,7 +500,7 @@ const LeaveManagement = () => {
                     textAlign: "center !important",
                   }}
                 >
-                  {row.statusTL}
+                  {row?.statusTL}
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root"
@@ -514,7 +514,7 @@ const LeaveManagement = () => {
                     textAlign: "center !important",
                   }}
                 >
-                  {row.statusHOD}
+                  {row?.statusHOD}
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root"

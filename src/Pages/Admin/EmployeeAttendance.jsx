@@ -30,6 +30,12 @@ const EmployeeAttendance = () => {
   const [selectedDate, setSelectedDate] = useState(new Date().getTime()); // Initialize with current date as Unix timestamp
   const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
 
+  const applyTimezoneOffset = (timestamp) => {
+    const date = new Date(timestamp);
+    const timezoneOffset = date.getTimezoneOffset() * 60000; // Get timezone offset in milliseconds
+    return timestamp - timezoneOffset;
+  };
+
   useEffect(() => {
     const fetchEmployeeData = async (dateTimestamp) => {
       try {
@@ -39,7 +45,7 @@ const EmployeeAttendance = () => {
           url: `${apiUrl}/api/admin/getToday`,
           method: "get",
           params: {
-            date: dateTimestamp, // Pass the selected date as a Unix timestamp
+            date: applyTimezoneOffset(dateTimestamp), // Pass the selected date with timezone offset applied
           },
         });
         const dataAllEmployee = response.data.users;
@@ -59,13 +65,7 @@ const EmployeeAttendance = () => {
     setSelectedDate(newDateTimestamp);
     console.log(newDateTimestamp)
   };
-//   const hello = (dateTimestamp) => {
 
-//     console.log(dateTimestamp)
-//   }
-// useEffect(()=>{
-
-// },[])
   const buttonForDeleteEdit = (rowData, isHovered) => {
     return (
       <Box
@@ -125,7 +125,7 @@ const EmployeeAttendance = () => {
   };
 
   const formatDate = (timestamp) => {
-    const date = new Date(timestamp);
+    const date = new Date(applyTimezoneOffset(timestamp));
     return `${(date.getMonth() + 1).toString().padStart(2, "0")}-${date
       .getDate()
       .toString()
@@ -133,7 +133,7 @@ const EmployeeAttendance = () => {
   };
 
   const formatTime = (timestamp) => {
-    const date = new Date(timestamp);
+    const date = new Date(applyTimezoneOffset(timestamp));
     let hours = date.getHours();
     const minutes = date.getMinutes().toString().padStart(2, "0");
     const ampm = hours >= 12 ? "PM" : "AM";
@@ -160,8 +160,8 @@ const EmployeeAttendance = () => {
           type={"date"}
           value={new Date(selectedDate).toISOString().split("T")[0]} // Display the selected date in the input
           onChange={handleDateChange} // Handle date change
-           fullWidth={false}
-           />
+          fullWidth={false}
+        />
       </Box>
       <Box>
         {loading ? (

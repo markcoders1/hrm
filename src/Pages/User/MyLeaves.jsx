@@ -18,6 +18,11 @@ import editIcon from "../../assets/EditIcon.png";
 import deleteIcon from "../../assets/deleteIcon.png";
 import disabledDelete from "../../assets/disabledDelete.png";
 import disabledEdit from "../../assets/disabledEdit.png";
+import axiosInstance from "../../auth/axiosInstance";
+
+
+
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 
 const MyLeaves = () => {
@@ -27,6 +32,25 @@ const MyLeaves = () => {
   useEffect(() => {
     setHeadertext("My Leaves");
   }, []);
+
+  const fetchAllLeaves =async () => {
+    try {
+      const response = await axiosInstance({
+        url: `${apiUrl}/api/getmyleave`,
+        method: "get",
+      });
+      console.log(response.data)
+      // setLeaveData(response.data.leaves)
+      
+    } catch (error) {
+      console.log("error making leave request", error)
+    }
+  }
+
+  useEffect(()=>{
+    fetchAllLeaves();
+  },[])
+
 
   // Dummy data for the table
   const [leaveData] = useState([

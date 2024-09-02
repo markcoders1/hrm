@@ -205,44 +205,7 @@ const Profile = () => {
         </Box>
       </Box>
 
-      {/* Total Shift Duration, Joining Date, Duration */}
-      <Box
-        sx={{
-          display: "flex",
-          gap: "20px",
-          flexDirection: { md: "row", xs: "column" },
-          mb: "20px",
-          pb: "20px",
-          borderBottom: { md: "1px solid #E0E0E0", xs: "none" },
-        }}
-      >
-        <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
-          <Typography variant="subtitle2" className="user-details-label">
-            Total Shift Duration
-          </Typography>
-          <Typography variant="body1" className="user-details-value">
-            {yourData.totalShiftDuration || "--- ---"}
-          </Typography>
-        </Box>
-        <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
-          <Typography variant="subtitle2" className="user-details-label">
-            Joining Date
-          </Typography>
-          <Typography variant="body1" className="user-details-value">
-            {yourData.joiningDate
-              ? new Date(yourData.joiningDate).toLocaleDateString()
-              : "--- ---"}
-          </Typography>
-        </Box>
-        <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
-          <Typography variant="subtitle2" className="user-details-label">
-            Duration
-          </Typography>
-          <Typography variant="body1" className="user-details-value">
-            {yourData.duration || "--- ---"}
-          </Typography>
-        </Box>
-      </Box>
+    
 
       {/* User Role, Lead, Designation */}
       <Box
@@ -255,23 +218,7 @@ const Profile = () => {
           borderBottom: { md: "1px solid #E0E0E0", xs: "none" },
         }}
       >
-        <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
-          <Typography variant="subtitle2" className="user-details-label">
-            User Role
-          </Typography>
-          <Typography variant="body1" className="user-details-value">
-            {yourData.role || "--- ---"}
-          </Typography>
-        </Box>
-        <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
-          <Typography variant="subtitle2" className="user-details-label">
-            Lead
-          </Typography>
-          <Typography variant="body1" className="user-details-value">
-            {yourData.lead || "--- ---"}
-          </Typography>
-        </Box>
-        <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
+         <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
           <Typography variant="subtitle2" className="user-details-label">
             Designation
           </Typography>
@@ -279,6 +226,23 @@ const Profile = () => {
             {yourData.designation || "--- ---"}
           </Typography>
         </Box>
+        <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
+          <Typography variant="subtitle2" className="user-details-label">
+            Line Manager
+          </Typography>
+          <Typography variant="body1" className="user-details-value">
+            {yourData.role || "--- ---"}
+          </Typography>
+        </Box>
+        <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
+          <Typography variant="subtitle2" className="user-details-label">
+            Department
+          </Typography>
+          <Typography variant="body1" className="user-details-value">
+            {yourData.department || "--- ---"}
+          </Typography>
+        </Box>
+       
       </Box>
 
       {/* Working Days, HOD, Department */}
@@ -306,14 +270,7 @@ const Profile = () => {
             {yourData.hod || "--- ---"}
           </Typography>
         </Box>
-        <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
-          <Typography variant="subtitle2" className="user-details-label">
-            Department
-          </Typography>
-          <Typography variant="body1" className="user-details-value">
-            {yourData.department || "--- ---"}
-          </Typography>
-        </Box>
+      
       </Box>
 
     </Box>

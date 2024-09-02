@@ -29,6 +29,7 @@ const CustomButton = ({
             onClick={onClick}
             disabled={loading}
             type={type}
+            
             sx={{
                 border: border,
                 borderRadius,

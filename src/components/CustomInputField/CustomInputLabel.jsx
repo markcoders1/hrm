@@ -146,7 +146,7 @@ const CustomInputLabel = forwardRef(({
           onClick={handleTogglePasswordVisibility}
           sx={{
             position: 'absolute',
-            right: 25,
+            right: 10,
             top: '50%',
             transform: 'translateY(-50%)',
           }}

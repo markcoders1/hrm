@@ -62,19 +62,19 @@ const Login = () => {
             sessionStorage.setItem("accessToken", response.data.accessToken);
             sessionStorage.setItem("refreshToken", response.data.refreshToken);
             setAccessToken(response.data.accessToken);
-            // if (rememberMe) {
-            //     localStorage.setItem("refreshToken", response.data.refreshToken);
-            // }
-            // if (response.data.role === "user" || response.data.role === "TL" ){
-            //     navigate("/dashboard")
+            if (rememberMe) {
+                localStorage.setItem("refreshToken", response.data.refreshToken);
+            }
+            if (response.data.role === "user" || response.data.role === "TL" ){
+                navigate("/dashboard")
 
-            // } else if (response.data.role === "HOD" ) {
-            //     navigate("/dashboard/admin")
-            // }
-            // toast.success("User Logged In Successfully", {
-            //     position: "top-center",
-            // });
-            // reset();
+            } else if (response.data.role === "HOD" ) {
+                navigate("/dashboard/admin");
+            }
+            toast.success("User Logged In Successfully", {
+                position: "top-center",
+            });
+            reset();
         } catch (error) {
             const err = error?.response?.data?.message || error.message;
             toast.error(err, {

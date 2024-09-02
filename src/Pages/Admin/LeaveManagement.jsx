@@ -8,17 +8,17 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Button,
   Typography,
   FormControl,
+  Tooltip,
 } from "@mui/material";
 import "../../PagesCss/Employee.css";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import CustomButton from "../../components/CustomButton/CustomButton";
-
-import CustomSelectForType from "../../components/CustomSelect/CustomSelect";
 import axiosInstance from "../../auth/axiosInstance";
-
+import tickPng from "../../assets/tick.png";
+import cancelPng from "../../assets/cancel.png";
+import CustomSelectForType from "../../components/CustomSelect/CustomSelect";
+import CustomInputLabel from "../../components/CustomInputField/CustomInputLabel";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -26,13 +26,12 @@ const LeaveManagement = () => {
   const [month, setMonth] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
-  const [status, setStatus] = useState({});
   const { setHeadertext, setParaText } = useOutletContext();
   const navigate = useNavigate();
-  // const [leaveData, setLeaveData] = useState([]);
+  const [leaveData, setLeaveData] = useState([]);
 
   setHeadertext("Leave Management");
-  setParaText(" ");
+  setParaText("Manage Employee Leaves");
 
   const handleMonthChange = (event) => {
     setMonth(event.target.value);
@@ -46,84 +45,118 @@ const LeaveManagement = () => {
     setToDate(new Date(event.target.value).getTime());
   };
 
-  const handleStatusChange = (id, value) => {
-    setStatus((prev) => ({ ...prev, [id]: value }));
+  const fetchAllLeaves = async () => {
+    try {
+      const response = await axiosInstance({
+        url: `${apiUrl}/api/admin/getallleaves`,
+        method: "get",
+      });
+      console.log(response.data);
+      setLeaveData(response?.data?.leaves || []);
+    } catch (error) {
+      console.log("error making leave request", error);
+    }
   };
 
-  const handleNavigateToLeaveDetail = () => {
-    navigate("/dashboard/leave-management/leave-details");
+  const validateAccept = async (leaveId) => {
+    try {
+      const response = await axiosInstance({
+        url: `${apiUrl}/api/admin/validateleaves`,
+        method: "get",
+        params: {
+          leaveID: leaveId,
+          status: "accepted",
+        },
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.log("error making leave request", error);
+    }
+  };
+
+  const validateReject = async (leaveId) => {
+    try {
+      const response = await axiosInstance({
+        url: `${apiUrl}/api/admin/validateleaves`,
+        method: "get",
+        params: {
+          leaveID: leaveId,
+          status: "rejected",
+        },
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.log("error making leave request", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllLeaves();
+  }, []);
+
+  const calculateLeaveDays = (startDate, endDate) => {
+    let start = new Date(startDate);
+    let end = new Date(endDate);
+    let totalDays = 0;
+
+    while (start <= end) {
+      const dayOfWeek = start.getDay();
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        // Exclude Saturdays and Sundays
+        totalDays++;
+      }
+      start.setDate(start.getDate() + 1);
+    }
+    return totalDays;
+  };
+
+  const formatDate = (date) => {
+    const d = new Date(date);
+    return `${d.getFullYear()}-${(d.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${d.getDate().toString().padStart(2, "0")}`;
   };
 
   const handleRowClick = (e) => {
-    handleNavigateToLeaveDetail();
+    navigate("/dashboard/leave-management/leave-details");
   };
-
-  const handleSelectClick = (e) => {
-    e.stopPropagation(); // Prevent the row click event from firing
-  };
-
-  const leaveData = [
-    {
-      id: "1",
-      empId: "005",
-      name: "M. Aman Raza",
-      img: "/path/to/image1.png",
-      balance: "9",
-      type: "Sick",
-      from: "08-20-2024",
-      to: "08-20-2024",
-      days: "2",
-      lineManagerStatus: "Approved",
-      hodStatus: "Pending",
-    },
-    {
-      id: "2",
-      empId: "006",
-      name: "Syed Muzammil",
-      img: "/path/to/image2.png",
-      balance: "7",
-      type: "Sick",
-      from: "08-20-2024",
-      to: "08-20-2024",
-      days: "2",
-      lineManagerStatus: "Approved",
-      hodStatus: "Pending",
-    },
-    {
-      id: "3",
-      empId: "007",
-      name: "Muzammil Mansoori",
-      img: "/path/to/image3.png",
-      balance: "5",
-      type: "Casual",
-      from: "08-20-2024",
-      to: "08-20-2024",
-      days: "2",
-      lineManagerStatus: "Approved",
-      hodStatus: "Pending",
-    },
-  ];
-
-  const fetchAllLeaves =async () => {
-    try {
-      const response = await axiosInstance({
-        url: `${apiUrl}//api/admin/getallleaves`,
-        method: "get",
-      });
-      console.log(response.data)
-      // setLeaveData(response.data.leaves)
-      
-    } catch (error) {
-      console.log("error making leave request", error)
-    }
-  }
-
-  useEffect(()=>{
-    fetchAllLeaves();
-  },[])
 
   return (
     <Box className="sheet-container-admin">
+      <Box
+        sx={{
+          width: { lg: "380px", xs: "100%" },
+          position: { lg: "fixed", xs: "static" },
+          right: "60px",
+          top: "40px",
+          zIndex: "100000 ",
+          display:"flex",
+          gap:"1rem"
+        }}
+      >
+        <CustomInputLabel
+          height={"56px"}
+          fontSize={"20px"}
+          showSearchIcon={true}
+          placeholder={"Search User"}
+          
+          // value={searchTerm}
+          // onChange={(e) => setSearchTerm(e.target.value)} // Update the search term state
+        />
+         <CustomSelectForType
+              label=""
+              value={month}
+              handleChange={handleMonthChange}
+              height={"56px"}
+              options={[
+                { value: "0", label: "January" },
+                { value: "1", label: "February" },
+                { value: "2", label: "March" },
+               
+              ]}
+            />
+      </Box>
+
       <Box
         sx={{
           display: "flex",
@@ -140,15 +173,14 @@ const LeaveManagement = () => {
               Start Date{" "}
             </Typography>
             <input
-              type="number"
-              name=""
-              id=""
+              type="date"
               style={{
                 border: "none",
                 borderBottom: "2px solid black",
                 width: "195px",
                 outline: "none",
               }}
+              onChange={handleFromDateChange}
             />
           </Box>
           <Box sx={{ display: "flex", gap: ".4rem", alignItems: "center" }}>
@@ -158,15 +190,14 @@ const LeaveManagement = () => {
               End Date{" "}
             </Typography>
             <input
-              type="number"
-              name=""
-              id=""
+              type="date"
               style={{
                 border: "none",
                 borderBottom: "2px solid black",
                 width: "195px",
                 outline: "none",
               }}
+              onChange={handleToDateChange}
             />
           </Box>
         </Box>
@@ -258,7 +289,6 @@ const LeaveManagement = () => {
                   },
                   textAlign: "center",
                   color: "#010120",
-                  // paddingLeft: '40px',
                   minWidth: "100px",
                 }}
               >
@@ -275,7 +305,6 @@ const LeaveManagement = () => {
                   },
                   textAlign: "center",
                   color: "#010120",
-                  // paddingLeft: '40px',
                   minWidth: "100px",
                 }}
               >
@@ -291,8 +320,7 @@ const LeaveManagement = () => {
                     xs: "16px",
                   },
                   textAlign: "center",
-                  color: "#010120",
-                  // paddingLeft: '40px',
+                  color: "#31BA96", // Updated color code
                   minWidth: "190px ",
                 }}
               >
@@ -308,8 +336,7 @@ const LeaveManagement = () => {
                     xs: "16px",
                   },
                   textAlign: "center",
-                  color: "#010120",
-                  // paddingLeft: '40px',
+                  color: "#31BA96", // Updated color code
                   minWidth: "190px ",
                 }}
               >
@@ -326,8 +353,7 @@ const LeaveManagement = () => {
                   },
                   textAlign: "center",
                   color: "#010120",
-                  // paddingLeft: '40px',
-                  // minWidth:"120px"
+                  minWidth: "120px",
                 }}
               >
                 Days
@@ -343,7 +369,6 @@ const LeaveManagement = () => {
                   },
                   textAlign: "center",
                   color: "#010120",
-                  // paddingLeft: '40px',
                   minWidth: "290px",
                 }}
               >
@@ -360,7 +385,6 @@ const LeaveManagement = () => {
                   },
                   textAlign: "center",
                   color: "#010120",
-                  // paddingLeft: '40px',
                   minWidth: "200px",
                 }}
               >
@@ -378,7 +402,6 @@ const LeaveManagement = () => {
                   textAlign: "center",
                   borderRadius: "0px 8px 8px 0px",
                   color: "#010120",
-                  // paddingLeft: "40px",
                 }}
               >
                 Actions
@@ -389,7 +412,7 @@ const LeaveManagement = () => {
             {leaveData.map((row) => (
               <TableRow
                 onClick={handleRowClick}
-                key={row.id}
+                key={row._id}
                 className="MuiTableRow-root"
                 sx={{
                   border: "2px solid red  !important",
@@ -406,18 +429,15 @@ const LeaveManagement = () => {
                     borderRadius: "8px 0px 0px 8px",
                     color: "white",
                     textAlign: "center !important",
-                    // paddingLeft: "40px !important",
-                    // border: "2px solid red  !important",
                   }}
                 >
-                  {row.empId}
+                  {row?.userID || "-- -- "}
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root"
                   sx={{
                     color: "white",
                     textAlign: "start !important",
-                    // paddingLeft: "40px !important",
                   }}
                 >
                   <img
@@ -428,6 +448,7 @@ const LeaveManagement = () => {
                       borderRadius: "50%",
                       marginRight: "8px",
                     }}
+                    alt="employee"
                   />
                   {row.name}
                 </TableCell>
@@ -437,7 +458,6 @@ const LeaveManagement = () => {
                   sx={{
                     color: "#99999C",
                     textAlign: "center !important",
-                    // paddingLeft: "40px !important",
                   }}
                 >
                   {row.balance}
@@ -447,86 +467,64 @@ const LeaveManagement = () => {
                   sx={{
                     color: "white",
                     textAlign: "center !important",
-                    // paddingLeft: "40px !important",
                   }}
                 >
-                  {row.type}
+                  {row.leaveType}
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root"
                   sx={{
-                    color: "#99999C",
+                    color: "#31BA96", // Updated color code
                     textAlign: "center !important",
-                    // paddingLeft: "40px !important",
                   }}
                 >
-                  {row.from}
+                  {formatDate(row.startDate)}
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root"
                   sx={{
-                    color: "#99999C",
+                    color: "#31BA96", // Updated color code
                     textAlign: "center !important",
-                    // paddingLeft: "40px !important",
                   }}
                 >
-                  {row.to}
+                  {formatDate(row.endDate)}
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root"
                   sx={{
                     color: "white",
                     textAlign: "center !important",
-                    //  paddingLeft: "40px !important",
                   }}
                 >
-                  {row.days}
+                  {calculateLeaveDays(row.startDate, row.endDate)}
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root"
                   sx={{
                     color:
-                      row.lineManagerStatus === "Approved"
-                        ? "green"
-                        : row.lineManagerStatus === "Pending"
-                          ? "orange"
-                          : "red",
+                      row.statusTL === "accepted"
+                        ? "#31BA96 !important"
+                        : row.statusTL === "pending"
+                        ? "#010120 !important"
+                        : "red !important",
                     textAlign: "center !important",
-                    // paddingLeft: "40px !important",
                   }}
                 >
-                  {row.lineManagerStatus}
+                  {row.statusTL}
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root"
                   sx={{
-                    // textAlign: "start !important",
-                    // paddingLeft: "40px !important",
-                    // display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    //  border:"2px solid red"
+                    color:
+                      row.statusHOD === "accepted"
+                        ? "#31BA96 !important "
+                        : row.statusHOD === "pending"
+                        ? "#010120 !important"
+                        : "red !important",
+                    textAlign: "center !important",
                   }}
                 >
-                  <div
-                    onClick={handleSelectClick}
-                    style={{ paddingTop: "8px" }}
-                  >
-                    <CustomSelectForType
-                      height={"62px"}
-                      focusBorder={false}
-                      border=""
-                      value={status[row.id] || "Pending"}
-                      handleChange={(value) =>
-                        handleStatusChange(row.id, value)
-                      }
-                      options={[
-                        { value: "Pending", label: "Pending" },
-                        { value: "Approved", label: "Approved" },
-                        { value: "Rejected", label: "Rejected" },
-                      ]}
-                    />
-                  </div>
+                  {row.statusHOD}
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root"
@@ -534,28 +532,48 @@ const LeaveManagement = () => {
                     borderRadius: "0px 8px 8px 0px",
                   }}
                 >
-                  <CustomButton
-                    ButtonText="Update"
-                    fontSize="14px"
-                    color="#010120"
-                    fontWeight="500"
-                    fullWidth={false}
-                    variant="outlined"
-                    padding="6px 10px"
-                    background="transparent"
-                    hoverBg="#157AFF"
-                    hovercolor="blue"
-                    type="button"
-                    width={"120px"}
-                    borderRadius="8px"
-                    buttonStyle={{ fontSize: { sm: "18px", xs: "15px", mb: "2px" } }}
-                    border="1px solid black"
-                    hoverBorder="1px solid black"
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevent the row click event from firing
-                      handleStatusChange(row.id, status[row.id] || "Pending");
+                  <Typography
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      gap: "1rem",
+                      alignItems: "center",
                     }}
-                  />
+                  >
+                    <Tooltip title="Approve Request">
+                      <img
+                        src={tickPng}
+                        alt="Approve"
+                        style={{
+                          width: "34px",
+                          height: "34px",
+                          cursor: "pointer",
+                        }}
+                        onClick={(e) => {
+                          validateAccept(row._id);
+                          e.stopPropagation(); // Prevent the row click event from firing
+                          console.log("Approved action");
+                        }}
+                      />
+                    </Tooltip>
+
+                    <Tooltip title="Reject Request">
+                      <img
+                        src={cancelPng}
+                        alt="Reject"
+                        style={{
+                          width: "34px",
+                          height: "34px",
+                          cursor: "pointer",
+                        }}
+                        onClick={(e) => {
+                          validateReject(row._id);
+                          e.stopPropagation(); // Prevent the row click event from firing
+                          console.log("Rejected action");
+                        }}
+                      />
+                    </Tooltip>
+                  </Typography>
                 </TableCell>
               </TableRow>
             ))}

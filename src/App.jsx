@@ -49,6 +49,8 @@ const RemoteWork = React.lazy(() => import('./Pages/User/RemoteWork.jsx'));
 const MyWfhDetail = React.lazy(() => import('./Pages/User/MyWFHDetail.jsx'));
 const NewWFHRequest = React.lazy(() => import('./Pages/User/NewWfhRequest.jsx'));
 const EditFHRequest = React.lazy(() => import('./Pages/User/EditWfhRequest.jsx'));
+const EditMyProfile = React.lazy(() => import('./Pages/User/EditMyProfile.jsx'));
+
 
 
 
@@ -87,6 +89,8 @@ function App() {
               <Route path='' element={<Check />} />
 
                 <Route path='profile' element={<Profile />} />
+                <Route path='profile/edit-profile' element={<EditMyProfile />} />
+
                 <Route path='my-notifications' element={<MyNotifications />} />
 
                 <Route path='notifications' element={<Notifications />} />

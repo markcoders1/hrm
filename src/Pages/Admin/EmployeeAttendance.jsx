@@ -45,7 +45,7 @@ const EmployeeAttendance = () => {
           url: `${apiUrl}/api/admin/getToday`,
           method: "get",
           params: {
-            date: applyTimezoneOffset(dateTimestamp), // Pass the selected date with timezone offset applied
+            timezoneOffset: applyTimezoneOffset(dateTimestamp), // Pass the selected date with timezone offset applied
           },
         });
         const dataAllEmployee = response.data.users;

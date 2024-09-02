@@ -29,9 +29,31 @@ const LeaveManagement = () => {
   const { setHeadertext, setParaText } = useOutletContext();
   const navigate = useNavigate();
   const [leaveData, setLeaveData] = useState([]);
+  const [statusFilter, setStatusFilter] = useState("pending");
 
-  setHeadertext("Leave Management");
-  setParaText("Manage Employee Leaves");
+  useEffect(() => {
+    setHeadertext("Leave Management");
+    setParaText("Manage Employee Leaves");
+  }, [setHeadertext, setParaText]);
+
+  useEffect(() => {
+    fetchAllLeaves();
+  }, []);
+
+  const fetchAllLeaves = async () => {
+    try {
+      const response = await axiosInstance.get(`${apiUrl}/api/admin/getallleaves`);
+      if (response.data && response.data.leaves) {
+        setLeaveData(response.data.leaves);
+      }
+    } catch (error) {
+      console.error("Error fetching leave data:", error);
+    }
+  };
+
+  const handleStatusChange = (event) => {
+    setStatusFilter(event.target.value);
+  };
 
   const handleMonthChange = (event) => {
     setMonth(event.target.value);
@@ -45,54 +67,37 @@ const LeaveManagement = () => {
     setToDate(new Date(event.target.value).getTime());
   };
 
-  const fetchAllLeaves = async () => {
-    try {
-      const response = await axiosInstance({
-        url: `${apiUrl}/api/admin/getallleaves`,
-        method: "get",
-      });
-      console.log(response.data);
-      setLeaveData(response?.data?.leaves || []);
-    } catch (error) {
-      console.log("error making leave request", error);
-    }
-  };
+  const filteredLeaveData = leaveData.filter((row) => {
+    return row.overallStatus === statusFilter;
+  });
 
   const validateAccept = async (leaveId) => {
     try {
-      const response = await axiosInstance({
-        url: `${apiUrl}/api/admin/validateleaves`,
-        method: "get",
+      const response = await axiosInstance.get(`${apiUrl}/api/admin/validateleaves`, {
         params: {
           leaveID: leaveId,
           status: "accepted",
         },
       });
-      console.log(response.data);
+      fetchAllLeaves(); // Refresh data after updating status
     } catch (error) {
-      console.log("error making leave request", error);
+      console.error("Error approving leave request:", error);
     }
   };
 
   const validateReject = async (leaveId) => {
     try {
-      const response = await axiosInstance({
-        url: `${apiUrl}/api/admin/validateleaves`,
-        method: "get",
+      const response = await axiosInstance.get(`${apiUrl}/api/admin/validateleaves`, {
         params: {
           leaveID: leaveId,
           status: "rejected",
         },
       });
-      console.log(response.data);
+      fetchAllLeaves(); // Refresh data after updating status
     } catch (error) {
-      console.log("error making leave request", error);
+      console.error("Error rejecting leave request:", error);
     }
   };
-
-  useEffect(() => {
-    fetchAllLeaves();
-  }, []);
 
   const calculateLeaveDays = (startDate, endDate) => {
     let start = new Date(startDate);
@@ -102,7 +107,6 @@ const LeaveManagement = () => {
     while (start <= end) {
       const dayOfWeek = start.getDay();
       if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-        // Exclude Saturdays and Sundays
         totalDays++;
       }
       start.setDate(start.getDate() + 1);
@@ -130,8 +134,8 @@ const LeaveManagement = () => {
           right: "60px",
           top: "40px",
           zIndex: "100000 ",
-          display:"flex",
-          gap:"1rem"
+          display: "flex",
+          gap: "1rem",
         }}
       >
         <CustomInputLabel
@@ -139,22 +143,18 @@ const LeaveManagement = () => {
           fontSize={"20px"}
           showSearchIcon={true}
           placeholder={"Search User"}
-          
-          // value={searchTerm}
-          // onChange={(e) => setSearchTerm(e.target.value)} // Update the search term state
         />
-         <CustomSelectForType
-              label=""
-              value={month}
-              handleChange={handleMonthChange}
-              height={"56px"}
-              options={[
-                { value: "0", label: "January" },
-                { value: "1", label: "February" },
-                { value: "2", label: "March" },
-               
-              ]}
-            />
+        <CustomSelectForType
+          label="Status"
+          value={statusFilter}
+          handleChange={handleStatusChange}
+          height={"56px"}
+          options={[
+            { value: "pending", label: "Pending" },
+            { value: "approved", label: "Approved" },
+            { value: "rejected", label: "Rejected" },
+          ]}
+        />
       </Box>
 
       <Box
@@ -167,9 +167,7 @@ const LeaveManagement = () => {
       >
         <Box sx={{ display: "flex", gap: 2 }}>
           <Box sx={{ display: "flex", gap: ".4rem", alignItems: "center" }}>
-            <Typography
-              sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
-            >
+            <Typography sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}>
               Start Date{" "}
             </Typography>
             <input
@@ -184,9 +182,7 @@ const LeaveManagement = () => {
             />
           </Box>
           <Box sx={{ display: "flex", gap: ".4rem", alignItems: "center" }}>
-            <Typography
-              sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
-            >
+            <Typography sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}>
               End Date{" "}
             </Typography>
             <input
@@ -226,11 +222,7 @@ const LeaveManagement = () => {
         </Box>
       </Box>
 
-      <TableContainer
-        component={Paper}
-        className="MuiTableContainer-root"
-        sx={{ overflowX: "auto" }}
-      >
+      <TableContainer component={Paper} className="MuiTableContainer-root" sx={{ overflowX: "auto" }}>
         <Table className="data-table">
           <TableHead className="MuiTableHead-root">
             <TableRow
@@ -272,7 +264,6 @@ const LeaveManagement = () => {
                   },
                   textAlign: "start",
                   color: "#010120",
-
                   minWidth: "250px",
                 }}
               >
@@ -320,7 +311,7 @@ const LeaveManagement = () => {
                     xs: "16px",
                   },
                   textAlign: "center",
-                  color: "#31BA96", // Updated color code
+                  color: "#31BA96",
                   minWidth: "190px ",
                 }}
               >
@@ -336,7 +327,7 @@ const LeaveManagement = () => {
                     xs: "16px",
                   },
                   textAlign: "center",
-                  color: "#31BA96", // Updated color code
+                  color: "#31BA96",
                   minWidth: "190px ",
                 }}
               >
@@ -415,7 +406,7 @@ const LeaveManagement = () => {
                 key={row._id}
                 className="MuiTableRow-root"
                 sx={{
-                  border: "2px solid red  !important",
+                  border: "2px solid red !important",
                   "&:hover": {
                     background: "#157AFF",
                     transition: "ease-in .18s all",
@@ -452,7 +443,6 @@ const LeaveManagement = () => {
                   />
                   {row.name}
                 </TableCell>
-
                 <TableCell
                   className="MuiTableCell-root"
                   sx={{
@@ -474,7 +464,7 @@ const LeaveManagement = () => {
                 <TableCell
                   className="MuiTableCell-root"
                   sx={{
-                    color: "#31BA96", // Updated color code
+                    color: "#31BA96",
                     textAlign: "center !important",
                   }}
                 >
@@ -483,7 +473,7 @@ const LeaveManagement = () => {
                 <TableCell
                   className="MuiTableCell-root"
                   sx={{
-                    color: "#31BA96", // Updated color code
+                    color: "#31BA96",
                     textAlign: "center !important",
                   }}
                 >

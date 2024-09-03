@@ -65,7 +65,7 @@ const Profile = () => {
             Full Name
           </Typography>
           <Typography variant="body1" className="user-details-value">
-            {yourData.fullName || "--- ---"}
+            {yourData?.fullName || "--- ---"}
           </Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
@@ -73,7 +73,7 @@ const Profile = () => {
             Phone Number
           </Typography>
           <Typography variant="body1" className="user-details-value">
-            {yourData.phone || "--- ---"}
+            {yourData?.phone || "--- ---"}
           </Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
@@ -81,7 +81,7 @@ const Profile = () => {
             Email
           </Typography>
           <Typography variant="body1" className="user-details-value">
-            {yourData.email || "--- ---"}
+            {yourData?.email || "--- ---"}
           </Typography>
         </Box>
       </Box>
@@ -99,7 +99,7 @@ const Profile = () => {
             Address
           </Typography>
           <Typography variant="body1" className="user-details-value">
-            {yourData.address || "--- ---"}
+            {yourData?.address || "--- ---"}
           </Typography>
         </Box>
       </Box>
@@ -120,7 +120,7 @@ const Profile = () => {
             CNIC
           </Typography>
           <Typography variant="body1" className="user-details-value">
-            {yourData.CNIC || "--- ---"}
+            {yourData?.CNIC || "--- ---"}
           </Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
@@ -128,8 +128,8 @@ const Profile = () => {
             Date of Birth
           </Typography>
           <Typography variant="body1" className="user-details-value">
-            {yourData.DOB
-              ? new Date(yourData.DOB).toLocaleDateString()
+            {yourData?.DOB
+              ? new Date(yourData?.DOB).toLocaleDateString()
               : "--- ---"}
           </Typography>
         </Box>
@@ -138,7 +138,7 @@ const Profile = () => {
             Employee ID
           </Typography>
           <Typography variant="body1" className="user-details-value">
-            {yourData.companyId || "--- ---"}
+            {yourData?.companyId || "--- ---"}
           </Typography>
         </Box>
       </Box>
@@ -192,7 +192,7 @@ const Profile = () => {
             Shift Timings From
           </Typography>
           <Typography variant="body1" className="user-details-value">
-            {yourData.timefrom || "--- ---"}
+            {yourData?.timefrom || "--- ---"}
           </Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
@@ -200,7 +200,7 @@ const Profile = () => {
             Shift Timings To
           </Typography>
           <Typography variant="body1" className="user-details-value">
-            {yourData.timeto || "--- ---"}
+            {yourData?.timeto || "--- ---"}
           </Typography>
         </Box>
       </Box>
@@ -223,7 +223,7 @@ const Profile = () => {
             Designation
           </Typography>
           <Typography variant="body1" className="user-details-value">
-            {yourData.designation || "--- ---"}
+            {yourData?.designation || "--- ---"}
           </Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
@@ -231,7 +231,7 @@ const Profile = () => {
             Line Manager
           </Typography>
           <Typography variant="body1" className="user-details-value">
-            {yourData.role || "--- ---"}
+            {yourData?.role || "--- ---"}
           </Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
@@ -239,7 +239,7 @@ const Profile = () => {
             Department
           </Typography>
           <Typography variant="body1" className="user-details-value">
-            {yourData.department || "--- ---"}
+            {yourData?.department || "--- ---"}
           </Typography>
         </Box>
        
@@ -259,7 +259,7 @@ const Profile = () => {
             Working Days
           </Typography>
           <Typography variant="body1" className="user-details-value">
-            {yourData.workingDays ? yourData.workingDays.join(", ") : "--- ---"}
+            {yourData?.workingDays ? yourData?.workingDays.join(", ") : "--- ---"}
           </Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
@@ -267,7 +267,7 @@ const Profile = () => {
             HOD
           </Typography>
           <Typography variant="body1" className="user-details-value">
-            {yourData.hod || "--- ---"}
+            {yourData?.hod || "--- ---"}
           </Typography>
         </Box>
       
@@ -282,22 +282,30 @@ const Profile = () => {
           gap: "20px",
           flexDirection: { md: "row", xs: "column" },
           justifyContent: "end",
+          mt:"20px"
         }}
       >
       
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{
-            backgroundColor: "#157AFF",
-            padding: "10px 20px",
-            borderRadius: "7px",
-
-          }}
-          
-        >
-          Edit
-        </Button>
+      <Tooltip title="Edit Your Profile ">
+            <CustomButton
+              ButtonText="Edit "
+              fontSize="16px"
+              color="white"
+              fontWeight="500"
+              fullWidth={false}
+              variant="contained"
+              padding="8px 0px"
+              type="submit"
+              background="#157AFF"
+              hoverBg="#303f9f"
+              hovercolor="white"
+              width={"100px"}
+              borderRadius="7px"
+              buttonStyle={{ mt: "-17px" }}
+              height="45px"
+              onClick={()=> navigate(`/dashboard/profile/edit-profile/${yourData?._id}`)}
+            />{" "}
+            </Tooltip>
       </Box>
     </Box>
 

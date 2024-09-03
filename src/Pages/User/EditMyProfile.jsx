@@ -4,18 +4,34 @@ import { useForm, Controller } from 'react-hook-form';
 import CustomInputLabel from '../../components/CustomInputField/CustomInputLabel'; // Adjust import path as necessary
 import { useOutletContext } from 'react-router-dom';
 import CustomButton from '../../components/CustomButton/CustomButton';
+import { useParams } from 'react-router-dom';
+import axiosInstance from '../../auth/axiosInstance';
 
 const EditMyProfile = () => {
   const { control, handleSubmit, formState: { errors } } = useForm();
   const { setHeadertext } = useOutletContext(); // Assuming this is being used elsewhere in your application
+  const {id} = useParams();
 
   useEffect(() => {
     setHeadertext("Edit My Profile");
   }, [setHeadertext]);
 
+ const fetchProfileData =async () => {
+  try {
+    const response = await axiosInstance({
+      url: `${apiUrl}/api/admin/getleave`,
+      method : "get",
+      params : id
+    })
+  } catch (error) {
+    
+  }
+ }
+
   const onSubmit = (data) => {
     console.log('Profile Data:', data);
     // Handle profile update logic here
+
   };
 
   return (

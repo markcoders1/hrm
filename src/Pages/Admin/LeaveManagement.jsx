@@ -121,8 +121,8 @@ const LeaveManagement = () => {
       .padStart(2, "0")}-${d.getDate().toString().padStart(2, "0")}`;
   };
 
-  const handleRowClick = (e) => {
-    navigate("/dashboard/leave-management/leave-details");
+  const handleRowClick = (id,e) => {
+    navigate(`/dashboard/leave-management/leave-details/${id}`);
   };
 
   return (
@@ -402,7 +402,7 @@ const LeaveManagement = () => {
           <TableBody className="MuiTableBody-root">
             {leaveData.map((row) => (
               <TableRow
-                onClick={handleRowClick}
+                onClick={() => handleRowClick(row._id)}
                 key={row._id}
                 className="MuiTableRow-root"
                 sx={{

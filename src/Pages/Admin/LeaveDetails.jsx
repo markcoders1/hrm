@@ -11,22 +11,30 @@ const LeaveDetails = () => {
   const {setHeadertext , setParaText} = useOutletContext()
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
-  const [, set] = useState(null);
+  const [leave , setLeave] = useState(null);
 
   useEffect(() => {
     setHeadertext("Leave Details");
     setParaText(" ")
-    const getUserDetails = async () => {
+    const getUserLeave = async () => {
+      console.log(id)
       try {
-        const response = await axiosInstance.get(`${apiUrl}/api/admin/getUser`, { params: { id } });
-        set(response.data.user);
+
+        const response = await axiosInstance({
+          url: `${apiUrl}/api/admin/getleave`,
+          method : "get",
+          params : {
+            leaveID : id,
+          }
+        })
+        setLeave(response.data);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
     };
 
-    // getUserDetails();
+    getUserLeave();
   }, [id]);
 
   if (loading) {
@@ -37,21 +45,28 @@ const LeaveDetails = () => {
     );
   }
 
+  const formatDate = (date) => {
+    const d = new Date(date);
+    return `${d.getDate().toString().padStart(2, "0")}-${(d.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${d.getFullYear().toString().slice(-2)}`;
+  };
+  
   return (
     <Box className="user-details-container" sx={{p:{sm: "40px 50px", xs:"40px 15px"}}} >
       {/* Full Name, Phone Number, Email */}
       <Box sx={{ display: 'flex', gap: '40px', flexDirection: { md: 'row', xs: 'column' }, mb: '20px', pb: '20px', borderBottom: { md: '1px solid #E0E0E0', xs: 'none' } }}>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">From</Typography>
-          <Typography variant="body1" className="user-details-value-1">27-08-2024</Typography>
+          <Typography variant="body1" className="user-details-value-1">{formatDate(leave?.startDate)}</Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">To</Typography>
-          <Typography variant="body1" className="user-details-value-1">29-8-2024</Typography>
+          <Typography variant="body1" className="user-details-value-1">{formatDate(leave?.endDate)}</Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Type</Typography>
-          <Typography variant="body1" className="user-details-value-1">Sick</Typography>
+          <Typography variant="body1" className="user-details-value-1">{leave?.leaveType}</Typography>
         </Box>
       </Box>
 
@@ -67,16 +82,16 @@ const LeaveDetails = () => {
       <Box sx={{ display: 'flex', gap: '20px', flexDirection: { md: 'row', xs: 'column' }, mb: '20px', pb: '20px', borderBottom: { md: '1px solid #E0E0E0', xs: 'none' } }}>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Days</Typography>
-          <Typography variant="body1" className="user-details-value-1">02</Typography>
+          <Typography variant="body1" className="user-details-value-1">{leave?.leaveCount}</Typography>
         </Box>
         
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Status (HOD)</Typography>
-          <Typography variant="body1" className="user-details-value-1">Approved</Typography>
+          <Typography variant="body1" className="user-details-value-1">{leave?.statusHOD}</Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Status (Line Manager)</Typography>
-          <Typography variant="body1" className="user-details-value-1">Pending</Typography>
+          <Typography variant="body1" className="user-details-value-1">{leave?.statusTL}</Typography>
         </Box>
       </Box>
 
@@ -84,16 +99,16 @@ const LeaveDetails = () => {
       {/* User Role, Lead, Designation */}
       <Box sx={{ display: 'flex', gap: '20px', flexDirection: { md: 'row', xs: 'column' }, mb: '20px', pb: '20px', borderBottom: { md: '1px solid #E0E0E0', xs: 'none' } }}>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
-          <Typography variant="subtitle2" className="user-details-label">Balance</Typography>
-          <Typography variant="body1" className="user-details-value-1">08</Typography>
+          <Typography variant="subtitle2" className="user-details-label">Annual Leaves</Typography>
+          <Typography variant="body1" className="user-details-value-1">{leave?.annualLeaves}</Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Avail</Typography>
-          <Typography variant="body1" className="user-details-value-1">4</Typography>
+          <Typography variant="body1" className="user-details-value-1">{leave?.leavesTaken}</Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Remaining</Typography>
-          <Typography variant="body1" className="user-details-value-1">08</Typography>
+          <Typography variant="body1" className="user-details-value-1">{leave?.annualLeaves - leave?.leavesTaken}</Typography>
         </Box>
       </Box>
 
@@ -101,7 +116,7 @@ const LeaveDetails = () => {
       <Box sx={{ display: 'flex', gap: '20px', flexDirection: { md: 'row', xs: 'column' }, mb: '20px' }}>
         <Box className="user-details-item" sx={{ flexBasis: '100%', }}>
           <Typography variant="subtitle2" className="user-details-label">Working Days</Typography>
-          <Typography variant="body1" sx={{lineHeight:"35px"}} className="user-details-value-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae obcaecati quis, ipsam, sunt sapiente vitae nobis enim amet numquam provident molestias eum quisquam optio est commodi architecto perferendis id quos rem voluptates! Illo qui, odio consequuntur quos rerum soluta dolorem magnam obcaecati sequi et officiis repudiandae!</Typography>
+          <Typography variant="body1" sx={{lineHeight:"35px"}} className="user-details-value-1">{leave?.comment}</Typography>
         </Box>
         
       </Box>

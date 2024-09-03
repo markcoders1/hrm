@@ -89,7 +89,7 @@ function App() {
               <Route path='' element={<Check />} />
 
                 <Route path='profile' element={<Profile />} />
-                <Route path='profile/edit-profile' element={<EditMyProfile />} />
+                <Route path='profile/edit-profile/:id' element={<EditMyProfile />} />
 
                 <Route path='my-notifications' element={<MyNotifications />} />
 
@@ -99,7 +99,7 @@ function App() {
                 <Route path='my-attendance' element={<Attendance />} />
                 <Route path='my-leaves' element={<MyLeaves />} />
                 <Route path='my-leaves/new-leave' element={<NewLeave />} />
-                <Route path='my-leaves/my-leave-detail' element={<MyLeaveDetails />} />
+                <Route path='my-leaves/my-leave-detail/:id' element={<MyLeaveDetails />} />
                 <Route path='my-leaves/edit-leave/:id' element={<EditMyLeave />} />
 
                 <Route path='remote-work' element={<RemoteWork />} />
@@ -118,7 +118,7 @@ function App() {
                 <Route path='user-management' element={<EmployeeData />} /> {/* here protecte Admin will be implement */}
                 <Route path='attendance' element={<ProtectedAdmin><EmployeeAttendance /></ProtectedAdmin>} /> 
                 <Route path='leave-management' element={<ProtectedAdmin><LeaveManagement /></ProtectedAdmin>} /> 
-                <Route path='leave-management/leave-details' element={<ProtectedAdmin><LeaveDetailsAdmin /></ProtectedAdmin>} /> 
+                <Route path='leave-management/leave-details/:id' element={<ProtectedAdmin><LeaveDetailsAdmin /></ProtectedAdmin>} /> 
 
 
                 <Route path='attendance-management/viewAttendance' element={<ProtectedAdmin><UserAttendance /></ProtectedAdmin>} />

@@ -3,6 +3,10 @@ import { Box, Button } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import CustomInputLabel from '../../components/CustomInputField/CustomInputLabel';
 import { useOutletContext } from 'react-router-dom';
+import axiosInstance from '../../auth/axiosInstance';
+
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+    
 
 const NewWFHRequest = () => {
     const { control, handleSubmit, formState: { errors } } = useForm();
@@ -12,8 +16,8 @@ const NewWFHRequest = () => {
         setHeadertext("New WFH Request");
     }, [setHeadertext]);
 
-    const onSubmit = (data) => {
-        // Convert date to Unix timestamp
+    const onSubmit = async (data) => {
+        
         const dateTimestamp = new Date(data.date).getTime();
 
         const formData = {
@@ -22,7 +26,22 @@ const NewWFHRequest = () => {
         };
 
         console.log('Form Data with Unix Timestamp:', formData);
-        // Handle form submission logic here
+        
+        try {
+            const response = await axiosInstance({
+              url: `${apiUrl}/api/wfh`,
+              method: "post",
+             data : {
+                date : formData.date,
+                comment : formData.description
+             }
+            })
+            
+            console.log(response.data)
+            setLoading(false);
+          } catch (error) {
+            console.error('Error fetching user data:', error);
+          }
     };
 
     return (

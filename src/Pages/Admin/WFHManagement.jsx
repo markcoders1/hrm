@@ -19,16 +19,80 @@ import CustomSelectForType from "../../components/CustomSelect/CustomSelect";
 import tickPng from "../../assets/tick.png";
 import cancelPng from "../../assets/cancel.png";
 import Tooltip from '@mui/material/Tooltip';  
+import Pagination from '@mui/material/Pagination';
+
+import axiosInstance from "../../auth/axiosInstance";
+
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+
 
 const WFHManagement = () => {
   const [month, setMonth] = useState("8");
   const [year, setYear] = useState("2024");
   const { setHeadertext, setParaText } = useOutletContext();
   const navigate = useNavigate();
+  const [allWfh, setAllWfh] = useState([]);
+  const [page, setPage] = useState(1);
+const [totalPages, setTotalPages] = useState(1);
+  const fetchAllWFH = async () => {
+    try {
+      const response = await axiosInstance.get(`${apiUrl}/api/admin/getallwfh`);
+   
+      setAllWfh(response?.data?.WFHrequests);
+      setTotalPages(response?.data?.totalPages);
+
+    } catch (error) {
+      console.error("Error fetching leave data:", error);
+    }
+  };
+
+  const validateAccepted = async (id) => {
+    console.log("hello")
+    console.log(id)
+    try {
+      const response = await axiosInstance({
+        url : `${apiUrl}/api/admin/validatewfh`,
+        method: "post",
+        params : {
+          WFHID : id,
+          status : "approved"
+        }
+
+      });
+      console.log(response);
+    
+
+    } catch (error) {
+      console.error("Error fetching leave data:", error);
+    }
+  }
+
+  const validateRejected = async (id) => {
+    console.log("hello")
+    console.log(id)
+    try {
+      const response = await axiosInstance({
+        url : `${apiUrl}/api/admin/validatewfh`,
+        method: "post",
+        params : {
+          WFHID : id,
+          status : "rejected"
+        }
+
+      });
+      console.log(response);
+    
+
+    } catch (error) {
+      console.error("Error fetching leave data:", error);
+    }
+  }
+
 
   useEffect(() => {
     setHeadertext("WFH Management");
     setParaText(" ");
+    fetchAllWFH()
   }, []);
 
   const handleMonthChange = (event) => {
@@ -48,36 +112,13 @@ const WFHManagement = () => {
     handleNavigateToWfhDetail(id);
   };
 
-  const wfhData = [
-    {
-      id: "1",
-      empId: "005",
-      name: "M. Aman Raza",
-      img: "/path/to/image1.png",
-      date: "08-20-2024",
-      lineManagerStatus: "Approved",
-      hodStatus: "Pending",
-    },
-    {
-      id: "2",
-      empId: "006",
-      name: "Syed Muzammil",
-      img: "/path/to/image2.png",
-      date: "08-20-2024",
-      lineManagerStatus: "Approved",
-      hodStatus: "Pending",
-    },
-    {
-      id: "3",
-      empId: "007",
-      name: "Muzammil Mansoori",
-      img: "/path/to/image3.png",
-      date: "08-20-2024",
-      lineManagerStatus: "Approved",
-      hodStatus: "Pending",
-    },
-  ];
-
+  const handlePageChange = (event, value) => {
+    setPage(value);
+    fetchAllWFH(value);
+  };
+  useEffect(() => {
+    fetchAllWFH(page);
+  }, [page]);
   return (
     <Box className="sheet-container-admin">
       <Box
@@ -289,9 +330,9 @@ const WFHManagement = () => {
             </TableRow>
           </TableHead>
           <TableBody className="MuiTableBody-root">
-            {wfhData.map((row) => (
+            {allWfh.map((row) => (
               <TableRow
-                onClick={(e) => handleRowClick(e, row.id)}
+                onClick={(e) => handleRowClick(e, row._id)}
                 key={row.id}
                 className="MuiTableRow-root"
                 sx={{
@@ -313,7 +354,7 @@ const WFHManagement = () => {
                     // border: "2px solid red  !important",
                   }}
                 >
-                  {row.empId}
+                  {row?.employeeId}
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root"
@@ -324,7 +365,7 @@ const WFHManagement = () => {
                   }}
                 >
                   <img
-                    src={row.img}
+                    src={row.image}
                     style={{
                       width: "32px",
                       height: "32px",
@@ -332,7 +373,7 @@ const WFHManagement = () => {
                       marginRight: "8px",
                     }}
                   />
-                  {row.name}
+                  {row.fullName}
                 </TableCell>
 
                 <TableCell
@@ -343,28 +384,35 @@ const WFHManagement = () => {
                     // paddingLeft: "40px !important",
                   }}
                 >
-                  {row.date}
+                  {row.startDate}
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root"
                   sx={{
                     color:
-                      row.lineManagerStatus === "Approved"
-                        ? "green"
-                        : row.lineManagerStatus === "Pending"
-                        ? "orange"
-                        : "red",
+                      row.statusTL === "approved"
+                        ? "#31BA96 !important"
+                        : row.statusTL === "pending"
+                        ? "#010120 !important"
+                        : "red !important",
+                    textAlign: "center !important",
                     textAlign: "center !important",
                     // paddingLeft: "40px !important",
                   }}
                 >
-                  {row.lineManagerStatus}
+                  {row.statusTL}
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root"
                   sx={{
                     textAlign: "center !important",
-                    color: "#99999C",
+                    color:
+                    row.statusHOD === "approved"
+                      ? "#31BA96 !important"
+                      : row.statusHOD === "pending"
+                      ? "#010120 !important"
+                      : "red !important",
+                  textAlign: "center !important",
                     // paddingLeft: "40px !important",
                   }}
                 >
@@ -382,7 +430,7 @@ const WFHManagement = () => {
                       { value: "Rejected", label: "Rejected" },
                     ]}
                   /> */}
-                  {row.hodStatus}
+                  {row.statusHOD}
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root"
@@ -411,6 +459,7 @@ const WFHManagement = () => {
                       onClick={(e) => {
                         e.stopPropagation(); // Prevent the row click event from firing
                         console.log("Approved action");
+                        validateAccepted(row._id);
                       }}
                     />
                     </Tooltip>
@@ -429,6 +478,7 @@ const WFHManagement = () => {
                       onClick={(e) => {
                         e.stopPropagation(); // Prevent the row click event from firing
                         console.log("Rejected action");
+                        validateRejected(row._id)
                       }}
                     />
                     </Tooltip>
@@ -439,6 +489,37 @@ const WFHManagement = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
+<Box sx={{
+  display:"flex",
+  justifyContent:"center",
+  mt:"10px"
+}} >
+
+<Pagination
+  count={totalPages}
+  page={page}
+  onChange={handlePageChange}
+  color="primary"
+  shape="rounded"
+  sx={{
+    "& .MuiPaginationItem-root": {
+      color: "#000", // Default text color for inactive pages
+      backgroundColor: "#fff", // White background for inactive pages
+      "&:hover": {
+        backgroundColor: "#f0f0f0", // Slightly darker background on hover for inactive pages
+      },
+    },
+    "& .Mui-selected": {
+      color: "#fff", // White text color for the active page
+      backgroundColor: "#000", // Black background for the active page (you can adjust this color)
+      "&:hover": {
+        backgroundColor: "#000", // Keep the active page background color on hover
+      },
+    },
+  }}
+/>
+      </Box>
     </Box>
   );
 };

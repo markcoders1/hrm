@@ -232,22 +232,7 @@ const RemoteWork = () => {
                 >
                   Date
                 </TableCell>
-                <TableCell
-                  className="MuiTableCell-root-head"
-                  sx={{
-                    fontWeight: "500",
-                    padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "start",
-                    color: "#010120",
-                  }}
-                >
-                  Day
-                </TableCell>
-                
+               
                 <TableCell
                   className="MuiTableCell-root-head"
                   sx={{
@@ -322,12 +307,7 @@ const RemoteWork = () => {
                   >
                     {leave.to}
                   </TableCell>
-                  <TableCell
-                    sx={{ textAlign: "start !important" }}
-                    className="MuiTableCell-root"
-                  >
-                    {leave.day}
-                  </TableCell>
+               
                 
                   <TableCell
                     sx={{

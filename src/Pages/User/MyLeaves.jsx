@@ -19,117 +19,38 @@ import deleteIcon from "../../assets/deleteIcon.png";
 import disabledDelete from "../../assets/disabledDelete.png";
 import disabledEdit from "../../assets/disabledEdit.png";
 import axiosInstance from "../../auth/axiosInstance";
-
-
+// import './MyLeaves.css'; // Assuming you have a CSS file for custom styles
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
 
 const MyLeaves = () => {
   const navigate = useNavigate();
   const { setHeadertext } = useOutletContext();
+  const [leaveData, setLeaveData] = useState([]);
 
   useEffect(() => {
     setHeadertext("My Leaves");
   }, []);
 
-  const fetchAllLeaves =async () => {
+  const fetchAllLeaves = async () => {
     try {
       const response = await axiosInstance({
         url: `${apiUrl}/api/leaves`,
         method: "get",
       });
-      console.log(response.data)
-      // setLeaveData(response.data.leaves)
-      
+      console.log(response.data);
+      setLeaveData(response.data.leaves);
     } catch (error) {
-      console.log("error making leave request", error)
+      console.log("error making leave request", error);
     }
-  }
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchAllLeaves();
-  },[])
+  }, []);
 
-
-  // Dummy data for the table
-  const [leaveData] = useState([
-    {
-      id: "005",
-      from: "08-20-2024",
-      to: "08-20-2024",
-      day: "2",
-      type: "Sick",
-      statusManager: "Approved",
-      statusHOD: "Approved",
-    },
-    {
-      id: "005",
-      from: "08-20-2024",
-      to: "08-20-2024",
-      day: "2",
-      type: "Casual",
-      statusManager: "Pending",
-      statusHOD: "Pending",
-    },
-    {
-      id: "005",
-      from: "08-20-2024",
-      to: "08-20-2024",
-      day: "2",
-      type: "Annual",
-      statusManager: "Rejected",
-      statusHOD: "Rejected",
-    },
-    {
-      id: "005",
-      from: "08-20-2024",
-      to: "08-20-2024",
-      day: "2",
-      type: "Casual",
-      statusManager: "Approved",
-      statusHOD: "Approved",
-    },
-    {
-      id: "005",
-      from: "08-20-2024",
-      to: "08-20-2024",
-      day: "2",
-      type: "Sick",
-      statusManager: "Approved",
-      statusHOD: "Approved",
-    },
-    {
-      id: "005",
-      from: "08-20-2024",
-      to: "08-20-2024",
-      day: "2",
-      type: "Casual",
-      statusManager: "Pending",
-      statusHOD: "Pending",
-    },
-    {
-      id: "005",
-      from: "08-20-2024",
-      to: "08-20-2024",
-      day: "2",
-      type: "Sick",
-      statusManager: "Approved",
-      statusHOD: "Approved",
-    },
-    {
-      id: "005",
-      from: "08-20-2024",
-      to: "08-20-2024",
-      day: "2",
-      type: "Annual",
-      statusManager: "Rejected",
-      statusHOD: "Rejected",
-    },
-  ]);
-
-  const isActionDisabled = (statusManager, statusHOD) => {
-    return statusManager !== "Pending" && statusHOD !== "Pending";
+  const isActionDisabled = (statusTL, statusHOD) => {
+    return statusTL !== "Pending" && statusHOD !== "Pending";
   };
 
   const handleEditClick = (event, leaveId) => {
@@ -143,54 +64,23 @@ const MyLeaves = () => {
     // Add your delete logic here
   };
 
+  const formatDate = (date) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    return new Date(date).toLocaleDateString("en-US", options).replace(/\//g, "-");
+  };
+
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  };
+
   return (
     <Box className="sheet-container-admin">
       <Box className="progress-mini-container">
-        {/* Date filters and Request New Leave button */}
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Box sx={{ display: "flex", gap: 6 }}>
-            <Box sx={{ display: "flex", gap: ".4rem", alignItems: "center" }}>
-              <Typography
-                sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
-              >
-                Start Date{" "}
-              </Typography>
-              <input
-                type="date"
-                name=""
-                id=""
-                style={{
-                  border: "none",
-                  borderBottom: "2px solid black",
-                  width: "195px",
-                  outline: "none",
-                }}
-              />
-            </Box>
-            <Box sx={{ display: "flex", gap: ".4rem", alignItems: "center" }}>
-              <Typography
-                sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
-              >
-                End Date{" "}
-              </Typography>
-              <input
-                type="date"
-                name=""
-                id=""
-                style={{
-                  border: "none",
-                  borderBottom: "2px solid black",
-                  width: "195px",
-                  outline: "none",
-                }}
-              />
-            </Box>
-          </Box>
-
+        <Box sx={{ display: "flex", justifyContent: "end", mb: 2 }}>
           <Tooltip title="Request For New Leave">
             <CustomButton
               ButtonText="Request New Leave"
-              fontSize="12px"
+              fontSize="16px"
               color="white"
               fontWeight="500"
               fullWidth={false}
@@ -200,8 +90,9 @@ const MyLeaves = () => {
               background="#157AFF"
               hoverBg="#303f9f"
               hovercolor="white"
-              width={"189px"}
+              width={"199px"}
               borderRadius="7px"
+              height={"45px"}
               onClick={() => navigate("/dashboard/my-leaves/new-leave")}
             />
           </Tooltip>
@@ -363,31 +254,41 @@ const MyLeaves = () => {
                     }}
                     className="MuiTableCell-root"
                   >
-                    {leave.id}
+                    {leave.companyId}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      textAlign: "start !important",
+                      color: "#99999C !important",
+                    }}
+                    className="MuiTableCell-root"
+                  >
+                    <span className="formatted-date">
+                      {formatDate(leave.startDate)}
+                    </span>
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      textAlign: "start !important",
+                      color: "#99999C !important",
+                    }}
+                    className="MuiTableCell-root"
+                  >
+                    <span className="formatted-date" >
+                      {formatDate(leave.endDate)}
+                    </span>
                   </TableCell>
                   <TableCell
                     sx={{ textAlign: "start !important" }}
                     className="MuiTableCell-root"
                   >
-                    {leave.from}
+                    {leave.leaveCount}
                   </TableCell>
                   <TableCell
                     sx={{ textAlign: "start !important" }}
                     className="MuiTableCell-root"
                   >
-                    {leave.to}
-                  </TableCell>
-                  <TableCell
-                    sx={{ textAlign: "start !important" }}
-                    className="MuiTableCell-root"
-                  >
-                    {leave.day}
-                  </TableCell>
-                  <TableCell
-                    sx={{ textAlign: "start !important" }}
-                    className="MuiTableCell-root"
-                  >
-                    {leave.type}
+                    {capitalizeFirstLetter(leave.leaveType)}
                   </TableCell>
                   <TableCell
                     sx={{
@@ -401,7 +302,7 @@ const MyLeaves = () => {
                     }}
                     className="MuiTableCell-root"
                   >
-                    {leave.statusManager}
+                    {capitalizeFirstLetter(leave.statusTL)}
                   </TableCell>
                   <TableCell
                     sx={{
@@ -415,7 +316,7 @@ const MyLeaves = () => {
                     }}
                     className="MuiTableCell-root"
                   >
-                    {leave.statusHOD}
+                    {capitalizeFirstLetter(leave.statusHOD)}
                   </TableCell>
                   <TableCell
                     sx={{
@@ -431,53 +332,75 @@ const MyLeaves = () => {
                         gap: "1rem",
                       }}
                     >
-                      <Tooltip title={isActionDisabled(leave.statusManager, leave.statusHOD) ? "could not edit": "Click to Edit"}>
-                      <Box
-                        component="img"
-                        src={
+                      <Tooltip
+                        title={
                           isActionDisabled(leave.statusManager, leave.statusHOD)
-                            ? disabledEdit
-                            : editIcon
+                            ? "Could not edit"
+                            : "Click to Edit"
                         }
-                        sx={{
-                          cursor: isActionDisabled(
-                            leave.statusManager,
-                            leave.statusHOD
-                          )
-                            ? "not-allowed"
-                            : "pointer",
-                          width: "24px",
-                          height: "24px",
-                        }}
-                        onClick={(event) =>
-                          !isActionDisabled(leave.statusManager, leave.statusHOD) &&
-                          handleEditClick(event, leave.id)
-                        }
-                      />
+                      >
+                        <Box
+                          component="img"
+                          src={
+                            isActionDisabled(
+                              leave.statusManager,
+                              leave.statusHOD
+                            )
+                              ? disabledEdit
+                              : editIcon
+                          }
+                          sx={{
+                            cursor: isActionDisabled(
+                              leave.statusManager,
+                              leave.statusHOD
+                            )
+                              ? "not-allowed"
+                              : "pointer",
+                            width: "24px",
+                            height: "24px",
+                          }}
+                          onClick={(event) =>
+                            !isActionDisabled(
+                              leave.statusManager,
+                              leave.statusHOD
+                            ) && handleEditClick(event, leave.id)
+                          }
+                        />
                       </Tooltip>
-                      <Tooltip title={isActionDisabled(leave.statusManager, leave.statusHOD) ? "could not Delete": "Click to Delete"}>
-                      <Box
-                        component="img"
-                        src={
+                      <Tooltip
+                        title={
                           isActionDisabled(leave.statusManager, leave.statusHOD)
-                            ? disabledDelete
-                            : deleteIcon
+                            ? "Could not Delete"
+                            : "Click to Delete"
                         }
-                        sx={{
-                          cursor: isActionDisabled(
-                            leave.statusManager,
-                            leave.statusHOD
-                          )
-                            ? "not-allowed"
-                            : "pointer",
-                          width: "24px",
-                          height: "24px",
-                        }}
-                        onClick={(event) =>
-                          !isActionDisabled(leave.statusManager, leave.statusHOD) &&
-                          handleDeleteClick(event, leave.id)
-                        }
-                      />
+                      >
+                        <Box
+                          component="img"
+                          src={
+                            isActionDisabled(
+                              leave.statusManager,
+                              leave.statusHOD
+                            )
+                              ? disabledDelete
+                              : deleteIcon
+                          }
+                          sx={{
+                            cursor: isActionDisabled(
+                              leave.statusManager,
+                              leave.statusHOD
+                            )
+                              ? "not-allowed"
+                              : "pointer",
+                            width: "24px",
+                            height: "24px",
+                          }}
+                          onClick={(event) =>
+                            !isActionDisabled(
+                              leave.statusManager,
+                              leave.statusHOD
+                            ) && handleDeleteClick(event, leave.id)
+                          }
+                        />
                       </Tooltip>
                     </Box>
                   </TableCell>

@@ -20,7 +20,8 @@ const CustomButton = ({
     type = "",
     width,
     loading = false,
-    hoverBorder = ""
+    hoverBorder = "",
+    height = "  "
 }) => {
     return (
         <Button
@@ -39,6 +40,7 @@ const CustomButton = ({
                 background,
                 fontWeight,
                 width,
+                height,
                 textTransform: "none",  // Ensures the text is displayed as provided
                 ...buttonStyle,
                 '&:hover': {

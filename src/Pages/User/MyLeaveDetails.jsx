@@ -11,22 +11,29 @@ const MyLeaveDetails = () => {
   const {setHeadertext , setParaText} = useOutletContext()
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
-  const [, set] = useState(null);
+  const [leave, setLeave] = useState(null);
 
   useEffect(() => {
     setHeadertext("Leave Details");
     setParaText(" ")
-    const getUserDetails = async () => {
+    const getLeaveDetails = async () => {
       try {
-        const response = await axiosInstance.get(`${apiUrl}/api/admin/getUser`, { params: { id } });
-        set(response.data.user);
+        const response = await axiosInstance({
+          url: `${apiUrl}/api/admin/getleave`,
+          method: "get",
+          params: {
+            leaveID : id
+          }
+        })
+        // setLeave(response);
+        console.log(response.data)
         setLoading(false);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
     };
 
-    // getUserDetails();
+    getLeaveDetails();
   }, [id]);
 
   if (loading) {

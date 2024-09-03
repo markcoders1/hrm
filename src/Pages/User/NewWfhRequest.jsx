@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Tooltip } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import CustomInputLabel from '../../components/CustomInputField/CustomInputLabel';
 import { useOutletContext } from 'react-router-dom';
 import axiosInstance from '../../auth/axiosInstance';
+import CustomButton from '../../components/CustomButton/CustomButton';
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-    
+
 
 const NewWFHRequest = () => {
-    const { control, handleSubmit, formState: { errors } } = useForm();
+    const { control, handleSubmit, formState: { errors }, reset } = useForm();
     const { setHeadertext } = useOutletContext();
 
     useEffect(() => {
@@ -38,7 +39,8 @@ const NewWFHRequest = () => {
             })
             
             console.log(response.data)
-            setLoading(false);
+            reset()
+        
           } catch (error) {
             console.error('Error fetching user data:', error);
           }
@@ -78,7 +80,7 @@ const NewWFHRequest = () => {
                         <CustomInputLabel
                             label="Description"
                             multiline
-                            rows={4}
+                            rows={9}
                             error={errors.description?.message}
                             {...field}
                             height="200px"
@@ -86,10 +88,25 @@ const NewWFHRequest = () => {
                     )}
                 />
 
-                <Box sx={{ mt: 4 }}>
-                    <Button variant="contained" color="primary" type="submit">
-                        Submit
-                    </Button>
+                <Box sx={{ mt: 4, display:"flex", justifyContent:"end" }}>
+                   <Tooltip title="Request New WFH">
+            <CustomButton
+              ButtonText="Update"
+              fontSize="12px"
+              color="white"
+              fontWeight="500"
+              fullWidth={false}
+              variant="contained"
+              padding="10px 0px"
+              type="submit"
+              background="#157AFF"
+              hoverBg="#303f9f"
+              hovercolor="white"
+              width={"189px"}
+              borderRadius="7px"
+             
+            />
+          </Tooltip>
                 </Box>
             </form>
         </Box>

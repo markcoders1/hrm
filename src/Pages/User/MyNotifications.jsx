@@ -1,50 +1,64 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import NotificationBox from '../../components/NotificationBox/NotificationBox';
 import { useOutletContext } from 'react-router-dom';
+import axiosInstance from '../../auth/axiosInstance';
+import CustomInputLabel from '../../components/CustomInputField/CustomInputLabel';
+
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const MyNotifications = () => {
   const { setHeadertext, setParaText } = useOutletContext();
+  const [notification, setNotification] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     setHeadertext("Notifications");
     setParaText("Keep Yourself Updated!");
   }, []);
 
-  const notifications = [
-    {
-      notificationText: "Connect with Facebook to complete your profile and make it easy to log in.",
-      notificationDate: "August 9, 2024"
-    },
-    {
-      notificationText: "Your profile is 80% complete. Add your phone number to reach 100%.",
-      notificationDate: "August 10, 2024"
-    },
-    {
-      notificationText: "New features have been added to your account. Check them out now!",
-      notificationDate: "August 11, 2024"
-    },
-    {
-      notificationText: "Update your password for better security.",
-      notificationDate: "August 12, 2024"
-    },
-    {
-      notificationText: "You have new friend requests waiting for approval.",
-      notificationDate: "August 13, 2024"
-    },
-    {
-      notificationText: "Your account has been upgraded to premium. Enjoy the new benefits!",
-      notificationDate: "August 14, 2024"
-    }
-  ];
+  useEffect(() => {
+    setParaText("");
+    const getUserNotification = async () => {
+      try {
+        const response = await axiosInstance.get(`${apiUrl}/api/notifications`);
+        console.log("notification", response);
+        setNotification(response?.data?.notifications);
+      } catch (error) {
+        console.error('Error fetching notification:', error);
+      }
+    };
+
+    getUserNotification();
+  }, []);
+
+  const formatDate = (date) => {
+    const d = new Date(date);
+    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  };
+
+  const filteredNotifications = notification.filter(notif => 
+    notif.notification.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <Box sx={{display:"flex", flexDirection:"column", gap:"1.5rem"}} >
-      {notifications.map((notification, index) => (
+    <Box sx={{ display: "flex", flexDirection: "column", gap: "1.5rem", p: "20px" }} >
+      <Box sx={{ width: { lg: "380px", xs: "100%" }, position: { lg: "fixed", xs: "static" }, right: "40px", top: "40px", zIndex: "100000 " }} >
+        <CustomInputLabel
+          height={"56px"}
+          fontSize={"20px"}
+          showSearchIcon={true}
+          placeholder={"Search Notifications"}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)} // Update the search term state
+        />
+      </Box>
+
+      {filteredNotifications.map((notification, index) => (
         <NotificationBox
           key={index}
-          notificationText={notification.notificationText}
-          notificationDate={notification.notificationDate}
+          notificationText={notification?.notification}
+          notificationDate={formatDate(notification?.createdAt)}
         />
       ))}
     </Box>

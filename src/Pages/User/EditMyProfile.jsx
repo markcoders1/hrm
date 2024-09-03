@@ -1,68 +1,55 @@
 import React, { useEffect } from 'react';
-import { Box, Button, Tooltip, Typography } from '@mui/material';
+import { Box, Tooltip } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import CustomInputLabel from '../../components/CustomInputField/CustomInputLabel'; // Adjust import path as necessary
-import { useOutletContext } from 'react-router-dom';
+import { useLocation, useOutletContext } from 'react-router-dom';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../../auth/axiosInstance';
 
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+
 const EditMyProfile = () => {
   const { control, handleSubmit, formState: { errors } } = useForm();
-  const { setHeadertext } = useOutletContext(); // Assuming this is being used elsewhere in your application
-  const {id} = useParams();
-
+  const { setHeadertext } = useOutletContext();
+  const { id } = useParams();
+  const { state } = useLocation();
+  
   useEffect(() => {
     setHeadertext("Edit My Profile");
+    console.log(state);
   }, [setHeadertext]);
 
- const fetchProfileData =async () => {
-  try {
-    const response = await axiosInstance({
-      url: `${apiUrl}/api/admin/getleave`,
-      method : "get",
-      params : id
-    })
-  } catch (error) {
-    
-  }
- }
-
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log('Profile Data:', data);
-    // Handle profile update logic here
 
+    const formData = {
+      phone: data.phoneNumber,
+      emergencyNumber: data.emergencyNumber,
+      address: data.address,
+    };
+
+    try {
+      const response = await axiosInstance({
+        url: `${apiUrl}/api/update-profile`,
+        method: "post",
+        data: formData,
+      });
+      console.log(response);
+      
+    } catch (error) {
+      console.log("Error updating profile", error);
+    }
   };
 
   return (
-    <Box className="sheet-container-admin" sx={{p:{sm:"0px 30px",xs:"0px"}}} >
-   
-
+    <Box className="sheet-container-admin" sx={{ p: { sm: "0px 30px", xs: "0px" } }} >
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', mb: 4, flexDirection:{md:"row", xs:"column"} }}>
-          <Controller
-            name="password"
-            control={control}
-            defaultValue=""
-            rules={{ required: "Password is required" }}
-            render={({ field }) => (
-              <Box sx={{ flex: '1 1 30%' }}>
-                <CustomInputLabel
-                  type="password"
-                  label="Password"
-                  id="password"
-                  error={errors.password?.message}
-                  {...field}
-                  height="64px"
-                />
-              </Box>
-            )}
-          />
-
+        <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', mb: 4, flexDirection: { md: "row", xs: "column" } }}>
           <Controller
             name="phoneNumber"
             control={control}
-            defaultValue=""
+            defaultValue={state?.phone}
             rules={{ required: "Phone number is required" }}
             render={({ field }) => (
               <Box sx={{ flex: '1 1 30%' }}>
@@ -78,16 +65,16 @@ const EditMyProfile = () => {
           />
 
           <Controller
-            name="emergencyPhoneNumber"
+            name="emergencyNumber"
             control={control}
-            defaultValue=""
+            defaultValue={state?.emergencyNumber}
             rules={{ required: "Emergency phone number is required" }}
             render={({ field }) => (
               <Box sx={{ flex: '1 1 30%' }}>
                 <CustomInputLabel
                   label="Emergency Phone Number"
                   id="emergencyPhoneNumber"
-                  error={errors.emergencyPhoneNumber?.message}
+                  error={errors.emergencyNumber?.message}
                   {...field}
                   height="64px"
                 />
@@ -98,7 +85,7 @@ const EditMyProfile = () => {
           <Controller
             name="address"
             control={control}
-            defaultValue=""
+            defaultValue={state?.address}
             rules={{ required: "Address is required" }}
             render={({ field }) => (
               <Box sx={{ flex: '1 1 100%' }}>
@@ -108,15 +95,15 @@ const EditMyProfile = () => {
                   error={errors.address?.message}
                   multiline={true}
                   {...field}
-                  height={{md:"64px", xs:"120px" }}
+                  height={{ md: "64px", xs: "120px" }}
                 />
               </Box>
             )}
           />
         </Box>
 
-        <Box sx={{ mt: 4, display:"flex", justifyContent:"end" }}>
-        <Tooltip title="Edit Password">
+        <Box sx={{ mt: 4, display: "flex", justifyContent: "end" }}>
+          <Tooltip title="Update Profile">
             <CustomButton
               ButtonText="Update"
               fontSize="16px"
@@ -131,11 +118,9 @@ const EditMyProfile = () => {
               hovercolor="white"
               width={"125px"}
               borderRadius="7px"
-              buttonStyle={{ mt: "-17px", height:"45px" }}
-             
-              
-            />{" "}
-            </Tooltip>
+              buttonStyle={{ mt: "-17px", height: "45px" }}
+            />
+          </Tooltip>
         </Box>
       </form>
     </Box>

@@ -242,7 +242,7 @@ const MyLeaves = () => {
                 <TableRow
                   key={index}
                   className="MuiTableRow-root"
-                  onClick={() => navigate(`/dashboard/my-leaves/my-leave-detail`)}
+                  onClick={() => navigate(`/dashboard/my-leaves/my-leave-detail/${leave._id}`)}
                   sx={{ cursor: "pointer" }}
                 >
                   <TableCell

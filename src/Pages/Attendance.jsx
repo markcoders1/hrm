@@ -139,48 +139,7 @@ const Attendance = () => {
             />
           </label>
         </Box> */}
-        <Box sx={{ display: "flex", gap: 6 }}>
-          <Box sx={{ display: "flex", gap: ".4rem", alignItems: "center" }}>
-            <Typography
-              sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
-            >
-              Start Date{" "}
-            </Typography>
-            <input
-              type="number"
-              name=""
-              id=""
-              value={fromDate}
-              onChange={(e) => setFromDate(e.target.value)}
-              style={{
-                border: "none",
-                borderBottom: "2px solid black",
-                width: "195px",
-                outline: "none",
-              }}
-            />
-          </Box>
-          <Box sx={{ display: "flex", gap: ".4rem", alignItems: "center" }}>
-            <Typography
-              sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
-            >
-              End Date{" "}
-            </Typography>
-            <input
-              type="number"
-              name=""
-              id=""
-              value={toDate}
-              onChange={(e) => setToDate(e.target.value)}
-              style={{
-                border: "none",
-                borderBottom: "2px solid black",
-                width: "195px",
-                outline: "none",
-              }}
-            />
-          </Box>
-        </Box>
+       
         {loading ? (
           <Box className="loaderContainer">
             <Loader />

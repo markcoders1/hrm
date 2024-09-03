@@ -19,151 +19,66 @@ import deleteIcon from "../../assets/deleteIcon.png";
 import disabledDelete from "../../assets/disabledDelete.png";
 import disabledEdit from "../../assets/disabledEdit.png";
 import IconButton from '@mui/material/IconButton';
+import axiosInstance from "../../auth/axiosInstance";
+
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+
 
 
 const RemoteWork = () => {
   const navigate = useNavigate();
   const { setHeadertext, setParaText } = useOutletContext();
+  const [remoteWorkData  , setRemoteWorkData] =  useState([]);
+
+  const fetchRemoteData = async () => {
+    try {
+      const response = await axiosInstance({
+        url: `${apiUrl}/api/wfh`,
+        method: "get",
+        
+      });
+      console.log("wfh requests",response.data)
+      setRemoteWorkData(response.data.requests)
+      
+    } catch (error) {
+      console.log("error fetching leaves request", error)
+    }
+  }
 
   useEffect(() => {
     setHeadertext("Remote Work");
     setParaText(" ")
+    fetchRemoteData()
   }, []);
 
-  // Dummy data for the table
-  const [leaveData] = useState([
-    {
-      id: "005",
-      from: "08-20-2024",
-      to: "08-20-2024",
-      day: "2",
-      type: "Sick",
-      statusManager: "Approved",
-      statusHOD: "Approved",
-    },
-    {
-      id: "005",
-      from: "08-20-2024",
-      to: "08-20-2024",
-      day: "2",
-      type: "Casual",
-      statusManager: "Pending",
-      statusHOD: "Pending",
-    },
-    {
-      id: "005",
-      from: "08-20-2024",
-      to: "08-20-2024",
-      day: "2",
-      type: "Annual",
-      statusManager: "Rejected",
-      statusHOD: "Rejected",
-    },
-    {
-      id: "005",
-      from: "08-20-2024",
-      to: "08-20-2024",
-      day: "2",
-      type: "Casual",
-      statusManager: "Approved",
-      statusHOD: "Approved",
-    },
-    {
-      id: "005",
-      from: "08-20-2024",
-      to: "08-20-2024",
-      day: "2",
-      type: "Sick",
-      statusManager: "Approved",
-      statusHOD: "Approved",
-    },
-    {
-      id: "005",
-      from: "08-20-2024",
-      to: "08-20-2024",
-      day: "2",
-      type: "Casual",
-      statusManager: "Pending",
-      statusHOD: "Pending",
-    },
-    {
-      id: "005",
-      from: "08-20-2024",
-      to: "08-20-2024",
-      day: "2",
-      type: "Sick",
-      statusManager: "Approved",
-      statusHOD: "Approved",
-    },
-    {
-      id: "005",
-      from: "08-20-2024",
-      to: "08-20-2024",
-      day: "2",
-      type: "Annual",
-      statusManager: "Rejected",
-      statusHOD: "Rejected",
-    },
-  ]);
 
   const isActionDisabled = (statusManager, statusHOD) => {
     return statusManager !== "Pending" && statusHOD !== "Pending";
   };
 
-  const handleEditClick = (event, leaveId) => {
+  const handleEditClick = (event, remoteId) => {
     event.stopPropagation();
     navigate(`/dashboard/remote-work/edit-wfh-request`);
   };
 
-  const handleDeleteClick = (event, leaveId) => {
+  const handleDeleteClick = (event, remoteId) => {
     event.stopPropagation();
-    console.log("Delete action for leave ID:", leaveId);
+    console.log("Delete action for leave ID:", remoteId);
     // Add your delete logic here
+  };
+
+
+  const formatDate = (date) => {
+    const d = new Date(date);
+    return `${(d.getMonth() + 1).toString().padStart(2, "0")}-${d.getDate().toString().padStart(2, "0")}-${d.getFullYear()}`;
   };
 
   return (
     <Box className="sheet-container-admin">
       <Box className="progress-mini-container">
         {/* Date filters and Request New Leave button */}
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Box sx={{ display: "flex", gap: 6 }}>
-            <Box sx={{ display: "flex", gap: ".4rem", alignItems: "center" }}>
-              <Typography
-                sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
-              >
-                Start Date{" "}
-              </Typography>
-              <input
-                type="date"
-                name=""
-                id=""
-                style={{
-                  border: "none",
-                  borderBottom: "2px solid black",
-                  width: "195px",
-                  outline: "none",
-                }}
-              />
-            </Box>
-            <Box sx={{ display: "flex", gap: ".4rem", alignItems: "center" }}>
-              <Typography
-                sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
-              >
-                End Date{" "}
-              </Typography>
-              <input
-                type="date"
-                name=""
-                id=""
-                style={{
-                  border: "none",
-                  borderBottom: "2px solid black",
-                  width: "195px",
-                  outline: "none",
-                }}
-              />
-            </Box>
-          </Box>
+        <Box sx={{ display: "flex", justifyContent: "end" }}>
+    
 
           <Tooltip title="Request New WFH">
             <CustomButton
@@ -282,7 +197,7 @@ const RemoteWork = () => {
               </TableRow>
             </TableHead>
             <TableBody className="MuiTableBody-root">
-              {leaveData.map((leave, index) => (
+              {remoteWorkData.map((remote, index) => (
                 <TableRow
                   key={index}
                   className="MuiTableRow-root"
@@ -298,14 +213,14 @@ const RemoteWork = () => {
                     }}
                     className="MuiTableCell-root"
                   >
-                    {leave.id}
+                    {remote?.companyId}
                   </TableCell>
                   
                   <TableCell
                     sx={{ textAlign: "start !important" }}
                     className="MuiTableCell-root"
                   >
-                    {leave.to}
+                    {formatDate(remote?.date)}
                   </TableCell>
                
                 
@@ -313,29 +228,29 @@ const RemoteWork = () => {
                     sx={{
                       textAlign: "start !important",
                       color:
-                        leave.statusManager === "Approved"
+                      remote.statusManager === "Approved"
                           ? "green"
-                          : leave.statusManager === "Rejected"
+                          : remote.statusManager === "Rejected"
                           ? "red"
                           : "black",
                     }}
                     className="MuiTableCell-root"
                   >
-                    {leave.statusManager}
+                    {remote.statusTL}
                   </TableCell>
                   <TableCell
                     sx={{
                       textAlign: "start !important",
                       color:
-                        leave.statusHOD === "Approved"
+                      remote.statusHOD === "Approved"
                           ? "green"
-                          : leave.statusHOD === "Rejected"
+                          : remote.statusHOD === "Rejected"
                           ? "red"
                           : "black",
                     }}
                     className="MuiTableCell-root"
                   >
-                    {leave.statusHOD}
+                    {remote.statusHOD}
                   </TableCell>
                   <TableCell
                     sx={{
@@ -351,19 +266,19 @@ const RemoteWork = () => {
                         gap: "1rem",
                       }}
                     >
-                      <Tooltip title={isActionDisabled(leave.statusManager, leave.statusHOD) ? "could not edit": "Click to Edit"}>
+                      <Tooltip title={isActionDisabled(remote.statusManager, remote.statusHOD) ? "could not edit": "Click to Edit"}>
                       <IconButton>
                       <Box
                         component="img"
                         src={
-                          isActionDisabled(leave.statusManager, leave.statusHOD)
+                          isActionDisabled(remote.statusManager, remote.statusHOD)
                             ? disabledEdit
                             : editIcon
                         }
                         sx={{
                           cursor: isActionDisabled(
-                            leave.statusManager,
-                            leave.statusHOD
+                            remote.statusManager,
+                            remote.statusHOD
                           )
                             ? "not-allowed"
                             : "pointer",
@@ -371,25 +286,25 @@ const RemoteWork = () => {
                           height: "24px",
                         }}
                         onClick={(event) =>
-                          !isActionDisabled(leave.statusManager, leave.statusHOD) &&
-                          handleEditClick(event, leave.id)
+                          !isActionDisabled(remote.statusManager, remote.statusHOD) &&
+                          handleEditClick(event, remote.id)
                         }
                       /> 
                        </IconButton>
                       </Tooltip>
-                      <Tooltip title={isActionDisabled(leave.statusManager, leave.statusHOD) ? "could not Delete": "Click to Delete"}>
+                      <Tooltip title={isActionDisabled(remote.statusManager, remote.statusHOD) ? "could not Delete": "Click to Delete"}>
                       <IconButton>
                       <Box
                         component="img"
                         src={
-                          isActionDisabled(leave.statusManager, leave.statusHOD)
+                          isActionDisabled(remote.statusTL, remote.statusHOD)
                             ? disabledDelete
                             : deleteIcon
                         }
                         sx={{
                           cursor: isActionDisabled(
-                            leave.statusManager,
-                            leave.statusHOD
+                            remote.statusManager,
+                            remote.statusHOD
                           )
                             ? "not-allowed"
                             : "pointer",
@@ -397,8 +312,8 @@ const RemoteWork = () => {
                           height: "24px",
                         }}
                         onClick={(event) =>
-                          !isActionDisabled(leave.statusManager, leave.statusHOD) &&
-                          handleDeleteClick(event, leave.id)
+                          !isActionDisabled(remote.statusTL, remote.statusHOD) &&
+                          handleDeleteClick(event, remote._id)
                         }
                       />
                      </IconButton>

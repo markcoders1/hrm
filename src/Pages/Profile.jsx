@@ -43,6 +43,14 @@ const Profile = () => {
     );
   }
 
+
+  const handleNavigate = (profileData) => {
+    // Store the sauce data in local storage or state
+    // localStorage.setItem("selectedSauce", JSON.stringify(sauceData));
+    // Navigate to the next page
+    navigate(`/dashboard/profile/edit-profile`, {state:profileData});
+  };
+
   return (
     <Box >
             <Box
@@ -303,7 +311,8 @@ const Profile = () => {
               borderRadius="7px"
               buttonStyle={{ mt: "-17px" }}
               height="45px"
-              onClick={()=> navigate(`/dashboard/profile/edit-profile/${yourData?._id}`)}
+              
+              onClick={() => handleNavigate(yourData)}
             />{" "}
             </Tooltip>
       </Box>

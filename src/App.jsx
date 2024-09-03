@@ -89,7 +89,7 @@ function App() {
               <Route path='' element={<Check />} />
 
                 <Route path='profile' element={<Profile />} />
-                <Route path='profile/edit-profile/:id' element={<EditMyProfile />} />
+                <Route path='profile/edit-profile' element={<EditMyProfile />} />
 
                 <Route path='my-notifications' element={<MyNotifications />} />
 

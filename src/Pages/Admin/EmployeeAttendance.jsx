@@ -27,7 +27,7 @@ const EmployeeAttendance = () => {
   const { setHeadertext, setParaText } = useOutletContext();
   const [allEmployee, setAllEmployee] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedDate, setSelectedDate] = useState(null); // Initialize with current date as Unix timestamp
+  const [selectedDate, setSelectedDate] = useState(new Date().getTime()); // Initialize with current date as Unix timestamp
   const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
 
   // const applyTimezoneOffset = (timestamp) => {
@@ -46,7 +46,7 @@ const EmployeeAttendance = () => {
           url: `${apiUrl}/api/admin/getToday`,
           method: "get",
           params: {
-            date: dateTimestamp ? dateTimestamp : "", // Directly pass the selected date
+            date: dateTimestamp, // Directly pass the selected date
           },
         });
         console.log("get today -----------------------===", response);

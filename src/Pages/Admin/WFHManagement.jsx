@@ -76,7 +76,7 @@ const [totalPages, setTotalPages] = useState(1);
         method: "post",
         params : {
           WFHID : id,
-          status : "rejected"
+          status : "rejected" 
         }
 
       });

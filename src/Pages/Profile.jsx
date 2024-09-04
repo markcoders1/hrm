@@ -32,7 +32,7 @@ const Profile = () => {
     };
 
     getProfileInfo();
-    setHeadertext("User Profile");
+    setHeadertext("My Profile");
   }, [id, setHeadertext]);
 
   if (loading) {
@@ -43,6 +43,12 @@ const Profile = () => {
     );
   }
 
+    const formatDate = (date) => {
+    const d = new Date(date);
+    return `${d.getDate().toString().padStart(2, "0")}-${(d.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${d.getFullYear().toString().slice(-2)}`;
+  };
 
   const handleNavigate = (profileData) => {
     // Store the sauce data in local storage or state
@@ -200,7 +206,7 @@ const Profile = () => {
             Shift Timings From
           </Typography>
           <Typography variant="body1" className="user-details-value">
-            {yourData?.timefrom || "--- ---"}
+            {yourData?.shiftTimingFrom || "--- ---"}
           </Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
@@ -208,7 +214,7 @@ const Profile = () => {
             Shift Timings To
           </Typography>
           <Typography variant="body1" className="user-details-value">
-            {yourData?.timeto || "--- ---"}
+            {yourData?.shiftTimingTo || "--- ---"}
           </Typography>
         </Box>
       </Box>
@@ -239,7 +245,7 @@ const Profile = () => {
             Line Manager
           </Typography>
           <Typography variant="body1" className="user-details-value">
-            {yourData?.role || "--- ---"}
+            {yourData?.TL || "--- ---"}
           </Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
@@ -275,7 +281,7 @@ const Profile = () => {
             HOD
           </Typography>
           <Typography variant="body1" className="user-details-value">
-            {yourData?.hod || "--- ---"}
+            {yourData?.HOD || "--- ---"}
           </Typography>
         </Box>
       

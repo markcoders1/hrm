@@ -15,6 +15,7 @@ const MyNotifications = () => {
   useEffect(() => {
     setHeadertext("Notifications");
     setParaText("Keep Yourself Updated!");
+    console.log("this isboth notification")
   }, []);
 
   useEffect(() => {

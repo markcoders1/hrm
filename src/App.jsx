@@ -35,7 +35,7 @@ import EditWFHRequest from './Pages/User/EditWfhRequest.jsx';
 
 const Dashboard = React.lazy(() => import('./Pages/Admin/DashboarAdmin.jsx'));
 const UserDetailsStatic = React.lazy(() => import('./Pages/Admin/UserDetailsStatic.jsx'));
-const Notifications = React.lazy(() => import('./Pages/Notification.jsx'));
+const Notifications = React.lazy(() => import('./Pages/User/MyNotifications.jsx'));
 const LeaveManagement = React.lazy(() => import('./Pages/Admin/LeaveManagement.jsx'));
 const LeaveDetailsAdmin = React.lazy(() => import('./Pages/Admin/LeaveDetails.jsx'));
 const WFHManagement = React.lazy(() => import('./Pages/Admin/WFHManagement.jsx'));

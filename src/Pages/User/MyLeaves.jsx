@@ -19,7 +19,6 @@ import deleteIcon from "../../assets/deleteIcon.png";
 import disabledDelete from "../../assets/disabledDelete.png";
 import disabledEdit from "../../assets/disabledEdit.png";
 import axiosInstance from "../../auth/axiosInstance";
-// import './MyLeaves.css'; // Assuming you have a CSS file for custom styles
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -35,7 +34,7 @@ const MyLeaves = () => {
   const fetchAllLeaves = async () => {
     try {
       const response = await axiosInstance({
-        url: `${apiUrl}/api/leaves`,
+        url: `${apiUrl}/api/allleaves`,
         method: "get",
       });
       console.log(response.data);
@@ -49,8 +48,9 @@ const MyLeaves = () => {
     fetchAllLeaves();
   }, []);
 
-  const isActionDisabled = (statusTL, statusHOD) => {
-    return statusTL !== "Pending" && statusHOD !== "Pending";
+  // Function to determine if actions (edit/delete) should be enabled or disabled
+  const isActionDisabled = (overallStatus) => {
+    return overallStatus !== "pending";
   };
 
   const handleEditClick = (event, leaveId) => {
@@ -294,9 +294,9 @@ const MyLeaves = () => {
                     sx={{
                       textAlign: "start !important",
                       color:
-                        leave.statusManager === "Approved"
+                        leave.statusTL === "approved"
                           ? "green"
-                          : leave.statusManager === "Rejected"
+                          : leave.statusTL === "rejected"
                           ? "red"
                           : "black",
                     }}
@@ -308,9 +308,9 @@ const MyLeaves = () => {
                     sx={{
                       textAlign: "start !important",
                       color:
-                        leave.statusHOD === "Approved"
+                        leave.statusHOD === "approved"
                           ? "green"
-                          : leave.statusHOD === "Rejected"
+                          : leave.statusHOD === "rejected"
                           ? "red"
                           : "black",
                     }}
@@ -334,7 +334,7 @@ const MyLeaves = () => {
                     >
                       <Tooltip
                         title={
-                          isActionDisabled(leave.statusManager, leave.statusHOD)
+                          isActionDisabled(leave.overallStatus)
                             ? "Could not edit"
                             : "Click to Edit"
                         }
@@ -342,34 +342,26 @@ const MyLeaves = () => {
                         <Box
                           component="img"
                           src={
-                            isActionDisabled(
-                              leave.statusManager,
-                              leave.statusHOD
-                            )
+                            isActionDisabled(leave.overallStatus)
                               ? disabledEdit
                               : editIcon
                           }
                           sx={{
-                            cursor: isActionDisabled(
-                              leave.statusManager,
-                              leave.statusHOD
-                            )
+                            cursor: isActionDisabled(leave.overallStatus)
                               ? "not-allowed"
                               : "pointer",
                             width: "24px",
                             height: "24px",
                           }}
                           onClick={(event) =>
-                            !isActionDisabled(
-                              leave.statusManager,
-                              leave.statusHOD
-                            ) && handleEditClick(event, leave.id)
+                            !isActionDisabled(leave.overallStatus) &&
+                            handleEditClick(event, leave._id)
                           }
                         />
                       </Tooltip>
                       <Tooltip
                         title={
-                          isActionDisabled(leave.statusManager, leave.statusHOD)
+                          isActionDisabled(leave.overallStatus)
                             ? "Could not Delete"
                             : "Click to Delete"
                         }
@@ -377,28 +369,20 @@ const MyLeaves = () => {
                         <Box
                           component="img"
                           src={
-                            isActionDisabled(
-                              leave.statusManager,
-                              leave.statusHOD
-                            )
+                            isActionDisabled(leave.overallStatus)
                               ? disabledDelete
                               : deleteIcon
                           }
                           sx={{
-                            cursor: isActionDisabled(
-                              leave.statusManager,
-                              leave.statusHOD
-                            )
+                            cursor: isActionDisabled(leave.overallStatus)
                               ? "not-allowed"
                               : "pointer",
                             width: "24px",
                             height: "24px",
                           }}
                           onClick={(event) =>
-                            !isActionDisabled(
-                              leave.statusManager,
-                              leave.statusHOD
-                            ) && handleDeleteClick(event, leave.id)
+                            !isActionDisabled(leave.overallStatus) &&
+                            handleDeleteClick(event, leave._id)
                           }
                         />
                       </Tooltip>

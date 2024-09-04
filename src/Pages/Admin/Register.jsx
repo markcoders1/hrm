@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Box, duration, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
@@ -77,12 +77,16 @@ const Register = () => {
         `1970-01-01T${data.shiftTimingTo}:00Z`
       ).getTime();
 
+      let DOB = new Date(data.DOB).getTime();
+      DOB = DOB.toString()
+
       const payload = {
         ...data,
         workDays,
-        // joiningDate, 
+        joiningDate, 
         shiftTimingFrom,
         shiftTimingTo,
+        DOB
         
       };
 
@@ -155,30 +159,30 @@ const Register = () => {
     handleShiftTimingChange();
   }, [watch("shiftTimingFrom"), watch("shiftTimingTo")]);
 
-  useEffect(() => {
-    if (watch("joiningDate")) {
-      const joiningDate = new Date(watch("joiningDate"));
-      const currentDate = new Date();
-      const diffInMs = currentDate - joiningDate;
+  // useEffect(() => {
+  //   if (watch("joiningDate")) {
+  //     const joiningDate = new Date(watch("joiningDate"));
+  //     const currentDate = new Date();
+  //     const diffInMs = currentDate - joiningDate;
 
-      const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
-      let duration;
+  //     const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+  //     let durationDiff;
 
-      if (diffInDays >= 365) {
-        const years = Math.floor(diffInDays / 365);
-        duration = `${years} ${years > 1 ? "years" : "year"}`;
-      } else if (diffInDays >= 30) {
-        const months = Math.floor(diffInDays / 30);
-        duration = `${months} ${months > 1 ? "months" : "month"}`;
-      } else {
-        duration = `${Math.floor(diffInDays)} ${
-          Math.floor(diffInDays) > 1 ? "days" : "day"
-        }`;
-      }
+  //     if (diffInDays >= 365) {
+  //       const years = Math.floor(diffInDays / 365);
+  //       durationDiff = `${years} ${years > 1 ? "years" : "year"}`;
+  //     } else if (diffInDays >= 30) {
+  //       const months = Math.floor(diffInDays / 30);
+  //       durationDiff = `${months} ${months > 1 ? "months" : "month"}`;
+  //     } else {
+  //       durationDiff = `${Math.floor(diffInDays)} ${
+  //         Math.floor(diffInDays) > 1 ? "days" : "day"
+  //       }`;
+  //     }
 
-      setValue("duration", duration);
-    }
-  }, [watch("joiningDate"), setValue]);
+  //     // setValue("durationDiff", durationDiff);
+  //   }
+  // }, [watch("joiningDate"), setValue]);
 
   return (
     <Box className="form-container-register">
@@ -519,7 +523,7 @@ const Register = () => {
                 }}
               >
                 <Controller
-                  name="teamLead"
+                  name="teamLeadID"
                   control={control}
                   defaultValue=""
                   rules={{ required: "Line Manager is Required" }}
@@ -533,7 +537,7 @@ const Register = () => {
                       }))}
                       value={field.value}
                       handleChange={field.onChange}
-                      error={errors.teamLead?.message}
+                      error={errors.teamLeadID?.message}
                     />
                   )}
                 />
@@ -618,7 +622,7 @@ const Register = () => {
                 }}
               >
                 <Controller
-                  name="HOD"
+                  name="HODID"
                   control={control}
                   defaultValue=""
                   rules={{ required: "HOD is Required" }}

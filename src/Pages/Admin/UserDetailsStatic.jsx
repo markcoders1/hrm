@@ -111,11 +111,11 @@ const UserDetailsStatic = () => {
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Shift Timings From</Typography>
-          <Typography variant="body1" className="user-details-value">{userData.timefrom}</Typography>
+          <Typography variant="body1" className="user-details-value">{userData.shiftTimingFrom}</Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Shift Timings To</Typography>
-          <Typography variant="body1" className="user-details-value">{userData.timeto}</Typography>
+          <Typography variant="body1" className="user-details-value">{userData.shiftTimingTo}</Typography>
         </Box>
       </Box>
 
@@ -159,7 +159,7 @@ const UserDetailsStatic = () => {
       <Box sx={{ display: 'flex', gap: '20px', flexDirection: { md: 'row', xs: 'column' }, mb: '20px', pb: '20px', borderBottom: { md: '1px solid #E0E0E0', xs: 'none' } }}>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Total Shift Duration</Typography>
-          <Typography variant="body1" className="user-details-value">9 Hours</Typography>
+          <Typography variant="body1" className="user-details-value">{userData?.shiftTimingFrom - userData?.shiftTimingTo}Hours</Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Joining Date</Typography>
@@ -167,22 +167,22 @@ const UserDetailsStatic = () => {
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Duration</Typography>
-          <Typography variant="body1" className="user-details-value">5 Years</Typography>
+          <Typography variant="body1" className="user-details-value">{userData?.joiningDate} Years</Typography>
         </Box>
       </Box>
       {/* CNIC, DOB, Employee ID */}
       <Box sx={{ display: 'flex', gap: '20px', flexDirection: { md: 'row', xs: 'column' }, mb: '20px', pb: '20px', borderBottom: { md: '1px solid #E0E0E0', xs: 'none' } }}>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">User Role</Typography>
-          <Typography variant="body1" className="user-details-value">Employee</Typography>
+          <Typography variant="body1" className="user-details-value">{userData?.role}</Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Annual Leaves</Typography>
-          <Typography variant="body1" className="user-details-value">15</Typography>
+          <Typography variant="body1" className="user-details-value">{userData?.annualLeaves}</Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Net Salary</Typography>
-          <Typography variant="body1" className="user-details-value">65,0000</Typography>
+          <Typography variant="body1" className="user-details-value">{userData?.netSalary}</Typography>
         </Box>
       </Box>
 
@@ -190,15 +190,15 @@ const UserDetailsStatic = () => {
       <Box sx={{ display: 'flex', gap: '20px', flexDirection: { md: 'row', xs: 'column' }, mb: '20px', pb: '20px', borderBottom: { md: '1px solid #E0E0E0', xs: 'none' } }}>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Location Type</Typography>
-          <Typography variant="body1" className="user-details-value">Onsite</Typography>
+          <Typography variant="body1" className="user-details-value">{userData?.locationType}</Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">On Probation</Typography>
-          <Typography variant="body1" className="user-details-value">Yes</Typography>
+          <Typography variant="body1" className="user-details-value">{userData?.onProbation}</Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Employement type</Typography>
-          <Typography variant="body1" className="user-details-value">full Time</Typography>
+          <Typography variant="body1" className="user-details-value">{userData?.employmentType}</Typography>
         </Box>
       </Box>
 

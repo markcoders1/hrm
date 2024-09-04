@@ -11,23 +11,31 @@ const LeaveDetails = () => {
   const {setHeadertext , setParaText} = useOutletContext()
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
-  const [, set] = useState(null);
+  const [whfDetails , setWfhDetails] = useState();
 
   useEffect(() => {
     setHeadertext("WFH Details");
     setParaText(" ")
-    const getUserDetails = async () => {
+    const getWFHDetails = async () => {
       try {
-        const response = await axiosInstance.get(`${apiUrl}/api/admin/getUser`, { params: { id } });
-        set(response.data.user);
+        const response = await axiosInstance.get(`${apiUrl}/api/admin/getwfh`, { params: { WFHID: id} });
+        setWfhDetails(response.data);
+        console.log(response)
         setLoading(false);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
     };
 
-    // getUserDetails();
-  }, [id]);
+    getWFHDetails();
+  }, []);
+
+  const formatDate = (date) => {
+    const d = new Date(date);
+    return `${d.getDate().toString().padStart(2, "0")}-${(d.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${d.getFullYear().toString().slice(-2)}`;
+  };
 
   if (loading) {
     return (
@@ -43,23 +51,23 @@ const LeaveDetails = () => {
       <Box sx={{ display: 'flex', gap: '40px', flexDirection: { md: 'row', xs: 'column' }, mb: '20px', pb: '20px', borderBottom: { md: '1px solid #E0E0E0', xs: 'none' } }}>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Date</Typography>
-          <Typography variant="body1" className="user-details-value-1">27-08-2024</Typography>
+          <Typography variant="body1" className="user-details-value-1">{whfDetails?.date ? formatDate(whfDetails?.date): "-- -- --"}</Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
-          <Typography variant="subtitle2" className="user-details-label">Days</Typography>
-          <Typography variant="body1" className="user-details-value-1">02</Typography>
+          <Typography variant="subtitle2" className="user-details-label">Status (HOD)</Typography>
+          <Typography variant="body1" className="user-details-value-1">{whfDetails?.statusTL ? whfDetails?.statusTL : "-- -- -- "}</Typography>
         </Box>
         
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
-          <Typography variant="subtitle2" className="user-details-label">Status (HOD)</Typography>
-          <Typography variant="body1" className="user-details-value-1">Approved</Typography>
+          <Typography variant="subtitle2" className="user-details-label">Status (Line Manager)</Typography>
+          <Typography variant="body1" className="user-details-value-1">{whfDetails?.statusHOD ? whfDetails?.statusHOD : "-- -- -- "}</Typography>
         </Box>
       </Box>
 
       <Box sx={{ display: 'flex', gap: '20px', flexDirection: { md: 'row', xs: 'column' }, mb: '20px' }}>
         <Box className="user-details-item" sx={{ flexBasis: '100%', }}>
           <Typography variant="subtitle2" className="user-details-label">Comments</Typography>
-          <Typography variant="body1" sx={{lineHeight:"35px"}} className="user-details-value-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae obcaecati quis, ipsam, sunt sapiente vitae nobis enim amet numquam provident molestias eum quisquam optio est commodi architecto perferendis id quos rem voluptates! Illo qui, odio consequuntur quos rerum soluta dolorem magnam obcaecati sequi et officiis repudiandae! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas iste dolor adipisci id modi rerum quod eos aut ipsam corrupti! Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores quod deserunt exercitationem explicabo dicta. Maiores at fuga similique culpa aliquid?   </Typography>
+          <Typography variant="body1" sx={{lineHeight:"35px"}} className="user-details-value-1">{whfDetails?.comment}</Typography>
         </Box>
         
       </Box>

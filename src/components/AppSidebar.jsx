@@ -120,7 +120,7 @@ const AppSidebar = () => {
           </div>
         </CSidebarHeader>
         <CSidebarNav className="nav-top">
-          {isAdmin == "user" && (
+          {isAdmin == "user" || isAdmin == "TL" ? (
             <>
               <CNavItem>
                 <NavLink to="/dashboard" end className="nav-link">
@@ -162,9 +162,9 @@ const AppSidebar = () => {
                 </NavLink>
               </CNavItem>
             </>
-          )}
+          ): ""}
 
-          {isAdmin === "HOD" && (
+          {isAdmin === "HOD" || isAdmin === "TL"  ? (
             <>
               <CNavItem>
                 <NavLink to="/dashboard/admin" className="nav-link" end>
@@ -219,7 +219,7 @@ const AppSidebar = () => {
             </NavLink>
           </CNavItem>
             </>
-          )}
+          ):""}
           <CNavGroup
             toggler={
               <>

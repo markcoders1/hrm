@@ -58,11 +58,11 @@ const LeaveDetails = () => {
       <Box sx={{ display: 'flex', gap: '40px', flexDirection: { md: 'row', xs: 'column' }, mb: '20px', pb: '20px', borderBottom: { md: '1px solid #E0E0E0', xs: 'none' } }}>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">From</Typography>
-          <Typography variant="body1" className="user-details-value-1">{formatDate(leave?.startDate)}</Typography>
+          <Typography variant="body1" className="user-details-value-1">{leave?.startDate ? formatDate(leave?.startDate): "-- --"}</Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">To</Typography>
-          <Typography variant="body1" className="user-details-value-1">{formatDate(leave?.endDate)}</Typography>
+          <Typography variant="body1" className="user-details-value-1">{leave?.startDate ? formatDate(leave?.endDate): "-- --"}</Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Type</Typography>
@@ -115,7 +115,7 @@ const LeaveDetails = () => {
       {/* Working Days, HOD, Department */}
       <Box sx={{ display: 'flex', gap: '20px', flexDirection: { md: 'row', xs: 'column' }, mb: '20px' }}>
         <Box className="user-details-item" sx={{ flexBasis: '100%', }}>
-          <Typography variant="subtitle2" className="user-details-label">Working Days</Typography>
+          <Typography variant="subtitle2" className="user-details-label">Desciption</Typography>
           <Typography variant="body1" sx={{lineHeight:"35px"}} className="user-details-value-1">{leave?.comment}</Typography>
         </Box>
         

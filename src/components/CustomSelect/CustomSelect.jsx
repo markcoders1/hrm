@@ -1,29 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Box, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 
 const CustomSelectForType = ({ 
   label, 
   options, 
   handleChange, 
-  value, 
+  value = "", // Fallback value to avoid undefined issues
   error, 
   boxShadow = "0px 8px 26px -4px rgba(0, 0, 0, 0.1)", 
   width = "100%", 
   height, 
-  border="1px solid #E0E0E0",
-  focusBorder = true // New prop to control border behavior on focus
+  border = "1px solid #E0E0E0", 
+  focusBorder = true 
 }) => {
-  const [selectedValue, setSelectedValue] = useState(value);
-
+  
   useEffect(() => {
-    setSelectedValue(value);
-  }, [value]);
-
-  const handleSelectionChange = (e) => {
-    const selectedValue = e.target.value;
-    setSelectedValue(selectedValue);
-    handleChange(selectedValue); // Call the parent's handler with the selected value
-  };
+    // Sync selected value with parent whenever `value` changes
+    if (!value) {
+      handleChange(""); // Ensure the value is passed correctly to parent
+    }
+  }, [value, handleChange]);
 
   return (
     <Box sx={{ mb: 2, width: '100%' }}>
@@ -55,10 +51,10 @@ const CustomSelectForType = ({
       >
         <InputLabel
           sx={{
-            position: selectedValue ? 'absolute' : 'absolute',
-            top: selectedValue ? '-10px' : '50%',
+            position: value ? 'absolute' : 'absolute',
+            top: value ? '-10px' : '50%',
             left: "10px",
-            transform: selectedValue ? 'translateY(0%)' : 'translateY(-50%)',
+            transform: value ? 'translateY(0%)' : 'translateY(-50%)',
             backgroundColor: 'white',
             padding: '0px 10px',
             fontSize: "14px",
@@ -71,14 +67,13 @@ const CustomSelectForType = ({
         <Select
           labelId={`select-${label}-label`}
           id={`select-${label}`}
-          value={selectedValue}
-          onChange={handleSelectionChange}
-
+          value={value} // Directly use the value from props
+          onChange={(e) => handleChange(e)} // Pass the full event to the handler
           sx={{
             width: "100%",
             fontSize: "16px",
-            height:height,
-            color: selectedValue ? "black" : "#424242",
+            height: height,
+            color: value ? "black" : "#424242",
             "& .MuiSelect-select": {
               padding: "10px 12px",
             },
@@ -110,7 +105,9 @@ const CustomSelectForType = ({
           }}
         >
           {options.map((option) => (
-            <MenuItem key={option.value} value={option.value}>{option.label}</MenuItem>
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>

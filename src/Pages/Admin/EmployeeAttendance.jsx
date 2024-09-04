@@ -27,17 +27,13 @@ const EmployeeAttendance = () => {
   const { setHeadertext, setParaText } = useOutletContext();
   const [allEmployee, setAllEmployee] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedDate, setSelectedDate] = useState(new Date().getTime()); // Initialize with current date as Unix timestamp
-  const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
+  const [selectedDate, setSelectedDate] = useState(new Date().getDate()); 
+  const [hoveredRow, setHoveredRow] = useState(null); 
 
-  const applyTimezoneOffset = (timestamp) => {
-    const date = new Date(timestamp);
-    const timezoneOffset = date.getTimezoneOffset() * 60000; // Get timezone offset in milliseconds
-    return timestamp - timezoneOffset;
-  };
 
   useEffect(() => {
     const fetchEmployeeData = async (dateTimestamp) => {
+      console.log(dateTimestamp)
       try {
         setHeadertext("Attendance Management");
         setParaText("Lorem Ipsum");
@@ -45,27 +41,26 @@ const EmployeeAttendance = () => {
           url: `${apiUrl}/api/admin/getToday`,
           method: "get",
           params: {
-            timezoneOffset: applyTimezoneOffset(dateTimestamp), // Pass the selected date with timezone offset applied
+            date: dateTimestamp, // Directly pass the selected date
           },
         });
+        console.log("get today -----------------------===", response);
         const dataAllEmployee = response.data.users;
         setAllEmployee(dataAllEmployee);
         setLoading(false);
-        console.log(response);
       } catch (error) {
         console.error(error);
       }
     };
-
     fetchEmployeeData(selectedDate);
-  }, [setHeadertext, selectedDate]); // Re-fetch data when the selected date changes
+  }, [setHeadertext, selectedDate, setSelectedDate]); // Re-fetch data when the selected date changes
+
 
   const handleDateChange = (e) => {
     const newDateTimestamp = new Date(e.target.value).getTime();
     setSelectedDate(newDateTimestamp);
-    console.log(newDateTimestamp)
+    console.log(newDateTimestamp);
   };
-
   const buttonForDeleteEdit = (rowData, isHovered) => {
     return (
       <Box
@@ -124,8 +119,10 @@ const EmployeeAttendance = () => {
     navigate(`/dashboard/attendance-management/viewAttendance`);
   };
 
+
+  
   const formatDate = (timestamp) => {
-    const date = new Date(applyTimezoneOffset(timestamp));
+    const date = new Date(timestamp);
     return `${(date.getMonth() + 1).toString().padStart(2, "0")}-${date
       .getDate()
       .toString()
@@ -133,7 +130,7 @@ const EmployeeAttendance = () => {
   };
 
   const formatTime = (timestamp) => {
-    const date = new Date(applyTimezoneOffset(timestamp));
+    const date = new Date(timestamp);
     let hours = date.getHours();
     const minutes = date.getMinutes().toString().padStart(2, "0");
     const ampm = hours >= 12 ? "PM" : "AM";
@@ -141,6 +138,7 @@ const EmployeeAttendance = () => {
     return `${hours}:${minutes} ${ampm}`;
   };
 
+  
   return (
     <Box className="sheet-container-admin">
       <Box

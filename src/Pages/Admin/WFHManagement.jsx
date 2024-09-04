@@ -104,7 +104,7 @@ const [totalPages, setTotalPages] = useState(1);
   };
 
   const handleNavigateToWfhDetail = (id) => {
-    navigate(`/dashboard/wfh-management/wfh-details`);
+    navigate(`/dashboard/wfh-management/wfh-details/${id}`);
   };
 
   const handleRowClick = (e, id) => {

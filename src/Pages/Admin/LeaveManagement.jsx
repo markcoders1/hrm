@@ -30,6 +30,8 @@ const LeaveManagement = () => {
   const navigate = useNavigate();
   const [leaveData, setLeaveData] = useState([]);
   const [statusFilter, setStatusFilter] = useState("pending");
+ 
+
 
   useEffect(() => {
     setHeadertext("Leave Management");
@@ -52,11 +54,17 @@ const LeaveManagement = () => {
   };
 
   const handleStatusChange = (event) => {
-    setStatusFilter(event.target.value);
+    const selectedValue = event.target.value; // Ensure event.target exists
+    if (selectedValue) {
+      setStatusFilter(selectedValue);
+    } else {
+      console.error("Invalid selection, event target value is undefined");
+    }
   };
+  
 
   const handleMonthChange = (event) => {
-    setMonth(event.target.value);
+    // setMonth(event.target.value);
   };
 
   const handleFromDateChange = (event) => {
@@ -67,18 +75,17 @@ const LeaveManagement = () => {
     setToDate(new Date(event.target.value).getTime());
   };
 
-  const filteredLeaveData = leaveData.filter((row) => {
-    return row.overallStatus === statusFilter;
-  });
+  const filteredLeaveData = leaveData.filter((row) => row.overallStatus === statusFilter);
 
   const validateAccept = async (leaveId) => {
     try {
       const response = await axiosInstance.get(`${apiUrl}/api/admin/validateleaves`, {
         params: {
           leaveID: leaveId,
-          status: "accepted",
+          status: "approved",
         },
       });
+      console.log(response)
       fetchAllLeaves(); // Refresh data after updating status
     } catch (error) {
       console.error("Error approving leave request:", error);
@@ -129,21 +136,31 @@ const LeaveManagement = () => {
     <Box className="sheet-container-admin">
       <Box
         sx={{
-          width: { lg: "380px", xs: "100%" },
+          width: { lg: "500px", xs: "100%",  },
           position: { lg: "fixed", xs: "static" },
-          right: "60px",
+          right: "50px",
           top: "40px",
           zIndex: "100000 ",
           display: "flex",
           gap: "1rem",
+          // border:"2px solid red",
+          flexDirection:{
+            sm:"row",
+            xs:"column"
+          }
         }}
       >
+        <Box sx={{flexBasis:{lg:"300px", xs:"60%"}}} >
+
         <CustomInputLabel
           height={"56px"}
           fontSize={"20px"}
           showSearchIcon={true}
           placeholder={"Search User"}
-        />
+          />
+          </Box>
+          <Box sx={{flexBasis:{lg:"200px", xs:"40%"}}}>
+
         <CustomSelectForType
           label="Status"
           value={statusFilter}
@@ -154,73 +171,89 @@ const LeaveManagement = () => {
             { value: "approved", label: "Approved" },
             { value: "rejected", label: "Rejected" },
           ]}
-        />
+          />
+          </Box>
       </Box>
 
       <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          mb: 3,
+  sx={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width:"100%",
+    mb: 3,
+    flexDirection: {
+      md: "row",  // Row on larger screens
+      xs: "column",  // Column on smaller screens
+    },
+    // border:"2px solid blue"
+  }}
+>
+  {/* Start and End Date Box */}
+  <Box sx={{ display: "flex", gap: 6, flexDirection: { xs: "column", md: "row" }, flexBasis:{md:"", xs:"100%"} }}>
+    <Box sx={{ display: "flex", gap: ".4rem", alignItems: "center" }}>
+      <Typography sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}>
+        Start Date
+      </Typography>
+      <input
+        type="date"
+        style={{
+          border: "none",
+          borderBottom: "2px solid black",
+          width: "195px",
+          outline: "none",
         }}
-      >
-        <Box sx={{ display: "flex", gap: 2 }}>
-          <Box sx={{ display: "flex", gap: ".4rem", alignItems: "center" }}>
-            <Typography sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}>
-              Start Date{" "}
-            </Typography>
-            <input
-              type="date"
-              style={{
-                border: "none",
-                borderBottom: "2px solid black",
-                width: "195px",
-                outline: "none",
-              }}
-              onChange={handleFromDateChange}
-            />
-          </Box>
-          <Box sx={{ display: "flex", gap: ".4rem", alignItems: "center" }}>
-            <Typography sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}>
-              End Date{" "}
-            </Typography>
-            <input
-              type="date"
-              style={{
-                border: "none",
-                borderBottom: "2px solid black",
-                width: "195px",
-                outline: "none",
-              }}
-              onChange={handleToDateChange}
-            />
-          </Box>
-        </Box>
-        <Box sx={{ display: "flex", gap: 2 }}>
-          <FormControl sx={{ width: "224px", height: "50px" }}>
-            <CustomSelectForType
-              label="Month"
-              value={month}
-              handleChange={handleMonthChange}
-              options={[
-                { value: "0", label: "January" },
-                { value: "1", label: "February" },
-                { value: "2", label: "March" },
-                { value: "3", label: "April" },
-                { value: "4", label: "May" },
-                { value: "5", label: "June" },
-                { value: "6", label: "July" },
-                { value: "7", label: "August" },
-                { value: "8", label: "September" },
-                { value: "9", label: "October" },
-                { value: "10", label: "November" },
-                { value: "11", label: "December" },
-              ]}
-            />
-          </FormControl>
-        </Box>
-      </Box>
+        onChange={handleFromDateChange}
+      />
+    </Box>
+    <Box sx={{ display: "flex", gap: ".4rem", alignItems: "center" }}>
+      <Typography sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}>
+        End Date
+      </Typography>
+      <input
+        type="date"
+        style={{
+          border: "none",
+          borderBottom: "2px solid black",
+          width: "195px",
+          outline: "none",
+        }}
+        onChange={handleToDateChange}
+      />
+    </Box>
+  </Box>
+
+  {/* Month Select Box */}
+  <Box
+    sx={{
+      display: "flex",
+      gap: 2,
+    }}
+  >
+    <FormControl sx={{ width: {md:"200px", xs:"100%"}, height: "50px" }}>
+      <CustomSelectForType
+        label="Month"
+        value={month}
+        handleChange={handleMonthChange}
+        options={[
+          { value: "0", label: "January" },
+          { value: "1", label: "February" },
+          { value: "2", label: "March" },
+          { value: "3", label: "April" },
+          { value: "4", label: "May" },
+          { value: "5", label: "June" },
+          { value: "6", label: "July" },
+          { value: "7", label: "August" },
+          { value: "8", label: "September" },
+          { value: "9", label: "October" },
+          { value: "10", label: "November" },
+          { value: "11", label: "December" },
+        ]}
+      />
+    </FormControl>
+  </Box>
+</Box>
+
 
       <TableContainer component={Paper} className="MuiTableContainer-root" sx={{ overflowX: "auto" }}>
         <Table className="data-table">
@@ -400,7 +433,7 @@ const LeaveManagement = () => {
             </TableRow>
           </TableHead>
           <TableBody className="MuiTableBody-root">
-            {leaveData.map((row) => (
+            {filteredLeaveData.map((row) => (
               <TableRow
                 onClick={() => handleRowClick(row._id)}
                 key={row._id}

@@ -83,6 +83,7 @@ const Register = () => {
         // joiningDate, 
         shiftTimingFrom,
         shiftTimingTo,
+        
       };
 
       console.log(payload); // Log the payload to check the data
@@ -92,6 +93,7 @@ const Register = () => {
         payload,
        
       );
+      console.log(response)
 
       toast.success("User Registered Successfully", { position: "top-center" });
 
@@ -924,6 +926,7 @@ const Register = () => {
               width={"150px"}
               borderRadius="7px"
               onClick={handleSubmit(onSubmit)}
+              height="45px"
             />
           </Box>
         </form>

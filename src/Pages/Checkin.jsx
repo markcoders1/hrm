@@ -16,6 +16,36 @@ import { Box, Typography } from "@mui/material";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
+const formatTime = (val) => {
+  const totalSeconds = Math.floor(val/1000)
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const secs = totalSeconds % 60;
+  
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+};
+
+
+function unixTimestampToTime(UNIX_timestamp) {
+  // console.log(UNIX_timestamp)
+  var date = new Date(UNIX_timestamp);
+
+  console.log(date.toString())
+
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var secends = date.getSeconds();
+
+  var ampm = hours >= 12 ? 'pm' : 'am';
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  secends = secends < 10 ? '0' + secends : secends;
+  var strTime = hours + ':' + minutes + ':' + secends + ' ' + ampm;
+
+  return strTime;
+}
+
 const Check = () => {
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(true);
@@ -25,6 +55,18 @@ const Check = () => {
   const [longitude, setLongitude] = useState();
   const { setHeadertext, setParaText } = useOutletContext();
   const [fetchAnnouncements, setFetchAnnouncements] = useState([]);
+  const [time,setTime] = useState(0)
+  const [checkTime,setCheckTime] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(prevTime => prevTime + 1000);
+    }, 1000);
+
+    return () => clearInterval(interval); // Cleanup interval on component unmount
+  }, []);
+
+
 
   const fetchAnnouncementsData = async () => {
     try {
@@ -81,12 +123,14 @@ const Check = () => {
 
       console.log(response);
       toast.success(response.data.message);
+      if(response.data.status==="checkin"){
+        setTime(0)
+      }
+      if(response.data.checkIn){
+        setCheckTime(response.data.checkIn)
+      }
       setStatus(response.data.status);
 
-      // Store check-in time
-      // const checkInTime = new Date();
-      // localStorage.setItem('checkInTime', checkInTime.toISOString());
-      // console.log("Check-in time stored:", checkInTime.toISOString());
     } catch (error) {
       console.error(error);
       toast.error(error.response.data.message);
@@ -113,11 +157,6 @@ const Check = () => {
     }
   };
 
-  // const handleNotifyMe = () => {
-  //     // Schedule a notification for 40 seconds later
-  //     scheduleNotification("It's been 5 seconds since you clicked notify me. Please take a break.", 5);
-  // };
-
   useEffect(() => {
     requestNotificationPermission();
     setHeadertext("Dashboard");
@@ -129,14 +168,18 @@ const Check = () => {
           method: "get",
           url: `${apiUrl}/api/getstatus`,
         });
-        console.log(response);
+        console.log("status",response);
         setStatus(response.data.status);
+        if(response.data.time){
+          setCheckTime(response.data.time)
+          console.log("time",response.data.time)
+          setTime(new Date().valueOf() - response.data.time)
+        }
         setLoading(false);
       } catch (error) {
         console.error(error);
         setLoading(false);
       }
-      // const location =  navigator.geolocation.getCurrentPosition((e) => {console.log(e)});
     };
     getStatus();
   }, []);
@@ -145,95 +188,6 @@ const Check = () => {
     console.log(latitude);
     console.log(longitude);
   }, []);
-
-  const announcements = [
-    {
-      content:
-        "We are excited to announce that our system will undergo scheduled maintenance this weekend to enhance overall performance and security. Please ensure you save your work and log out before the maintenance begins to avoid any potential data loss or disruptions.",
-    },
-    {
-      content:
-        "Next week, we will be releasing new features designed to significantly improve user experience and functionality. These updates are based on your valuable feedback, and we’re confident that you’ll find them beneficial in your daily tasks and workflows.",
-    },
-    {
-      content:
-        "Please be informed that our office hours will be changing starting next month. The new hours of operation will be from 9 AM to 5 PM, Monday through Friday. This change excludes public holidays, so please plan your schedules accordingly.",
-    },
-    {
-      content:
-        "It is crucial to update your contact information to ensure that you continue receiving important communications. Please take a moment to verify and update your details in the settings section of your profile by the end of this week.",
-    },
-    {
-      content:
-        "The holiday party RSVP deadline is approaching this Friday. Don’t miss out on the festivities! We encourage everyone to RSVP and confirm their attendance as soon as possible to help us finalize the event’s preparations and arrangements effectively.",
-    },
-    {
-      content:
-        "Effective immediately, we have implemented new health and safety guidelines to ensure a safe working environment for all. Please familiarize yourself with these guidelines and strictly adhere to the protocols to protect yourself and your colleagues.",
-    },
-  ];
-
-  const CheckButtons = () => (
-    <>
-
-      <button
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-        onClick={handleCheck}
-        disabled={loadingForCheckBtn}
-      >
-        {loadingForCheckBtn ? (
-          <LoaderW />
-        ) : status === "checki-in" || status === "inbreak" ? (
-          "Check Out"
-        ) : (
-          "Check-In"
-        )}
-      </button>
-      {/* {status === "checkout" ? null : (
-        <button
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          onClick={handleBreak}
-          disabled={loadingForBreakBtn}
-        >
-          {loadingForBreakBtn ? (
-            <LoaderW />
-          ) : status === "check-In" ? (
-            "Break In"
-          ) : (
-            "Break Out"
-          )}
-        </button>
-      )} */}
-      {/* <button
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: "10px"
-                }}
-                onClick={handleNotifyMe}
-            >
-                Notify Me
-            </button> */}
-    </>
-  );
-
-  {/* <div className="Home-container">
-                <div className="check-container">
-                  <div className="check-buttons">
-                    <CheckButtons />
-                  </div>
-                </div>
-              </div>
-              */}
 
   return (
     <>
@@ -262,7 +216,7 @@ const Check = () => {
             }} >
               <CustomButton
                 onClick={handleCheck}
-                ButtonText={status === "checkin" ? "Checkout" : "Check IN"}
+                ButtonText={status === "checkin" ? "Check Out" : "Check In"}
                 fullWidth={true}
                 background="#157AFF"
                 color="white"
@@ -271,67 +225,94 @@ const Check = () => {
                 hoverBg="#303f9f"
                 padding="26px 0px"
                 borderRadius="12px"
+                buttonStyle={{
+                  height:"10rem",
+                  display:"flex",
+                  flexDirection:"column",
+                  justifyContent:"center"
+                }}
+                extraText={status === "checkin" ? `${unixTimestampToTime(checkTime)}` : null}
               />
             </Box>
 
-
-
             <Box
-              sx={{
-                flexBasis: "50%",
-                backgroundColor: "#010120",
-                color: "white",
-                p: "24px 17px",
-                borderRadius: "8px",
-              }}
+            sx={{
+              flexBasis: "50%",
+            }}
             >
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: "1rem",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Typography sx={{ fontSize: "24px", fontWeight: "500" }}>
-                  Announcement
-                </Typography>
-
-              </Box>
-              <Box
-                sx={{
-                  mt: "30px",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "1rem",
-                  height: "65vh", // Fixed height with a scrollbar
-                  overflowY: "auto",
-                  // Custom scrollbar styles
-                  "&::-webkit-scrollbar": {
-                    width: "8px",
-                  },
-                  "&::-webkit-scrollbar-track": {
-                    backgroundColor: "#f1f1f1",
-                  },
-                  "&::-webkit-scrollbar-thumb": {
-                    backgroundColor: "#157AFF",
-                    borderRadius: "10px",
-                    border: "2px solid #f1f1f1",
-                  },
-                  scrollbarWidth: "thin",
-                  scrollbarColor: "#157AFF #f1f1f1",
-                }}
-              >
-                {fetchAnnouncements.map((announcement, index) => (
-                  <AnnouncementBox
-                    key={index}
-                    announcementContent={announcement.announcement}
-                  />
-                ))}
-              </Box>
-
-
+            {status=="checkin"?
+            <Box sx={{
+              height:"10rem",
+              border:"2px solid rgba(170, 170, 170,0.5)",
+              borderRadius:"20px",
+              display:"flex",
+              justifyContent:"center",
+              alignItems:"center",
+              marginBottom:"2rem",
+              fontSize:"2.5rem"
+            }}>
+              {formatTime(time)}
             </Box>
+            :null}
+
+              <Box
+                sx={{
+                  width:"100%",
+                  backgroundColor: "#010120",
+                  color: "white",
+                  p: "24px 17px",
+                  borderRadius: "8px",
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: "1rem",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography sx={{ fontSize: "24px", fontWeight: "500" }}>
+                    Announcement
+                  </Typography>
+
+                </Box>
+                <Box
+                  sx={{
+                    mt: "30px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1rem",
+                    height: "65vh", // Fixed height with a scrollbar
+                    overflowY: "auto",
+                    // Custom scrollbar styles
+                    "&::-webkit-scrollbar": {
+                      width: "8px",
+                    },
+                    "&::-webkit-scrollbar-track": {
+                      backgroundColor: "#f1f1f1",
+                    },
+                    "&::-webkit-scrollbar-thumb": {
+                      backgroundColor: "#157AFF",
+                      borderRadius: "10px",
+                      border: "2px solid #f1f1f1",
+                    },
+                    scrollbarWidth: "thin",
+                    scrollbarColor: "#157AFF #f1f1f1",
+                  }}
+                >
+                  {fetchAnnouncements.map((announcement, index) => (
+                    <AnnouncementBox
+                      key={index}
+                      announcementContent={announcement.announcement}
+                    />
+                  ))}
+                </Box>
+
+
+              </Box>
+            </Box>
+        
 
 
 

@@ -119,7 +119,7 @@ const MyLeaves = () => {
         url: `${apiUrl}/api/leaves`,
         method: "delete",
         params: {
-          leaveID: leaveIdToDelete, 
+          leaveId: leaveIdToDelete, 
         },
       });
       console.log("Delete response:", response.data);

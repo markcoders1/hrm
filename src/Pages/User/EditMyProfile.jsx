@@ -7,6 +7,9 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../../auth/axiosInstance';
 
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const EditMyProfile = () => {
@@ -35,10 +38,13 @@ const EditMyProfile = () => {
         method: "post",
         data: formData,
       });
-      console.log(response);
+      console.log(response.data);
+      toast.success(response.data.message.message);
       
     } catch (error) {
       console.log("Error updating profile", error);
+      toast.success(error.response.data.message[0].message);
+      console.log(error.response.data.message[0].message)
     }
   };
 

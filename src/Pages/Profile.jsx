@@ -10,6 +10,10 @@ import Tooltip from '@mui/material/Tooltip';
 import CustomCheckbox from "../components/CustomCheckbox/CustomCheckbox";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 import ChangePasswordModal from "../components/ChangePasswordModal/ChangePasswordModal";
+
+
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 const Profile = () => {
   const navigate = useNavigate();
   const { setHeadertext } = useOutletContext();
@@ -71,7 +75,7 @@ const Profile = () => {
       <Box
         sx={{
           display: "flex",
-          gap: "40px",
+          gap: "20px",
           flexDirection: { md: "row", xs: "column" },
           mb: "20px",
           pb: "20px",
@@ -110,12 +114,14 @@ const Profile = () => {
           mb: "20px",
           pb: "20px",
           borderBottom: { md: "1px solid #E0E0E0", xs: "none" },
-          gap:"2rem",
+          gap:{
+// md:"0rem", xs:"2rem"
+          },
           display:"flex",
           flexDirection:{md:"row", xs:"column"}
         }}
       >
-        <Box className="user-details-item" sx={{ flexBasis: "70%" }}>
+        <Box className="user-details-item" sx={{ flexBasis: "68%" , }}>
           <Typography variant="subtitle2" className="user-details-label">
             Address
           </Typography>
@@ -187,7 +193,8 @@ const Profile = () => {
           <Typography variant="subtitle2" className="user-details-label">
             Password
           </Typography>
-          <Typography variant="body1" className="user-details-value">
+          <Typography variant="body1" className="user-details-value" sx={{display:"flex"}}  >
+          <Box>
             <img src={dotpng} alt="" />
             &nbsp;
             <img src={dotpng} alt="" />
@@ -196,6 +203,9 @@ const Profile = () => {
             <img src={dotpng} alt="" /> <img src={dotpng} alt="" />{" "}
             <img src={dotpng} alt="" /> <img src={dotpng} alt="" />
             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+          
+
+            </Box>
             <Tooltip title="Edit Password">
             <CustomButton
               ButtonText="Edit Password"

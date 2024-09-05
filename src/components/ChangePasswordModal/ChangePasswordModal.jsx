@@ -68,6 +68,7 @@ const ChangePasswordModal = ({ open = false, handleClose = () => {} }) => {
           newPassword: data.newPassword,
         },
       });
+      console.log(response)
       setLoading(false);
       if (response) {
         setSnackAlertData({
@@ -85,6 +86,7 @@ const ChangePasswordModal = ({ open = false, handleClose = () => {} }) => {
       }
       reset();
     } catch (error) {
+      console.log(error)
       setLoading(false);
       setSnackAlertData({
         open: true,

@@ -19,6 +19,9 @@ import "../PagesCss/Employee.css";
 import CustomSelectForType from "../components/CustomSelect/CustomSelect";
 import CustomInputLabel from "../components/CustomInputField/CustomInputLabel";
 
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const Attendance = () => {
@@ -156,6 +159,7 @@ const Attendance = () => {
     sx={{
       display: "flex",
       gap: 2,
+      position:{lg:"fixed", xs:"static"}, right:"45px", top:"40px", zIndex:"100000"
     }}
   >
     <FormControl sx={{ width: { md: "200px", xs: "100%" }, height: "50px" }}>
@@ -194,6 +198,23 @@ const Attendance = () => {
               />
             </FormControl>
   </Box>
+        </Box>
+        <Box className="generate" sx={{ mt: 3, display:"flex", justifyContent:"end" }}>
+     
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={downloadPdf}
+            disabled={pdfLoading}
+            sx={{
+              backgroundColor: "#157AFF",
+              "&:hover": {
+                backgroundColor: "#303f9f",
+              },
+            }}
+          >
+            {pdfLoading ? <LoaderW /> : "Generate PDF"}
+          </Button>
         </Box>
        
         {loading ? (
@@ -363,22 +384,7 @@ const Attendance = () => {
             </Table>
           </TableContainer>
         )}
-        <Box className="generate" sx={{ mt: 3 }}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={downloadPdf}
-            disabled={pdfLoading}
-            sx={{
-              backgroundColor: "#157AFF",
-              "&:hover": {
-                backgroundColor: "#303f9f",
-              },
-            }}
-          >
-            {pdfLoading ? <LoaderW /> : "Generate PDF"}
-          </Button>
-        </Box>
+       
       </Box>
     </Box>
   );

@@ -95,6 +95,7 @@ const RemoteWork = () => {
       setItemToDelete(null);
     } catch (error) {
       console.error("Error deleting WFH request:", error);
+      toast.success("WFH Request Could not be delete now  ")
       setLoadingDelete(false);
     }
   };

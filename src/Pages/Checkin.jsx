@@ -6,6 +6,7 @@ import axiosInstance from "../auth/axiosInstance";
 import { Loader, LoaderW } from "../components/Loaders.jsx";
 import { scheduleNotification } from "../Helper/notificationHelper";
 import { useOutletContext } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import Chart from "../components/Charts/Charts.jsx";
 //
@@ -22,6 +23,8 @@ const formatTime = (val) => {
   const hours = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const secs = totalSeconds % 60;
+  // const user = useSelector(stata => state.user )
+  console.log("hello",user)
   
   return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 };

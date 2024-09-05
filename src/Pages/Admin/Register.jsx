@@ -99,13 +99,15 @@ const Register = () => {
       );
       console.log(response)
 
-      toast.success("User Registered Successfully", { position: "top-center" });
+      toast.success("User Registered Sucessfully", { position: "top-right" });
 
       setSelectedDays([]); // Reset selected days
     } catch (error) {
       const err = error?.response?.data?.message || error.message;
       toast.error(err, { position: "top-center" });
       console.log(error);
+      toast.error(error.response.data.message[0].message, { position: "top-right" });
+
     }
   };
 

@@ -2,6 +2,8 @@ import React from 'react';
 import { Box, Tooltip } from '@mui/material';
 import deleteIconWhite from '../../assets/deleteIconWhite.png';
 import axiosInstance from '../../auth/axiosInstance';
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -20,6 +22,8 @@ const AnnouncementBox = ({ announcementContent, id, onDelete }) => {
 
       // Call the callback passed from the parent to update the list of announcements
       onDelete(id);
+      toast.success(response.data.message);
+
     } catch (error) {
       console.error('Error deleting announcement:', error);
     }

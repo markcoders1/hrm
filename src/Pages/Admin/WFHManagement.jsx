@@ -20,6 +20,8 @@ import tickPng from "../../assets/tick.png";
 import cancelPng from "../../assets/cancel.png";
 import Tooltip from '@mui/material/Tooltip';  
 import Pagination from '@mui/material/Pagination';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import axiosInstance from "../../auth/axiosInstance";
 
@@ -60,10 +62,13 @@ const [totalPages, setTotalPages] = useState(1);
 
       });
       console.log(response);
+      toast.success("WFH Validate SucessFully", { position: "top-center" });
     
 
     } catch (error) {
       console.error("Error fetching leave data:", error);
+      toast.success("WFH Validate Could not proceed", { position: "top-center" });
+      
     }
   }
 
@@ -81,10 +86,14 @@ const [totalPages, setTotalPages] = useState(1);
 
       });
       console.log(response);
+      toast.success("WFH Validate SucessFully", { position: "top-center" });
+
     
 
     } catch (error) {
       console.error("Error fetching leave data:", error);
+      toast.success("WFH Validate Could not proceed", { position: "top-center" });
+
     }
   }
 

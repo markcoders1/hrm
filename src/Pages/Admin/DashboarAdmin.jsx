@@ -7,6 +7,8 @@ import { Loader } from '../../components/Loaders';
 import plusIcon from '../../assets/plusIcon.png';
 import axiosInstance from '../../auth/axiosInstance';
 import '../../PagesCss/Employee.css';
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const DashboardAdmin = () => {
@@ -51,7 +53,7 @@ const DashboardAdmin = () => {
         data: { message: announcementText },
       });
 
-      // Append the new announcement to the existing list
+      toast.success("Announcement Added Sucessfully");
       setFetchAnnouncements((prevAnnouncements) => [
         ...prevAnnouncements,
         { _id: response.data._id, announcement: announcementText }, // Adjust the key if necessary
@@ -60,6 +62,7 @@ const DashboardAdmin = () => {
       setAnnouncementText(''); // Clear the input after adding
     } catch (error) {
       console.error(error);
+      toast.error("Error Adding Announcement");
     }
   };
 

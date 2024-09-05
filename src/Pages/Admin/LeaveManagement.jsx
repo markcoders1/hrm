@@ -19,6 +19,8 @@ import tickPng from "../../assets/tick.png";
 import cancelPng from "../../assets/cancel.png";
 import CustomSelectForType from "../../components/CustomSelect/CustomSelect";
 import CustomInputLabel from "../../components/CustomInputField/CustomInputLabel";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -30,6 +32,7 @@ const LeaveManagement = () => {
   const navigate = useNavigate();
   const [leaveData, setLeaveData] = useState([]);
   const [statusFilter, setStatusFilter] = useState("pending");
+  
  
 
 
@@ -86,9 +89,13 @@ const LeaveManagement = () => {
         },
       });
       console.log(response)
+      toast.success("Leave Validate SucessFully", { position: "top-center" });
+
       fetchAllLeaves(); // Refresh data after updating status
     } catch (error) {
       console.error("Error approving leave request:", error);
+      toast.error("Leave Validate Could not proceed", { position: "top-center" });
+
     }
   };
 
@@ -101,8 +108,11 @@ const LeaveManagement = () => {
         },
       });
       fetchAllLeaves(); // Refresh data after updating status
+      toast.success("Leave Validate SucessFully", { position: "top-center" });
     } catch (error) {
       console.error("Error rejecting leave request:", error);
+      toast.error("Leave Validate Could not proceed", { position: "top-center" });
+
     }
   };
 

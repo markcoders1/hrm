@@ -10,6 +10,7 @@ import {
   Paper,
   Typography,
   Tooltip,
+  IconButton,
 } from "@mui/material";
 import "../../PagesCss/Employee.css"; // Adjust the import path as needed
 import { useNavigate, useOutletContext } from "react-router-dom";
@@ -18,59 +19,95 @@ import editIcon from "../../assets/EditIcon.png";
 import deleteIcon from "../../assets/deleteIcon.png";
 import disabledDelete from "../../assets/disabledDelete.png";
 import disabledEdit from "../../assets/disabledEdit.png";
-import IconButton from '@mui/material/IconButton';
 import axiosInstance from "../../auth/axiosInstance";
+import DeleteConfirmationModal from "../../components/DeleteConfirmModal/DeleteConfirmModal"; // Import the modal component
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
-
 
 const RemoteWork = () => {
   const navigate = useNavigate();
   const { setHeadertext, setParaText } = useOutletContext();
-  const [remoteWorkData  , setRemoteWorkData] =  useState([]);
+  const [remoteWorkData, setRemoteWorkData] = useState([]);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false); // Modal state
+  const [itemToDelete, setItemToDelete] = useState(null); // Item to delete
+  const [loadingDelete, setLoadingDelete] = useState(false); // Loading state for delete
+  const [id , setId] = useState()
+
+  useEffect(() => {
+    setHeadertext("Remote Work");
+    setParaText(" ");
+    fetchRemoteData();
+  }, []);
 
   const fetchRemoteData = async () => {
     try {
       const response = await axiosInstance({
-        url: `${apiUrl}/api/wfh`,
+        url: `${apiUrl}/api/allwfh`,
         method: "get",
-        
       });
-      console.log("wfh requests",response.data)
-      setRemoteWorkData(response.data.requests)
-      
+      console.log("wfh requests", response.data);
+      setRemoteWorkData(response.data.requests);
     } catch (error) {
-      console.log("error fetching leaves request", error)
+      console.log("error fetching WFH requests", error);
     }
-  }
-
-  useEffect(() => {
-    setHeadertext("Remote Work");
-    setParaText(" ")
-    fetchRemoteData()
-  }, []);
-
-
-  const isActionDisabled = (statusManager, statusHOD) => {
-    return statusManager !== "Pending" && statusHOD !== "Pending";
   };
+
+  // Function to determine if actions (edit/delete) should be enabled or disabled
+  const isActionDisabled = (overallStatus) => {
+    return overallStatus !== "pending"}
 
   const handleEditClick = (event, remoteId) => {
     event.stopPropagation();
-    navigate(`/dashboard/remote-work/edit-wfh-request`);
+    navigate(`/dashboard/remote-work/edit-wfh-request/${remoteId}`);
   };
 
-  const handleDeleteClick = (event, remoteId) => {
+  // Delete click handler that opens the delete confirmation modal
+  const handleDeleteClick = (event, WHFID) => {
     event.stopPropagation();
-    console.log("Delete action for leave ID:", remoteId);
-    // Add your delete logic here
+    console.log(WHFID)
+    setId(WHFID)
+    setItemToDelete(WHFID);
+    setDeleteModalOpen(true); // Open the confirmation modal
   };
 
+  // Function to handle confirmed delete
+  const handleDeleteConfirmed = async () => {
+    setLoadingDelete(true);
+    
+    try {
+      const response = await axiosInstance({
+        url: `${apiUrl}/api/wfh`,
+        method: "delete",
+        params: {
+          WFHID: id, // Assuming the API requires a wfhID as a parameter
+        },
+      });
+      console.log("Delete response:", response.data);
+
+      // Fetch updated data
+      fetchRemoteData();
+
+      // Close modal and reset
+      setLoadingDelete(false);
+      setDeleteModalOpen(false);
+      setItemToDelete(null);
+    } catch (error) {
+      console.error("Error deleting WFH request:", error);
+      setLoadingDelete(false);
+    }
+  };
+
+  const handleModalClose = () => {
+    setDeleteModalOpen(false);
+    setItemToDelete(null);
+  };
 
   const formatDate = (date) => {
     const d = new Date(date);
-    return `${(d.getMonth() + 1).toString().padStart(2, "0")}-${d.getDate().toString().padStart(2, "0")}-${d.getFullYear()}`;
+    return `${(d.getMonth() + 1).toString().padStart(2, "0")}-${d
+      .getDate()
+      .toString()
+      .padStart(2, "0")}-${d.getFullYear()}`;
   };
 
   return (
@@ -78,8 +115,6 @@ const RemoteWork = () => {
       <Box className="progress-mini-container">
         {/* Date filters and Request New Leave button */}
         <Box sx={{ display: "flex", justifyContent: "end" }}>
-    
-
           <Tooltip title="Request New WFH">
             <CustomButton
               ButtonText="Request For New WFH"
@@ -131,7 +166,7 @@ const RemoteWork = () => {
                 >
                   #
                 </TableCell>
-                
+
                 <TableCell
                   className="MuiTableCell-root-head"
                   sx={{
@@ -147,7 +182,7 @@ const RemoteWork = () => {
                 >
                   Date
                 </TableCell>
-               
+
                 <TableCell
                   className="MuiTableCell-root-head"
                   sx={{
@@ -201,7 +236,7 @@ const RemoteWork = () => {
                 <TableRow
                   key={index}
                   className="MuiTableRow-root"
-                  onClick={() => navigate(`/dashboard/remote-work/wfh-detail`)}
+                  onClick={() => navigate(`/dashboard/remote-work/wfh-detail/${remote._id}`)}
                   sx={{ cursor: "pointer" }}
                 >
                   <TableCell
@@ -215,20 +250,16 @@ const RemoteWork = () => {
                   >
                     {remote?.companyId}
                   </TableCell>
-                  
-                  <TableCell
-                    sx={{ textAlign: "start !important" }}
-                    className="MuiTableCell-root"
-                  >
+
+                  <TableCell sx={{ textAlign: "start !important" }} className="MuiTableCell-root">
                     {formatDate(remote?.date)}
                   </TableCell>
-               
-                
+
                   <TableCell
                     sx={{
                       textAlign: "start !important",
                       color:
-                      remote.statusManager === "Approved"
+                        remote.statusManager === "Approved"
                           ? "green"
                           : remote.statusManager === "Rejected"
                           ? "red"
@@ -236,13 +267,13 @@ const RemoteWork = () => {
                     }}
                     className="MuiTableCell-root"
                   >
-                    {remote.statusTL}
+                    {remote?.statusTL}
                   </TableCell>
                   <TableCell
                     sx={{
                       textAlign: "start !important",
                       color:
-                      remote.statusHOD === "Approved"
+                        remote.statusHOD === "Approved"
                           ? "green"
                           : remote.statusHOD === "Rejected"
                           ? "red"
@@ -250,7 +281,7 @@ const RemoteWork = () => {
                     }}
                     className="MuiTableCell-root"
                   >
-                    {remote.statusHOD}
+                    {remote?.statusHOD}
                   </TableCell>
                   <TableCell
                     sx={{
@@ -259,64 +290,49 @@ const RemoteWork = () => {
                     }}
                     className="MuiTableCell-root"
                   >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        gap: "1rem",
-                      }}
-                    >
-                      <Tooltip title={isActionDisabled(remote.statusManager, remote.statusHOD) ? "could not edit": "Click to Edit"}>
-                      <IconButton>
-                      <Box
-                        component="img"
-                        src={
-                          isActionDisabled(remote.statusManager, remote.statusHOD)
-                            ? disabledEdit
-                            : editIcon
-                        }
-                        sx={{
-                          cursor: isActionDisabled(
-                            remote.statusManager,
-                            remote.statusHOD
-                          )
-                            ? "not-allowed"
-                            : "pointer",
-                          width: "24px",
-                          height: "24px",
-                        }}
-                        onClick={(event) =>
-                          !isActionDisabled(remote.statusManager, remote.statusHOD) &&
-                          handleEditClick(event, remote.id)
-                        }
-                      /> 
-                       </IconButton>
+                    <Box sx={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
+                      <Tooltip
+                        title={isActionDisabled(remote.overallStatus) ? "Could not edit" : "Click to Edit"}
+                      >
+                        <IconButton>
+                          <Box
+                            component="img"
+                            src={isActionDisabled(remote.overallStatus) ? disabledEdit : editIcon}
+                            sx={{
+                              cursor: isActionDisabled(remote.overallStatus)
+                                ? "not-allowed"
+                                : "pointer",
+                              width: "24px",
+                              height: "24px",
+                            }}
+                            onClick={(event) =>
+                              !isActionDisabled(remote.overallStatus) &&
+                              handleEditClick(event, remote._id)
+                            }
+                          />
+                        </IconButton>
                       </Tooltip>
-                      <Tooltip title={isActionDisabled(remote.statusManager, remote.statusHOD) ? "could not Delete": "Click to Delete"}>
-                      <IconButton>
-                      <Box
-                        component="img"
-                        src={
-                          isActionDisabled(remote.statusTL, remote.statusHOD)
-                            ? disabledDelete
-                            : deleteIcon
-                        }
-                        sx={{
-                          cursor: isActionDisabled(
-                            remote.statusManager,
-                            remote.statusHOD
-                          )
-                            ? "not-allowed"
-                            : "pointer",
-                          width: "24px",
-                          height: "24px",
-                        }}
-                        onClick={(event) =>
-                          !isActionDisabled(remote.statusTL, remote.statusHOD) &&
-                          handleDeleteClick(event, remote._id)
-                        }
-                      />
-                     </IconButton>
+                      <Tooltip
+                        title={isActionDisabled(remote.overallStatus) ? "Could not Delete" : "Click to Delete"}
+                      >
+                        <IconButton>
+                          <Box
+                            component="img"
+                            src={isActionDisabled(remote.overallStatus) ? disabledDelete : deleteIcon}
+                            sx={{
+                              cursor: isActionDisabled(remote.overallStatus)
+                                ? "not-allowed"
+                                : "pointer",
+                              width: "24px",
+                              height: "24px",
+                            }}
+                            onClick={(event) =>
+                              !isActionDisabled(remote.overallStatus) &&
+                              handleDeleteClick(event, remote._id)
+                              
+                            }
+                          />
+                        </IconButton>
                       </Tooltip>
                     </Box>
                   </TableCell>
@@ -326,6 +342,15 @@ const RemoteWork = () => {
           </Table>
         </TableContainer>
       </Box>
+
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmationModal
+        open={deleteModalOpen}
+        handleClose={handleModalClose}
+        loading={loadingDelete}
+        onConfirm={handleDeleteConfirmed} // Handle confirmed delete
+        request = {"Work From Home"}
+      />
     </Box>
   );
 };

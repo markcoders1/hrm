@@ -103,9 +103,9 @@ function App() {
                 <Route path='my-leaves/edit-leave/:id' element={<EditMyLeave />} />
 
                 <Route path='remote-work' element={<RemoteWork />} />
-                <Route path='remote-work/wfh-detail' element={<MyWfhDetail />} />
+                <Route path='remote-work/wfh-detail/:id' element={<MyWfhDetail />} />
                 <Route path='remote-work/new-wfh-request' element={<NewWFHRequest />} />
-                <Route path='remote-work/edit-wfh-request' element={<EditWFHRequest />} />
+                <Route path='remote-work/edit-wfh-request/:id' element={<EditWFHRequest />} />
 
 
 

@@ -127,6 +127,7 @@ const ChangePasswordModal = ({ open = false, handleClose = () => {} }) => {
                     label="Old Password"
                     type="password"
                     {...field}
+                    id = "pass"
                   />
                 )}
               />
@@ -143,6 +144,8 @@ const ChangePasswordModal = ({ open = false, handleClose = () => {} }) => {
                     showPasswordToggle={true}
                     type="password"
                     {...field}
+                    id = "newPass"
+
                   />
                 )}
               />
@@ -159,6 +162,8 @@ const ChangePasswordModal = ({ open = false, handleClose = () => {} }) => {
                     error={errors.confirmPassword?.message}
                     type="password"
                     {...field}
+                    id = "conPass"
+
                   />
                 )}
               />

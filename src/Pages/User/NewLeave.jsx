@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Tooltip, Typography } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import CustomInputLabel from '../../components/CustomInputField/CustomInputLabel';
 import CustomSelectForRole from '../../components/CustomSelect/CustomSelect';
@@ -7,6 +7,7 @@ import axiosInstance from '../../auth/axiosInstance';
 
 import dateIcon from '../../assets/dateIcon.png';
 import { useOutletContext } from 'react-router-dom';
+import CustomButton from '../../components/CustomButton/CustomButton';
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -165,10 +166,25 @@ try {
           )}
         />
 
-        <Box sx={{ mt: 4 }}>
-          <Button variant="contained" color="primary" type="submit">
-            Submit
-          </Button>
+<Box sx={{ mt: 4, display: "flex", justifyContent: "end" }}>
+          <Tooltip title="Update Profile">
+            <CustomButton
+              ButtonText="Update"
+              fontSize="16px"
+              color="white"
+              fontWeight="500"
+              fullWidth={false}
+              variant="contained"
+              padding="8px 0px"
+              type="submit"
+              background="#157AFF"
+              hoverBg="#303f9f"
+              hovercolor="white"
+              width={"125px"}
+              borderRadius="7px"
+              buttonStyle={{ mt: "-17px", height: "45px" }}
+            />
+          </Tooltip>
         </Box>
       </form>
     </Box>

@@ -11,23 +11,25 @@ const MyLeaveDetails = () => {
   const {setHeadertext , setParaText} = useOutletContext()
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
-  const [, set] = useState(null);
+  const [wfhDetail , setWfhDetail]=  useState();
+
 
   useEffect(() => {
-    setHeadertext("WFH Details");
+    setHeadertext("WFH Details hello");
     setParaText("")
-    const getUserDetails = async () => {
+    const getWFHDetails = async () => {
       try {
-        const response = await axiosInstance.get(`${apiUrl}/api/admin/getUser`, { params: { id } });
-        set(response.data.user);
+        const response = await axiosInstance.get(`${apiUrl}/api/wfh`, { params: {WFHID: id } });
+        setWfhDetail(response.data.wfh);
+        console.log(" WFh =======================================",response)
         setLoading(false);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
     };
 
-    // getUserDetails();
-  }, [id]);
+    getWFHDetails();
+  }, []);
 
   if (loading) {
     return (
@@ -37,21 +39,29 @@ const MyLeaveDetails = () => {
     );
   }
 
+  const formatDate = (date) => {
+    const d = new Date(date);
+    return `${d.getDate().toString().padStart(2, "0")}-${(d.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${d.getFullYear().toString().slice(-2)}`;
+  };
+
+
   return (
     <Box className="user-details-container" sx={{p:{sm: "40px 50px", xs:"40px 15px"}}} >
       {/* Full Name, Phone Number, Email */}
       <Box sx={{ display: 'flex', gap: '40px', flexDirection: { md: 'row', xs: 'column' }, mb: '20px', pb: '20px', borderBottom: { md: '1px solid #E0E0E0', xs: 'none' } }}>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Date</Typography>
-          <Typography variant="body1" className="user-details-value-1">27-08-2024</Typography>
+          <Typography variant="body1" className="user-details-value-1">{wfhDetail?.date ? formatDate(wfhDetail?.date): "-- --"}</Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Status (HOD)</Typography>
-          <Typography variant="body1" className="user-details-value-1">Approved</Typography>
+          <Typography variant="body1" className="user-details-value-1">{wfhDetail?.statusHOD? wfhDetail?.statusHOD : "-- --"}</Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Status (Line Manager)</Typography>
-          <Typography variant="body1" className="user-details-value-1">Approved</Typography>
+          <Typography variant="body1" className="user-details-value-1">{wfhDetail?.statusTL? wfhDetail?.statusTL : "-- --"}</Typography>
         </Box>
       </Box>
 
@@ -63,7 +73,7 @@ const MyLeaveDetails = () => {
       <Box sx={{ display: 'flex', gap: '20px', flexDirection: { md: 'row', xs: 'column' }, mb: '20px' }}>
         <Box className="user-details-item" sx={{ flexBasis: '100%', }}>
           <Typography variant="subtitle2" className="user-details-label">Working Days</Typography>
-          <Typography variant="body1" sx={{lineHeight:"35px"}} className="user-details-value-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae obcaecati quis, ipsam, sunt sapiente vitae nobis enim amet numquam provident molestias eum quisquam optio est commodi architecto perferendis id quos rem voluptates! Illo qui, odio consequuntur quos rerum soluta dolorem magnam obcaecati sequi et officiis repudiandae!</Typography>
+          <Typography variant="body1" sx={{lineHeight:"35px"}} className="user-details-value-1">{wfhDetail?.comment? wfhDetail?.comment : "-- --"}</Typography>
         </Box>
         
       </Box>

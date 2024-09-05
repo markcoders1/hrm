@@ -19,6 +19,7 @@ import deleteIcon from "../../assets/deleteIcon.png";
 import disabledDelete from "../../assets/disabledDelete.png";
 import disabledEdit from "../../assets/disabledEdit.png";
 import axiosInstance from "../../auth/axiosInstance";
+import DeleteConfirmationModal from "../../components/DeleteConfirmModal/DeleteConfirmModal";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -26,6 +27,13 @@ const MyLeaves = () => {
   const navigate = useNavigate();
   const { setHeadertext } = useOutletContext();
   const [leaveData, setLeaveData] = useState([]);
+  const [leaveDetails, setLeaveDetails] = useState([]);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null); // Item to be deleted
+  const [loadingDelete, setLoadingDelete] = useState(false); 
+  const [leaveIdToDelete, SetLeaveIdToDelete]=  useState();
+
+
 
   useEffect(() => {
     setHeadertext("My Leaves");
@@ -39,6 +47,7 @@ const MyLeaves = () => {
       });
       console.log(response.data);
       setLeaveData(response.data.leaves);
+      setLeaveDetails(response.data)
     } catch (error) {
       console.log("error making leave request", error);
     }
@@ -58,11 +67,11 @@ const MyLeaves = () => {
     navigate(`/dashboard/my-leaves/edit-leave/${leaveId}`);
   };
 
-  const handleDeleteClick = (event, leaveId) => {
-    event.stopPropagation();
-    console.log("Delete action for leave ID:", leaveId);
-    // Add your delete logic here
-  };
+  // const handleDeleteClick = (event, leaveId) => {
+  //   event.stopPropagation();
+  //   console.log("Delete action for leave ID:", leaveId);
+  //   // Add your delete logic here
+  // };
 
   const formatDate = (date) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
@@ -73,8 +82,70 @@ const MyLeaves = () => {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   };
 
+  // const deleteLeave = async (id) => {
+  //   try {
+  //     const response = await axiosInstance({
+  //       url: `${apiUrl}/api/delete-leave`,
+  //       method: "delete",
+  //       params : {
+  //         leaveID : id
+  //       }
+  //     });
+  //     console.log(response.data);
+    
+  //   } catch (error) {
+  //     console.log("error making Delete leave Request", error);
+  //   }
+  // }
+
+  const handleDeleteClick = (event, leaveId) => {
+    event.stopPropagation();
+    console.log(leaveId)
+    SetLeaveIdToDelete(leaveId)
+    setItemToDelete(leaveId);
+    setDeleteModalOpen(true); // Open the confirmation modal
+  };
+
+  const handleModalClose = () => {
+    setDeleteModalOpen(false);
+    setItemToDelete(null);
+  };
+
+  const handleDeleteConfirmed = async () => {
+    setLoadingDelete(true);
+    console.log(leaveIdToDelete)
+    try {
+      const response = await axiosInstance({
+        url: `${apiUrl}/api/leaves`,
+        method: "delete",
+        params: {
+          leaveID: leaveIdToDelete, 
+        },
+      });
+      console.log("Delete response:", response.data);
+
+      // Fetch the updated leave data
+      fetchAllLeaves();
+
+      // Close the modal and reset
+      setLoadingDelete(false);
+      setDeleteModalOpen(false);
+      setItemToDelete(null);
+    } catch (error) {
+      console.error("Error deleting leave:", error);
+      setLoadingDelete(false);
+    }
+  };
+
+
   return (
     <Box className="sheet-container-admin">
+
+<Box sx={{ display: 'flex', justifyContent: {sm: "start", xs:"space-between"}, gap: {sm: "4rem", xs:"0.2rem"}, mb: 4, position:{lg:"fixed", xs:"static"}, right:"60px", top:"40px", zIndex:"100000 " }}>
+        <Typography sx={{ fontWeight: "600", fontSize:{sm: "24px", xs:"14px"}, color: "#010120" }}>Total: {leaveDetails?.annualLeaves}</Typography>
+        <Typography sx={{ fontWeight: "600", fontSize: {sm: "24px", xs:"14px"}, color: "#010120" }}>Availed: {leaveDetails?.leavesTaken}</Typography>
+        <Typography sx={{ fontWeight: "600", fontSize: {sm: "24px", xs:"14px"}, color: "#010120" }}>Remaining: {leaveDetails?.annualLeaves - leaveDetails?.leavesTaken? leaveDetails?.annualLeaves - leaveDetails?.leavesTaken : "--"}</Typography>
+      </Box>
       <Box className="progress-mini-container">
         <Box sx={{ display: "flex", justifyContent: "end", mb: 2 }}>
           <Tooltip title="Request For New Leave">
@@ -381,8 +452,7 @@ const MyLeaves = () => {
                             height: "24px",
                           }}
                           onClick={(event) =>
-                            !isActionDisabled(leave.overallStatus) &&
-                            handleDeleteClick(event, leave._id)
+                            !isActionDisabled(leave.overallStatus) && handleDeleteClick(event, leave._id)
                           }
                         />
                       </Tooltip>
@@ -394,6 +464,14 @@ const MyLeaves = () => {
           </Table>
         </TableContainer>
       </Box>
+      <DeleteConfirmationModal
+        open={deleteModalOpen}
+        handleClose={handleModalClose}
+        loading={loadingDelete}
+        onConfirm={handleDeleteConfirmed} 
+        request={"Leave"}
+
+      />
     </Box>
   );
 };

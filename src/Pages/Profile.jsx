@@ -7,14 +7,18 @@ import { Loader } from "../components/Loaders";
 import CustomButton from "../components/CustomButton/CustomButton";
 import dotpng from "../assets/dot.png";
 import Tooltip from '@mui/material/Tooltip';
+import CustomCheckbox from "../components/CustomCheckbox/CustomCheckbox";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
+import ChangePasswordModal from "../components/ChangePasswordModal/ChangePasswordModal";
 const Profile = () => {
   const navigate = useNavigate();
   const { setHeadertext } = useOutletContext();
   const { id } = useParams();
   const [yourData, setYourData] = useState({});
   const [loading, setLoading] = useState(true);
+  const daysOfWeek = ["", "M", "T", "W", "Th", "F", "S", ""];
+  const [open, setOpen] = useState(false);
+
 
   useEffect(() => {
     const getProfileInfo = async () => {
@@ -106,14 +110,25 @@ const Profile = () => {
           mb: "20px",
           pb: "20px",
           borderBottom: { md: "1px solid #E0E0E0", xs: "none" },
+          gap:"2rem",
+          display:"flex",
+          flexDirection:{md:"row", xs:"column"}
         }}
       >
-        <Box className="user-details-item" sx={{ flexBasis: "100%" }}>
+        <Box className="user-details-item" sx={{ flexBasis: "70%" }}>
           <Typography variant="subtitle2" className="user-details-label">
             Address
           </Typography>
           <Typography variant="body1" className="user-details-value">
             {yourData?.address || "--- ---"}
+          </Typography>
+        </Box>
+        <Box className="user-details-item" sx={{ flexBasis: "30%" }}>
+          <Typography variant="subtitle2" className="user-details-label">
+            Emergency Number
+          </Typography>
+          <Typography variant="body1" className="user-details-value">
+            {yourData?.emergencyNumber || "--- ---"}
           </Typography>
         </Box>
       </Box>
@@ -194,9 +209,11 @@ const Profile = () => {
               background="#157AFF"
               hoverBg="#303f9f"
               hovercolor="white"
+              height="37.19px"
               width={"125px"}
               borderRadius="7px"
               buttonStyle={{ mt: "-17px" }}
+              onClick={() => setOpen(true)}
             />{" "}
             </Tooltip>
           </Typography>
@@ -269,13 +286,36 @@ const Profile = () => {
         }}
       >
         <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
-          <Typography variant="subtitle2" className="user-details-label">
-            Working Days
-          </Typography>
-          <Typography variant="body1" className="user-details-value">
-            {yourData?.workingDays ? yourData?.workingDays.join(", ") : "--- ---"}
-          </Typography>
+    <Typography variant="subtitle2" className="user-details-label">
+      Working Days
+    </Typography>
+    <Box variant="body1" className="user-details-value" sx={{
+      display:"flex", gap:"0.4rem"
+    }} >
+      {yourData.workDays && yourData.workDays.map((day, index) => (
+        <Box 
+          key={index} 
+          sx={{
+            width: '41px',
+            height: '41px',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            backgroundColor: '#157AFF',
+            color: '#fff',
+            border: '1px solid #DCDCDC',
+            marginRight: '5px',
+            transition: 'background-color 0.3s ease, color 0.3s ease',
+            fontWeight: "500",
+          }}
+        >
+          {daysOfWeek[day]}
         </Box>
+      ))}
+    </Box>
+  </Box>
         <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
           <Typography variant="subtitle2" className="user-details-label">
             HOD
@@ -294,7 +334,7 @@ const Profile = () => {
         sx={{
           display: "flex",
           gap: "20px",
-          flexDirection: { md: "row", xs: "column" },
+          flexDirection: { md: "row" },
           justifyContent: "end",
           mt:"20px"
         }}
@@ -322,6 +362,9 @@ const Profile = () => {
             />{" "}
             </Tooltip>
       </Box>
+
+      <ChangePasswordModal open={open} handleClose={() => setOpen(false)} />
+
     </Box>
 
   );

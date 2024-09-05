@@ -18,6 +18,7 @@ import { Loader } from "../../components/Loaders";
 import CustomButton from "../../components/CustomButton/CustomButton"; // Adjust the import path as needed
 import "../../PagesCss/Employee.css"; // Import the CSS file for custom styles
 import editIcon from "../../assets/EditIcon.png";
+import editwhite from '../../assets/editwhite.png'
 
 import { useLocation } from "react-router-dom";
 import CustomTextField from "../../components/CustomInput/CustomInput";
@@ -53,6 +54,7 @@ const EmployeeData = () => {
   const [loading, setLoading] = useState(true);
   const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [hoveredRow, setHoveredRow] = useState(null); // Track hovered row
 
   const [tabValue, setTabValue] = useState(0);
 
@@ -235,7 +237,7 @@ const EmployeeData = () => {
   return (
     <Box className="sheet-container-admin" >
       {/* add search input field here with functionality */}
-      <Box sx={{width:{lg:"380px", xs:"100%"},position:{lg:"fixed", xs:"static"}, right:"40px", top:"40px", zIndex:"100000 "}} >
+      <Box sx={{width:{lg:"380px", xs:"100%"},position:{lg:"fixed", xs:"static"}, right:"60px", top:"40px", zIndex:"100000 "}} >
 
   
       <CustomInputLabel
@@ -253,7 +255,7 @@ const EmployeeData = () => {
           justifyContent: "space-between",
           position: "relative",
           mb: "20px",
-          padding: "0px 20px",
+          padding: "0px 0px",
           flexDirection: {
             md: "row",
             xs: "column",
@@ -290,7 +292,7 @@ const EmployeeData = () => {
           buttonStyle={{ fontSize: { sm: "18px", xs: "15px" } }}
         />
       </Box>
-      <Box sx={{ mt: "30px", padding: "0px 20px" }}>
+      <Box sx={{ mt: "30px", padding: "0px 0px" }}>
         {loading ? (
           <Box className="loaderContainer">
             <Loader />

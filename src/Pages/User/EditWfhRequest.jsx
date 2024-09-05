@@ -1,53 +1,71 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button } from '@mui/material';
+import { Box, Tooltip } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import CustomInputLabel from '../../components/CustomInputField/CustomInputLabel';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, useParams, useNavigate } from 'react-router-dom';
+import CustomButton from '../../components/CustomButton/CustomButton';
+import axiosInstance from '../../auth/axiosInstance';
+import SnackAlert from "../../components/SnackAlert/SnackAlert"; // Assuming you have this component for toast messages
+
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const EditWFHRequest = () => {
     const { control, handleSubmit, setValue, formState: { errors } } = useForm();
     const { setHeadertext } = useOutletContext();
+    const { id } = useParams(); // Use the WFH ID from the URL
+    const navigate = useNavigate();
+    const [snackAlertData, setSnackAlertData] = useState({
+        message: "",
+        severity: "success",
+        open: false,
+    });
 
     useEffect(() => {
-        setHeadertext("Edit WFH Request");
+        setHeadertext("Edit WFH Details");
 
-        // Pseudo code for fetching data from the backend
-        // Replace this with the actual API call
-        const fetchWFHRequestData = async () => {
-            // Example API call
-            // const response = await fetch(`/api/wfh-request/${requestId}`);
-            // const data = await response.json();
+        const getWFHRequestDetails = async () => {
+            try {
+                const response = await axiosInstance.get(`${apiUrl}/api/wfh`, { params: { WFHID: id } });
+                const wfhData = response.data.wfh;
 
-            // Assuming the data object has the structure { date: 1692902400000, description: "Work from home due to medical reasons." }
+                // Convert Unix timestamp to date string for the input
+                const date = new Date(wfhData.date).toISOString().split('T')[0];
+                setValue('date', date);
+                setValue('comment', wfhData.comment || '');
 
-            // Pseudo-data for demonstration
-            const data = {
-                date: 1692902400000, // Example timestamp
-                description: "Work from home due to medical reasons."
-            };
-
-            // Convert Unix timestamp to date string for the input
-            const date = new Date(data.date).toISOString().split('T')[0];
-
-            // Set form values using `setValue`
-            setValue('date', date);
-            setValue('description', data.description || '--');
+            } catch (error) {
+                console.error('Error fetching WFH data:', error);
+            }
         };
 
-        fetchWFHRequestData();
-    }, [setHeadertext, setValue]);
+        getWFHRequestDetails();
+    }, [id, setValue, setHeadertext]);
 
-    const onSubmit = (data) => {
-        // Convert date to Unix timestamp
+    const onSubmit = async (data) => {
         const dateTimestamp = new Date(data.date).getTime();
 
         const formData = {
             ...data,
-            date: dateTimestamp,
+            date: dateTimestamp, // Convert date to Unix timestamp
+            WFHID: id
         };
 
-        console.log('Edited Form Data with Unix Timestamp:', formData);
-        // Handle form submission logic here
+        try {
+            const response = await axiosInstance({
+                url: `${apiUrl}/api/wfh`,
+                method: 'put',
+                data: formData,
+            });
+
+            console.log(response)
+        } catch (error) {
+            setSnackAlertData({
+                open: true,
+                message: "An error occurred while updating WFH request",
+                severity: "error",
+            });
+            console.error('Failed to update WFH request:', error);
+        }
     };
 
     return (
@@ -69,14 +87,13 @@ const EditWFHRequest = () => {
                                     {...field}
                                     height="64px"
                                 />
-                               
                             </Box>
                         )}
                     />
                 </Box>
 
                 <Controller
-                    name="description"
+                    name="comment"
                     control={control}
                     defaultValue=""
                     rules={{ required: "Description is required" }}
@@ -85,19 +102,43 @@ const EditWFHRequest = () => {
                             label="Description"
                             multiline
                             rows={4}
-                            error={errors.description?.message}
+                            error={errors.comment?.message}
                             {...field}
                             height="200px"
                         />
                     )}
                 />
 
-                <Box sx={{ mt: 4 }}>
-                    <Button variant="contained" color="primary" type="submit">
-                        Save Changes
-                    </Button>
+                <Box sx={{ mt: 4, display: "flex", justifyContent: "end" }}>
+                    <Tooltip title="Update WFH Request">
+                        <CustomButton
+                            ButtonText="Update"
+                            fontSize="16px"
+                            color="white"
+                            fontWeight="500"
+                            fullWidth={false}
+                            variant="contained"
+                            padding="8px 0px"
+                            type="submit"
+                            background="#157AFF"
+                            hoverBg="#303f9f"
+                            hovercolor="white"
+                            width={"125px"}
+                            borderRadius="7px"
+                            buttonStyle={{ mt: "-17px", height: "45px" }}
+                        />
+                    </Tooltip>
                 </Box>
             </form>
+
+            <SnackAlert
+                message={snackAlertData.message}
+                severity={snackAlertData.severity}
+                open={snackAlertData.open}
+                handleClose={() => {
+                    setSnackAlertData((prev) => ({ ...prev, open: false }));
+                }}
+            />
         </Box>
     );
 };

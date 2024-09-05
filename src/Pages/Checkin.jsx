@@ -7,6 +7,7 @@ import { Loader, LoaderW } from "../components/Loaders.jsx";
 import { scheduleNotification } from "../Helper/notificationHelper";
 import { useOutletContext } from "react-router-dom";
 
+import Chart from "../components/Charts/Charts.jsx";
 //
 
 import CustomInputLabel from "../components/CustomInputField/CustomInputLabel";
@@ -57,6 +58,7 @@ const Check = () => {
   const [fetchAnnouncements, setFetchAnnouncements] = useState([]);
   const [time,setTime] = useState(0)
   const [checkTime,setCheckTime] = useState(0)
+  const [graphData, setGraphData] = useState([]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -172,7 +174,7 @@ const Check = () => {
         setStatus(response.data.status);
         if(response.data.time){
           setCheckTime(response.data.time)
-          console.log("time",response.data.time)
+          // console.log("time",response.data.time)
           setTime(new Date().valueOf() - response.data.time)
         }
         setLoading(false);
@@ -187,7 +189,35 @@ const Check = () => {
   useEffect(() => {
     console.log(latitude);
     console.log(longitude);
+    getGraphData();
   }, []);
+
+  const getGraphData = async () => {
+    try {
+      const response = await axiosInstance({
+        method: "get",
+        url: `${apiUrl}/api/graph`,
+      });
+      console.log("grapgh",response);
+      setGraphData(response.data.graphdata)
+      // setStatus(response.data.status);
+    
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
+
+
+  const data = [
+    { day: 'Mon', value: 3 },
+    { day: 'Tue', value: 5 },
+    { day: 'Wed', value: 2 },
+    { day: 'Thu', value: 9 },
+    { day: 'Fri', value: 6 },
+];
 
   return (
     <>
@@ -207,12 +237,16 @@ const Check = () => {
                 md: "row",
                 xs: "column",
               },
+              
             }}
           >
 
             <Box sx={{
               flexBasis: "50%",
               backgroundColor: "white ",
+
+
+
             }} >
               <CustomButton
                 onClick={handleCheck}
@@ -233,11 +267,21 @@ const Check = () => {
                 }}
                 extraText={status === "checkin" ? `${unixTimestampToTime(checkTime)}` : null}
               />
+
+              <Box sx={{
+                mt:"30px"
+              }} >
+                 <Chart graphData={graphData} />;
+
+              </Box>
             </Box>
+
 
             <Box
             sx={{
               flexBasis: "50%",
+              
+
             }}
             >
             {status=="checkin"?

@@ -19,6 +19,7 @@ const DashboardAdmin = () => {
   const [fetchAttendanceDate, setAttendanceData] = useState([]);
 
 
+
   useEffect(() => {
     setHeadertext("Dashboard");
     setParaText(" ");
@@ -67,8 +68,7 @@ const DashboardAdmin = () => {
 
   const fetchTodatAttendanceData = async (dateTimestamp) => {
     try {
-      setHeadertext("Attendance Management");
-      setParaText("Lorem Ipsum");
+      
       const response = await axiosInstance({
         url: `${apiUrl}/api/admin/getToday`,
         method: "get",
@@ -85,15 +85,40 @@ const DashboardAdmin = () => {
     }
   };
 
+  const formatTime = (timestamp) => {
+    const date = new Date(timestamp);
+    let hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12; // Convert 0 to 12
+    return `${hours}:${minutes} ${ampm}`;
+  };
+
   return (
+    <>
+ <Box sx={{ display: "flex", justifyContent: "space-between", mb: "10px" }}>
+  <Typography sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}>
+    {`Active Users (${allEmployee.length})`}
+  </Typography>
+  <Typography sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}>
+    {new Date().toLocaleDateString('en-US', {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric',
+    }).replace(/\//g, '-')}
+  </Typography>
+</Box>
     <Box sx={{
       display: "flex",
-      gap: "1rem",
+      gap: "3rem",
       justifyContent: "space-between",
       flexDirection: {
         md: "row",
         xs: "column"
-      }
+      },
+     
+      height:"75vh", overflow:"hidden", 
+
     }}>
       <Box sx={{ flexBasis: "50%" }}>
         {loading ? (
@@ -101,7 +126,7 @@ const DashboardAdmin = () => {
             <Loader />
           </Box>
         ) : (
-          <TableContainer component={Paper} sx={{ boxShadow: 'none', border: 'none', mt: "-14px" }}>
+          <TableContainer component={Paper} sx={{ boxShadow: 'none', border: 'none', mt: "-14px",  }}>
             <Table sx={{ minWidth: 350 }}>
               <TableHead>
                 <TableRow
@@ -160,7 +185,7 @@ const DashboardAdmin = () => {
                   </TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>
+              <TableBody >
                 {fetchAttendanceDate.map((employee, index) => (
                   <TableRow
                     key={index}
@@ -197,7 +222,7 @@ const DashboardAdmin = () => {
                         paddingLeft: "0px !important",  
                       }}
                     >
-                      {employee?.checkIn}
+                      {employee?.checkIn ? formatTime(employee?.checkIn): ""}
                     </TableCell>
                     <TableCell
                       sx={{
@@ -232,7 +257,7 @@ const DashboardAdmin = () => {
         >
           <Typography sx={{ fontSize: "24px", fontWeight: "500" }}>Announcement</Typography>
         </Box>
-        <Box sx={{ mt: "30px", display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <Box sx={{ mt: "30px", display: "flex", flexDirection: "column", gap: "1rem" , height:"70vh", overflow:"hidden", overflowY:"scroll"}}>
           <Box sx={{ position: "relative" }} >
             <CustomInputLabel
               multiline="true"
@@ -278,6 +303,7 @@ const DashboardAdmin = () => {
         </Box>
       </Box>
     </Box>
+    </>
   );
 };
 

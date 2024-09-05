@@ -19,7 +19,7 @@ const MyLeaveDetails = () => {
     const getLeaveDetails = async () => {
       try {
         const response = await axiosInstance({
-          url: `${apiUrl}/api/leaveData`,
+          url: `${apiUrl}/api/leaves`,
           method: "get",
           params: {
             leaveID : id
@@ -58,11 +58,11 @@ const MyLeaveDetails = () => {
       <Box sx={{ display: 'flex', gap: '40px', flexDirection: { md: 'row', xs: 'column' }, mb: '20px', pb: '20px', borderBottom: { md: '1px solid #E0E0E0', xs: 'none' } }}>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">From</Typography>
-          <Typography variant="body1" className="user-details-value-1">{formatDate(leaveData?.startDate)}</Typography>
+          <Typography variant="body1" className="user-details-value-1">{leaveData?.startDate ?  formatDate(leaveData?.startDate) : "-- -- --"}</Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">To</Typography>
-          <Typography variant="body1" className="user-details-value-1">{formatDate(leaveData?.startDate)}</Typography>
+          <Typography variant="body1" className="user-details-value-1">{leaveData?.endDate ?  formatDate(leaveData?.endDate) : "-- -- --"}</Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Type</Typography>
@@ -76,7 +76,7 @@ const MyLeaveDetails = () => {
       <Box sx={{ display: 'flex', gap: '20px', flexDirection: { md: 'row', xs: 'column' }, mb: '20px', pb: '20px', borderBottom: { md: '1px solid #E0E0E0', xs: 'none' } }}>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Annual Leaves</Typography>
-          <Typography variant="body1" className="user-details-value-1">{leaveData?.annualLeaves}</Typography>
+          <Typography variant="body1" className="user-details-value-1">{leaveData?.annualLeaves ? leaveData?.annualLeaves : "--"}</Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Avail</Typography>
@@ -84,7 +84,7 @@ const MyLeaveDetails = () => {
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Remaining</Typography>
-          <Typography variant="body1" className="user-details-value-1">{leaveData?.annualLeaves -  leaveData?.leaveCount}</Typography>
+          <Typography variant="body1" className="user-details-value-1">{leaveData?.annualLeaves -  leaveData?.leaveCount ? leaveData?.annualLeaves : "--"}</Typography>
         </Box>
       </Box>
 
@@ -92,7 +92,7 @@ const MyLeaveDetails = () => {
       <Box sx={{ display: 'flex', gap: '20px', flexDirection: { md: 'row', xs: 'column' }, mb: '20px' }}>
         <Box className="user-details-item" sx={{ flexBasis: '100%', }}>
           <Typography variant="subtitle2" className="user-details-label">Working Days</Typography>
-          <Typography variant="body1" sx={{lineHeight:"35px"}} className="user-details-value-1">{leaveData?.comment}</Typography>
+          <Typography variant="body1" sx={{lineHeight:"35px"}} className="user-details-value-1">{leaveData?.comment ? leaveData?.comment : "-- -- --"}</Typography>
         </Box>
         
       </Box>

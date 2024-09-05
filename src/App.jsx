@@ -73,8 +73,6 @@ const EditMyProfile = React.lazy(() => import('./Pages/User/EditMyProfile.jsx'))
 // import Home from './Pages/Home.jsx'
 function App() {
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
           <Suspense fallback={<PageLoader />}>
             <Routes>
@@ -135,8 +133,6 @@ function App() {
             </Routes>
           </Suspense>
         </BrowserRouter>
-      </PersistGate>
-    </Provider>
   );
 }
 export default App;

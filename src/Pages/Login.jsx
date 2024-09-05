@@ -1,4 +1,4 @@
-import { Box, Typography, FormControlLabel, Checkbox } from "@mui/material";
+import { Box, Typography, FormControlLabel, Checkbox, Button } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate, NavLink, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -11,7 +11,7 @@ import CustomTextField from "../components/CustomInput/CustomInput"; // Adjust t
 import CustomButton from "../components/CustomButton/CustomButton"; // Adjust the import path as needed
 import '../css/Login.css';
 import { useSelector, useDispatch } from "react-redux";
-import {login} from '../Redux/userSlice'
+import { login } from '../Redux/userSlice'
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 const Login = () => {
     let parser = new UAParser();
@@ -21,6 +21,7 @@ const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const userState = useSelector(state => state.user)
     useEffect(() => {
         const refreshToken = localStorage.getItem("refreshToken");
         if (refreshToken) {
@@ -56,7 +57,7 @@ const Login = () => {
                 role: response?.data?.role
 
             };
-        
+
             dispatch(login(userData));
 
             sessionStorage.setItem("accessToken", response.data.accessToken);
@@ -65,10 +66,10 @@ const Login = () => {
             if (rememberMe) {
                 localStorage.setItem("refreshToken", response.data.refreshToken);
             }
-            if (response.data.role === "user" || response.data.role === "TL" ){
+            if (response.data.role === "user" || response.data.role === "TL") {
                 navigate("/dashboard")
 
-            } else if (response.data.role === "HOD" ) {
+            } else if (response.data.role === "HOD") {
                 navigate("/dashboard/admin");
             }
             toast.success("User Logged In Successfully", {
@@ -88,6 +89,16 @@ const Login = () => {
     const handleRememberMe = () => {
         setRememberMe(!rememberMe);
     };
+
+
+    useEffect(() => {
+        console.log(userState)
+
+        dispatch(login({
+            accessToken: "23456789",
+            isAuthenticated: true
+        }))
+    }, [])
     return (
         <>
             <Box className="login-container">
@@ -142,13 +153,13 @@ const Login = () => {
                                 )}
                             />
                         </Typography>
-                        <Box sx={{ display: "flex", justifyContent: "space-between" , alignItems:"center" }}>
+                        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                             <FormControlLabel
                                 style={{ color: "white" }}
                                 control={
-                                    <Checkbox 
-                                        checked={rememberMe} 
-                                        onChange={handleRememberMe} 
+                                    <Checkbox
+                                        checked={rememberMe}
+                                        onChange={handleRememberMe}
                                         sx={{
                                             color: "white",
                                             '&.Mui-checked': {
@@ -163,34 +174,34 @@ const Login = () => {
                                 label="Remember me"
                             />
                             <Box  >
-                                <NavLink style={{color:"white", textDecoration:"none"}} to='forgotPassword'>Forget Password</NavLink>
+                                <NavLink style={{ color: "white", textDecoration: "none" }} to='forgotPassword'>Forget Password</NavLink>
                             </Box>
                         </Box>
                     </Box>
                     <Box
-                    sx={{
-                        mt:"60px"
-                    }}
+                        sx={{
+                            mt: "60px"
+                        }}
                     >
-                    <CustomButton
-                        border="none"
-                        borderRadius="32px"
-                        buttonTextStyle={{ color: "white" }}
-                        buttonStyle={{ color: "white" }}
-                        ButtonText="Sign in"
-                        fontSize="20px"
-                        color="white"
-                        fontWeight="400"
-                        fullWidth={true}
-                        variant="contained"
-                        padding="16px 0"
-                        background="#157AFF"
-                        hoverBg="#157A99F"
-                        hovercolor="white"
-                        type="submit"
-                        loading={isLoading}
-                    />
-                       </Box>
+                        <CustomButton
+                            border="none"
+                            borderRadius="32px"
+                            buttonTextStyle={{ color: "white" }}
+                            buttonStyle={{ color: "white" }}
+                            ButtonText="Sign in"
+                            fontSize="20px"
+                            color="white"
+                            fontWeight="400"
+                            fullWidth={true}
+                            variant="contained"
+                            padding="16px 0"
+                            background="#157AFF"
+                            hoverBg="#157A99F"
+                            hovercolor="white"
+                            type="submit"
+                            loading={isLoading}
+                        />
+                    </Box>
                 </form>
             </Box>
         </>

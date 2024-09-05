@@ -124,30 +124,30 @@ const AppSidebar = () => {
             <>
               <CNavItem>
                 <NavLink to="/dashboard" end className="nav-link">
-                  <CIcon customClassName="nav-icon" icon={cilUser} /> Dashboard
+                  <CIcon className="nav-icon" icon={cilUser} /> Dashboard
                 </NavLink>
               </CNavItem>
               <CNavItem>
                 <NavLink to="/dashboard/profile" end className="nav-link">
-                  <CIcon customClassName="nav-icon" icon={cilUser} />
+                  <CIcon className="nav-icon" icon={cilUser} />
                   My Profile
                 </NavLink>
               </CNavItem>
               <CNavItem>
                 <NavLink to="/dashboard/my-attendance" end className="nav-link">
-                  <CIcon customClassName="nav-icon" icon={cilCalendar} />
+                  <CIcon className="nav-icon" icon={cilCalendar} />
                   My Attendance
                 </NavLink>
               </CNavItem>
               <CNavItem>
                 <NavLink to="/dashboard/my-leaves" end className="nav-link">
-                  <CIcon customClassName="nav-icon" icon={cilCalendar} />
+                  <CIcon className="nav-icon" icon={cilCalendar} />
                   My Leaves
                 </NavLink>
               </CNavItem>
               <CNavItem>
                 <NavLink to="/dashboard/remote-work" end className="nav-link">
-                  <CIcon customClassName="nav-icon" icon={cilCalendar} />
+                  <CIcon className="nav-icon" icon={cilCalendar} />
                   Remote Work
                 </NavLink>
               </CNavItem>
@@ -157,7 +157,7 @@ const AppSidebar = () => {
                   end
                   className="nav-link"
                 >
-                  <CIcon customClassName="nav-icon" icon={cilCalendar} />
+                  <CIcon className="nav-icon" icon={cilCalendar} />
                   Notifications
                 </NavLink>
               </CNavItem>
@@ -168,7 +168,7 @@ const AppSidebar = () => {
             <>
               <CNavItem>
                 <NavLink to="/dashboard/admin" className="nav-link" end>
-                  <CIcon customClassName="nav-icon" icon={cilPeople} />{" "}
+                  <CIcon className="nav-icon" icon={cilPeople} />{" "}
                   Dashboard
                 </NavLink>
               </CNavItem>
@@ -178,13 +178,13 @@ const AppSidebar = () => {
                   className="nav-link"
                   end
                 >
-                  <CIcon customClassName="nav-icon" icon={cilPeople} /> User
+                  <CIcon className="nav-icon" icon={cilPeople} /> User
                   Management
                 </NavLink>
               </CNavItem>
               <CNavItem>
                 <NavLink to="/dashboard/attendance" className="nav-link" end>
-                  <CIcon customClassName="nav-icon" icon={cilNotes} />{" "}
+                  <CIcon className="nav-icon" icon={cilNotes} />{" "}
                   Attendance Management
                 </NavLink>
               </CNavItem>
@@ -194,7 +194,7 @@ const AppSidebar = () => {
                   className="nav-link"
                   end
                 >
-                  <CIcon customClassName="nav-icon" icon={cilNotes} /> Leave
+                  <CIcon className="nav-icon" icon={cilNotes} /> Leave
                   Management
                 </NavLink>
               </CNavItem>
@@ -204,18 +204,18 @@ const AppSidebar = () => {
                   className="nav-link"
                   end
                 >
-                  <CIcon customClassName="nav-icon" icon={cilNotes} /> WFH
+                  <CIcon className="nav-icon" icon={cilNotes} /> WFH
                   Management
                 </NavLink>
               </CNavItem>
               <CNavItem>
                 <NavLink to="/dashboard/profile" end className="nav-link">
-                  <CIcon customClassName="nav-icon" icon={cilUser} /> Profile
+                  <CIcon className="nav-icon" icon={cilUser} /> Profile
                 </NavLink>
               </CNavItem>
           <CNavItem>
             <NavLink to="/dashboard/notifications" end className="nav-link">
-              <CIcon customClassName="nav-icon" icon={cilUser} /> Notifications
+              <CIcon className="nav-icon" icon={cilUser} /> Notifications
             </NavLink>
           </CNavItem>
             </>
@@ -223,14 +223,14 @@ const AppSidebar = () => {
           <CNavGroup
             toggler={
               <>
-                <CIcon customClassName="nav-icon" icon={cilLockLocked} />{" "}
+                <CIcon className="nav-icon" icon={cilLockLocked} />{" "}
                 Account
               </>
             }
           >
             <CNavItem>
               <div className="nav-link" onClick={() => setOpen(true)}>
-                <CIcon customClassName="nav-icon" icon={cilLockUnlocked} />{" "}
+                <CIcon className="nav-icon" icon={cilLockUnlocked} />{" "}
                 Change Password
               </div>
             </CNavItem>
@@ -239,19 +239,19 @@ const AppSidebar = () => {
                 className="nav-link"
                 onClick={() => setLogoutAllVisible(true)}
               >
-                <CIcon customClassName="nav-icon" icon={cilArrowCircleTop} />{" "}
+                <CIcon className="nav-icon" icon={cilArrowCircleTop} />{" "}
                 Logout Everywhere
               </div>
             </CNavItem>
             <CNavItem>
               <NavLink to="/dashboard/devices" className="nav-link" end>
-                <CIcon customClassName="nav-icon" icon={cilLaptop} /> Logged in
+                <CIcon className="nav-icon" icon={cilLaptop} /> Logged in
                 Devices
               </NavLink>
             </CNavItem>
             <CNavItem>
               <div className="nav-link" onClick={() => console.log("hi")}>
-                <CIcon customClassName="nav-icon" icon={cilGraph} /> Activity
+                <CIcon className="nav-icon" icon={cilGraph} /> Activity
               </div>
             </CNavItem>
           </CNavGroup>
@@ -273,7 +273,7 @@ const AppSidebar = () => {
                   gap: "1rem",
                 }}
               >
-                <img customClassName="nav-icon" src={logoutIcon} />{" "}
+                <img className="nav-icon" src={logoutIcon} />{" "}
                 <Typography sx={{ fontSize: "22px !important" }}>
                   Logout
                 </Typography>

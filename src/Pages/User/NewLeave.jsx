@@ -9,6 +9,9 @@ import dateIcon from '../../assets/dateIcon.png';
 import { useOutletContext } from 'react-router-dom';
 import CustomButton from '../../components/CustomButton/CustomButton';
 
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 
@@ -66,9 +69,15 @@ try {
     data : formData
   });
   console.log(response)
+  toast.success(response.data.message)
+
   
 } catch (error) {
   console.log("error making leave request", error)
+  
+  toast.success(error.response.data.message)
+
+
 }
   };
 
@@ -187,6 +196,8 @@ try {
           </Tooltip>
         </Box>
       </form>
+
+      
     </Box>
   );
 };

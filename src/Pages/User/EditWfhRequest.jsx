@@ -6,7 +6,8 @@ import { useOutletContext, useParams, useNavigate } from 'react-router-dom';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import axiosInstance from '../../auth/axiosInstance';
 import SnackAlert from "../../components/SnackAlert/SnackAlert"; // Assuming you have this component for toast messages
-
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const EditWFHRequest = () => {
@@ -58,13 +59,12 @@ const EditWFHRequest = () => {
             });
 
             console.log(response)
+            toast.success(response.data.message)
         } catch (error) {
-            setSnackAlertData({
-                open: true,
-                message: "An error occurred while updating WFH request",
-                severity: "error",
-            });
+           
             console.error('Failed to update WFH request:', error);
+            toast.error(error.response.data.message)
+
         }
     };
 

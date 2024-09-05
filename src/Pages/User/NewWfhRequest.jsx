@@ -5,7 +5,8 @@ import CustomInputLabel from '../../components/CustomInputField/CustomInputLabel
 import { useOutletContext } from 'react-router-dom';
 import axiosInstance from '../../auth/axiosInstance';
 import CustomButton from '../../components/CustomButton/CustomButton';
-
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 
@@ -39,10 +40,13 @@ const NewWFHRequest = () => {
             })
             
             console.log(response.data)
+            toast.success(response.data.message)
             reset()
         
           } catch (error) {
             console.error('Error fetching user data:', error);
+            toast.error(error.response.data.message)
+
           }
     };
 
@@ -75,7 +79,7 @@ const NewWFHRequest = () => {
                     name="description"
                     control={control}
                     defaultValue=""
-                    rules={{ required: "Description is required" }}
+                    rules={{ required: "Description is required" }} 
                     render={({ field }) => (
                         <CustomInputLabel
                             label="Description"

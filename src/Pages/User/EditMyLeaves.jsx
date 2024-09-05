@@ -7,7 +7,8 @@ import { useOutletContext, useParams, useNavigate } from 'react-router-dom';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import axiosInstance from '../../auth/axiosInstance';
 import SnackAlert from "../../components/SnackAlert/SnackAlert"; // Assuming you have this component for toast messages
-
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const EditMyLeave = () => {
@@ -104,27 +105,13 @@ const EditMyLeave = () => {
         data: formData,
       });
 
-      if (response.status === 200) {
-        setSnackAlertData({
-          open: true,
-          message: "Leave updated successfully",
-          severity: "success",
-        });
-        
-      } else {
-        setSnackAlertData({
-          open: true,
-          message: "Failed to update leave",
-          severity: "error",
-        });
-      }
+     toast.success("Leave Request Edited")
     } catch (error) {
-      setSnackAlertData({
-        open: true,
-        message: "An error occurred while updating leave",
-        severity: "error",
-      });
+      toast.error("Leave Request Edited")
+
       console.error('Failed to update leave:', error);
+      toast.error("Leave Request Could Not Be Edited")
+
     }
   };
 

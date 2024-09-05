@@ -87,6 +87,8 @@ const Attendance = () => {
         },
       });
 
+     
+
       const transformedData = response.data.attendances.map((item) => ({
         ...item,
         ...formatDate(item.date),
@@ -143,6 +145,10 @@ const Attendance = () => {
       a.click();
       a.remove();
       window.URL.revokeObjectURL(url);
+
+      if (response){
+        toast.success("PDF Downloaded Sucessfully")
+      }
     } catch (error) {
       console.log(error);
     } finally {

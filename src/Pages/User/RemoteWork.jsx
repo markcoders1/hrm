@@ -21,7 +21,8 @@ import disabledDelete from "../../assets/disabledDelete.png";
 import disabledEdit from "../../assets/disabledEdit.png";
 import axiosInstance from "../../auth/axiosInstance";
 import DeleteConfirmationModal from "../../components/DeleteConfirmModal/DeleteConfirmModal"; // Import the modal component
-
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const RemoteWork = () => {
@@ -83,6 +84,7 @@ const RemoteWork = () => {
         },
       });
       console.log("Delete response:", response.data);
+      toast.success("WFH Request Deleted Sucessfully")
 
       // Fetch updated data
       fetchRemoteData();

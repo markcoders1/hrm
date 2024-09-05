@@ -20,6 +20,8 @@ import disabledDelete from "../../assets/disabledDelete.png";
 import disabledEdit from "../../assets/disabledEdit.png";
 import axiosInstance from "../../auth/axiosInstance";
 import DeleteConfirmationModal from "../../components/DeleteConfirmModal/DeleteConfirmModal";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -123,6 +125,7 @@ const MyLeaves = () => {
         },
       });
       console.log("Delete response:", response.data);
+      toast.success("Leave Deleted Sucessfully")
 
       // Fetch the updated leave data
       fetchAllLeaves();
@@ -134,6 +137,8 @@ const MyLeaves = () => {
     } catch (error) {
       console.error("Error deleting leave:", error);
       setLoadingDelete(false);
+      toast.success("Leave Delete Could Not be Proceed Now")
+
     }
   };
 

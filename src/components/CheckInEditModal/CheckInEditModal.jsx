@@ -52,6 +52,7 @@ const CheckInOutModal = ({ open = false, handleClose = () => {}, checkId }) => {
 
     try {
       setLoading(true);
+      console.log(data)
 
       // Extract just the time value as strings (hours and minutes)
       const checkInTime = data.checkIn; // Already in "HH:mm" format

@@ -115,6 +115,12 @@ const DashboardAdmin = () => {
     hours = hours % 12 || 12; // Convert 0 to 12
     return `${hours}:${minutes} ${ampm}`;
   };
+
+  const customFormatTime = (t) =>{
+    const dateObject = new Date(t)
+    const timetooutput = `${dateObject.getUTCHours()}:${dateObject.getUTCMinutes()}`
+    return timetooutput
+  }
   const handleScroll = () => {
     setScrolling(true);
     setTimeout(() => setScrolling(false), 1500); // Hide scrollbar after 1.5 seconds of inactivity
@@ -296,7 +302,7 @@ const DashboardAdmin = () => {
                           borderRadius: "0px 8px 8px 0px",
                         }}
                       >
-                        {employee?.duration ? employee?.duration : "-- --"}
+                        {employee?.totalDuration ?customFormatTime(employee?.totalDuration) : "-- --"}
                       </TableCell>
                     </TableRow>
                   ))}

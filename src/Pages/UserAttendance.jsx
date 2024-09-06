@@ -22,7 +22,7 @@
   const UserAttendance = () => {
     const { setHeadertext, setParaText } = useOutletContext();
     const [loading, setLoading] = useState(true);
-    const [employeeData, setEmployeeData] = useState([]);
+    const [employeeData, setEmployeeData] = useState();
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
     const { id } = useParams(); // Extracting id from the URL parameters
@@ -65,30 +65,32 @@
             url: `${apiUrl}/api/admin/getUserAttendance`,
             method: "get",
             params: {
-              userId: "66c4e13566d4e834a8bec78f", // Using the dynamic id parameter
-              from: fromDate ? new Date(fromDate).getTime() : undefined,
-              to: toDate ? new Date(toDate).getTime() : undefined,
+              userId: id, // Using the dynamic id parameter
+              // from: fromDate ? new Date(fromDate).getTime() : undefined,
+              // to: toDate ? new Date(toDate).getTime() : undefined,
             },
           });
+          console.log("response from api",response.data.attendances)
 
-          const transformedData = response.data.result.map((item) => ({
+          const transformedData = response?.data?.attendances?.map((item) => ({
             ...item,
             employeeId: "005", // Hardcoded employee ID
-            formattedDate: new Date(item.date).toLocaleDateString(),
-            formattedDay: getDayFromTimestamp(item.date),
-            formattedCheckIn: millisecondsTo12HourFormat(item.checkIn),
-            formattedCheckOut: millisecondsTo12HourFormat(item.checkOut),
-            formattedBreakIn: item.breakIn
+            formattedDate: new Date(item?.date).toLocaleDateString(),
+            formattedDay: getDayFromTimestamp(item?.date),
+            formattedCheckIn: millisecondsTo12HourFormat(item?.checkIn),
+            formattedCheckOut: millisecondsTo12HourFormat(item?.checkOut),
+            formattedBreakIn: item?.breakIn
               .map((time) => millisecondsTo12HourFormat(time))
               .join(", "),
-            formattedBreakOut: item.breakOut
+            formattedBreakOut: item?.breakOut
               .map((time) => millisecondsTo12HourFormat(time))
               .join(", "),
-            formattedNetDuration: millisecondsToHMS(item.netDuration),
+            formattedNetDuration: millisecondsToHMS(item?.totalDuration),
           }));
 
           setEmployeeData(transformedData);
           setLoading(false);
+          console.log(transformedData)
         } catch (error) {
           console.error(error);
         }

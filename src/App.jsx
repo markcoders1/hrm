@@ -119,7 +119,7 @@ function App() {
                 <Route path='leave-management/leave-details/:id' element={<ProtectedAdmin><LeaveDetailsAdmin /></ProtectedAdmin>} /> 
 
 
-                <Route path='attendance-management/viewAttendance' element={<ProtectedAdmin><UserAttendance /></ProtectedAdmin>} />
+                <Route path='attendance-management/viewAttendance/:id' element={<ProtectedAdmin><UserAttendance /></ProtectedAdmin>} />
                 <Route path='user-management/register' element={<ProtectedAdmin><Register /></ProtectedAdmin>} />
                 <Route path='user-management/viewInformation/:id' element={<ProtectedAdmin><UserInfo /></ProtectedAdmin>} />
                 <Route path='user-management/user-detail/:id' element={<ProtectedAdmin><UserDetailsStatic /></ProtectedAdmin>} />

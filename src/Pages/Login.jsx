@@ -26,7 +26,7 @@ const Login = () => {
         const refreshToken = localStorage.getItem("refreshToken");
         if (refreshToken) {
             sessionStorage.setItem("refreshToken", refreshToken);
-            // navigate("/dashboard")
+            navigate("/dashboard")
         }
     }, []);
     const {

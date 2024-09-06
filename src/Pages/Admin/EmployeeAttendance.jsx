@@ -95,7 +95,7 @@ const EmployeeAttendance = () => {
           }}
           onClick={(e) => {
             e.stopPropagation();
-           handleOpenModal()
+           handleOpenModal(rowData._id)
           }}
         >
           <img src={isHovered ? editIconWhite : editIcon} alt="edit" />{" "}
@@ -124,8 +124,8 @@ const EmployeeAttendance = () => {
     );
   };
 
-  const handleNavigateToSeeAttendance = (rowData) => {
-    navigate(`/dashboard/attendance-management/viewAttendance`);
+  const handleNavigateToSeeAttendance = (id) => {
+    navigate(`/dashboard/attendance-management/viewAttendance/${id}`);
   };
 
 
@@ -150,6 +150,7 @@ const EmployeeAttendance = () => {
   const handleOpenModal = (checkId) => {
     setSelectedCheckId(checkId); // Pass the checkId to modal
     setModalOpen(true);
+    console.log(checkId)
   };
 
   const handleCloseModal = () => {
@@ -170,7 +171,7 @@ const EmployeeAttendance = () => {
         }}
       >
         <CustomInputLabel
-          height={"56px"}
+          height={"56px"} 
           fontSize={"20px"}
           showSearchIcon={false}
           placeholder={"Search User"}
@@ -325,7 +326,7 @@ const EmployeeAttendance = () => {
                       className="MuiTableRow-root"
                       onMouseEnter={() => setHoveredRow(index)}
                       onMouseLeave={() => setHoveredRow(null)}
-                      onClick={() => handleNavigateToSeeAttendance(employee)}
+                      onClick={() => handleNavigateToSeeAttendance(employee.userId)}
                       sx={{
                         backgroundColor:
                           hoveredRow === index ? "#D1E4FF" : "inherit",

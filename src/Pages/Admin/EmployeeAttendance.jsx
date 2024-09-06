@@ -19,6 +19,7 @@ import deleteIcon from "../../assets/deleteIcon.png";
 import editIcon from "../../assets/EditIcon.png";
 import editIconWhite from "../../assets/editIconWhite.png";
 import CustomInputLabel from "../../components/CustomInputField/CustomInputLabel";
+import CheckInOutModal from "../../components/CheckInEditModal/CheckInEditModal";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -29,6 +30,9 @@ const EmployeeAttendance = () => {
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState(new Date().getTime()); // Initialize with current date as Unix timestamp
   const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
+  const [modalOpen, setModalOpen] = useState(false); // Modal state
+  const [selectedCheckId, setSelectedCheckId] = useState(null);
+
 
   // const applyTimezoneOffset = (timestamp) => {
   //   const date = new Date(timestamp);
@@ -91,7 +95,7 @@ const EmployeeAttendance = () => {
           }}
           onClick={(e) => {
             e.stopPropagation();
-            alert("Edit clicked for " + rowData.fullName);
+           handleOpenModal()
           }}
         >
           <img src={isHovered ? editIconWhite : editIcon} alt="edit" />{" "}
@@ -143,7 +147,17 @@ const EmployeeAttendance = () => {
     return `${hours}:${minutes} ${ampm}`;
   };
 
-  
+  const handleOpenModal = (checkId) => {
+    setSelectedCheckId(checkId); // Pass the checkId to modal
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedCheckId(null)
+  };
+
+
   return (
     <Box className="sheet-container-admin">
       <Box
@@ -410,6 +424,11 @@ const EmployeeAttendance = () => {
           </>
         )}
       </Box>
+      <CheckInOutModal
+        open={modalOpen}
+        handleClose={handleCloseModal}
+        checkId={selectedCheckId} // Pass the checkId to the modal
+      />
     </Box>
   );
 };

@@ -32,7 +32,8 @@ const LeaveManagement = () => {
   const navigate = useNavigate();
   const [leaveData, setLeaveData] = useState([]);
   const [statusFilter, setStatusFilter] = useState("pending");
-  
+  const [searchTerm, setSearchTerm] = useState(""); // State for search term
+
  
 
 
@@ -78,7 +79,18 @@ const LeaveManagement = () => {
     setToDate(new Date(event.target.value).getTime());
   };
 
-  const filteredLeaveData = leaveData.filter((row) => row.overallStatus === statusFilter);
+  const filteredLeaveData = leaveData.filter((row) => {
+    const matchesStatus = row.overallStatus === statusFilter;
+    const matchesSearchTerm =
+      row.employeeId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.leaveType.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.endDate.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.startDate.toLowerCase().includes(searchTerm.toLowerCase()) 
+
+  
+    return matchesStatus && matchesSearchTerm;
+  });
 
   const validateAccept = async (leaveId) => {
     try {
@@ -163,11 +175,13 @@ const LeaveManagement = () => {
         <Box sx={{flexBasis:{lg:"300px", xs:"60%"}}} >
 
         <CustomInputLabel
-          height={"56px"}
-          fontSize={"20px"}
-          showSearchIcon={true}
-          placeholder={"Search User"}
-          />
+  height={"56px"}
+  fontSize={"20px"}
+  showSearchIcon={true}
+  placeholder={"Search User"}
+  value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)} // Update the search term state
+/>
           </Box>
           <Box sx={{flexBasis:{lg:"200px", xs:"40%"}}}>
 
@@ -493,7 +507,7 @@ const LeaveManagement = () => {
                     textAlign: "center !important",
                   }}
                 >
-                  {row?.balance}
+                  {row?.annualLeaves - row?.leavesTaken ? row?.annualLeaves - row.leavesTaken : "--"}
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root"

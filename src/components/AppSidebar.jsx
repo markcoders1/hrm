@@ -128,12 +128,6 @@ const AppSidebar = () => {
                 </NavLink>
               </CNavItem>
               <CNavItem>
-                <NavLink to="/dashboard/profile" end className="nav-link">
-                  <CIcon className="nav-icon" icon={cilUser} />
-                  My Profile
-                </NavLink>
-              </CNavItem>
-              <CNavItem>
                 <NavLink to="/dashboard/my-attendance" end className="nav-link">
                   <CIcon className="nav-icon" icon={cilCalendar} />
                   My Attendance
@@ -151,20 +145,15 @@ const AppSidebar = () => {
                   Remote Work
                 </NavLink>
               </CNavItem>
-              <CNavItem>
-                <NavLink
-                  to="/dashboard/my-notifications"
-                  end
-                  className="nav-link"
-                >
-                  <CIcon className="nav-icon" icon={cilCalendar} />
-                  Notifications
-                </NavLink>
-              </CNavItem>
+             
             </>
           ): ""}
 
-          {isAdmin === "HOD" || isAdmin === "TL"  ? (
+
+
+         
+
+          {isAdmin === "HOD" ? (
             <>
               <CNavItem>
                 <NavLink to="/dashboard/admin" className="nav-link" end>
@@ -188,38 +177,15 @@ const AppSidebar = () => {
                   Attendance Management
                 </NavLink>
               </CNavItem>
-              <CNavItem>
-                <NavLink
-                  to="/dashboard/leave-management"
-                  className="nav-link"
-                  end
-                >
-                  <CIcon className="nav-icon" icon={cilNotes} /> Leave
-                  Management
-                </NavLink>
-              </CNavItem>
-              <CNavItem>
-                <NavLink
-                  to="/dashboard/wfh-management"
-                  className="nav-link"
-                  end
-                >
-                  <CIcon className="nav-icon" icon={cilNotes} /> WFH
-                  Management
-                </NavLink>
-              </CNavItem>
-              <CNavItem>
-                <NavLink to="/dashboard/profile" end className="nav-link">
-                  <CIcon className="nav-icon" icon={cilUser} /> Profile
-                </NavLink>
-              </CNavItem>
-          <CNavItem>
+            
+             
+          {/* <CNavItem>
             <NavLink to="/dashboard/notifications" end className="nav-link">
-              <CIcon className="nav-icon" icon={cilUser} /> Notifications
+            <CIcon className="nav-icon" icon={cilUser} /> Notifications
             </NavLink>
-          </CNavItem>
+            </CNavItem> */}
             </>
-          ):""}
+            ):""}
          {/* <CNavGroup
             toggler={
               <>
@@ -256,6 +222,55 @@ const AppSidebar = () => {
             </CNavItem>
           </CNavGroup> 
            */} 
+            {/* grouping tl , user  admin */}
+
+
+            {isAdmin === "HOD" || isAdmin === "TL"  ? (
+<>
+<CNavItem>
+                <NavLink
+                  to="/dashboard/leave-management"
+                  className="nav-link"
+                  end
+                >
+                  <CIcon className="nav-icon" icon={cilNotes} /> Leave
+                  Management
+                </NavLink>
+              </CNavItem>
+              <CNavItem>
+                <NavLink
+                  to="/dashboard/wfh-management"
+                  className="nav-link"
+                  end
+                >
+                  <CIcon className="nav-icon" icon={cilNotes} /> WFH
+                  Management
+                </NavLink>
+              </CNavItem>
+</>
+
+
+): ""}
+          <>
+
+
+          <CNavItem>
+                <NavLink to="/dashboard/profile" end className="nav-link">
+                  <CIcon className="nav-icon" icon={cilUser} />
+                  My Profile
+                </NavLink>
+              </CNavItem>
+          <CNavItem>
+                <NavLink
+                  to="/dashboard/notifications"
+                  end
+                  className="nav-link"
+                >
+                  <CIcon className="nav-icon" icon={cilCalendar} />
+                  Notifications
+                </NavLink>
+              </CNavItem>
+          </>
           <Box
             sx={{
               position: "absolute",

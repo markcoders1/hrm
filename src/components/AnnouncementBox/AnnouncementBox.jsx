@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Tooltip } from '@mui/material';
 import deleteIconWhite from '../../assets/deleteIconWhite.png';
 import axiosInstance from '../../auth/axiosInstance';
@@ -8,6 +8,8 @@ import { toast } from "react-toastify";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const AnnouncementBox = ({ announcementContent, id, onDelete }) => {
+
+  const [isAdmin , setIsAdmin]=  useState();
   const deleteAnnouncement = async (id) => {
     try {
       const response = await axiosInstance({
@@ -29,6 +31,17 @@ const AnnouncementBox = ({ announcementContent, id, onDelete }) => {
     }
   };
 
+  useEffect(()=>{
+    (async function(){
+        const res =await axiosInstance({
+            method:"get",
+            url:`${apiUrl}/api/isAdmin`,
+        })
+        console.log("==================",res.data)
+        setIsAdmin(res.data.isAdmin)
+    })()
+},[])
+
   return (
     <Box sx={{ position: 'relative' }}>
       <Box
@@ -44,30 +57,35 @@ const AnnouncementBox = ({ announcementContent, id, onDelete }) => {
       >
         {announcementContent}
       </Box>
-      <Tooltip title="Delete">
-        <Box
-          sx={{
-            width: '29px',
-            height: '29px',
-            borderRadius: '50%',
-            backgroundColor: '#157AFF',
-            position: 'absolute',
-            right: '10px',
-            bottom: '10px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            cursor: 'pointer',
-            transition: 'background-color 0.3s ease', // Smooth transition for hover effect
-            '&:hover': {
-              backgroundColor: '#0e5bb5', // Darker shade on hover
-            },
-          }}
-          onClick={() => deleteAnnouncement(id)}
-        >
-          <img src={deleteIconWhite} alt="Delete Icon" style={{ width: '13px', height: '13px' }} />
-        </Box>
-      </Tooltip>
+     
+          {
+            isAdmin === "HOD" ? 
+            <Tooltip title="Delete">
+            <Box
+              sx={{
+                width: '29px',
+                height: '29px',
+                borderRadius: '50%',
+                backgroundColor: '#157AFF',
+                position: 'absolute',
+                right: '10px',
+                bottom: '10px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                cursor: 'pointer',
+                transition: 'background-color 0.3s ease', // Smooth transition for hover effect
+                '&:hover': {
+                  backgroundColor: '#0e5bb5', // Darker shade on hover
+                },
+              }}
+              onClick={() => deleteAnnouncement(id)}
+            >
+              <img src={deleteIconWhite} alt="Delete Icon" style={{ width: '13px', height: '13px' }} />
+              </Box>
+              </Tooltip>
+            : ""
+          }
     </Box>
   );
 };

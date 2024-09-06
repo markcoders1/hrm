@@ -306,7 +306,7 @@ const Check = () => {
                   width:"100%",
                   backgroundColor: "#010120",
                   color: "white",
-                  p: "24px 17px",
+                  p: "24px 0px 24px 17px",
                   borderRadius: "8px",
                 }}
               >
@@ -324,27 +324,28 @@ const Check = () => {
 
                 </Box>
                 <Box
-                  sx={{
+                   sx={{
                     mt: "30px",
                     display: "flex",
                     flexDirection: "column",
                     gap: "1rem",
-                    height: "65vh", // Fixed height with a scrollbar
-                    overflowY: "auto",
-                    // Custom scrollbar styles
+                    height: "75vh",
+                    overflowX: "hidden",
+                    padding: "20px 15px 20px 0px",
                     "&::-webkit-scrollbar": {
                       width: "8px",
                     },
                     "&::-webkit-scrollbar-track": {
-                      backgroundColor: "#f1f1f1",
+                      background: "#9292D0",
+                      borderRadius: "10px",
                     },
                     "&::-webkit-scrollbar-thumb": {
-                      backgroundColor: "#157AFF",
+                      background: "#157AFF",
                       borderRadius: "10px",
-                      border: "2px solid #f1f1f1",
                     },
-                    scrollbarWidth: "thin",
-                    scrollbarColor: "#157AFF #f1f1f1",
+                    "&::-webkit-scrollbar-thumb:hover": {
+                      background: "#9292D0",
+                    },
                   }}
                 >
                   {fetchAnnouncements.map((announcement, index) => (

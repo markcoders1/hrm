@@ -7,17 +7,17 @@ const ProtectedAdmin = ({ children }) => {
 
   const apiUrl= import.meta.env.VITE_REACT_APP_API_URL
   
-  useEffect(()=>{
-    (async function(){
-        const res =await axiosInstance({
-            method:"get",
-            url:`${apiUrl}/api/isAdmin`,
-        })
-        if (res.data.isAdmin=="user"){
-          navigate("/dashboard")
-      }
-    })()
-},[])
+    useEffect(()=>{
+      (async function(){
+          const res =await axiosInstance({
+              method:"get",
+              url:`${apiUrl}/api/isAdmin`,
+          })
+          if (res.data.isAdmin=="user"){
+            navigate("/dashboard")
+        }
+      })()
+  },[])
 
   return children;
 };

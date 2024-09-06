@@ -49,7 +49,7 @@ const Attendance = () => {
   };
 
   function millisecondsTo12HourFormat(milliseconds) {
-    if (milliseconds === 0){
+    if (milliseconds === 0 || !milliseconds){
       console.log("printend zero")
     } else {
 
@@ -93,7 +93,7 @@ const Attendance = () => {
         ...item,
         ...formatDate(item.date),
         formattedCheckIn: millisecondsTo12HourFormat(item.checkIn),
-        formattedCheckOut: millisecondsTo12HourFormat(item.checkOut),
+        formattedCheckOut: millisecondsTo12HourFormat(item?.checkOut),
         formattedTotalDuration: millisecondsToHMS(item.totalDuration),
       }));
 
@@ -376,7 +376,7 @@ const Attendance = () => {
                       sx={{ textAlign: "start !important" }}
                       className="MuiTableCell-root"
                     >
-                      {item.formattedCheckOut}
+                      {item?.formattedCheckOut ? item?.formattedCheckOut : "-- --"}
                     </TableCell>
                     <TableCell
                       sx={{ textAlign: "start !important", borderRadius:"0px 8px 8px 0px" }}

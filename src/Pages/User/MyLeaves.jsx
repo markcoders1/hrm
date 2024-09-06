@@ -125,7 +125,7 @@ const MyLeaves = () => {
         },
       });
       console.log("Delete response:", response.data);
-      toast.success("Leave Deleted Sucessfully")
+      toast.success("Leave Deleted Sucessfully", {position : "top-center",})
 
       // Fetch the updated leave data
       fetchAllLeaves();

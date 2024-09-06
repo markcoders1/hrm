@@ -76,6 +76,7 @@ const RemoteWork = () => {
     setLoadingDelete(true);
     
     try {
+      
       const response = await axiosInstance({
         url: `${apiUrl}/api/wfh`,
         method: "delete",
@@ -84,7 +85,7 @@ const RemoteWork = () => {
         },
       });
       console.log("Delete response:", response.data);
-      toast.success("WFH Request Deleted Sucessfully")
+      toast.success("WFH Request Deleted Sucessfully",  {position : "top-center"})
 
       // Fetch updated data
       fetchRemoteData();
@@ -95,7 +96,7 @@ const RemoteWork = () => {
       setItemToDelete(null);
     } catch (error) {
       console.error("Error deleting WFH request:", error);
-      toast.success("WFH Request Could not be delete now  ")
+      toast.success("WFH Request Could not be delete now", {position : "top-center"})
       setLoadingDelete(false);
     }
   };

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Box, Button, Tooltip } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import CustomInputLabel from '../../components/CustomInputField/CustomInputLabel';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../auth/axiosInstance';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import "react-toastify/dist/ReactToastify.css";
@@ -13,6 +13,7 @@ const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 const NewWFHRequest = () => {
     const { control, handleSubmit, formState: { errors }, reset } = useForm();
     const { setHeadertext } = useOutletContext();
+    const navigate = useNavigate()
 
     useEffect(() => {
         setHeadertext("New WFH Request");
@@ -40,8 +41,9 @@ const NewWFHRequest = () => {
             })
             
             console.log(response.data)
-            toast.success(response.data.message)
+            toast.success(response.data.message, {position:"top-center"})
             reset()
+            navigate(-1)
         
           } catch (error) {
             console.error('Error fetching user data:', error);
@@ -95,7 +97,7 @@ const NewWFHRequest = () => {
                 <Box sx={{ mt: 4, display:"flex", justifyContent:"end" }}>
                    <Tooltip title="Request New WFH">
             <CustomButton
-              ButtonText="Update"
+              ButtonText="Submit"
               fontSize="12px"
               color="white"
               fontWeight="500"

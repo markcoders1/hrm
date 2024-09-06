@@ -36,6 +36,8 @@ const DeleteConfirmationModal = ({ open, handleClose, onConfirm, loading , reque
             borderRadius="7px"
             onClick={handleClose}
             fullWidth={false}
+            height="40px"
+            width={"100px"}
           />
           <CustomButton
             ButtonText={loading ? "Deleting..." : "Confirm"}
@@ -49,6 +51,9 @@ const DeleteConfirmationModal = ({ open, handleClose, onConfirm, loading , reque
             onClick={onConfirm}
             loading={loading}
             fullWidth={false}
+            height="40px"
+            width={"100px"}
+
           />
         </Box>
       </Box>

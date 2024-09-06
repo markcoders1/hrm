@@ -21,7 +21,7 @@ const CustomButton = ({
     width,
     loading = false,
     hoverBorder = "",
-    height = "  ",
+    height = "",
     extraText
 }) => {
     return (
@@ -38,7 +38,7 @@ const CustomButton = ({
                 padding,
                 fontSize,
                 color,
-                background,
+                background ,
                 fontWeight,
                 width,
                 height,

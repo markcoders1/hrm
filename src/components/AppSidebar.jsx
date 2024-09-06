@@ -220,7 +220,7 @@ const AppSidebar = () => {
           </CNavItem>
             </>
           ):""}
-          <CNavGroup
+         {/* <CNavGroup
             toggler={
               <>
                 <CIcon className="nav-icon" icon={cilLockLocked} />{" "}
@@ -254,7 +254,8 @@ const AppSidebar = () => {
                 <CIcon className="nav-icon" icon={cilGraph} /> Activity
               </div>
             </CNavItem>
-          </CNavGroup>
+          </CNavGroup> 
+           */} 
           <Box
             sx={{
               position: "absolute",

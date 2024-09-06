@@ -24,6 +24,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import axiosInstance from "../../auth/axiosInstance";
+import CustomInputLabel from "../../components/CustomInputField/CustomInputLabel";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -36,6 +37,10 @@ const WFHManagement = () => {
   const [allWfh, setAllWfh] = useState([]);
   const [page, setPage] = useState(1);
 const [totalPages, setTotalPages] = useState(1);
+const [statusFilter, setStatusFilter] = useState("pending");
+const [searchTerm, setSearchTerm] = useState(""); 
+
+
   const fetchAllWFH = async () => {
     try {
       const response = await axiosInstance.get(`${apiUrl}/api/admin/getallwfh`);
@@ -54,15 +59,16 @@ const [totalPages, setTotalPages] = useState(1);
     try {
       const response = await axiosInstance({
         url : `${apiUrl}/api/admin/validatewfh`,
-        method: "post",
+        method: "get",
         params : {
           WFHID : id,
-          status : "approved"
+          status : "approved" 
         }
 
       });
       console.log(response);
       toast.success("WFH Validate SucessFully", { position: "top-center" });
+      fetchAllWFH()
     
 
     } catch (error) {
@@ -78,7 +84,7 @@ const [totalPages, setTotalPages] = useState(1);
     try {
       const response = await axiosInstance({
         url : `${apiUrl}/api/admin/validatewfh`,
-        method: "post",
+        method: "get",
         params : {
           WFHID : id,
           status : "rejected" 
@@ -87,6 +93,7 @@ const [totalPages, setTotalPages] = useState(1);
       });
       console.log(response);
       toast.success("WFH Validate SucessFully", { position: "top-center" });
+      fetchAllWFH()
 
     
 
@@ -125,11 +132,55 @@ const [totalPages, setTotalPages] = useState(1);
     setPage(value);
     fetchAllWFH(value);
   };
+
+  const handleStatusChange = (event) => {
+    const selectedValue = event.target.value;
+    setStatusFilter(selectedValue); // Update the filter state
+  };
+
+  const filteredWFHData = allWfh.filter((row) => {
+    const matchesStatus = row.overallStatus === statusFilter;
+    const matchesSearchTerm =
+      row.employeeId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.fullName.toLowerCase().includes(searchTerm.toLowerCase());
+
+    return matchesStatus && matchesSearchTerm;
+  });
+
+
   useEffect(() => {
     fetchAllWFH(page);
   }, [page]);
   return (
     <Box className="sheet-container-admin">
+      <Box sx={{width:{lg:"480px", xs:"100%"},position:{lg:"fixed", xs:"static"}, right:"50px", top:"40px", zIndex:"100000 ", display:"flex", gap:"1rem"}} >
+
+      <Box sx={{flexBasis:{lg:"320px", xs:"60%"}}} >
+      <CustomInputLabel
+  height={"56px"}
+  fontSize={"20px"}
+  showSearchIcon={true}
+  placeholder={"Search User"}
+  value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)} // Update the search term state
+/>
+      </Box>
+ 
+        <Box sx={{flexBasis:{lg:"220px", xs:"40%"}}}>
+
+<CustomSelectForType
+  label="Status"
+  value={statusFilter}
+  handleChange={handleStatusChange}
+  height={"56px"}
+  options={[
+    { value: "pending", label: "Pending" },
+    { value: "approved", label: "Approved" },
+    { value: "rejected", label: "Rejected" },
+  ]}
+  />
+  </Box>
+  </Box >
       <Box
         sx={{
           display: "flex",
@@ -179,6 +230,7 @@ const [totalPages, setTotalPages] = useState(1);
         <Box sx={{ display: "flex", gap: 2 }}>
           <FormControl sx={{ width: "150px", height: "50px" }}>
             <CustomSelectForType
+            height={"56px"}
               label="Year"
               value={year}
               handleChange={handleYearChange}
@@ -193,6 +245,7 @@ const [totalPages, setTotalPages] = useState(1);
           </FormControl>
           <FormControl sx={{ width: "224px", height: "50px" }}>
             <CustomSelectForType
+               height={"56px"}
               label="Month"
               value={month}
               handleChange={handleMonthChange}
@@ -339,7 +392,7 @@ const [totalPages, setTotalPages] = useState(1);
             </TableRow>
           </TableHead>
           <TableBody className="MuiTableBody-root">
-            {allWfh.map((row) => (
+            {filteredWFHData.map((row) => (
               <TableRow
                 onClick={(e) => handleRowClick(e, row._id)}
                 key={row.id}
@@ -499,36 +552,7 @@ const [totalPages, setTotalPages] = useState(1);
         </Table>
       </TableContainer>
 
-<Box sx={{
-  display:"flex",
-  justifyContent:"center",
-  mt:"10px"
-}} >
 
-<Pagination
-  count={totalPages}
-  page={page}
-  onChange={handlePageChange}
-  color="primary"
-  shape="rounded"
-  sx={{
-    "& .MuiPaginationItem-root": {
-      color: "#000", // Default text color for inactive pages
-      backgroundColor: "#fff", // White background for inactive pages
-      "&:hover": {
-        backgroundColor: "#f0f0f0", // Slightly darker background on hover for inactive pages
-      },
-    },
-    "& .Mui-selected": {
-      color: "#fff", // White text color for the active page
-      backgroundColor: "#000", // Black background for the active page (you can adjust this color)
-      "&:hover": {
-        backgroundColor: "#000", // Keep the active page background color on hover
-      },
-    },
-  }}
-/>
-      </Box>
     </Box>
   );
 };

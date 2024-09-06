@@ -62,6 +62,9 @@ const Login = () => {
 
             sessionStorage.setItem("accessToken", response.data.accessToken);
             sessionStorage.setItem("refreshToken", response.data.refreshToken);
+            localStorage.setItem("accessToken", response.data.accessToken)
+            localStorage.setItem("refreshToken", response.data.refreshToken)
+
             setAccessToken(response.data.accessToken);
             if (rememberMe) {
                 localStorage.setItem("refreshToken", response.data.refreshToken);
@@ -194,7 +197,7 @@ const Login = () => {
                             fontWeight="400"
                             fullWidth={true}
                             variant="contained"
-                            padding="16px 0"
+                            height="70px"
                             background="#157AFF"
                             hoverBg="#157A99F"
                             hovercolor="white"

@@ -11,7 +11,7 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-
+import { useNavigate } from 'react-router-dom';
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 
@@ -19,6 +19,7 @@ const NewLeave = () => {
   const { control, handleSubmit, setValue, watch, formState: { errors } } = useForm();
   const [totalDays, setTotalDays] = useState(0);
   const { setHeadertext } = useOutletContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setHeadertext("New Leave Request");
@@ -69,13 +70,14 @@ try {
     data : formData
   });
   console.log(response)
-  toast.success(response.data.message)
+  toast.success(response.data.message, { position: "top-center" })
+  navigate(-1)
 
   
 } catch (error) {
   console.log("error making leave request", error)
   
-  toast.success(error.response.data.message)
+  toast.success(error.response.data.message[0].message)
 
 
 }
@@ -178,7 +180,7 @@ try {
 <Box sx={{ mt: 4, display: "flex", justifyContent: "end" }}>
           <Tooltip title="Update Profile">
             <CustomButton
-              ButtonText="Update"
+              ButtonText="Submit"
               fontSize="16px"
               color="white"
               fontWeight="500"

@@ -43,6 +43,16 @@ const CheckInOutModal = ({ open = false, handleClose = () => {}, checkId }) => {
     p: 4,
   };
 
+  const convertToUnixTimestamp = (timeString) => {
+    const [hours, minutes] = timeString.split(":").map(Number);
+    const now = new Date(); // Get current date
+    now.setHours(hours);
+    now.setMinutes(minutes);
+    now.setSeconds(0);
+    now.setMilliseconds(0);
+    return Math.floor(now.getTime() / 1000); // Return as Unix timestamp
+  };
+
   const handleCheckInOutSubmit = async (data) => {
     setSnackAlertData({
       open: false,
@@ -52,24 +62,22 @@ const CheckInOutModal = ({ open = false, handleClose = () => {}, checkId }) => {
 
     try {
       setLoading(true);
-      console.log(data)
 
-      // Extract just the time value as strings (hours and minutes)
-      const checkInTime = data.checkIn; // Already in "HH:mm" format
-      const checkOutTime = data.checkOut; // Already in "HH:mm" format
+      // Convert time to Unix timestamp
+      const checkInUnix = convertToUnixTimestamp(data.checkIn).toString(); 
+      const checkOutUnix = convertToUnixTimestamp(data.checkOut).toString(); 
 
-      // Log for debugging purposes
-      console.log("Check-In Time:", checkInTime);
-      console.log("Check-Out Time:", checkOutTime);
-      console.log(checkId)
+      console.log("Check-In Unix Timestamp:", checkInUnix.toString());
+      console.log("Check-Out Unix Timestamp:", checkOutUnix.toString());
+      console.log("Check ID:", checkId);
 
       const response = await axiosInstance({
         url: `${apiUrl}/api/admin/check`, // Replace with your endpoint
         method: "put",
         data: {
-            checkId, // Assuming `checkId` is passed from the parent component for editing
-          checkIn: checkInTime,
-          checkOut: checkOutTime,
+          checkId, // Assuming `checkId` is passed from the parent component for editing
+          checkIn: checkInUnix,
+          checkOut: checkOutUnix,
         },
       });
 
@@ -120,7 +128,6 @@ const CheckInOutModal = ({ open = false, handleClose = () => {}, checkId }) => {
                 name="checkIn"
                 control={control}
                 defaultValue=""
-                // rules={{ required: "Check-In time is required" }}
                 render={({ field }) => (
                   <CustomInputLabel
                     label="Check-In Time"
@@ -136,7 +143,6 @@ const CheckInOutModal = ({ open = false, handleClose = () => {}, checkId }) => {
                 name="checkOut"
                 control={control}
                 defaultValue=""
-                // rules={{ required: "Check-Out time is required" }}
                 render={({ field }) => (
                   <CustomInputLabel
                     label="Check-Out Time"

@@ -59,7 +59,7 @@ const AppSidebar = () => {
         const res = await axiosInstance.get(`${apiUrl}/api/isAdmin`);
         setIsAdmin(res.data.isAdmin);
         setPageloading(false);
-        console.log(isAdmin);
+        // console.log(isAdmin);
       } catch (error) {
         console.error(error);
         setPageloading(false);

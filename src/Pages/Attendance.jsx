@@ -355,7 +355,7 @@ const Attendance = () => {
                       }}
                       className="MuiTableCell-root"
                     >
-                      {item.day}
+                      {item?.day}
                     </TableCell>
                     <TableCell
                       sx={{
@@ -364,7 +364,7 @@ const Attendance = () => {
                       }}
                       className="MuiTableCell-root"
                     >
-                      {item.formattedDate}
+                      {item?.formattedDate}
                     </TableCell>
                     <TableCell
                       sx={{ textAlign: "start !important" }}

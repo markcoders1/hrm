@@ -71,7 +71,7 @@ const DashboardAdmin = () => {
         ...prevAnnouncements,
         { _id: response.data._id, announcement: announcementText }, // Adjust the key if necessary
       ]);
-
+      fetchAnnouncements()
       setAnnouncementText(""); // Clear the input after adding
     } catch (error) {
       console.error(error);

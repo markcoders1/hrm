@@ -95,7 +95,7 @@ const EmployeeAttendance = () => {
           }}
           onClick={(e) => {
             e.stopPropagation();
-           handleOpenModal(rowData._id)
+           handleOpenModal(rowData.userId)
           }}
         >
           <img src={isHovered ? editIconWhite : editIcon} alt="edit" />{" "}

@@ -114,12 +114,12 @@ function App() {
 
                 <Route path='devices' element={<Devices />} />
                 <Route path='user-management' element={<EmployeeData />} /> {/* here protecte Admin will be implement */}
-                <Route path='attendance' element={<ProtectedAdmin><EmployeeAttendance /></ProtectedAdmin>} /> 
+                <Route path='attendance' element={<EmployeeAttendance />} /> 
                 <Route path='leave-management' element={<ProtectedAdmin><LeaveManagement /></ProtectedAdmin>} /> 
                 <Route path='leave-management/leave-details/:id' element={<ProtectedAdmin><LeaveDetailsAdmin /></ProtectedAdmin>} /> 
 
 
-                <Route path='attendance-management/viewAttendance/:id' element={<ProtectedAdmin><UserAttendance /></ProtectedAdmin>} />
+                <Route path='attendance-management/viewAttendance/:id' element={<UserAttendance />} />    
                 <Route path='user-management/register' element={<ProtectedAdmin><Register /></ProtectedAdmin>} />
                 <Route path='user-management/viewInformation/:id' element={<ProtectedAdmin><UserInfo /></ProtectedAdmin>} />
                 <Route path='user-management/user-detail/:id' element={<ProtectedAdmin><UserDetailsStatic /></ProtectedAdmin>} />

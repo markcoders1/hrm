@@ -16,6 +16,7 @@ import { useOutletContext, useParams } from "react-router-dom";
 import axiosInstance from "../auth/axiosInstance";
 import { LoaderW } from "../components/Loaders";
 import CustomInputLabel from "../components/CustomInputField/CustomInputLabel";
+import CustomSelectForType from "../components/CustomSelect/CustomSelect";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -23,9 +24,12 @@ const UserAttendance = () => {
   const { setHeadertext, setParaText } = useOutletContext();
   const [loading, setLoading] = useState(true);
   const [employeeData, setEmployeeData] = useState([]);
-  const { id } = useParams(); // Extracting id from the URL parameters
+  const { id } = useParams();
   const [pdfLoading, setPdfLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth().toString()); // Default to current month
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear().toString()); // Default to current year
+  
 
   setHeadertext("User Attendance");
   setParaText("August");
@@ -57,17 +61,58 @@ const UserAttendance = () => {
     return date.toLocaleDateString("en-US", { weekday: "long" });
   }
 
+  const months = [
+    { label: "January", value: "0" },
+    { label: "February", value: "1" },
+    { label: "March", value: "2" },
+    { label: "April", value: "3" },
+    { label: "May", value: "4" },
+    { label: "June", value: "5" },
+    { label: "July", value: "6" },
+    { label: "August", value: "7" },
+    { label: "September", value: "8" },
+    { label: "October", value: "9" },
+    { label: "November", value: "10" },
+    { label: "December", value: "11" },
+  ];
+
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: currentYear - 2024 + 1 }, (v, i) => ({
+    label: (2024 + i).toString(),
+    value: (2024 + i).toString(),
+  }))
+  
+  const handleMonthChange = (event) => {
+    setSelectedMonth(event.target.value);
+  };
+
+  const handleYearChange = (event) => {
+    setSelectedYear(event.target.value);
+  };
+
+  const getUnixTimestampForMonthYear = (month, year) => {
+    const date = new Date(year, month, 1);
+    return date.getTime();
+  };
+
+  
+
   // Fetch attendance data
   useEffect(() => {
     const getEmployeeData = async () => {
+      const date = getUnixTimestampForMonthYear(selectedMonth, selectedYear);
+console.log(date)
       try {
         const response = await axiosInstance({
           url: `${apiUrl}/api/admin/getUserAttendance`,
           method: "get",
           params: {
             userId: id,
+            date : date ? date : null
           },
         });
+        console.log(response)
 
         // Transform the response data
         const transformedData = response?.data?.attendances?.map((item) => ({
@@ -91,7 +136,7 @@ const UserAttendance = () => {
       }
     };
     getEmployeeData();
-  }, [id]);
+  }, [selectedMonth, selectedYear]);
 
   const downloadPdf = async () => {
     try {
@@ -122,33 +167,34 @@ const UserAttendance = () => {
     }
   };
 
+
+
   return (
+    <>
+   
     <Box
       className="sheet-container-admin"
-      sx={{ position: "relative", height: "80vh" }}
+     
     >
-      <Box
-        sx={{
-          width: { lg: "380px", xs: "100%" },
-          position: { lg: "fixed", xs: "static" },
-          right: "70px",
-          top: "40px",
-          zIndex: "100000 ",
-        }}
-      >
-        <CustomInputLabel
-          height={"56px"}
-          fontSize={"20px"}
-          showSearchIcon={true}
-          placeholder={"Search User"}
+     
+
+      <Box className="mini-container-attendance" >
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box sx={{ display: "flex", justifyContent: "space-between", mb: 3, }}>
+        <CustomSelectForType
+          label="Month"
+          options={months}
+          handleChange={handleMonthChange}
+          value={selectedMonth}
+        />
+        <CustomSelectForType
+          label="Year"
+          options={years}
+          handleChange={handleYearChange}
+          value={selectedYear}
         />
       </Box>
 
-      <Box className="mini-container-attendance">
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography>
-            {/* Future dropdown for month */}
-          </Typography>
 
           <Typography>
             <Box className="generate">
@@ -299,7 +345,7 @@ const UserAttendance = () => {
                         color: "#99999C !important",
                       }}
                     >
-                      {item.formattedCheckIn}
+                      {item?.formattedCheckIn ? item?.formattedCheckIn : "-- -- "}
                     </TableCell>
                     <TableCell
                       className="MuiTableCell-root"
@@ -326,6 +372,7 @@ const UserAttendance = () => {
         )}
       </Box>
     </Box>
+    </>
   );
 };
 

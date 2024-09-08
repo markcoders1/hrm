@@ -30,8 +30,8 @@ const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 
 const WFHManagement = () => {
-  const [month, setMonth] = useState("8");
-  const [year, setYear] = useState("2024");
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth().toString()); // Default to current month
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear().toString()); // Default to current year
   const { setHeadertext, setParaText } = useOutletContext();
   const navigate = useNavigate();
   const [allWfh, setAllWfh] = useState([]);
@@ -41,9 +41,45 @@ const [statusFilter, setStatusFilter] = useState("pending");
 const [searchTerm, setSearchTerm] = useState(""); 
 
 
+const months = [
+  { label: "January", value: "0" },
+  { label: "February", value: "1" },
+  { label: "March", value: "2" },
+  { label: "April", value: "3" },
+  { label: "May", value: "4" },
+  { label: "June", value: "5" },
+  { label: "July", value: "6" },
+  { label: "August", value: "7" },
+  { label: "September", value: "8" },
+  { label: "October", value: "9" },
+  { label: "November", value: "10" },
+  { label: "December", value: "11" },
+];
+
+  // Generate years starting from 2024
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: currentYear - 2024 + 1 }, (v, i) => ({
+    label: (2024 + i).toString(),
+    value: (2024 + i).toString(),
+  }));
+
+
+  const handleMonthChange = (event) => {
+    setSelectedMonth(event.target.value);
+  };
+
+  const handleYearChange = (event) => {
+    setSelectedYear(event.target.value);
+  };
+
+  const getUnixTimestampForMonthYear = (month, year) => {
+    const date = new Date(year, month, 1);
+    return date.getTime();
+  };
+
   const fetchAllWFH = async () => {
     try {
-      const response = await axiosInstance.get(`${apiUrl}/api/admin/getallwfh`);
+      const response = await axiosInstance.get(`${apiUrl}/api/admin/getallwfh`, {params : {date : date ? date : null}});
    
       setAllWfh(response?.data?.WFHrequests);
       setTotalPages(response?.data?.totalPages);
@@ -109,15 +145,9 @@ const [searchTerm, setSearchTerm] = useState("");
     setHeadertext("WFH Management");
     setParaText(" ");
     fetchAllWFH()
-  }, []);
+  }, [selectedMonth, selectedYear]);
 
-  const handleMonthChange = (event) => {
-    setMonth(event.target.value);
-  };
 
-  const handleYearChange = (event) => {
-    setYear(event.target.value);
-  };
 
   const handleNavigateToWfhDetail = (id) => {
     navigate(`/dashboard/wfh-management/wfh-details/${id}`);
@@ -232,37 +262,18 @@ const [searchTerm, setSearchTerm] = useState("");
             <CustomSelectForType
             height={"56px"}
               label="Year"
-              value={year}
+              value={selectedYear}
               handleChange={handleYearChange}
-              options={Array.from(
-                { length: new Date().getFullYear() - 2023 },
-                (_, i) => ({
-                  value: (2024 + i).toString(),
-                  label: (2024 + i).toString(),
-                })
-              )}
+              options={years}
             />
           </FormControl>
           <FormControl sx={{ width: "224px", height: "50px" }}>
             <CustomSelectForType
                height={"56px"}
               label="Month"
-              value={month}
+              value={selectedMonth}
               handleChange={handleMonthChange}
-              options={[
-                { value: "0", label: "January" },
-                { value: "1", label: "February" },
-                { value: "2", label: "March" },
-                { value: "3", label: "April" },
-                { value: "4", label: "May" },
-                { value: "5", label: "June" },
-                { value: "6", label: "July" },
-                { value: "7", label: "August" },
-                { value: "8", label: "September" },
-                { value: "9", label: "October" },
-                { value: "10", label: "November" },
-                { value: "11", label: "December" },
-              ]}
+              options={months}
             />
           </FormControl>
         </Box>

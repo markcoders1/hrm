@@ -25,7 +25,7 @@ import "react-toastify/dist/ReactToastify.css";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const LeaveManagement = () => {
-  const [month, setMonth] = useState("");
+
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const { setHeadertext, setParaText } = useOutletContext();
@@ -33,8 +33,14 @@ const LeaveManagement = () => {
   const [leaveData, setLeaveData] = useState([]);
   const [statusFilter, setStatusFilter] = useState("pending");
   const [searchTerm, setSearchTerm] = useState(""); // State for search term
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth().toString()); // Default to current month
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear().toString()); // Default to current year
 
  
+const getUnixTimestampForMonthYear = (month, year) => {
+  const date = new Date(year, month, 1);
+  return date.getTime();
+};
 
 
   useEffect(() => {
@@ -44,11 +50,13 @@ const LeaveManagement = () => {
 
   useEffect(() => {
     fetchAllLeaves();
-  }, []);
+  }, [selectedMonth, selectedYear]);
 
   const fetchAllLeaves = async () => {
+    const date = getUnixTimestampForMonthYear(selectedMonth, selectedYear);
+    console.log(date)
     try {
-      const response = await axiosInstance.get(`${apiUrl}/api/admin/getallleaves`);
+      const response = await axiosInstance.get(`${apiUrl}/api/admin/getallleaves`, {params: {date: date? date : null}});
       if (response.data && response.data.leaves) {
         setLeaveData(response.data.leaves);
       }
@@ -66,10 +74,6 @@ const LeaveManagement = () => {
     }
   };
   
-
-  const handleMonthChange = (event) => {
-    // setMonth(event.target.value);
-  };
 
   const handleFromDateChange = (event) => {
     setFromDate(new Date(event.target.value).getTime());
@@ -154,6 +158,36 @@ const LeaveManagement = () => {
     navigate(`/dashboard/leave-management/leave-details/${id}`);
   };
 
+  const handleMonthChange = (event) => {
+    setSelectedMonth(event.target.value);
+  };
+  
+  const handleYearChange = (event) => {
+    setSelectedYear(event.target.value);
+  };
+
+  const months = [
+    { label: "January", value: "0" },
+    { label: "February", value: "1" },
+    { label: "March", value: "2" },
+    { label: "April", value: "3" },
+    { label: "May", value: "4" },
+    { label: "June", value: "5" },
+    { label: "July", value: "6" },
+    { label: "August", value: "7" },
+    { label: "September", value: "8" },
+    { label: "October", value: "9" },
+    { label: "November", value: "10" },
+    { label: "December", value: "11" },
+  ];
+
+    // Generate years starting from 2024
+    const currentYear = new Date().getFullYear();
+    const years = Array.from({ length: currentYear - 2024 + 1 }, (v, i) => ({
+      label: (2024 + i).toString(),
+      value: (2024 + i).toString(),
+    }));
+
   return (
     <Box className="sheet-container-admin">
       <Box
@@ -214,7 +248,7 @@ const LeaveManagement = () => {
   }}
 >
   {/* Start and End Date Box */}
-  <Box sx={{ display: "flex", gap: 6, flexDirection: { xs: "column", md: "row" }, flexBasis:{md:"", xs:"100%"} }}>
+  <Box sx={{ display: "flex", gap: 6, flexDirection: { xs: "column", md: "row" }, flexBasis:{md:"", xs:"100%", display:"none"} }}>
     <Box sx={{ display: "flex", gap: ".4rem", alignItems: "center" }}>
       <Typography sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}>
         Start Date
@@ -257,24 +291,19 @@ const LeaveManagement = () => {
     <FormControl sx={{ width: {md:"200px", xs:"100%"}, height: "50px" }}>
       <CustomSelectForType
         label="Month"
-        value={month}
+        value={selectedMonth}
         handleChange={handleMonthChange}
-        options={[
-          { value: "0", label: "January" },
-          { value: "1", label: "February" },
-          { value: "2", label: "March" },
-          { value: "3", label: "April" },
-          { value: "4", label: "May" },
-          { value: "5", label: "June" },
-          { value: "6", label: "July" },
-          { value: "7", label: "August" },
-          { value: "8", label: "September" },
-          { value: "9", label: "October" },
-          { value: "10", label: "November" },
-          { value: "11", label: "December" },
-        ]}
+        options={months}
       />
     </FormControl>
+    <FormControl sx={{ width: { md: "200px", xs: "100%" }, height: "50px" }}>
+          <CustomSelectForType
+            label="Year"
+            value={selectedYear}
+            handleChange={handleYearChange}
+            options={years}
+          />
+        </FormControl>
   </Box>
 </Box>
 

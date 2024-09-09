@@ -45,12 +45,17 @@ const CheckInOutModal = ({ open = false, handleClose = () => {}, checkId }) => {
 
   const convertToUnixTimestamp = (timeString) => {
     const [hours, minutes] = timeString.split(":").map(Number);
-    const now = new Date(); // Get current date
-    now.setHours(hours);
-    now.setMinutes(minutes);
-    now.setSeconds(0);
-    now.setMilliseconds(0);
-    return Math.floor(now.getTime() / 1000); // Return as Unix timestamp
+    
+    // const now = new Date(); // Get current date
+    // now.setHours(hours);
+    // now.setMinutes(minutes);
+    // now.setSeconds(0);
+    // now.setMilliseconds(0);
+    // return Math.floor(now.getTime() / 1000); // Return as Unix timestamp
+    const valueToSend = new Date(1970,0,1,hours,minutes).valueOf()
+    console.log("sending value",valueToSend)
+
+    return valueToSend
   };
 
   const handleCheckInOutSubmit = async (data) => {

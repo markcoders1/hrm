@@ -18,8 +18,8 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import CustomSelectForType from "../../components/CustomSelect/CustomSelect";
 import tickPng from "../../assets/tick.png";
 import cancelPng from "../../assets/cancel.png";
-import Tooltip from '@mui/material/Tooltip';  
-import Pagination from '@mui/material/Pagination';
+import Tooltip from "@mui/material/Tooltip";
+import Pagination from "@mui/material/Pagination";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -28,33 +28,35 @@ import CustomInputLabel from "../../components/CustomInputField/CustomInputLabel
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-
 const WFHManagement = () => {
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth().toString()); // Default to current month
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear().toString()); // Default to current year
+  const [selectedMonth, setSelectedMonth] = useState(
+    new Date().getMonth().toString()
+  ); // Default to current month
+  const [selectedYear, setSelectedYear] = useState(
+    new Date().getFullYear().toString()
+  ); // Default to current year
   const { setHeadertext, setParaText } = useOutletContext();
   const navigate = useNavigate();
   const [allWfh, setAllWfh] = useState([]);
   const [page, setPage] = useState(1);
-const [totalPages, setTotalPages] = useState(1);
-const [statusFilter, setStatusFilter] = useState("pending");
-const [searchTerm, setSearchTerm] = useState(""); 
+  const [totalPages, setTotalPages] = useState(1);
+  const [statusFilter, setStatusFilter] = useState("pending");
+  const [searchTerm, setSearchTerm] = useState("");
 
-
-const months = [
-  { label: "January", value: "0" },
-  { label: "February", value: "1" },
-  { label: "March", value: "2" },
-  { label: "April", value: "3" },
-  { label: "May", value: "4" },
-  { label: "June", value: "5" },
-  { label: "July", value: "6" },
-  { label: "August", value: "7" },
-  { label: "September", value: "8" },
-  { label: "October", value: "9" },
-  { label: "November", value: "10" },
-  { label: "December", value: "11" },
-];
+  const months = [
+    { label: "January", value: "0" },
+    { label: "February", value: "1" },
+    { label: "March", value: "2" },
+    { label: "April", value: "3" },
+    { label: "May", value: "4" },
+    { label: "June", value: "5" },
+    { label: "July", value: "6" },
+    { label: "August", value: "7" },
+    { label: "September", value: "8" },
+    { label: "October", value: "9" },
+    { label: "November", value: "10" },
+    { label: "December", value: "11" },
+  ];
 
   // Generate years starting from 2024
   const currentYear = new Date().getFullYear();
@@ -62,7 +64,6 @@ const months = [
     label: (2024 + i).toString(),
     value: (2024 + i).toString(),
   }));
-
 
   const handleMonthChange = (event) => {
     setSelectedMonth(event.target.value);
@@ -78,76 +79,73 @@ const months = [
   };
 
   const fetchAllWFH = async () => {
+    const date = getUnixTimestampForMonthYear(selectedMonth, selectedYear);
+    console.log(date);
+
     try {
-      const response = await axiosInstance.get(`${apiUrl}/api/admin/getallwfh`, {params : {date : date ? date : null}});
-   
+      const response = await axiosInstance.get(
+        `${apiUrl}/api/admin/getallwfh`,
+        { params: { date: date ? date : null } }
+      );
+
       setAllWfh(response?.data?.WFHrequests);
       setTotalPages(response?.data?.totalPages);
-
     } catch (error) {
       console.error("Error fetching leave data:", error);
     }
   };
 
   const validateAccepted = async (id) => {
-    console.log("hello")
-    console.log(id)
+    console.log("hello");
+    console.log(id);
     try {
       const response = await axiosInstance({
-        url : `${apiUrl}/api/admin/validatewfh`,
+        url: `${apiUrl}/api/admin/validatewfh`,
         method: "get",
-        params : {
-          WFHID : id,
-          status : "approved" 
-        }
-
+        params: {
+          WFHID: id,
+          status: "approved",
+        },
       });
       console.log(response);
       toast.success("WFH Validate SucessFully", { position: "top-center" });
-      fetchAllWFH()
-    
-
+      fetchAllWFH();
     } catch (error) {
       console.error("Error fetching leave data:", error);
-      toast.success("WFH Validate Could not proceed", { position: "top-center" });
-      
+      toast.success("WFH Validate Could not proceed", {
+        position: "top-center",
+      });
     }
-  }
+  };
 
   const validateRejected = async (id) => {
-    console.log("hello")
-    console.log(id)
+    console.log("hello");
+    console.log(id);
     try {
       const response = await axiosInstance({
-        url : `${apiUrl}/api/admin/validatewfh`,
+        url: `${apiUrl}/api/admin/validatewfh`,
         method: "get",
-        params : {
-          WFHID : id,
-          status : "rejected" 
-        }
-
+        params: {
+          WFHID: id,
+          status: "rejected",
+        },
       });
       console.log(response);
       toast.success("WFH Validate SucessFully", { position: "top-center" });
-      fetchAllWFH()
-
-    
-
+      fetchAllWFH();
     } catch (error) {
       console.error("Error fetching leave data:", error);
-      toast.success("WFH Validate Could not proceed", { position: "top-center" });
-
+      toast.success("WFH Validate Could not proceed", {
+        position: "top-center",
+      });
     }
-  }
-
+  };
 
   useEffect(() => {
     setHeadertext("WFH Management");
     setParaText(" ");
-    fetchAllWFH()
+    fetchAllWFH();
   }, [selectedMonth, selectedYear]);
-
-
 
   const handleNavigateToWfhDetail = (id) => {
     navigate(`/dashboard/wfh-management/wfh-details/${id}`);
@@ -177,106 +175,77 @@ const months = [
     return matchesStatus && matchesSearchTerm;
   });
 
-
   useEffect(() => {
     fetchAllWFH(page);
   }, [page]);
   return (
     <Box className="sheet-container-admin">
-      <Box sx={{width:{lg:"480px", xs:"100%"},position:{lg:"fixed", xs:"static"}, right:"50px", top:"40px", zIndex:"100000 ", display:"flex", gap:"1rem"}} >
+      <Box
+        sx={{
+          width: { lg: "480px", xs: "100%" },
+          position: { lg: "fixed", xs: "static" },
+          right: "50px",
+          top: "40px",
+          zIndex: "100000 ",
+          display: "flex",
+          gap: "1rem",
+        }}
+      >
+        <Box sx={{ flexBasis: { lg: "320px", xs: "60%" } }}>
+          <CustomInputLabel
+            height={"56px"}
+            fontSize={"20px"}
+            showSearchIcon={true}
+            placeholder={"Search User"}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)} // Update the search term state
+          />
+        </Box>
 
-      <Box sx={{flexBasis:{lg:"320px", xs:"60%"}}} >
-      <CustomInputLabel
-  height={"56px"}
-  fontSize={"20px"}
-  showSearchIcon={true}
-  placeholder={"Search User"}
-  value={searchTerm}
-  onChange={(e) => setSearchTerm(e.target.value)} // Update the search term state
-/>
+        <Box sx={{ flexBasis: { lg: "220px", xs: "40%" } }}>
+          <CustomSelectForType
+            label="Status"
+            value={statusFilter}
+            handleChange={handleStatusChange}
+            height={"56px"}
+            options={[
+              { value: "pending", label: "Pending" },
+              { value: "approved", label: "Approved" },
+              { value: "rejected", label: "Rejected" },
+            ]}
+          />
+        </Box>
       </Box>
- 
-        <Box sx={{flexBasis:{lg:"220px", xs:"40%"}}}>
-
-<CustomSelectForType
-  label="Status"
-  value={statusFilter}
-  handleChange={handleStatusChange}
-  height={"56px"}
-  options={[
-    { value: "pending", label: "Pending" },
-    { value: "approved", label: "Approved" },
-    { value: "rejected", label: "Rejected" },
-  ]}
-  />
-  </Box>
-  </Box >
       <Box
         sx={{
           display: "flex",
-          justifyContent: "space-between",
+          gap: 2,
           alignItems: "center",
-          mb: 3,
+          justifyContent: "end",
+        
+          width: "100%",
         }}
       >
-        <Box sx={{ display: "flex", gap: 2 }}>
-          <Box sx={{ display: "flex", gap: ".4rem", alignItems: "center" }}>
-            <Typography
-              sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
-            >
-              Start Date{" "}
-            </Typography>
-            <input
-              type="number"
-              name=""
-              id=""
-              style={{
-                border: "none",
-                borderBottom: "2px solid black",
-                width: "195px",
-                outline: "none",
-              }}
-            />
-          </Box>
-          <Box sx={{ display: "flex", gap: ".4rem", alignItems: "center" }}>
-            <Typography
-              sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
-            >
-              End Date{" "}
-            </Typography>
-            <input
-              type="number"
-              name=""
-              id=""
-              style={{
-                border: "none",
-                borderBottom: "2px solid black",
-                width: "195px",
-                outline: "none",
-              }}
-            />
-          </Box>
-        </Box>
-        <Box sx={{ display: "flex", gap: 2 }}>
-          <FormControl sx={{ width: "150px", height: "50px" }}>
-            <CustomSelectForType
-            height={"56px"}
-              label="Year"
-              value={selectedYear}
-              handleChange={handleYearChange}
-              options={years}
-            />
-          </FormControl>
-          <FormControl sx={{ width: "224px", height: "50px" }}>
-            <CustomSelectForType
-               height={"56px"}
-              label="Month"
-              value={selectedMonth}
-              handleChange={handleMonthChange}
-              options={months}
-            />
-          </FormControl>
-        </Box>
+        <FormControl
+          sx={{ width: { md: "200px", xs: "100%" }, height: "50px" }}
+        >
+          <CustomSelectForType
+            label="Month"
+            value={selectedMonth}
+            handleChange={handleMonthChange}
+            options={months}
+          />
+        </FormControl>
+        <FormControl
+          sx={{ width: { md: "200px", xs: "100%" }, height: "50px" }}
+        >
+          <CustomSelectForType
+            label="Year"
+            value={selectedYear}
+            handleChange={handleYearChange}
+            options={years}
+          />
+        </FormControl>
       </Box>
 
       <TableContainer
@@ -480,12 +449,12 @@ const months = [
                   sx={{
                     textAlign: "center !important",
                     color:
-                    row.statusHOD === "approved"
-                      ? "#31BA96 !important"
-                      : row.statusHOD === "pending"
-                      ? "#010120 !important"
-                      : "red !important",
-                  textAlign: "center !important",
+                      row.statusHOD === "approved"
+                        ? "#31BA96 !important"
+                        : row.statusHOD === "pending"
+                        ? "#010120 !important"
+                        : "red !important",
+                    textAlign: "center !important",
                     // paddingLeft: "40px !important",
                   }}
                 >
@@ -509,7 +478,6 @@ const months = [
                   className="MuiTableCell-root"
                   sx={{
                     borderRadius: "0px 8px 8px 0px",
-                  
                   }}
                 >
                   <Typography
@@ -521,39 +489,37 @@ const months = [
                     }}
                   >
                     <Tooltip title="Approved Request">
-                    <img
-                      src={tickPng}
-                      alt="Approve"
-                      style={{
-                        width: "34px",
-                        height: "34px",
-                        cursor: "pointer",
-                      }}
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevent the row click event from firing
-                        console.log("Approved action");
-                        validateAccepted(row._id);
-                      }}
-                    />
+                      <img
+                        src={tickPng}
+                        alt="Approve"
+                        style={{
+                          width: "34px",
+                          height: "34px",
+                          cursor: "pointer",
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent the row click event from firing
+                          console.log("Approved action");
+                          validateAccepted(row._id);
+                        }}
+                      />
                     </Tooltip>
 
                     <Tooltip title="Reject Request">
-
-                    <img
-                      src={cancelPng}
-                      alt="Reject"
-                      style={{
-                        width: "34px",
-                        height: "34px",
-                        cursor: "pointer",
-                        
-                      }}
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevent the row click event from firing
-                        console.log("Rejected action");
-                        validateRejected(row._id)
-                      }}
-                    />
+                      <img
+                        src={cancelPng}
+                        alt="Reject"
+                        style={{
+                          width: "34px",
+                          height: "34px",
+                          cursor: "pointer",
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent the row click event from firing
+                          console.log("Rejected action");
+                          validateRejected(row._id);
+                        }}
+                      />
                     </Tooltip>
                   </Typography>
                 </TableCell>
@@ -562,8 +528,6 @@ const months = [
           </TableBody>
         </Table>
       </TableContainer>
-
-
     </Box>
   );
 };

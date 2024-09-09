@@ -56,10 +56,10 @@ const getUnixTimestampForMonthYear = (month, year) => {
     const date = getUnixTimestampForMonthYear(selectedMonth, selectedYear);
     console.log(date)
     try {
-      const response = await axiosInstance.get(`${apiUrl}/api/admin/getallleaves`, {params: {date: date? date : null}});
-      if (response.data && response.data.leaves) {
+      const response = await axiosInstance.get(`${apiUrl}/api/admin/getallleaves`, {params: {date : date}});
+      console.log(response.data)
         setLeaveData(response.data.leaves);
-      }
+   
     } catch (error) {
       console.error("Error fetching leave data:", error);
     }
@@ -286,6 +286,11 @@ const getUnixTimestampForMonthYear = (month, year) => {
     sx={{
       display: "flex",
       gap: 2,
+      alignItems:"center",
+      justifyContent:"end",
+      
+      width:"100%  "
+     
     }}
   >
     <FormControl sx={{ width: {md:"200px", xs:"100%"}, height: "50px" }}>

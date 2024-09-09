@@ -10,6 +10,7 @@ import {
   Paper,
   Button,
   Typography,
+  Tooltip,
 } from "@mui/material";
 import "../PagesCss/Employee.css"; // Reusing the same CSS file
 import { useOutletContext, useParams } from "react-router-dom";
@@ -17,6 +18,7 @@ import axiosInstance from "../auth/axiosInstance";
 import { LoaderW } from "../components/Loaders";
 import CustomInputLabel from "../components/CustomInputField/CustomInputLabel";
 import CustomSelectForType from "../components/CustomSelect/CustomSelect";
+import CustomButton from "../components/CustomButton/CustomButton";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -179,15 +181,19 @@ console.log(date)
      
 
       <Box className="mini-container-attendance" >
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Box sx={{ display: "flex", justifyContent: "space-between", mb: 3, }}>
+        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems:"center"  }}>
+        <Box sx={{ display: "flex", justifyContent: "space-between",gap:"2rem", alignItems:"center" }}>
         <CustomSelectForType
+        height={"56px"}
           label="Month"
+            width="220px"
           options={months}
           handleChange={handleMonthChange}
           value={selectedMonth}
         />
         <CustomSelectForType
+        height={"56px"}
+    width="220px"
           label="Year"
           options={years}
           handleChange={handleYearChange}
@@ -195,8 +201,32 @@ console.log(date)
         />
       </Box>
 
-
-          <Typography>
+      <Tooltip title="Edit Your Profile ">
+            <CustomButton
+              ButtonText="Generate PDF "
+              fontSize="16px"
+              color="white"
+              fontWeight="500"
+              fullWidth={false}
+              variant="contained"
+              padding="8px 0px"
+              type="submit"
+              background="#157AFF"
+              hoverBg="#303f9f"
+              hovercolor="white"
+              width={"160px"}
+              borderRadius="7px"
+              buttonStyle={{ mt: "-17px" }}
+              height="45px"
+               id="generatePdfBtn"
+               onClick={downloadPdf}
+               disabled={pdfLoading}
+               loading={pdfLoading}
+              
+             
+            />{" "}
+            </Tooltip>
+          <Typography  sx={{display:"none"}} >
             <Box className="generate">
               <Button
                 id="generatePdfBtn"

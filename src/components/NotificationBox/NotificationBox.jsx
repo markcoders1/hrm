@@ -1,8 +1,10 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Icon, Typography } from '@mui/material';
 import crossIcon from '../../assets/cross.png'
+// import {Icon} from '@mui/material';
+import { MailTwoTone, DraftsTwoTone } from '@mui/icons-material';
 
-const NotificationBox = ({notificationText, notificationDate}) => {
+const NotificationBox = ({notificationText, notificationDate, notificationLink, notificationisNew, notificationLinkType}) => {
   return (
     <Box
       sx={{
@@ -13,7 +15,8 @@ const NotificationBox = ({notificationText, notificationDate}) => {
         justifyContent: "space-between",
         alignItems: "center",
         fontFamily: "'Plus Jakarta Sans !important', sans-serif !important" , // Applying the font here
-        position:"relative"
+        position:"relative",
+        backgroundColor: notificationisNew ? "rgba(0,90,255,0.05)" : "rgba(0,90,255,0.00)",
       }}
     >
       <Box
@@ -23,22 +26,29 @@ const NotificationBox = ({notificationText, notificationDate}) => {
           width:"100%"
         }}
       >
-        <Box
-          sx={{
-            backgroundColor: "#E0EBFF",
-            minWidth: "58px !important",
-            minheight: "58px !important",
-            borderRadius: "50%",
-            maxHeight:"58px",
-            maxWidth:"58px",
-          
-
-          }}
-        ></Box>
+        {notificationisNew?
+          <MailTwoTone sx={{
+          color:"rgba(0,90,255,0.5)",
+          minWidth: "58px !important",
+          minheight: "58px !important",
+          maxHeight:"58px",
+          maxWidth:"58px",
+          margin:"auto 0",
+          fontSize:"32px",
+          }}/>
+        :
+          <DraftsTwoTone sx={{
+          color:"rgba(0,90,255,0.5)",
+          minWidth: "58px !important",
+          minheight: "58px !important",
+          maxHeight:"58px",
+          maxWidth:"58px",
+          margin:"auto 0",
+          fontSize:"32px",
+          }}/>
+        }
         <Box>
-          <Typography sx={{ fontFamily: "'Plus Jakarta Sans !important', sans-serif !important", fontWeight:"500", fontSize:{
-            sm:"20px", xs:"16px"
-                      }, color:"#010120", width:"100%" }}>
+          <Typography sx={{ fontFamily: "'Plus Jakarta Sans !important', sans-serif !important", fontWeight:"500", fontSize:{sm:"20px", xs:"16px"}, color:"#010120", width:"100%" }}>
             {notificationText}
           </Typography>
           <Typography sx={{ fontFamily: "'Plus Jakarta Sans !important', sans-serif !important" ,color:"#99999C", fontSize:"16px" }}>
@@ -46,9 +56,6 @@ const NotificationBox = ({notificationText, notificationDate}) => {
           </Typography>
         </Box>
       </Box>
-      {/* <Box sx={{ fontFamily: "'Plus Jakarta Sans', sans-serif !important !important" , position:"absolute",
-      top:"42px", right:"30px   " 
-      }}> <img src={crossIcon} alt="" /> </Box> */}
     </Box>
   );
 }

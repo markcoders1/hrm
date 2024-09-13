@@ -57,11 +57,10 @@ const Register = () => {
   ``;
 
   const handleDayChange = (day) => {
-    setSelectedDays((prevSelected) =>
-      prevSelected.includes(day)
-        ? prevSelected.filter((d) => d !== day)
-        : [...prevSelected, day]
-    );
+    setSelectedDays((prevSelected) =>{
+      const days = prevSelected.map((d) => d.value);
+      return days.includes(day.value) ? prevSelected.filter((d) => d.value !== day.value) : [...prevSelected, day];
+    });
   };
 
   const onSubmit = async (data) => {
@@ -134,10 +133,13 @@ const Register = () => {
   const calculateShiftDuration = (fromTime, toTime) => {
     if (!fromTime || !toTime) return "";
 
-    const from = new Date(`1970-01-01T${fromTime}:00Z`);
-    const to = new Date(`1970-01-01T${toTime}:00Z`);
+    console.log(fromTime, toTime);
 
-    // Calculate difference in minutes and take the absolute value to prevent negative durations
+    const from = new Date(`1970-01-01T${fromTime}:00Z`);
+
+    const to = fromTime.slice(0,2)>toTime.slice(0,2)? new Date(`1970-01-02T${toTime}:00Z`): new Date(`1970-01-01T${toTime}:00Z`);
+
+
     const totalMinutes = Math.abs(differenceInMinutes(from, to));
 
     // Calculate hours and minutes

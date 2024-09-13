@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import NotificationBox from '../../components/NotificationBox/NotificationBox';
 import { useOutletContext } from 'react-router-dom';
 import axiosInstance from '../../auth/axiosInstance';
@@ -54,12 +54,20 @@ const MyNotifications = () => {
           onChange={(e) => setSearchTerm(e.target.value)} // Update the search term state
         />
       </Box>
-
+      <Typography sx={{ 
+        fontFamily: "'Poppins', sans-serif !important",
+        fontWeight: "500",
+        fontSize: "20px",
+        color: "#010120"
+      }}>Total: {notification.length} New: {notification.filter(notif => notif.isNew).length}</Typography>
       {filteredNotifications.map((notification, index) => (
         <NotificationBox
           key={index}
           notificationText={notification?.notification}
           notificationDate={formatDate(notification?.createdAt)}
+          notificationLink={notification?.linkTo}
+          notificationisNew={notification?.isNew}
+          notificationLinkType={notification?.linkType}
         />
       ))}
     </Box>

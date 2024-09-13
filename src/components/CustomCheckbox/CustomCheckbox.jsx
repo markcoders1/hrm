@@ -2,6 +2,7 @@ import React from 'react';
 import { Box } from '@mui/material';
 
 const CustomCheckbox = ({ label, selected, onChange }) => {
+  
   return (
     <Box
       onClick={() => onChange(label)}

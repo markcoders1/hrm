@@ -42,6 +42,7 @@ const CustomButton = ({
                 fontWeight,
                 width,
                 height,
+                boxShadow:"none",
                 textTransform: "none",  // Ensures the text is displayed as provided
                 ...buttonStyle,
                 '&:hover': {

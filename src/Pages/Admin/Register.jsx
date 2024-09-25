@@ -589,7 +589,7 @@ const Register = () => {
               }}
             >
               {/* Custom Checkboxes for Working Days */}
-              <Box sx={{ flexBasis: "33%" }}>
+              <Box sx={{ flexBasis: "32.5%" }}>
                 <Typography
                   sx={{
                     fontSize: "14px",
@@ -632,7 +632,7 @@ const Register = () => {
                   display: "flex",
                   gap: "5px",
                   flexDirection: "column",
-                  flexBasis: "33%",
+                  flexBasis: "32.5%",
                 }}
               >
                 <Controller
@@ -729,17 +729,10 @@ const Register = () => {
                   flexBasis: "33%",
                 }}
               >
-                {/* <Controller
-                  name="duration"
-                  // control={control}
-                  defaultValue=""
-                  render={({ field }) => ( */}
                 <CustomInputLabel
                   label="Duration*"
                   type="text"
-                  // error={errors.totalShiftDuration?.message}
-                  // value={}
-                  // {...field}
+                
                   border={false}
                   readOnly
                   disabled
@@ -928,10 +921,32 @@ const Register = () => {
             </Box>
           </Box>
 
-          <Box sx={{ display: "flex", justifyContent: "end", mt: "20px" }}>
+          <Box sx={{ display: "flex", justifyContent: "end", mt: "20px", gap:"1.5rem"}}>
+
+          <CustomButton
+              ButtonText="Add Documents +"
+              fontSize="16px"
+              color="#010120"
+              fontWeight="500"
+              fullWidth={false}
+              variant="contained"
+              // padding="10px 20px"
+              type="submit"
+              background="white"
+              hoverBg="#303f9f"
+              hovercolor="white"
+              width={"195px"}
+              borderRadius="7px"
+            
+              height="45px"
+              buttonStyle={{
+               border:"1px solid #010120",
+               boxShadow:"none"
+              }}
+            />
             <CustomButton
-              ButtonText="Add +"
-              fontSize="18px"
+              ButtonText="Add User +"
+              fontSize="16px"
               color="white"
               fontWeight="500"
               fullWidth={false}

@@ -34,6 +34,7 @@ const UserInfo = () => {
           params: { id },
         });
         const dataAllEmployee = response.data.user;
+        console.log(response)
 
         // Pre-process the DOB to match the required date input format
         if (dataAllEmployee.DOB) {

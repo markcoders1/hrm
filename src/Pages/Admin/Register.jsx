@@ -57,11 +57,10 @@ const Register = () => {
   ``;
 
   const handleDayChange = (day) => {
-    setSelectedDays((prevSelected) =>
-      prevSelected.includes(day)
-        ? prevSelected.filter((d) => d !== day)
-        : [...prevSelected, day]
-    );
+    setSelectedDays((prevSelected) =>{
+      const days = prevSelected.map((d) => d.value);
+      return days.includes(day.value) ? prevSelected.filter((d) => d.value !== day.value) : [...prevSelected, day];
+    });
   };
 
   const onSubmit = async (data) => {
@@ -143,10 +142,13 @@ const Register = () => {
   const calculateShiftDuration = (fromTime, toTime) => {
     if (!fromTime || !toTime) return "";
 
-    const from = new Date(`1970-01-01T${fromTime}:00Z`);
-    const to = new Date(`1970-01-01T${toTime}:00Z`);
+    console.log(fromTime, toTime);
 
-    // Calculate difference in minutes and take the absolute value to prevent negative durations
+    const from = new Date(`1970-01-01T${fromTime}:00Z`);
+
+    const to = fromTime.slice(0,2)>toTime.slice(0,2)? new Date(`1970-01-02T${toTime}:00Z`): new Date(`1970-01-01T${toTime}:00Z`);
+
+
     const totalMinutes = Math.abs(differenceInMinutes(from, to));
 
     // Calculate hours and minutes
@@ -587,7 +589,7 @@ const Register = () => {
               }}
             >
               {/* Custom Checkboxes for Working Days */}
-              <Box sx={{ flexBasis: "33%" }}>
+              <Box sx={{ flexBasis: "32.5%" }}>
                 <Typography
                   sx={{
                     fontSize: "14px",
@@ -630,7 +632,7 @@ const Register = () => {
                   display: "flex",
                   gap: "5px",
                   flexDirection: "column",
-                  flexBasis: "33%",
+                  flexBasis: "32.5%",
                 }}
               >
                 <Controller
@@ -727,17 +729,10 @@ const Register = () => {
                   flexBasis: "33%",
                 }}
               >
-                {/* <Controller
-                  name="duration"
-                  // control={control}
-                  defaultValue=""
-                  render={({ field }) => ( */}
                 <CustomInputLabel
                   label="Duration*"
                   type="text"
-                  // error={errors.totalShiftDuration?.message}
-                  // value={}
-                  // {...field}
+                
                   border={false}
                   readOnly
                   disabled
@@ -926,10 +921,32 @@ const Register = () => {
             </Box>
           </Box>
 
-          <Box sx={{ display: "flex", justifyContent: "end", mt: "20px" }}>
+          <Box sx={{ display: "flex", justifyContent: "end", mt: "20px", gap:"1.5rem"}}>
+
+          <CustomButton
+              ButtonText="Add Documents +"
+              fontSize="16px"
+              color="#010120"
+              fontWeight="500"
+              fullWidth={false}
+              variant="contained"
+              // padding="10px 20px"
+              type="submit"
+              background="white"
+              hoverBg="#303f9f"
+              hovercolor="white"
+              width={"195px"}
+              borderRadius="7px"
+            
+              height="45px"
+              buttonStyle={{
+               border:"1px solid #010120",
+               boxShadow:"none"
+              }}
+            />
             <CustomButton
-              ButtonText="Add +"
-              fontSize="18px"
+              ButtonText="Add User +"
+              fontSize="16px"
               color="white"
               fontWeight="500"
               fullWidth={false}

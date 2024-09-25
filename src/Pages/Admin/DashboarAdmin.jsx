@@ -118,7 +118,8 @@ const DashboardAdmin = () => {
 
   const customFormatTime = (t) =>{
     const dateObject = new Date(t)
-    const timetooutput = `${dateObject.getUTCHours()}:${dateObject.getUTCMinutes()}`
+    const utcMinutes = dateObject.getUTCMinutes()
+    const timetooutput = `${dateObject.getUTCHours()}:${utcMinutes.padStart(2,0)}}`
     return timetooutput
   }
   const handleScroll = () => {

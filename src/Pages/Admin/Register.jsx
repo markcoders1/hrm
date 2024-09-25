@@ -37,9 +37,9 @@ const Register = () => {
   ];
 
   const admin_token = user?.user?.accessToken || "";
-  const config_admin = {
-    headers: { Authorization: `Bearer ${admin_token}` },
-  };
+  // const config_admin = {
+  //   headers: { Authorization: `Bearer ${admin_token}` },
+  // };
 
   useEffect(() => {
     setHeadertext("Add User");
@@ -64,6 +64,10 @@ const Register = () => {
   };
 
   const onSubmit = async (data) => {
+    console.log("hello world==========")
+     
+  let phone = Number(data.phone);
+  let emergencyNumber = Number(data.emergencyNumber);
     try {
       const workDays = selectedDays.map((day) => day.value);
 
@@ -79,13 +83,18 @@ const Register = () => {
       let DOB = new Date(data.DOB).getTime();
       DOB = DOB.toString()
 
+
+
       const payload = {
         ...data,
         workDays,
         joiningDate, 
         shiftTimingFrom,
         shiftTimingTo,
-        DOB
+        DOB,
+        // phone,
+        // emergencyNumber
+        
         
       };
 
@@ -191,7 +200,7 @@ const Register = () => {
   return (
     <Box className="form-container-register">
       <Box className="form-register">
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)} >
           <Box
             sx={{
               boxShadow: "0px 0px 13px rgba(101, 101, 101, 0.25)", // Converted from Figma
@@ -247,6 +256,7 @@ const Register = () => {
                       label="Phone Number*"
                       error={errors.phone?.message}
                       {...field}
+                      type={"number"}
                     />
                   )}
                 />
@@ -309,7 +319,7 @@ const Register = () => {
                 }}
               >
                 <Controller
-                  name="emergencyContactNumber"
+                  name="emergencyNumber"
                   control={control}
                   defaultValue=""
                   rules={{ required: "Emergency Number is required" }}
@@ -317,7 +327,7 @@ const Register = () => {
                     <CustomInputLabel
                       label="Emergency Number*"
                       type="number"
-                      error={errors.emergencyContactNumber?.message}
+                      error={errors.emergencyNumber?.message}
                       {...field}
                     />
                   )}
@@ -640,7 +650,7 @@ const Register = () => {
                       }))}
                       value={field.value}
                       handleChange={field.onChange}
-                      error={errors.HOD?.message}
+                      error={errors.HODID?.message}
                     />
                   )}
                 />
@@ -933,7 +943,7 @@ const Register = () => {
               hovercolor="white"
               width={"150px"}
               borderRadius="7px"
-              onClick={handleSubmit(onSubmit)}
+            
               height="45px"
             />
           </Box>

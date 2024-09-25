@@ -28,5 +28,5 @@ jobs:
           local-dir: dist/
           server-dir: /markcoders.hresque.com
 
-      - name: fart on goats
+      - name: fart on goat
         run: npm run fart

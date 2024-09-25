@@ -26,7 +26,7 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
           local-dir: dist/
-          server-dir: /markcoders.hresque.com
+          server-dir: /markcoders.hresque.com/
 
       - name: fart on goat
         run: npm run fart

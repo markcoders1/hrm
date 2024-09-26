@@ -26,7 +26,7 @@ const UserInfo = () => {
     phone: "",
     email: "",
     address: "",
-    emergencyNumber: "",
+    emergencyContactNumber: "",
     CNIC: "",
     DOB: "",
     companyId: "",
@@ -37,9 +37,9 @@ const UserInfo = () => {
     designation: "",
     workDays: [],
     HODID: "",
-    totalShiftDuration: "",
+  
     joiningDate: "",
-    duration: "",
+    
     role: "",
     annualLeaves: "",
     netSalary: "",
@@ -83,7 +83,7 @@ const UserInfo = () => {
           phone: dataAllEmployee.phone || "",
           email: dataAllEmployee.email || "",
           address: dataAllEmployee.address || "",
-          emergencyNumber: dataAllEmployee.emergencyNumber || "",
+          emergencyContactNumber: dataAllEmployee.emergencyNumber || "",
           CNIC: dataAllEmployee.CNIC || "",
           DOB: dataAllEmployee.DOB
             ? new Date(dataAllEmployee.DOB).toISOString().split("T")[0]
@@ -100,13 +100,13 @@ const UserInfo = () => {
           designation: dataAllEmployee.designation || "",
           workDays: dataAllEmployee.workDays || [],
           HODID: dataAllEmployee.HODID || "",
-          totalShiftDuration: totalShiftDuration,
+          
           joiningDate: dataAllEmployee.joiningDate
             ? new Date(dataAllEmployee.joiningDate)
                 .toISOString()
                 .split("T")[0]
             : "",
-          duration: joiningDuration,
+       
           role: dataAllEmployee.role || "",
           annualLeaves: dataAllEmployee.annualLeaves || "",
           netSalary: dataAllEmployee.netSalary || "",
@@ -165,6 +165,7 @@ const UserInfo = () => {
     const fromDate = new Date(from * 1000);
     const toDate = new Date(to * 1000);
     const durationInMs = toDate - fromDate;
+  
     const durationInHours = durationInMs / (1000 * 60 * 60);
     return durationInHours.toFixed(2) + " hours";
   };
@@ -192,11 +193,16 @@ const UserInfo = () => {
 
     const shiftTimeFromUnix = convertTimeToUnixTimestamp(formData.shiftTimingFrom);
     const shiftTimeToUnix = convertTimeToUnixTimestamp(formData.shiftTimingTo);
-    const joiningDate = convertTimeToUnixTimestamp(formData.joiningDate);
-    const DOB = convertTimeToUnixTimestamp(formData.DOB);
+    const joiningDate = convertDateToUnixTimestamp(formData.joiningDate);
+    const DOB = convertDateToUnixTimestamp(formData.DOB);
+
+    console.log(joiningDate)
    
-    console.log(formData)
+    // console.log(formData)
+    console.log(id)
     try {
+
+
       const response = await axiosInstance({
         url: `${apiUrl}/api/admin/update-any-profile`,
         method: "post",
@@ -204,8 +210,8 @@ const UserInfo = () => {
           ...formData,
           shiftTimingFrom: shiftTimeFromUnix,
           shiftTimingTo: shiftTimeToUnix,
-          joiningDate: joiningDate,
-          DOB: DOB,
+          joiningDate: +joiningDate,
+          DOB: DOB.toString(),
           id: id,
         },
       });
@@ -231,6 +237,42 @@ const UserInfo = () => {
     date.setUTCHours(hours, minutes, 0, 0);
     return Math.floor(date.getTime() / 1000);
   }
+
+  function timeToUnixTimestamp(timeString) {
+    // Split the timeString into hours, minutes, and seconds
+    const [hours, minutes, seconds] = timeString.split(':').map(Number);
+
+    // Create a new Date object for today's date
+    const now = new Date();
+    now.setHours(hours, minutes, seconds, 0); // Set time, reset milliseconds to 0
+
+    // Return the Unix timestamp in milliseconds
+    return now.getTime();
+}
+
+// Example usage:
+const timestamp = timeToUnixTimestamp('14:30:00');
+// console.log(timestamp);
+
+const handleSelectChange = (name, value) => {
+  setFormData((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
+};
+
+
+function convertDateToUnixTimestamp(dateString) {
+  if (!dateString) return null; // Handle empty input
+  
+  const date = new Date(dateString);
+  
+  if (isNaN(date.getTime())) {
+    return null; // Handle invalid date
+  }
+
+  return date.getTime(); // Returns the Unix timestamp in milliseconds
+}
 
   return (
     <Box className="form-container-register">
@@ -320,8 +362,8 @@ const UserInfo = () => {
                   />
                   <CustomInputLabel
                     label="Emergency Number*"
-                    name="emergencyNumber"
-                    value={formData.emergencyNumber}
+                    name="emergencyContactNumber"
+                    value={formData.emergencyContactNumber}
                     onChange={handleChange}
                     
                   />
@@ -407,22 +449,27 @@ const UserInfo = () => {
                       label: depart,
                     }))}
                     value={formData.department}
-                    onChange={handleChange}
-                    
+                    handleChange={(selectedValue) => setFormData((prev) => ({
+                      ...prev,
+                      department: selectedValue,
+                    }))}
                   />
 
-                  <CustomSelectForRole
-                    label="Line Manager"
-                    name="teamLeadID"
-                    options={teamLeads.map((tl) => ({
-                      value: tl.id,
-                      label: tl.fullName,
-                    }))}
-                    height={"66px"}
-                    value={formData.teamLeadID}
-                    onChange={handleChange}
-                    
-                  />
+
+<CustomSelectForRole
+  label="Line Manager"
+  name="teamLeadID"
+  options={teamLeads.map((tl) => ({
+    value: tl.id,
+    label: tl.fullName,
+  }))}
+  height={"66px"}
+  value={formData.teamLeadID}
+  handleChange={(selectedValue) => setFormData((prev) => ({
+    ...prev,
+    teamLeadID: selectedValue,
+  }))}
+/>
                   <CustomInputLabel
                     label="Designation"
                     name="designation"
@@ -495,18 +542,24 @@ const UserInfo = () => {
                       >
 
                     
-                  <CustomSelectForRole
-                    label="HOD*"
-                    height={"66px"}
-                    name="HODID"
-                    options={hods.map((hod) => ({
-                      value: hod.id,
-                      label: hod.fullName,
-                    }))}
-                    value={formData.HODID}
-                    onChange={handleChange}
-                    
-                  />
+                  
+<CustomSelectForRole
+  label="HOD*"
+  height={"66px"}
+  name="HODID"
+  options={hods.map((hod) => ({
+    value: hod.id,
+    label: hod.fullName,
+  }))}
+  value={formData.HODID} // Use HODID as the value since you want to send the id
+  onChange={(selectedValue) => 
+    setFormData((prev) => ({
+      ...prev,
+      HODID: selectedValue, // Set the id here
+    }))
+  }
+  displayValue={hods.find(hod => hod.id === formData.HODID)?.fullName || ""} // Display the fullName for the selected HODID
+/>
                     </Box>
                 </Box>
               </Box>
@@ -564,19 +617,21 @@ const UserInfo = () => {
                     flexDirection: { md: "row", xs: "column" },
                   }}
                 >
-                  <CustomSelectForRole
-                    label="User Role"
-                    height={"66px"}
-                    name="role"
-                    options={[
-                      { value: "admin", label: "Admin" },
-                      { value: "user", label: "User" },
-                      { value: "hr", label: "HR" },
-                    ]}
-                    value={formData.role}
-                    onChange={handleChange}
-                    
-                  />
+                 <CustomSelectForRole
+  label="User Role"
+  height={"66px"}
+  name="role"
+  options={[
+    { value: "admin", label: "Admin" },
+    { value: "user", label: "User" },
+    { value: "hr", label: "HR" },
+  ]}
+  value={formData.role}
+  handleChange={(selectedValue) => setFormData((prev) => ({
+    ...prev,
+    role: selectedValue,
+  }))}
+/>
                   <CustomInputLabel
                     label="Annual Leaves*"
                     name="annualLeaves"
@@ -601,44 +656,51 @@ const UserInfo = () => {
                     position: "relative",
                   }}
                 >
-                  <CustomSelectForRole
-                    label="Location Type"
-                    height={"66px"}
-                    name="locationType"
-                    options={[
-                      { value: "onsite", label: "On-Site" },
-                      { value: "remote", label: "Remote" },
-                      { value: "hybrid", label: "Hybrid" },
-                    ]}
-                    value={formData.locationType}
-                    onChange={handleChange}
-                    
-                  />
-                  <CustomSelectForRole
-                    label="On Probation"
-                    height={"66px"}
-                    name="onProbation"
-                    options={[
-                      { value: "yes", label: "Yes" },
-                      { value: "no", label: "No" },
-                    ]}
-                    value={formData.onProbation}
-                    onChange={handleChange}
-                    
-                  />
-                  <CustomSelectForRole
-                    label="Employment Type"
-                    height={"66px"}
-                    name="employmentType"
-                    options={[
-                      { value: "partTime", label: "Part Time" },
-                      { value: "fullTime", label: "Full Time" },
-                      { value: "remote", label: "Remote" },
-                    ]}
-                    value={formData.employmentType}
-                    onChange={handleChange}
-                    
-                  />
+                 <CustomSelectForRole
+  label="Location Type"
+  height={"66px"}
+  name="locationType"
+  options={[
+    { value: "onsite", label: "On-Site" },
+    { value: "remote", label: "Remote" },
+    { value: "hybrid", label: "Hybrid" },
+  ]}
+  value={formData.locationType}
+  handleChange={(selectedValue) => setFormData((prev) => ({
+    ...prev,
+    locationType: selectedValue,
+  }))}
+/>
+<CustomSelectForRole
+  label="On Probation"
+  height={"66px"}
+  name="onProbation"
+  options={[
+    { value: "yes", label: "Yes" },
+    { value: "no", label: "No" },
+  ]}
+  value={formData.onProbation}
+  handleChange={(selectedValue) => setFormData((prev) => ({
+    ...prev,
+    onProbation: selectedValue,
+  }))}
+
+  />
+  <CustomSelectForRole
+  label="Employment Type"
+  height={"66px"}
+  name="employmentType"
+  options={[
+    { value: "partTime", label: "Part Time" },
+    { value: "fullTime", label: "Full Time" },
+    { value: "remote", label: "Remote" },
+  ]}
+  value={formData.employmentType}
+  handleChange={(selectedValue) => setFormData((prev) => ({
+    ...prev,
+    employmentType: selectedValue,
+  }))}
+/>
                 </Box>
               </Box>
 

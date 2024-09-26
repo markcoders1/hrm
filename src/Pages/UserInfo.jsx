@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
 import { Box, Button, Typography } from "@mui/material";
 import { useOutletContext, useParams } from "react-router-dom";
 import axiosInstance from "../auth/axiosInstance";
 import "../PagesCss/UserInfo.css";
 import CustomInputLabel from "../components/CustomInputField/CustomInputLabel";
-import CustomSelectForRole from "../components/CustomSelectForRole/CustomSelectForRole"; // Updated import
+import CustomSelectForRole from "../components/CustomSelectForRole/CustomSelectForRole";
 import CustomButton from "../components/CustomButton/CustomButton";
 import { Loader } from "../components/Loaders";
+import CustomCheckbox from "../components/CustomCheckbox/CustomCheckbox";
+import { toast } from "react-toastify";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -15,14 +16,47 @@ const UserInfo = () => {
   const { setHeadertext } = useOutletContext();
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
+  const [hods, setHods] = useState([]);
+  const [teamLeads, setTeamLeads] = useState([]);
+  const [departments, setDepartments] = useState([]);
   const [inputAbled, setInputAbled] = useState(false);
-  const {
-    control,
-    handleSubmit,
-    reset,
-    setValue,
-    formState: { errors },
-  } = useForm();
+  const [selectedDays, setSelectedDays] = useState([]);
+  const [formData, setFormData] = useState({
+    fullName: "",
+    phone: "",
+    email: "",
+    address: "",
+    emergencyNumber: "",
+    CNIC: "",
+    DOB: "",
+    companyId: "",
+    shiftTimingFrom: "",
+    shiftTimingTo: "",
+    department: "",
+    teamLeadID: "",
+    designation: "",
+    workDays: [],
+    HODID: "",
+    totalShiftDuration: "",
+    joiningDate: "",
+    duration: "",
+    role: "",
+    annualLeaves: "",
+    netSalary: "",
+    locationType: "",
+    onProbation: "",
+    employmentType: "",
+  });
+
+  const daysOfWeek = [
+    { label: "Monday", value: 1 },
+    { label: "Tuesday", value: 2 },
+    { label: "Wednesday", value: 3 },
+    { label: "Thursday", value: 4 },
+    { label: "Friday", value: 5 },
+    { label: "Saturday", value: 6 },
+    { label: "Sunday", value: 0 },
+  ];
 
   useEffect(() => {
     setHeadertext("Edit User");
@@ -34,20 +68,62 @@ const UserInfo = () => {
           params: { id },
         });
         const dataAllEmployee = response.data.user;
-        console.log(response)
 
-        // Pre-process the DOB to match the required date input format
-        if (dataAllEmployee.DOB) {
-          const date = new Date(dataAllEmployee.DOB);
-          const formattedDate = date.toISOString().split("T")[0]; // Converts to 'yyyy-MM-dd' format
-          setValue("DOB", formattedDate);
-        }
+        const totalShiftDuration = calculateShiftDuration(
+          dataAllEmployee.shiftTimingFrom,
+          dataAllEmployee.shiftTimingTo
+        );
 
-        // Pre-fill the form with the retrieved data
-        for (const key in dataAllEmployee) {
-          if (key !== "DOB" && dataAllEmployee.hasOwnProperty(key)) {
-            setValue(key, dataAllEmployee[key]);
-          }
+        const joiningDuration = calculateDurationFromJoiningDate(
+          dataAllEmployee.joiningDate
+        );
+
+        setFormData({
+          fullName: dataAllEmployee.fullName || "",
+          phone: dataAllEmployee.phone || "",
+          email: dataAllEmployee.email || "",
+          address: dataAllEmployee.address || "",
+          emergencyNumber: dataAllEmployee.emergencyNumber || "",
+          CNIC: dataAllEmployee.CNIC || "",
+          DOB: dataAllEmployee.DOB
+            ? new Date(dataAllEmployee.DOB).toISOString().split("T")[0]
+            : "",
+          companyId: dataAllEmployee.companyId || "",
+          shiftTimingFrom: dataAllEmployee.shiftTimingFrom
+            ? unixToTimeInput(dataAllEmployee.shiftTimingFrom)
+            : "",
+          shiftTimingTo: dataAllEmployee.shiftTimingTo
+            ? unixToTimeInput(dataAllEmployee.shiftTimingTo)
+            : "",
+          department: dataAllEmployee.department || "",
+          teamLeadID: dataAllEmployee.teamLeadID || "",
+          designation: dataAllEmployee.designation || "",
+          workDays: dataAllEmployee.workDays || [],
+          HODID: dataAllEmployee.HODID || "",
+          totalShiftDuration: totalShiftDuration,
+          joiningDate: dataAllEmployee.joiningDate
+            ? new Date(dataAllEmployee.joiningDate)
+                .toISOString()
+                .split("T")[0]
+            : "",
+          duration: joiningDuration,
+          role: dataAllEmployee.role || "",
+          annualLeaves: dataAllEmployee.annualLeaves || "",
+          netSalary: dataAllEmployee.netSalary || "",
+          locationType: dataAllEmployee.locationType || "",
+          onProbation: dataAllEmployee.onProbation || "",
+          employmentType: dataAllEmployee.employmentType || "",
+        });
+
+      console.log(response)
+
+
+        if (dataAllEmployee.workDays) {
+          setSelectedDays(
+            dataAllEmployee.workDays.map((day) =>
+              daysOfWeek.find((d) => d.value === day)
+            )
+          );
         }
 
         setLoading(false);
@@ -56,21 +132,105 @@ const UserInfo = () => {
       }
     };
     getSpecificUser();
-  }, [id, apiUrl, setHeadertext, setValue]);
+  }, [id]);
 
-  const onSubmit = async (data) => {
+  const fetchPreDataToShow = async () => {
     try {
       const response = await axiosInstance({
-        url: `${apiUrl}/api/admin/update-any-profile`,
-        method: "post",
-        data: { id, ...data },
+        url: `${apiUrl}/api/admin/getRegisterDetails`,
+        method: "get",
       });
-      console.log(response);
-      reset();
+      setTeamLeads(response.data.TL);
+      setHods(response.data.HOD);
+      setDepartments(response.data.departments);
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    fetchPreDataToShow();
+  }, []);
+
+  const handleDayChange = (day) => {
+    setSelectedDays((prevSelected) => {
+      const days = prevSelected.map((d) => d.value);
+      return days.includes(day.value)
+        ? prevSelected.filter((d) => d.value !== day.value)
+        : [...prevSelected, day];
+    });
+  };
+
+  const calculateShiftDuration = (from, to) => {
+    const fromDate = new Date(from * 1000);
+    const toDate = new Date(to * 1000);
+    const durationInMs = toDate - fromDate;
+    const durationInHours = durationInMs / (1000 * 60 * 60);
+    return durationInHours.toFixed(2) + " hours";
+  };
+
+  const calculateDurationFromJoiningDate = (joiningDate) => {
+    const joinDate = new Date(joiningDate * 1000);
+    const now = new Date();
+    const durationInMs = now - joinDate;
+    const durationInDays = durationInMs / (1000 * 60 * 60 * 24);
+    return durationInDays.toFixed(0) + " days";
+  };
+
+  
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    const shiftTimeFromUnix = convertTimeToUnixTimestamp(formData.shiftTimingFrom);
+    const shiftTimeToUnix = convertTimeToUnixTimestamp(formData.shiftTimingTo);
+    const joiningDate = convertTimeToUnixTimestamp(formData.joiningDate);
+    const DOB = convertTimeToUnixTimestamp(formData.DOB);
+   
+    console.log(formData)
+    try {
+      const response = await axiosInstance({
+        url: `${apiUrl}/api/admin/update-any-profile`,
+        method: "post",
+        data: {
+          ...formData,
+          shiftTimingFrom: shiftTimeFromUnix,
+          shiftTimingTo: shiftTimeToUnix,
+          joiningDate: joiningDate,
+          DOB: DOB,
+          id: id,
+        },
+      });
+      toast.success(response.data.message);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message[0].message, {
+        position: "top-center",
+      });
+    }
+  };
+
+  function unixToTimeInput(unixTimestamp) {
+    const date = new Date(unixTimestamp * 1000);
+    let hours = date.getUTCHours().toString().padStart(2, "0");
+    let minutes = date.getUTCMinutes().toString().padStart(2, "0");
+    return `${hours}:${minutes}`;
+  }
+
+  function convertTimeToUnixTimestamp(timeString) {
+    const [hours, minutes] = timeString.split(":").map(Number);
+    const date = new Date();
+    date.setUTCHours(hours, minutes, 0, 0);
+    return Math.floor(date.getTime() / 1000);
+  }
 
   return (
     <Box className="form-container-register">
@@ -94,26 +254,24 @@ const UserInfo = () => {
         </Box>
       </Box>
       <Box className="form-register" sx={{ mt: "40px" }}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={onSubmit}>
           {loading ? (
             <Box className="loaderContainer">
               <Loader />
             </Box>
           ) : (
             <>
-              {/* Upper Group: Full Name, Phone Number, Email, etc. */}
               <Box
                 sx={{
                   display: "flex",
                   flexDirection: "column",
                   gap: "20px",
                   mb: "40px",
-                  boxShadow: "0px 0px 13px rgba(101, 101, 101, 0.25)", // Converted from Figma
+                  boxShadow: "0px 0px 13px rgba(101, 101, 101, 0.25)",
                   borderRadius: "9px",
                   p: "26px 23px",
                 }}
               >
-                {/* Upper Fields Group */}
                 <Box
                   sx={{
                     display: "flex",
@@ -122,70 +280,27 @@ const UserInfo = () => {
                     flexDirection: { md: "row", xs: "column" },
                   }}
                 >
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="fullName"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomInputLabel
-                          label="Full Name*"
-                          error={errors.fullName?.message}
-                          disabled={!inputAbled}
-                          {...field}
-                        />
-                      )}
-                    />
-                  </Typography>
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="phone"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomInputLabel
-                          label="Phone Number*"
-                          error={errors.phone?.message}
-                          disabled={!inputAbled}
-                          {...field}
-                        />
-                      )}
-                    />
-                  </Typography>
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="email"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomInputLabel
-                          label="Official Email*"
-                          type="email"
-                          error={errors.email?.message}
-                          disabled={!inputAbled}
-                          {...field}
-                        />
-                      )}
-                    />
-                  </Typography>
+                  <CustomInputLabel
+                    label="Full Name*"
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleChange}
+                    
+                  />
+                  <CustomInputLabel
+                    label="Phone Number*"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    
+                  />
+                  <CustomInputLabel
+                    label="Email*"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    
+                  />
                 </Box>
 
                 <Box
@@ -196,50 +311,20 @@ const UserInfo = () => {
                     flexDirection: { md: "row", xs: "column" },
                   }}
                 >
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "66.66%",
-                    }}
-                  >
-                    <Controller
-                      name="address"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomInputLabel
-                          label="Address"
-                          fullWidth
-                          error={errors.address?.message}
-                          disabled={!inputAbled}
-                          {...field}
-                        />
-                      )}
-                    />
-                  </Typography>
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="emergencyNumber"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomInputLabel
-                          label="Emergency Number*"
-                          type="number"
-                          error={errors.emergencyNumber?.message}
-                          disabled={!inputAbled}
-                          {...field}
-                        />
-                      )}
-                    />
-                  </Typography>
+                  <CustomInputLabel
+                    label="Address*"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    
+                  />
+                  <CustomInputLabel
+                    label="Emergency Number*"
+                    name="emergencyNumber"
+                    value={formData.emergencyNumber}
+                    onChange={handleChange}
+                    
+                  />
                 </Box>
 
                 <Box
@@ -250,71 +335,28 @@ const UserInfo = () => {
                     flexDirection: { md: "row", xs: "column" },
                   }}
                 >
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="CNIC"
-                      control={control}
-                      rules={{ required: "CNIC is required" }}
-                      render={({ field }) => (
-                        <CustomInputLabel
-                          label="CNIC*"
-                          error={errors.CNIC?.message}
-                          disabled={!inputAbled}
-                          {...field}
-                        />
-                      )}
-                    />
-                  </Typography>
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="DOB"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomInputLabel
-                          label="Date of Birth*"
-                          type="date"
-                          error={errors.DOB?.message}
-                          disabled={!inputAbled}
-                          {...field}
-                        />
-                      )}
-                    />
-                  </Typography>
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="companyId"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomInputLabel
-                          label="Employee ID*"
-                          error={errors.companyId?.message}
-                          disabled={!inputAbled}
-                          {...field}
-                        />
-                      )}
-                    />
-                  </Typography>
+                  <CustomInputLabel
+                    label="CNIC*"
+                    name="CNIC"
+                    value={formData.CNIC}
+                    onChange={handleChange}
+                    
+                  />
+                  <CustomInputLabel
+                    label="Date Of Birth*"
+                    name="DOB"
+                    value={formData.DOB}
+                    onChange={handleChange}
+                    
+                    type="date"
+                  />
+                  <CustomInputLabel
+                    label="Company Id*"
+                    name="companyId"
+                    value={formData.companyId}
+                    onChange={handleChange}
+                    
+                  />
                 </Box>
 
                 <Box
@@ -325,71 +367,69 @@ const UserInfo = () => {
                     flexDirection: { md: "row", xs: "column" },
                   }}
                 >
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="password"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomInputLabel
-                          label="Password"
-                          placeholder="Password"
-                          value="admin1"
-                          disabled
-                        />
-                      )}
-                    />
-                  </Typography>
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="timefrom"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomInputLabel
-                          label="Shift Timings From*"
-                          type="time"
-                          error={errors.timefrom?.message}
-                          disabled={!inputAbled}
-                          {...field}
-                        />
-                      )}
-                    />
-                  </Typography>
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="timeto"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomInputLabel
-                          label="Shift Timings To*"
-                          type="time"
-                          error={errors.timeto?.message}
-                          disabled={!inputAbled}
-                          {...field}
-                        />
-                      )}
-                    />
-                  </Typography>
+                  <CustomInputLabel
+                    label="Password"
+                    onChange={handleChange}
+                    disabled={true}
+                  />
+
+                  <CustomInputLabel
+                    label="Shift Timing From"
+                    name="shiftTimingFrom"
+                    value={formData.shiftTimingFrom}
+                    onChange={handleChange}
+                    
+                    type="time"
+                  />
+                  <CustomInputLabel
+                    label="Shift Timing To"
+                    name="shiftTimingTo"
+                    value={formData.shiftTimingTo}
+                    onChange={handleChange}
+                    
+                    type="time"
+                  />
+                </Box>
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: "20px",
+                    flexDirection: { md: "row", xs: "column" },
+                  }}
+                >
+                  <CustomSelectForRole
+                    label="Department"
+                    name="department"
+                    height={"66px"}
+                    options={departments.map((depart) => ({
+                      value: depart,
+                      label: depart,
+                    }))}
+                    value={formData.department}
+                    onChange={handleChange}
+                    
+                  />
+
+                  <CustomSelectForRole
+                    label="Line Manager"
+                    name="teamLeadID"
+                    options={teamLeads.map((tl) => ({
+                      value: tl.id,
+                      label: tl.fullName,
+                    }))}
+                    height={"66px"}
+                    value={formData.teamLeadID}
+                    onChange={handleChange}
+                    
+                  />
+                  <CustomInputLabel
+                    label="Designation"
+                    name="designation"
+                    value={formData.designation}
+                    onChange={handleChange}
+                    
+                  />
                 </Box>
 
                 <Box
@@ -400,87 +440,7 @@ const UserInfo = () => {
                     flexDirection: { md: "row", xs: "column" },
                   }}
                 >
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="department"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomInputLabel
-                          label="Department*"
-                          error={errors.department?.message}
-                          disabled={!inputAbled}
-                          {...field}
-                        />
-                      )}
-                    />
-                  </Typography>
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="lineManager"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomSelectForRole
-                          label="Line Manager"
-                          height={"66px"}
-                          options={[
-                            { value: "uzaima", label: "Uzaima Iftikhar" },
-                            { value: "ammad", label: "Ammad" },
-                          ]}
-                          value={field.value}
-                          handleChange={field.onChange}
-                          error={errors.lineManager?.message}
-                          disabled={!inputAbled}
-                        />
-                      )}
-                    />
-                  </Typography>
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="designation"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomInputLabel
-                          label="Designation*"
-                          error={errors.designation?.message}
-                          disabled={!inputAbled}
-                          {...field}
-                        />
-                      )}
-                    />
-                  </Typography>
-                </Box>
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    gap: "20px",
-                    flexDirection: { md: "row", xs: "column" },
-                    position: "relative",
-                  }}
-                >
-                  {/* Custom Checkboxes for Working Days */}
-                  <Box sx={{ flexBasis: "33%" }}>
+                  <Box sx={{ flexBasis: "32.5%" }}>
                     <Typography
                       sx={{
                         fontSize: "14px",
@@ -506,52 +466,55 @@ const UserInfo = () => {
                         flexBasis: "33",
                       }}
                     >
-                      {/* {daysOfWeek.map((day) => (
+                      <Box
+                      sx={{
+                        flexBasis:"32.5%",
+                          display:"flex",
+                        gap:"0.7rem"
+                      }}
+                      >
+
+                      {daysOfWeek.map((day) => (
                         <CustomCheckbox
-                          key={day}
-                          label={day}
-                          selected={selectedDays.includes(day)}
-                          onChange={handleDayChange}
+                          key={day.label}
+                          label={day.label}
+                          selected={selectedDays.some(
+                            (selected) => selected.value === day.value
+                          )}
+                          onChange={() => handleDayChange(day)}
                         />
-                      ))} */}
+                      ))}
+                      </Box>
                     </Box>
                   </Box>
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="hod"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomSelectForRole
-                          label="HOD*"
-                          height={"66px"}
-                          options={[
-                            { value: "bial", label: "Bila Tunio" },
-                            { value: "saraang", label: "Saraang Ali Khawaja" },
-                            { value: "shameekh", label: "Syed Shameekh" },
-                            { value: "muzammil", label: "Muzammil Ahmed" },
-                          ]}
-                          value={field.value}
-                          handleChange={field.onChange}
-                          error={errors.hod?.message}
-                          disabled={!inputAbled}
-                        />
-                      )}
-                    />
-                  </Typography>
+                      <Box
+                       sx={{
+                        flexBasis:"32.2%",
+                      
+                      }}
+                      >
+
+                    
+                  <CustomSelectForRole
+                    label="HOD*"
+                    height={"66px"}
+                    name="HODID"
+                    options={hods.map((hod) => ({
+                      value: hod.id,
+                      label: hod.fullName,
+                    }))}
+                    value={formData.HODID}
+                    onChange={handleChange}
+                    
+                  />
+                    </Box>
                 </Box>
               </Box>
 
               {/* Lower Group: Shift Duration, Joining Date, etc. */}
               <Box
                 sx={{
-                  boxShadow: "0px 0px 13px rgba(101, 101, 101, 0.25)", // Converted from Figma
+                  boxShadow: "0px 0px 13px rgba(101, 101, 101, 0.25)",
                   borderRadius: "9px",
                   p: "26px 23px",
                   mt: "20px",
@@ -565,69 +528,32 @@ const UserInfo = () => {
                     flexDirection: { md: "row", xs: "column" },
                   }}
                 >
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="totalShiftDuration"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomInputLabel
-                          label="Total Shift Duration*"
-                          type="text"
-                          error={errors.totalShiftDuration?.message}
-                          {...field}
-                        />
-                      )}
-                    />
-                  </Typography>
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="joiningDate"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomInputLabel
-                          label="Joining Date*"
-                          type="date"
-                          error={errors.joiningDate?.message}
-                          {...field}
-                        />
-                      )}
-                    />
-                  </Typography>
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="duration"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomInputLabel
-                          label="Duration*"
-                          type="text"
-                          error={errors.duration?.message}
-                          {...field}
-                        />
-                      )}
-                    />
-                  </Typography>
+                  <CustomInputLabel
+                    label="Total Shift Duration*"
+                    name="totalShiftDuration"
+                    value={formData.totalShiftDuration}
+                    // onChange={handleChange}
+                    border={false}
+
+                    disabled={false}
+                  />
+                  <CustomInputLabel
+                    label="Joining Date*"
+                    name="joiningDate"
+                    type="date"
+                    value={formData.joiningDate}
+                    onChange={handleChange}
+                    
+                  />
+                  <CustomInputLabel
+                    label="Duration*"
+                    name="duration"
+                    value={formData.duration}
+                     // onChange={handleChange}
+                     border={false}
+
+                     disabled={false}
+                  />
                 </Box>
 
                 <Box
@@ -638,76 +564,33 @@ const UserInfo = () => {
                     flexDirection: { md: "row", xs: "column" },
                   }}
                 >
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="role"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomSelectForRole
-                          label="User Role"
-                          height={"66px"}
-                          options={[
-                            { value: "admin", label: "Admin" },
-                            { value: "user", label: "User" },
-                            { value: "hr", label: "HR" },
-                          ]}
-                          value={field.value}
-                          handleChange={field.onChange}
-                          error={errors.role?.message}
-                          disabled={!inputAbled}
-                        />
-                      )}
-                    />
-                  </Typography>
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="annualLeaves"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomInputLabel
-                          label="Annual Leaves*"
-                          error={errors.annualLeaves?.message}
-                          disabled={!inputAbled}
-                          {...field}
-                        />
-                      )}
-                    />
-                  </Typography>
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="netSalary"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomInputLabel
-                          label="Net Salary"
-                          error={errors.netSalary?.message}
-                          disabled={!inputAbled}
-                          {...field}
-                        />
-                      )}
-                    />
-                  </Typography>
+                  <CustomSelectForRole
+                    label="User Role"
+                    height={"66px"}
+                    name="role"
+                    options={[
+                      { value: "admin", label: "Admin" },
+                      { value: "user", label: "User" },
+                      { value: "hr", label: "HR" },
+                    ]}
+                    value={formData.role}
+                    onChange={handleChange}
+                    
+                  />
+                  <CustomInputLabel
+                    label="Annual Leaves*"
+                    name="annualLeaves"
+                    value={formData.annualLeaves}
+                    onChange={handleChange}
+                    
+                  />
+                  <CustomInputLabel
+                    label="Net Salary*"
+                    name="netSalary"
+                    value={formData.netSalary}
+                    onChange={handleChange}
+                    
+                  />
                 </Box>
 
                 <Box
@@ -718,96 +601,51 @@ const UserInfo = () => {
                     position: "relative",
                   }}
                 >
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="locaionType"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomSelectForRole
-                          label="Location Type"
-                          height={"66px"}
-                          options={[
-                            { value: "onsite", label: "On-Site" },
-                            { value: "remote", label: "Remote" },
-                            { value: "hybrid", label: "Hybrid" },
-                          ]}
-                          value={field.value}
-                          handleChange={field.onChange}
-                          error={errors.locaionType?.message}
-                          disabled={!inputAbled}
-                        />
-                      )}
-                    />
-                  </Typography>
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="onProbation"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomSelectForRole
-                          label="On Probation"
-                          height={"66px"}
-                          options={[
-                            { value: true, label: "Yes" },
-                            { value: false, label: "No" },
-                          ]}
-                          value={field.value}
-                          handleChange={field.onChange}
-                          error={errors.onProbation?.message}
-                          disabled={!inputAbled}
-                        />
-                      )}
-                    />
-                  </Typography>
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      gap: "5px",
-                      flexDirection: "column",
-                      flexBasis: "33%",
-                    }}
-                  >
-                    <Controller
-                      name="employementType"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomSelectForRole
-                          label="Employeement Type"
-                          height={"66px"}
-                          options={[
-                            { value: "partTime", label: "Part Time" },
-                            { value: "fullTime", label: "Full Time" },
-                            { value: "remote", label: "Remote" },
-                          ]}
-                          value={field.value}
-                          handleChange={field.onChange}
-                          error={errors.employementType?.message}
-                          disabled={!inputAbled}
-                        />
-                      )}
-                    />
-                  </Typography>
+                  <CustomSelectForRole
+                    label="Location Type"
+                    height={"66px"}
+                    name="locationType"
+                    options={[
+                      { value: "onsite", label: "On-Site" },
+                      { value: "remote", label: "Remote" },
+                      { value: "hybrid", label: "Hybrid" },
+                    ]}
+                    value={formData.locationType}
+                    onChange={handleChange}
+                    
+                  />
+                  <CustomSelectForRole
+                    label="On Probation"
+                    height={"66px"}
+                    name="onProbation"
+                    options={[
+                      { value: "yes", label: "Yes" },
+                      { value: "no", label: "No" },
+                    ]}
+                    value={formData.onProbation}
+                    onChange={handleChange}
+                    
+                  />
+                  <CustomSelectForRole
+                    label="Employment Type"
+                    height={"66px"}
+                    name="employmentType"
+                    options={[
+                      { value: "partTime", label: "Part Time" },
+                      { value: "fullTime", label: "Full Time" },
+                      { value: "remote", label: "Remote" },
+                    ]}
+                    value={formData.employmentType}
+                    onChange={handleChange}
+                    
+                  />
                 </Box>
               </Box>
 
               <Box sx={{ display: "flex", justifyContent: "end", mt: "20px" }}>
                 <CustomButton
-                  ButtonText="Save"
-                  fontSize="18px"
+                  ButtonText="Update"
+                  fontSize="16px"
                   color="white"
                   fontWeight="500"
                   fullWidth={false}
@@ -817,15 +655,16 @@ const UserInfo = () => {
                   background="#157AFF"
                   hoverBg="#303f9f"
                   hovercolor="white"
-                  width={"150px"}
+                  width={"144px"}
                   borderRadius="7px"
-                  disabled={!inputAbled}
+                  height="45px"
+                  
                 />
               </Box>
             </>
           )}
         </form>
-        <Box sx={{ display: "flex", justifyContent: "end", mt: "20px" }}>
+        {/* <Box sx={{ display: "flex", justifyContent: "end", mt: "20px" }}>
           <Button
             color="info"
             variant="outlined"
@@ -833,7 +672,7 @@ const UserInfo = () => {
           >
             Change Info
           </Button>
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );

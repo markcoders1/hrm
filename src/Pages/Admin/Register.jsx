@@ -64,7 +64,6 @@ const Register = () => {
   };
 
   const onSubmit = async (data) => {
-    console.log("hello world==========")
      
   let phone = Number(data.phone);
   let emergencyNumber = Number(data.emergencyNumber);
@@ -82,8 +81,6 @@ const Register = () => {
 
       let DOB = new Date(data.DOB).getTime();
       DOB = DOB.toString()
-
-
 
       const payload = {
         ...data,
@@ -546,8 +543,8 @@ const Register = () => {
                       label="Line Manager"
                       height={"66px"}
                       options={teamLeads.map((tl) => ({
-                        value: tl.id, // The value to send to the API
-                        label: tl.fullName, // The label to display in the select
+                        value: tl.id, 
+                        label: tl.fullName, 
                       }))}
                       value={field.value}
                       handleChange={field.onChange}

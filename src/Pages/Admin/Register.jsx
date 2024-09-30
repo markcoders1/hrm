@@ -12,6 +12,8 @@ import CustomSelectForRole from "../../components/CustomSelectForRole/CustomSele
 import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomCheckbox from "../../components/CustomCheckbox/CustomCheckbox";
 import { differenceInMinutes, differenceInHours, format } from "date-fns";
+import { setFormDirty } from "../../Redux/formSlice";
+import { useDispatch } from "react-redux";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -23,7 +25,8 @@ const Register = () => {
   const [teamLeads, setTeamLeads] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [joiningDuration, setJoiningDuration] = useState("");
-
+  const [isFormDirty, setIsFormDirty] = useState(false);
+  const dispatch = useDispatch()
 
   const [shiftDuration, setShiftDuration] = useState("");
   const daysOfWeek = [
@@ -53,8 +56,10 @@ const Register = () => {
     reset,
     watch,
     setValue,
+    formState: { isDirty },
   } = useForm();
-  ``;
+  ;
+
 
   const handleDayChange = (day) => {
     setSelectedDays((prevSelected) =>{
@@ -62,9 +67,11 @@ const Register = () => {
       return days.includes(day.value) ? prevSelected.filter((d) => d.value !== day.value) : [...prevSelected, day];
     });
   };
+useEffect(()=>{
 
+},[])
   const onSubmit = async (data) => {
-    console.log("hello world==========")
+    console.log(data)
      
   let phone = Number(data.phone);
   let emergencyNumber = Number(data.emergencyNumber);
@@ -82,8 +89,6 @@ const Register = () => {
 
       let DOB = new Date(data.DOB).getTime();
       DOB = DOB.toString()
-
-
 
       const payload = {
         ...data,
@@ -196,6 +201,23 @@ const Register = () => {
   //     // setValue("durationDiff", durationDiff);
   //   }
   // }, [watch("joiningDate"), setValue]);
+
+
+ useEffect(() => {
+  const handleBeforeUnload = (e) => {
+    if (isDirty) {
+      e.preventDefault();
+      e.returnValue = '';
+    }
+  };
+  dispatch(setFormDirty(isDirty));
+
+  window.addEventListener('beforeunload', handleBeforeUnload);
+
+  return () => {
+    window.removeEventListener('beforeunload', handleBeforeUnload);
+  };
+}, [isDirty]);
 
   return (
     <Box className="form-container-register">
@@ -432,7 +454,7 @@ const Register = () => {
                 <Controller
                   name="password"
                   control={control}
-                  defaultValue="Admin1"
+                  defaultValue=""
                   rules={{ required: "Password is required" }}
                   render={({ field }) => (
                     <CustomInputLabel
@@ -546,8 +568,8 @@ const Register = () => {
                       label="Line Manager"
                       height={"66px"}
                       options={teamLeads.map((tl) => ({
-                        value: tl.id, // The value to send to the API
-                        label: tl.fullName, // The label to display in the select
+                        value: tl.id, 
+                        label: tl.fullName, 
                       }))}
                       value={field.value}
                       handleChange={field.onChange}
@@ -688,7 +710,7 @@ const Register = () => {
                     <CustomInputLabel
                       label="Total Shift Duration*"
                       type="text"
-                      // error={errors.totalShiftDuration?.message}
+                      error={errors.totalShiftDuration?.message}
                       value={shiftDuration}
                       // {...field}
                       readOnly
@@ -919,6 +941,172 @@ const Register = () => {
                 />
               </Typography>
             </Box>
+            
+
+            <Box
+              sx={{
+                display: "flex",
+                gap: "20px",
+                mb: "20px",
+                flexDirection: { md: "row", xs: "column" },
+              }}
+            >
+              <Typography
+                sx={{
+                  display: "flex",
+                  gap: "5px",
+                  flexDirection: "column",
+                  flexBasis: "33%",
+                }}
+              >
+                <Controller
+                  name="commuteAllowance"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Convenience Allowance is Required" }}
+
+                  render={({ field }) => (
+                    <CustomInputLabel
+                      label="Convenience Allowance*"
+                      error={errors.commuteAllowance?.message}
+                      {...field}
+                      type={"number"}
+                    />
+                  )}
+                />
+              </Typography>
+              <Typography
+                sx={{
+                  display: "flex",
+                  gap: "5px",
+                  flexDirection: "column",
+                  flexBasis: "33%",
+                }}
+              >
+                <Controller
+                  name="internetAllowance"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Internet Allowance is Required" }}
+
+                  render={({ field }) => (
+                    <CustomInputLabel
+                      label="Internet Allowance*"
+                      error={errors.internetAllowance?.message}
+                      {...field}
+                      type={"number"}
+                    />
+                  )}
+                />
+              </Typography>
+              <Typography
+                sx={{
+                  display: "flex",
+                  gap: "5px",
+                  flexDirection: "column",
+                  flexBasis: "33%",
+                }}
+              >
+                <Controller
+                  name="mobileAllowance"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Mobile Allowance is Required" }}
+
+                  render={({ field }) => (
+                    <CustomInputLabel
+                      label="Mobile allowance"
+                      error={errors.mobileAllowance?.message}
+                      {...field}
+                      type={"number"}
+                    />
+                  )}
+                />
+              </Typography>
+            </Box>
+
+
+            <Box
+              sx={{
+                display: "flex",
+                gap: "20px",
+                mb: "20px",
+                flexDirection: { md: "row", xs: "column" },
+              }}
+            >
+              <Typography
+                sx={{
+                  display: "flex",
+                  gap: "5px",
+                  flexDirection: "column",
+                  flexBasis: "33%",
+                }}
+              >
+                <Controller
+                  name="bank"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Bank Name is Required" }}
+
+                  render={({ field }) => (
+                    <CustomInputLabel
+                      label="Bank Name*"
+                      error={errors.bank?.message}
+                      {...field}
+                      
+                    />
+                  )}
+                />
+              </Typography>
+              <Typography
+                sx={{
+                  display: "flex",
+                  gap: "5px",
+                  flexDirection: "column",
+                  flexBasis: "33%",
+                }}
+              >
+                <Controller
+                  name="BAN"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Bank Account Number is Required" }}
+
+                  render={({ field }) => (
+                    <CustomInputLabel
+                      label="Bank Account Number*"
+                      error={errors.BAN?.message}
+                      {...field}
+                   
+                    />
+                  )}
+                />
+              </Typography>
+              <Typography
+                sx={{
+                  display: "flex",
+                  gap: "5px",
+                  flexDirection: "column",
+                  flexBasis: "33%",
+                }}
+              >
+                <Controller
+                  name="BAT"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Bank Account Title is Required" }}
+
+                  render={({ field }) => (
+                    <CustomInputLabel
+                      label="Bank Account Title"
+                      error={errors.BAT?.message}
+                      {...field}
+                     
+                    />
+                  )}
+                />
+              </Typography>
+            </Box>  
           </Box>
 
           <Box sx={{ display: "flex", justifyContent: "end", mt: "20px", gap:"1.5rem"}}>

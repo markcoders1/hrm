@@ -38,8 +38,40 @@ import CIcon from "@coreui/icons-react";
 import UAParser from "ua-parser-js";
 import { Box, Typography } from "@mui/material";
 import logoutIcon from "../assets/logoutIcon.png";
+import { set } from "../sidebarSlice";
+import { setFormDirty } from "../Redux/formSlice";
 
 const parser = new UAParser();
+
+
+const CustomNavLink = ({ children, ...props }) => {
+  const formDirty = useSelector((state) => state.form.isFormDirty);
+  const dispatch = useDispatch();
+
+
+  const handleClick = (e) => {
+    if (formDirty) {
+      const confirmLeave = window.confirm(
+        'You have unsaved changes, are you sure you want to leave this page?'
+      );
+      if(confirmLeave){
+        dispatch(setFormDirty(false))
+      }
+      if (!confirmLeave) {
+        e.preventDefault();
+      }
+    }
+  };
+
+
+  return (<>
+
+    <NavLink {...props} onClick={handleClick}>
+      {children}
+    </NavLink>
+   
+  </>);
+};
 
 const AppSidebar = () => {
   const [open, setOpen] = useState(false);
@@ -47,7 +79,12 @@ const AppSidebar = () => {
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   const dispatch = useDispatch();
   const unfoldable = useSelector((state) => state.sidebarUnfoldable);
-  const sidebarShow = useSelector((state) => state.sidebarShow);
+  const sidebarShow = useSelector((state) => state.sidebar.sidebarShow);
+  const formDirty = useSelector((state) => state.form.isFormDirty);
+  const count = useSelector((state) => state.counter.count); 
+
+  
+
   const [isAdmin, setIsAdmin] = useState(false);
   const [logoutVisible, setLogoutVisible] = useState(false);
   const [logoutAllVisible, setLogoutAllVisible] = useState(false);
@@ -59,7 +96,7 @@ const AppSidebar = () => {
         const res = await axiosInstance.get(`${apiUrl}/api/isAdmin`);
         setIsAdmin(res.data.isAdmin);
         setPageloading(false);
-        // console.log(isAdmin);
+        console.log("=================================> dirty form" ,formDirty);
       } catch (error) {
         console.error(error);
         setPageloading(false);
@@ -94,8 +131,22 @@ const AppSidebar = () => {
       },
     });
     setLogoutAllVisible(false);
-    toast.success(response.data.message);
+
+    toast.success(response.data.message); 
   };
+
+  const handleClick = (e) => {
+    if (formDirty) {
+      const confirmLeave = window.confirm(
+        'You have unsaved changes, are you sure you want to leave this page?'
+      );
+      if (!confirmLeave) {
+        e.preventDefault();
+      }
+    }
+  };
+
+
 
   return (
     <>
@@ -106,7 +157,7 @@ const AppSidebar = () => {
         unfoldable={unfoldable}
         visible={sidebarShow}
         onVisibleChange={(visible) => {
-          dispatch({ type: "set", sidebarShow: visible });
+          dispatch(set({ sidebarShow: visible }))
         }}
         style={{ position: "relative", border: "1px solid red !important" }}
       >
@@ -123,21 +174,21 @@ const AppSidebar = () => {
           {isAdmin == "user" || isAdmin == "TL" ? (
             <>
               <CNavItem>
-                <NavLink to="/dashboard" end className="nav-link">
+                <CustomNavLink to="/dashboard" end className="nav-link">
                   <CIcon className="nav-icon" icon={cilUser} /> Dashboard
-                </NavLink>
+                </CustomNavLink>
               </CNavItem>
               <CNavItem>
-                <NavLink to="/dashboard/my-attendance" end className="nav-link">
+                <CustomNavLink to="/dashboard/my-attendance" end className="nav-link">
                   <CIcon className="nav-icon" icon={cilCalendar} />
                   My Attendance
-                </NavLink>
+                </CustomNavLink>
               </CNavItem>
               <CNavItem>
-                <NavLink to="/dashboard/my-leaves" end className="nav-link">
+                <CustomNavLink to="/dashboard/my-leaves" end className="nav-link">
                   <CIcon className="nav-icon" icon={cilCalendar} />
                   My Leaves
-                </NavLink>
+                </CustomNavLink>
               </CNavItem>
               <CNavItem>
                 <NavLink to="/dashboard/remote-work" end className="nav-link">
@@ -156,26 +207,26 @@ const AppSidebar = () => {
           {isAdmin === "HOD" ? (
             <>
               <CNavItem>
-                <NavLink to="/dashboard/admin" className="nav-link" end>
+                <CustomNavLink to="/dashboard/admin" className="nav-link" end>
                   <CIcon className="nav-icon" icon={cilPeople} />{" "}
                   Dashboard
-                </NavLink>
+                </CustomNavLink>
               </CNavItem>
               <CNavItem>
-                <NavLink
+                <CustomNavLink
                   to="/dashboard/user-management"
                   className="nav-link"
                   end
                 >
                   <CIcon className="nav-icon" icon={cilPeople} /> User
                   Management
-                </NavLink>
+                </CustomNavLink>
               </CNavItem>
               <CNavItem>
-                <NavLink to="/dashboard/attendance" className="nav-link" end>
+                <CustomNavLink to="/dashboard/attendance" className="nav-link" end>
                   <CIcon className="nav-icon" icon={cilNotes} />{" "}
                   Attendance Management
-                </NavLink>
+                </CustomNavLink>
               </CNavItem>
             
              
@@ -228,24 +279,24 @@ const AppSidebar = () => {
             {isAdmin === "HOD" || isAdmin === "TL"  ? (
 <>
 <CNavItem>
-                <NavLink
+                <CustomNavLink
                   to="/dashboard/leave-management"
                   className="nav-link"
                   end
                 >
                   <CIcon className="nav-icon" icon={cilNotes} /> Leave
                   Management
-                </NavLink>
+                </CustomNavLink>
               </CNavItem>
               <CNavItem>
-                <NavLink
+                <CustomNavLink
                   to="/dashboard/wfh-management"
                   className="nav-link"
                   end
                 >
                   <CIcon className="nav-icon" icon={cilNotes} /> WFH
                   Management
-                </NavLink>
+                </CustomNavLink>
               </CNavItem>
 </>
 
@@ -255,20 +306,21 @@ const AppSidebar = () => {
 
 
           <CNavItem>
-                <NavLink to="/dashboard/profile" end className="nav-link">
+                <CustomNavLink to="/dashboard/profile" end className="nav-link">
                   <CIcon className="nav-icon" icon={cilUser} />
                   My Profile
-                </NavLink>
+                </CustomNavLink>
               </CNavItem>
           <CNavItem>
-                <NavLink
+                <CustomNavLink
                   to="/dashboard/notifications"
                   end
                   className="nav-link"
+                  style={{ position:"relative"}} 
                 >
                   <CIcon className="nav-icon" icon={cilCalendar} />
-                  Notifications
-                </NavLink>
+                  Notifications {count ? ( <span style={{position:"absolute", right:"30px", width:"30px", height:"30px", borderRadius:"50%", backgroundColor:"rgba(255, 255, 255, 0.3)", display:"flex", justifyContent:"center", alignItems:"center", color:"white"}} >{count}</span>): ""}
+                </CustomNavLink>
               </CNavItem>
           </>
           <Box

@@ -1,18 +1,35 @@
-import { legacy_createStore as createStore } from 'redux'
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import sidebarReducer from './sidebarSlice';
+import userReducer from './Redux/userSlice.js';
+import formReducer from './Redux/formSlice.js';
+import counterReducer from './Redux/NotificationCount.js';
+import storage from "redux-persist/lib/storage";
+import persistReducer from "redux-persist/es/persistReducer";
+import { persistStore } from "redux-persist";
 
-const initialState = {
-  sidebarShow: true,
-  theme: 'light',
-}
+// Persist configuration
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['user', 'counter'] // Correctly whitelist 'counter'
+};
 
-const changeState = (state = initialState, { type, ...rest }) => {
-  switch (type) {
-    case 'set':
-      return { ...state, ...rest }
-    default:
-      return state
-  }
-}
+// Combine reducers
+const reducer = combineReducers({
+  user: userReducer, 
+  sidebar: sidebarReducer,
+  form: formReducer,
+  counter: counterReducer // Use 'counter' as the key here
+});
 
-const store = createStore(changeState)
-export default store
+// Apply persistence
+const persistedReducer = persistReducer(persistConfig, reducer);
+
+// Configure store
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false}),
+});
+
+export default store;
+export const persistor = persistStore(store);

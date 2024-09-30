@@ -15,7 +15,7 @@ const MyLeaveDetails = () => {
 
 
   useEffect(() => {
-    setHeadertext("WFH Details hello");
+    setHeadertext("WFH Details");
     setParaText("")
     const getWFHDetails = async () => {
       try {

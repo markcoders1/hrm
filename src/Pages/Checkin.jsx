@@ -6,7 +6,7 @@ import axiosInstance from "../auth/axiosInstance";
 import { Loader, LoaderW } from "../components/Loaders.jsx";
 import { scheduleNotification } from "../Helper/notificationHelper";
 import { useOutletContext } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Chart from "../components/Charts/Charts.jsx";
 //
@@ -15,6 +15,8 @@ import CustomInputLabel from "../components/CustomInputField/CustomInputLabel";
 import AnnouncementBox from "../components/AnnouncementBox/AnnouncementBox";
 import CustomButton from "../components/CustomButton/CustomButton";
 import { Box, Typography } from "@mui/material";
+
+
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -61,7 +63,12 @@ const Check = () => {
   const [time,setTime] = useState(0)
   const [checkTime,setCheckTime] = useState(0)
   const [graphData, setGraphData] = useState([]);
+  const dispatch = useDispatch();
+  
 
+useEffect(()=>{
+
+},[])
   useEffect(() => {
     const interval = setInterval(() => {
       setTime(prevTime => prevTime + 1000);
@@ -229,6 +236,8 @@ const Check = () => {
           <div className="loaderContainer">
             <Loader />
           </div>) : (
+            <>
+            
           <Box
             sx={{
               width: "100%",
@@ -242,6 +251,7 @@ const Check = () => {
               
             }}
           >
+           
 
             <Box sx={{
               flexBasis: "50%",
@@ -364,6 +374,7 @@ const Check = () => {
 
 
           </Box>
+          </>
 
         )
 

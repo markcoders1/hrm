@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const DefaultLayout = () => {
-  const sidebarShow = useSelector((state) => state.sidebarShow);
+  const sidebarShow = useSelector((state) => state.sidebar.sidebarShow);
   const [headertext, setHeadertext] = useState("hi")
   const [paraText, setParaText] = useState("")
 

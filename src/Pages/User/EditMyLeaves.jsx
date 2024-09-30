@@ -6,7 +6,7 @@ import CustomSelectForRole from '../../components/CustomSelect/CustomSelect';
 import { useOutletContext, useParams, useNavigate } from 'react-router-dom';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import axiosInstance from '../../auth/axiosInstance';
-import SnackAlert from "../../components/SnackAlert/SnackAlert"; // Assuming you have this component for toast messages
+
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;

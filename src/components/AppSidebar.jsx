@@ -38,6 +38,7 @@ import CIcon from "@coreui/icons-react";
 import UAParser from "ua-parser-js";
 import { Box, Typography } from "@mui/material";
 import logoutIcon from "../assets/logoutIcon.png";
+import { set } from "../sidebarSlice";
 
 const parser = new UAParser();
 
@@ -47,7 +48,7 @@ const AppSidebar = () => {
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   const dispatch = useDispatch();
   const unfoldable = useSelector((state) => state.sidebarUnfoldable);
-  const sidebarShow = useSelector((state) => state.sidebarShow);
+  const sidebarShow = useSelector((state) => state.sidebar.sidebarShow);
   const [isAdmin, setIsAdmin] = useState(false);
   const [logoutVisible, setLogoutVisible] = useState(false);
   const [logoutAllVisible, setLogoutAllVisible] = useState(false);
@@ -94,7 +95,7 @@ const AppSidebar = () => {
       },
     });
     setLogoutAllVisible(false);
-    toast.success(response.data.message);
+    toast.success(response.data.message); 
   };
 
   return (
@@ -106,7 +107,7 @@ const AppSidebar = () => {
         unfoldable={unfoldable}
         visible={sidebarShow}
         onVisibleChange={(visible) => {
-          dispatch({ type: "set", sidebarShow: visible });
+          dispatch(set({ sidebarShow: visible }))
         }}
         style={{ position: "relative", border: "1px solid red !important" }}
       >

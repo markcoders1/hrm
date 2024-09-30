@@ -54,17 +54,23 @@ const CustomNavLink = ({ children, ...props }) => {
       const confirmLeave = window.confirm(
         'You have unsaved changes, are you sure you want to leave this page?'
       );
+      if(confirmLeave){
+        dispatch(setFormDirty(false))
+      }
       if (!confirmLeave) {
         e.preventDefault();
       }
     }
   };
-  dispatch(setFormDirty(false))
-  return (
+
+
+  return (<>
+
     <NavLink {...props} onClick={handleClick}>
       {children}
     </NavLink>
-  );
+   
+  </>);
 };
 
 const AppSidebar = () => {

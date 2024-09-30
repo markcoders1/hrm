@@ -60,13 +60,16 @@ const Register = () => {
   } = useForm();
   ;
 
+
   const handleDayChange = (day) => {
     setSelectedDays((prevSelected) =>{
       const days = prevSelected.map((d) => d.value);
       return days.includes(day.value) ? prevSelected.filter((d) => d.value !== day.value) : [...prevSelected, day];
     });
   };
+useEffect(()=>{
 
+},[])
   const onSubmit = async (data) => {
      
   let phone = Number(data.phone);
@@ -200,8 +203,8 @@ const Register = () => {
 
 
   useEffect(() => {
+    dispatch(setFormDirty(isDirty))
     const handleBeforeUnload = (e) => {
-      dispatch(setFormDirty(isDirty))
       if (isDirty) {
         // Show a confirmation dialog if form is dirty (modified)
         e.preventDefault();

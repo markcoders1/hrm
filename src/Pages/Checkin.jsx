@@ -229,6 +229,8 @@ const Check = () => {
           <div className="loaderContainer">
             <Loader />
           </div>) : (
+            <>
+            
           <Box
             sx={{
               width: "100%",
@@ -242,6 +244,7 @@ const Check = () => {
               
             }}
           >
+           
 
             <Box sx={{
               flexBasis: "50%",
@@ -364,6 +367,7 @@ const Check = () => {
 
 
           </Box>
+          </>
 
         )
 

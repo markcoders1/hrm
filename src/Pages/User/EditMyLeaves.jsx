@@ -234,14 +234,14 @@ const EditMyLeave = () => {
         </Box>
       </form>
 
-      <SnackAlert
+      {/* <SnackAlert
         message={snackAlertData.message}
         severity={snackAlertData.severity}
         open={snackAlertData.open}
         handleClose={() => {
           setSnackAlertData((prev) => ({ ...prev, open: false }));
         }}
-      />
+      /> */}
     </Box>
   );
 };

@@ -49,6 +49,9 @@ const AppSidebar = () => {
   const dispatch = useDispatch();
   const unfoldable = useSelector((state) => state.sidebarUnfoldable);
   const sidebarShow = useSelector((state) => state.sidebar.sidebarShow);
+  const formDirty = useSelector((state) => state.form.isFormDirty);
+  
+
   const [isAdmin, setIsAdmin] = useState(false);
   const [logoutVisible, setLogoutVisible] = useState(false);
   const [logoutAllVisible, setLogoutAllVisible] = useState(false);
@@ -60,7 +63,7 @@ const AppSidebar = () => {
         const res = await axiosInstance.get(`${apiUrl}/api/isAdmin`);
         setIsAdmin(res.data.isAdmin);
         setPageloading(false);
-        // console.log(isAdmin);
+        console.log("=================================> dirty form" ,formDirty);
       } catch (error) {
         console.error(error);
         setPageloading(false);
@@ -98,6 +101,12 @@ const AppSidebar = () => {
     toast.success(response.data.message); 
   };
 
+
+  const handleNavigate = ()=> {
+    
+
+  }
+
   return (
     <>
       <CSidebar
@@ -121,7 +130,7 @@ const AppSidebar = () => {
           </div>
         </CSidebarHeader>
         <CSidebarNav className="nav-top">
-          {isAdmin == "user" || isAdmin == "TL" ? (
+          {isAdmin == "user" || isAdmin == "TL" &&(
             <>
               <CNavItem>
                 <NavLink to="/dashboard" end className="nav-link">
@@ -148,7 +157,7 @@ const AppSidebar = () => {
               </CNavItem>
              
             </>
-          ): ""}
+          )}
 
 
 

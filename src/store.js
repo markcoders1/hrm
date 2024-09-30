@@ -6,6 +6,7 @@ import storage from "redux-persist/lib/storage";
 
 import persistReducer from "redux-persist/es/persistReducer";
 import userReducer from './Redux/userSlice.js';
+import formReducer from './Redux/formSlice.js'
 import { persistStore } from "redux-persist";
 
 const persistConfig = {
@@ -18,6 +19,7 @@ const persistConfig = {
     
     user: userReducer, 
     sidebar: sidebarReducer,
+    form: formReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, reducer)

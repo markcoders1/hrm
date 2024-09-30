@@ -6,7 +6,7 @@ import "../PagesCss/UserInfo.css";
 import CustomInputLabel from "../components/CustomInputField/CustomInputLabel";
 import CustomSelectForRole from "../components/CustomSelectForRole/CustomSelectForRole";
 import CustomButton from "../components/CustomButton/CustomButton";
-import { Loader } from "../components/Loaders";
+import { Loader, LoaderW } from "../components/Loaders";
 import CustomCheckbox from "../components/CustomCheckbox/CustomCheckbox";
 import { toast } from "react-toastify";
 
@@ -21,6 +21,9 @@ const UserInfo = () => {
   const [departments, setDepartments] = useState([]);
   const [inputAbled, setInputAbled] = useState(false);
   const [selectedDays, setSelectedDays] = useState([]);
+  const [image , setImage] =  useState();
+  const [userActive, setUserActive] = useState(null);
+  const [loadingToggleAccount, setLoadingToggleAccount] = useState(false)
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
@@ -68,7 +71,8 @@ const UserInfo = () => {
           params: { id },
         });
         const dataAllEmployee = response.data.user;
-
+        setImage(dataAllEmployee.image)
+        setUserActive(dataAllEmployee.active)
         const totalShiftDuration = calculateShiftDuration(
           dataAllEmployee.shiftTimingFrom,
           dataAllEmployee.shiftTimingTo
@@ -274,26 +278,85 @@ function convertDateToUnixTimestamp(dateString) {
   return date.getTime(); // Returns the Unix timestamp in milliseconds
 }
 
+const formatName = (fullName) => {
+  const name = fullName.toLowerCase().includes('muhammad')
+    ? fullName.replace(/wildcard|muhammad/i, 'M.')
+    : fullName;
+  return name;
+};
+
+
+// toggle user Account function
+const ToggleUserStatus = async () => {
+  setLoadingToggleAccount(true)
+  try {
+    const response = axiosInstance({
+      url: `${apiUrl}/api/admin/toggleUserAccount`,
+      method: "get",
+      params: {
+        userId : id
+      }
+    })
+    console.log(response)
+    toast.success((await response).data.message, {position: "top-center"})
+    setUserActive(!userActive)
+  setLoadingToggleAccount(false)
+
+  } catch (error) {
+    console.log(error)
+    toast.error(error.response.data.error, {position: "top-center"})
+  setLoadingToggleAccount(false)
+
+  }
+   
+  };
+
   return (
     <Box className="form-container-register">
       <Box
         sx={{
-          border: "1px dashed #C5C5C5",
-          width: "517px",
-          p: "1rem",
+          border: "1px dashed rgba(197, 197, 197, 0.6)",
+          width: {md:"517px", xs:"100%"},
+          p: {xs:"1rem 1rem", sm:"1rem 2rem"},
           borderRadius: "7px",
           position: { lg: "fixed", xs: "static" },
-          right: "40px",
-          top: "20px",
+          right: "35px",
+          top: "10px",
           zIndex: "100000 ",
+          display:"flex",
+          justifyContent:"space-between",
+          alignItems:"center"
         }}
       >
-        <Box sx={{ display: "flex", gap: "3rem", alignItems: "center" }}>
-          <img src="" style={{ width: "64px", height: "64px" }} alt="" />
+        <Box sx={{ display: "flex", gap: "1.5rem", alignItems: "center" }}>
+          <img src={image} style={{ width: "64px", height: "64px", borderRadius:"50%" }} alt="" />
           <Typography sx={{ color: "#010120", fontSize: "24px" }}>
-            Aman Raza Khan
+          {formatName(formData.fullName)}
           </Typography>
+          
+
         </Box>
+        <Typography>
+          <CustomButton
+                  ButtonText= {loadingToggleAccount ? (<><LoaderW /></>) : userActive ? "Deactivate" : "Activate"}
+                  fontSize="14px"
+                  color="rgba(49, 186, 150, 1)"
+                  fontWeight="500"
+                  fullWidth={false}
+                  variant="contained"
+                  background="transparent"
+                  hoverBg="#157AFF"
+                  border="1px solid rgba(49, 186, 150, 1)"
+                  hoverBorder="none"
+                  
+                  hovercolor="white"
+                  width={"124px"}
+                  borderRadius="7px"
+                  height="38px"
+                  onClick={ToggleUserStatus}
+                  
+                />
+          </Typography>
       </Box>
       <Box className="form-register" sx={{ mt: "40px" }}>
         <form onSubmit={onSubmit}>

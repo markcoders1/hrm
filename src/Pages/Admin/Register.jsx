@@ -23,7 +23,7 @@ const Register = () => {
   const [teamLeads, setTeamLeads] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [joiningDuration, setJoiningDuration] = useState("");
-
+  const [isFormDirty, setIsFormDirty] = useState(false);
 
   const [shiftDuration, setShiftDuration] = useState("");
   const daysOfWeek = [
@@ -53,6 +53,7 @@ const Register = () => {
     reset,
     watch,
     setValue,
+    formState: { isDirty },
   } = useForm();
   ``;
 
@@ -193,6 +194,23 @@ const Register = () => {
   //     // setValue("durationDiff", durationDiff);
   //   }
   // }, [watch("joiningDate"), setValue]);
+
+
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (isDirty) {
+        // Show a confirmation dialog if form is dirty (modified)
+        e.preventDefault();
+        e.returnValue = ''; // Chrome requires returnValue to be set for the dialog
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload); // Clean up the listener
+    };
+  }, [isDirty]); 
 
   return (
     <Box className="form-container-register">

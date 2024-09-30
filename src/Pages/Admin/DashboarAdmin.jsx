@@ -116,10 +116,10 @@ const DashboardAdmin = () => {
     return `${hours}:${minutes} ${ampm}`;
   };
 
-  const customFormatTime = (t) =>{
+  const customFormatTime = (t) => {
     const dateObject = new Date(t)
-    const utcMinutes = dateObject.getUTCMinutes()
-    const timetooutput = `${dateObject.getUTCHours()}:${utcMinutes.padStart(2,0)}}`
+    const utcMinutes = dateObject.getUTCMinutes().toString().padStart(2, '0')  // Convert to string first
+    const timetooutput = `${dateObject.getUTCHours()}:${utcMinutes}`
     return timetooutput
   }
   const handleScroll = () => {

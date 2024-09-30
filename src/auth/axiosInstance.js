@@ -43,17 +43,14 @@ axiosInstance.interceptors.response.use(
           deviceId: `${parser.getBrowser().name} | ${parser.getCPU().architecture} | ${parser.getOS().name}`,
         });
 
-        if (response.status === 200) {
-          const newAccessToken = response.data.accessToken;
-          sessionStorage.setItem("accessToken", newAccessToken);
-          // Set new token directly on the original request headers
-          originalRequest.headers["Authorization"] = "Bearer " + newAccessToken;
-
-          // Retry the original request with the new token
-          return axiosInstance(originalRequest);
+        if (response?.status === 200) {
+          sessionStorage.setItem("accessToken", response?.data?.accessToken);
+          axiosInstance.defaults.headers["Authorization"] =
+            "Bearer " + response?.data?.accessToken;
+          return await axiosInstance(originalRequest);
         }
       } catch (tokenError) {
-        if (tokenError.response && tokenError.response.status === 403) {
+        if (tokenError?.response && tokenError?.response?.status === 403) {
           sessionStorage.removeItem("accessToken");
           sessionStorage.removeItem("refreshToken");
           localStorage.removeItem("refreshToken");

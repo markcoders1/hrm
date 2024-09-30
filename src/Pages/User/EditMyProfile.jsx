@@ -39,7 +39,7 @@ const EditMyProfile = () => {
         data: formData,
       });
       console.log(response.data);
-      toast.success(response.data.message.message);
+      toast.success(response.data.message);
       
     } catch (error) {
       console.log("Error updating profile", error);

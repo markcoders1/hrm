@@ -12,6 +12,8 @@ import CustomSelectForRole from "../../components/CustomSelectForRole/CustomSele
 import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomCheckbox from "../../components/CustomCheckbox/CustomCheckbox";
 import { differenceInMinutes, differenceInHours, format } from "date-fns";
+import { setFormDirty } from "../../Redux/formSlice";
+import { useDispatch } from "react-redux";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -24,6 +26,7 @@ const Register = () => {
   const [departments, setDepartments] = useState([]);
   const [joiningDuration, setJoiningDuration] = useState("");
   const [isFormDirty, setIsFormDirty] = useState(false);
+  const dispatch = useDispatch()
 
   const [shiftDuration, setShiftDuration] = useState("");
   const daysOfWeek = [
@@ -55,7 +58,7 @@ const Register = () => {
     setValue,
     formState: { isDirty },
   } = useForm();
-  ``;
+  ;
 
   const handleDayChange = (day) => {
     setSelectedDays((prevSelected) =>{
@@ -198,12 +201,14 @@ const Register = () => {
 
   useEffect(() => {
     const handleBeforeUnload = (e) => {
+      dispatch(setFormDirty(isDirty))
       if (isDirty) {
         // Show a confirmation dialog if form is dirty (modified)
         e.preventDefault();
         e.returnValue = ''; // Chrome requires returnValue to be set for the dialog
       }
     };
+    
 
     window.addEventListener('beforeunload', handleBeforeUnload);
 
@@ -447,7 +452,7 @@ const Register = () => {
                 <Controller
                   name="password"
                   control={control}
-                  defaultValue="Admin1"
+                  defaultValue=""
                   rules={{ required: "Password is required" }}
                   render={({ field }) => (
                     <CustomInputLabel

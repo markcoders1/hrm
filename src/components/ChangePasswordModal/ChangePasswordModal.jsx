@@ -90,7 +90,7 @@ const ChangePasswordModal = ({ open = false, handleClose = () => {} }) => {
       setLoading(false);
       setSnackAlertData({
         open: true,
-        message: error.toString(),
+        message: error.response.data.message,
         severity: "error",
       });
     }

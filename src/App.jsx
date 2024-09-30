@@ -6,8 +6,8 @@ import { Provider } from 'react-redux';
 // import { PersistGate } from 'redux-persist/integration/react';
 import 'react-toastify/dist/ReactToastify.css';
 import { ForgotPassword } from './Pages/forgotPassword.jsx';
-import { Suspense } from 'react';
-import React from 'react';
+import { Suspense }from 'react';
+import React, {useEffect} from 'react';
 import { PageLoader } from './components/Loaders.jsx';
 // protected Route
 const ProtectedRoute = React.lazy(() => import('./ProtectedRoutes/ProtectedRoute.jsx'));
@@ -57,21 +57,18 @@ const EditMyProfile = React.lazy(() => import('./Pages/User/EditMyProfile.jsx'))
 
 
 
-
-
-
-
-
-
-
-
-
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 
 
 
 // import Home from './Pages/Home.jsx'
 function App() {
+
+
+
+
+
   return (
         <BrowserRouter>
           <Suspense fallback={<PageLoader />}>

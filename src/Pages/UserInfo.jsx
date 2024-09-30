@@ -290,7 +290,7 @@ const formatName = (fullName) => {
 const ToggleUserStatus = async () => {
   setLoadingToggleAccount(true)
   try {
-    const response = axiosInstance({
+    const response = await axiosInstance({
       url: `${apiUrl}/api/admin/toggleUserAccount`,
       method: "get",
       params: {

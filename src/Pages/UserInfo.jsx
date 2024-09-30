@@ -21,9 +21,9 @@ const UserInfo = () => {
   const [departments, setDepartments] = useState([]);
   const [inputAbled, setInputAbled] = useState(false);
   const [selectedDays, setSelectedDays] = useState([]);
-  const [image , setImage] =  useState();
+  const [image, setImage] = useState();
   const [userActive, setUserActive] = useState(null);
-  const [loadingToggleAccount, setLoadingToggleAccount] = useState(false)
+  const [loadingToggleAccount, setLoadingToggleAccount] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
@@ -40,9 +40,9 @@ const UserInfo = () => {
     designation: "",
     workDays: [],
     HODID: "",
-  
+
     joiningDate: "",
-    
+
     role: "",
     annualLeaves: "",
     netSalary: "",
@@ -71,8 +71,8 @@ const UserInfo = () => {
           params: { id },
         });
         const dataAllEmployee = response.data.user;
-        setImage(dataAllEmployee.image)
-        setUserActive(dataAllEmployee.active)
+        setImage(dataAllEmployee.image);
+        setUserActive(dataAllEmployee.active);
         const totalShiftDuration = calculateShiftDuration(
           dataAllEmployee.shiftTimingFrom,
           dataAllEmployee.shiftTimingTo
@@ -104,23 +104,26 @@ const UserInfo = () => {
           designation: dataAllEmployee.designation || "",
           workDays: dataAllEmployee.workDays || [],
           HODID: dataAllEmployee.HODID || "",
-          
+
           joiningDate: dataAllEmployee.joiningDate
-            ? new Date(dataAllEmployee.joiningDate)
-                .toISOString()
-                .split("T")[0]
+            ? new Date(dataAllEmployee.joiningDate).toISOString().split("T")[0]
             : "",
-       
+
           role: dataAllEmployee.role || "",
           annualLeaves: dataAllEmployee.annualLeaves || "",
           netSalary: dataAllEmployee.netSalary || "",
           locationType: dataAllEmployee.locationType || "",
           onProbation: dataAllEmployee.onProbation || "",
           employmentType: dataAllEmployee.employmentType || "",
+          internetAllowance: dataAllEmployee.internetAllowance || "",
+          mobileAllowance: dataAllEmployee.mobileAllowance || "",
+          commuteAllowance: dataAllEmployee.commuteAllowance || "",
+          bank: dataAllEmployee.bank || "",
+          BAN: dataAllEmployee.BAN || "",
+          BAT: dataAllEmployee.BAT || "",
         });
 
-      console.log(response)
-
+        console.log(response);
 
         if (dataAllEmployee.workDays) {
           setSelectedDays(
@@ -169,7 +172,7 @@ const UserInfo = () => {
     const fromDate = new Date(from * 1000);
     const toDate = new Date(to * 1000);
     const durationInMs = toDate - fromDate;
-  
+
     const durationInHours = durationInMs / (1000 * 60 * 60);
     return durationInHours.toFixed(2) + " hours";
   };
@@ -182,8 +185,6 @@ const UserInfo = () => {
     return durationInDays.toFixed(0) + " days";
   };
 
-  
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -195,18 +196,18 @@ const UserInfo = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const shiftTimeFromUnix = convertTimeToUnixTimestamp(formData.shiftTimingFrom);
+    const shiftTimeFromUnix = convertTimeToUnixTimestamp(
+      formData.shiftTimingFrom
+    );
     const shiftTimeToUnix = convertTimeToUnixTimestamp(formData.shiftTimingTo);
     const joiningDate = convertDateToUnixTimestamp(formData.joiningDate);
     const DOB = convertDateToUnixTimestamp(formData.DOB);
 
-    console.log(joiningDate)
-   
+    console.log(joiningDate);
+
     // console.log(formData)
-    console.log(id)
+    console.log(id);
     try {
-
-
       const response = await axiosInstance({
         url: `${apiUrl}/api/admin/update-any-profile`,
         method: "post",
@@ -219,7 +220,7 @@ const UserInfo = () => {
           id: id,
         },
       });
-      toast.success(response.data.message);
+      toast.success(response.data.message, {position: "top-center"});
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message[0].message, {
@@ -244,7 +245,7 @@ const UserInfo = () => {
 
   function timeToUnixTimestamp(timeString) {
     // Split the timeString into hours, minutes, and seconds
-    const [hours, minutes, seconds] = timeString.split(':').map(Number);
+    const [hours, minutes, seconds] = timeString.split(":").map(Number);
 
     // Create a new Date object for today's date
     const now = new Date();
@@ -252,63 +253,58 @@ const UserInfo = () => {
 
     // Return the Unix timestamp in milliseconds
     return now.getTime();
-}
-
-// Example usage:
-const timestamp = timeToUnixTimestamp('14:30:00');
-// console.log(timestamp);
-
-const handleSelectChange = (name, value) => {
-  setFormData((prev) => ({
-    ...prev,
-    [name]: value,
-  }));
-};
-
-
-function convertDateToUnixTimestamp(dateString) {
-  if (!dateString) return null; // Handle empty input
-  
-  const date = new Date(dateString);
-  
-  if (isNaN(date.getTime())) {
-    return null; // Handle invalid date
   }
 
-  return date.getTime(); // Returns the Unix timestamp in milliseconds
-}
+  // Example usage:
+  const timestamp = timeToUnixTimestamp("14:30:00");
+  // console.log(timestamp);
 
-const formatName = (fullName) => {
-  const name = fullName.toLowerCase().includes('muhammad')
-    ? fullName.replace(/wildcard|muhammad/i, 'M.')
-    : fullName;
-  return name;
-};
+  const handleSelectChange = (name, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
+  function convertDateToUnixTimestamp(dateString) {
+    if (!dateString) return null; // Handle empty input
 
-// toggle user Account function
-const ToggleUserStatus = async () => {
-  setLoadingToggleAccount(true)
-  try {
-    const response = await axiosInstance({
-      url: `${apiUrl}/api/admin/toggleUserAccount`,
-      method: "get",
-      params: {
-        userId : id
-      }
-    })
-    console.log(response)
-    toast.success((await response).data.message, {position: "top-center"})
-    setUserActive(!userActive)
-  setLoadingToggleAccount(false)
+    const date = new Date(dateString);
 
-  } catch (error) {
-    console.log(error)
-    toast.error(error.response.data.error, {position: "top-center"})
-  setLoadingToggleAccount(false)
+    if (isNaN(date.getTime())) {
+      return null; // Handle invalid date
+    }
 
+    return date.getTime(); // Returns the Unix timestamp in milliseconds
   }
-   
+
+  const formatName = (fullName) => {
+    const name = fullName.toLowerCase().includes("muhammad")
+      ? fullName.replace(/wildcard|muhammad/i, "M.")
+      : fullName;
+    return name;
+  };
+
+  // toggle user Account function
+  const ToggleUserStatus = async () => {
+    setLoadingToggleAccount(true);
+    try {
+      const response = await axiosInstance({
+        url: `${apiUrl}/api/admin/toggleUserAccount`,
+        method: "get",
+        params: {
+          userId: id,
+        },
+      });
+      console.log(response);
+      toast.success( response.data.message, { position: "top-center" });
+      setUserActive(!userActive);
+      setLoadingToggleAccount(false);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.error, { position: "top-center" });
+      setLoadingToggleAccount(false);
+    }
   };
 
   return (
@@ -316,47 +312,57 @@ const ToggleUserStatus = async () => {
       <Box
         sx={{
           border: "1px dashed rgba(197, 197, 197, 0.6)",
-          width: {md:"517px", xs:"100%"},
-          p: {xs:"1rem 1rem", sm:"1rem 2rem"},
+          width: { md: "517px", xs: "100%" },
+          p: { xs: "1rem 1rem", sm: "1rem 2rem" },
           borderRadius: "7px",
           position: { lg: "fixed", xs: "static" },
           right: "35px",
           top: "10px",
           zIndex: "100000 ",
-          display:"flex",
-          justifyContent:"space-between",
-          alignItems:"center"
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
         <Box sx={{ display: "flex", gap: "1.5rem", alignItems: "center" }}>
-          <img src={image} style={{ width: "64px", height: "64px", borderRadius:"50%" }} alt="" />
+          <img
+            src={image}
+            style={{ width: "64px", height: "64px", borderRadius: "50%" }}
+            alt=""
+          />
           <Typography sx={{ color: "#010120", fontSize: "24px" }}>
-          {formatName(formData.fullName)}
+            {formatName(formData.fullName)}
           </Typography>
-          
-
         </Box>
         <Typography>
           <CustomButton
-                  ButtonText= {loadingToggleAccount ? (<><LoaderW /></>) : userActive ? "Deactivate" : "Activate"}
-                  fontSize="14px"
-                  color="rgba(49, 186, 150, 1)"
-                  fontWeight="500"
-                  fullWidth={false}
-                  variant="contained"
-                  background="transparent"
-                  hoverBg="#157AFF"
-                  border="1px solid rgba(49, 186, 150, 1)"
-                  hoverBorder="none"
-                  
-                  hovercolor="white"
-                  width={"124px"}
-                  borderRadius="7px"
-                  height="38px"
-                  onClick={ToggleUserStatus}
-                  
-                />
-          </Typography>
+            ButtonText={
+              loadingToggleAccount ? (
+                <>
+                  <LoaderW />
+                </>
+              ) : userActive ? (
+                "Deactivate"
+              ) : (
+                "Activate"
+              )
+            }
+            fontSize="14px"
+            color="rgba(49, 186, 150, 1)"
+            fontWeight="500"
+            fullWidth={false}
+            variant="contained"
+            background="transparent"
+            hoverBg="#157AFF"
+            border="1px solid rgba(49, 186, 150, 1)"
+            hoverBorder="none"
+            hovercolor="white"
+            width={"124px"}
+            borderRadius="7px"
+            height="38px"
+            onClick={ToggleUserStatus}
+          />
+        </Typography>
       </Box>
       <Box className="form-register" sx={{ mt: "40px" }}>
         <form onSubmit={onSubmit}>
@@ -390,21 +396,18 @@ const ToggleUserStatus = async () => {
                     name="fullName"
                     value={formData.fullName}
                     onChange={handleChange}
-                    
                   />
                   <CustomInputLabel
                     label="Phone Number*"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    
                   />
                   <CustomInputLabel
                     label="Email*"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    
                   />
                 </Box>
 
@@ -421,14 +424,12 @@ const ToggleUserStatus = async () => {
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    
                   />
                   <CustomInputLabel
                     label="Emergency Number*"
                     name="emergencyContactNumber"
                     value={formData.emergencyContactNumber}
                     onChange={handleChange}
-                    
                   />
                 </Box>
 
@@ -445,14 +446,12 @@ const ToggleUserStatus = async () => {
                     name="CNIC"
                     value={formData.CNIC}
                     onChange={handleChange}
-                    
                   />
                   <CustomInputLabel
                     label="Date Of Birth*"
                     name="DOB"
                     value={formData.DOB}
                     onChange={handleChange}
-                    
                     type="date"
                   />
                   <CustomInputLabel
@@ -460,7 +459,6 @@ const ToggleUserStatus = async () => {
                     name="companyId"
                     value={formData.companyId}
                     onChange={handleChange}
-                    
                   />
                 </Box>
 
@@ -483,7 +481,6 @@ const ToggleUserStatus = async () => {
                     name="shiftTimingFrom"
                     value={formData.shiftTimingFrom}
                     onChange={handleChange}
-                    
                     type="time"
                   />
                   <CustomInputLabel
@@ -491,7 +488,6 @@ const ToggleUserStatus = async () => {
                     name="shiftTimingTo"
                     value={formData.shiftTimingTo}
                     onChange={handleChange}
-                    
                     type="time"
                   />
                 </Box>
@@ -512,33 +508,35 @@ const ToggleUserStatus = async () => {
                       label: depart,
                     }))}
                     value={formData.department}
-                    handleChange={(selectedValue) => setFormData((prev) => ({
-                      ...prev,
-                      department: selectedValue,
-                    }))}
+                    handleChange={(selectedValue) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        department: selectedValue,
+                      }))
+                    }
                   />
 
-
-<CustomSelectForRole
-  label="Line Manager"
-  name="teamLeadID"
-  options={teamLeads.map((tl) => ({
-    value: tl.id,
-    label: tl.fullName,
-  }))}
-  height={"66px"}
-  value={formData.teamLeadID}
-  handleChange={(selectedValue) => setFormData((prev) => ({
-    ...prev,
-    teamLeadID: selectedValue,
-  }))}
-/>
+                  <CustomSelectForRole
+                    label="Line Manager"
+                    name="teamLeadID"
+                    options={teamLeads.map((tl) => ({
+                      value: tl.id,
+                      label: tl.fullName,
+                    }))}
+                    height={"66px"}
+                    value={formData.teamLeadID}
+                    handleChange={(selectedValue) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        teamLeadID: selectedValue,
+                      }))
+                    }
+                  />
                   <CustomInputLabel
                     label="Designation"
                     name="designation"
                     value={formData.designation}
                     onChange={handleChange}
-                    
                   />
                 </Box>
 
@@ -577,53 +575,51 @@ const ToggleUserStatus = async () => {
                       }}
                     >
                       <Box
-                      sx={{
-                        flexBasis:"32.5%",
-                          display:"flex",
-                        gap:"0.7rem"
-                      }}
+                        sx={{
+                          flexBasis: "32.5%",
+                          display: "flex",
+                          gap: "0.7rem",
+                        }}
                       >
-
-                      {daysOfWeek.map((day) => (
-                        <CustomCheckbox
-                          key={day.label}
-                          label={day.label}
-                          selected={selectedDays.some(
-                            (selected) => selected.value === day.value
-                          )}
-                          onChange={() => handleDayChange(day)}
-                        />
-                      ))}
+                        {daysOfWeek.map((day) => (
+                          <CustomCheckbox
+                            key={day.label}
+                            label={day.label}
+                            selected={selectedDays.some(
+                              (selected) => selected.value === day.value
+                            )}
+                            onChange={() => handleDayChange(day)}
+                          />
+                        ))}
                       </Box>
                     </Box>
                   </Box>
-                      <Box
-                       sx={{
-                        flexBasis:"32.2%",
-                      
-                      }}
-                      >
-
-                    
-                  
-<CustomSelectForRole
-  label="HOD*"
-  height={"66px"}
-  name="HODID"
-  options={hods.map((hod) => ({
-    value: hod.id,
-    label: hod.fullName,
-  }))}
-  value={formData.HODID} // Use HODID as the value since you want to send the id
-  onChange={(selectedValue) => 
-    setFormData((prev) => ({
-      ...prev,
-      HODID: selectedValue, // Set the id here
-    }))
-  }
-  displayValue={hods.find(hod => hod.id === formData.HODID)?.fullName || ""} // Display the fullName for the selected HODID
-/>
-                    </Box>
+                  <Box
+                    sx={{
+                      flexBasis: "32.2%",
+                    }}
+                  >
+                    <CustomSelectForRole
+                      label="HOD*"
+                      height={"66px"}
+                      name="HODID"
+                      options={hods.map((hod) => ({
+                        value: hod.id,
+                        label: hod.fullName,
+                      }))}
+                      value={formData.HODID} // Use HODID as the value since you want to send the id
+                      onChange={(selectedValue) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          HODID: selectedValue, // Set the id here
+                        }))
+                      }
+                      displayValue={
+                        hods.find((hod) => hod.id === formData.HODID)
+                          ?.fullName || ""
+                      } // Display the fullName for the selected HODID
+                    />
+                  </Box>
                 </Box>
               </Box>
 
@@ -650,7 +646,6 @@ const ToggleUserStatus = async () => {
                     value={formData.totalShiftDuration}
                     // onChange={handleChange}
                     border={false}
-
                     disabled={false}
                   />
                   <CustomInputLabel
@@ -659,16 +654,14 @@ const ToggleUserStatus = async () => {
                     type="date"
                     value={formData.joiningDate}
                     onChange={handleChange}
-                    
                   />
                   <CustomInputLabel
                     label="Duration*"
                     name="duration"
                     value={formData.duration}
-                     // onChange={handleChange}
-                     border={false}
-
-                     disabled={false}
+                    // onChange={handleChange}
+                    border={false}
+                    disabled={false}
                   />
                 </Box>
 
@@ -680,34 +673,34 @@ const ToggleUserStatus = async () => {
                     flexDirection: { md: "row", xs: "column" },
                   }}
                 >
-                 <CustomSelectForRole
-  label="User Role"
-  height={"66px"}
-  name="role"
-  options={[
-    { value: "admin", label: "Admin" },
-    { value: "user", label: "User" },
-    { value: "hr", label: "HR" },
-  ]}
-  value={formData.role}
-  handleChange={(selectedValue) => setFormData((prev) => ({
-    ...prev,
-    role: selectedValue,
-  }))}
-/>
+                  <CustomSelectForRole
+                    label="User Role"
+                    height={"66px"}
+                    name="role"
+                    options={[
+                      { value: "admin", label: "Admin" },
+                      { value: "user", label: "User" },
+                      { value: "hr", label: "HR" },
+                    ]}
+                    value={formData.role}
+                    handleChange={(selectedValue) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        role: selectedValue,
+                      }))
+                    }
+                  />
                   <CustomInputLabel
                     label="Annual Leaves*"
                     name="annualLeaves"
                     value={formData.annualLeaves}
                     onChange={handleChange}
-                    
                   />
                   <CustomInputLabel
                     label="Net Salary*"
                     name="netSalary"
                     value={formData.netSalary}
                     onChange={handleChange}
-                    
                   />
                 </Box>
 
@@ -719,52 +712,117 @@ const ToggleUserStatus = async () => {
                     position: "relative",
                   }}
                 >
-                 <CustomSelectForRole
-  label="Location Type"
-  height={"66px"}
-  name="locationType"
-  options={[
-    { value: "onsite", label: "On-Site" },
-    { value: "remote", label: "Remote" },
-    { value: "hybrid", label: "Hybrid" },
-  ]}
-  value={formData.locationType}
-  handleChange={(selectedValue) => setFormData((prev) => ({
-    ...prev,
-    locationType: selectedValue,
-  }))}
-/>
-<CustomSelectForRole
-  label="On Probation"
-  height={"66px"}
-  name="onProbation"
-  options={[
-    { value: "yes", label: "Yes" },
-    { value: "no", label: "No" },
-  ]}
-  value={formData.onProbation}
-  handleChange={(selectedValue) => setFormData((prev) => ({
-    ...prev,
-    onProbation: selectedValue,
-  }))}
-
-  />
-  <CustomSelectForRole
-  label="Employment Type"
-  height={"66px"}
-  name="employmentType"
-  options={[
-    { value: "partTime", label: "Part Time" },
-    { value: "fullTime", label: "Full Time" },
-    { value: "remote", label: "Remote" },
-  ]}
-  value={formData.employmentType}
-  handleChange={(selectedValue) => setFormData((prev) => ({
-    ...prev,
-    employmentType: selectedValue,
-  }))}
-/>
+                  <CustomSelectForRole
+                    label="Location Type"
+                    height={"66px"}
+                    name="locationType"
+                    options={[
+                      { value: "onsite", label: "On-Site" },
+                      { value: "remote", label: "Remote" },
+                      { value: "hybrid", label: "Hybrid" },
+                    ]}
+                    value={formData.locationType}
+                    handleChange={(selectedValue) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        locationType: selectedValue,
+                      }))
+                    }
+                  />
+                  <CustomSelectForRole
+                    label="On Probation"
+                    height={"66px"}
+                    name="onProbation"
+                    options={[
+                      { value: "yes", label: "Yes" },
+                      { value: "no", label: "No" },
+                    ]}
+                    value={formData.onProbation}
+                    handleChange={(selectedValue) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        onProbation: selectedValue,
+                      }))
+                    }
+                  />
+                  <CustomSelectForRole
+                    label="Employment Type"
+                    height={"66px"}
+                    name="employmentType"
+                    options={[
+                      { value: "partTime", label: "Part Time" },
+                      { value: "fullTime", label: "Full Time" },
+                      { value: "remote", label: "Remote" },
+                    ]}
+                    value={formData.employmentType}
+                    handleChange={(selectedValue) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        employmentType: selectedValue,
+                      }))
+                    }
+                  />
                 </Box>
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: "20px",
+                    mb: "20px",
+                    flexDirection: { md: "row", xs: "column" },
+                  }}
+                >
+                   <CustomInputLabel
+                    label="Convenience Allowance*"
+                    name="commuteAllowance"
+                    value={formData.commuteAllowance}
+                    onChange={handleChange}
+                  />
+                  <CustomInputLabel
+                    label="Internet Allowance*"
+                    name="internetAllowance"
+                    value={formData.internetAllowance}
+                    onChange={handleChange}
+                  />
+                  <CustomInputLabel
+                    label="Mobile Allowance*"
+                    name="mobileAllowance"
+                    value={formData.mobileAllowance}
+                    onChange={handleChange}
+                  />
+                </Box>
+
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: "20px",
+                    mb: "20px",
+                    flexDirection: { md: "row", xs: "column" },
+                  }}
+                >
+                   <CustomInputLabel
+                    label="Bank Name*"
+                    name="bank"
+                    value={formData.bank}
+                    onChange={handleChange}
+                  />
+                  <CustomInputLabel
+                    label="Bank Account Number*"
+                    name="BAN"
+                    value={formData.BAN}
+                    onChange={handleChange}
+                  />
+                  <CustomInputLabel
+                    label="Bank Account Title*"
+                    name="BAT"
+                    value={formData.BAT}
+                    onChange={handleChange}
+                  />
+                </Box>
+             
+
+               
               </Box>
 
               <Box sx={{ display: "flex", justifyContent: "end", mt: "20px" }}>
@@ -783,7 +841,6 @@ const ToggleUserStatus = async () => {
                   width={"144px"}
                   borderRadius="7px"
                   height="45px"
-                  
                 />
               </Box>
             </>

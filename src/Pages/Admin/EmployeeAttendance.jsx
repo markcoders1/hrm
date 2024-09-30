@@ -309,7 +309,7 @@ const EmployeeAttendance = () => {
                           sm: "21px",
                           xs: "16px",
                         },
-                        textAlign: "start !important",
+                        textAlign: "center !important",
                         paddingLeft: "10px !important",
                         borderRadius: "0px 8px 8px 0px",
                         color: "#010120",

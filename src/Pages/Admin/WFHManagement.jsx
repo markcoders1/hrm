@@ -80,13 +80,14 @@ const WFHManagement = () => {
 
   const fetchAllWFH = async () => {
     const date = getUnixTimestampForMonthYear(selectedMonth, selectedYear);
-    console.log(date);
+    
 
     try {
       const response = await axiosInstance.get(
         `${apiUrl}/api/admin/getallwfh`,
         { params: { date: date ? date : null } }
       );
+      console.log(response)
 
       setAllWfh(response?.data?.WFHrequests);
       setTotalPages(response?.data?.totalPages);
@@ -178,6 +179,19 @@ const WFHManagement = () => {
   useEffect(() => {
     fetchAllWFH(page);
   }, [page]);
+
+  function convertTimestampToDate(timestamp) {
+    // Create a new Date object using the timestamp
+    const date = new Date(timestamp);
+
+    // Extract the month, day, and year from the date
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, '0');
+    const year = date.getFullYear();
+
+    // Combine them into the desired format
+    return `${month}-${day}-${year}`;
+}
   return (
     <Box className="sheet-container-admin">
       <Box
@@ -424,9 +438,10 @@ const WFHManagement = () => {
                     color: "#99999C",
                     textAlign: "center !important",
                     // paddingLeft: "40px !important",
+                   
                   }}
                 >
-                  {row.startDate}
+                  {convertTimestampToDate(row.date)}
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root"

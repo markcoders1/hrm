@@ -21,6 +21,7 @@ const UserDetailsStatic = () => {
         const response = await axiosInstance.get(`${apiUrl}/api/admin/getUser`, { params: { id } });
         setUserData(response.data.user);
         setLoading(false);
+       
       } catch (error) {
         console.error('Error fetching user data:', error);
       }

@@ -283,7 +283,7 @@ const DashboardAdmin = () => {
                               alt=""
                             />
                           </Box>
-                          <Typography sx={{ ml: "10px" }}>
+                          <Typography sx={{ ml: "10px", textAlign:"start !important" }}>
                             {employee.fullName}
                           </Typography>
                         </Box>

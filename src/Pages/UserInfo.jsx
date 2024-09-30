@@ -9,6 +9,7 @@ import CustomButton from "../components/CustomButton/CustomButton";
 import { Loader, LoaderW } from "../components/Loaders";
 import CustomCheckbox from "../components/CustomCheckbox/CustomCheckbox";
 import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -22,6 +23,10 @@ const UserInfo = () => {
   const [inputAbled, setInputAbled] = useState(false);
   const [selectedDays, setSelectedDays] = useState([]);
   const [image, setImage] = useState();
+  const [shiftDuration, setShiftDuration] = useState("");
+
+  const {watch} = useForm()
+
   const [userActive, setUserActive] = useState(null);
   const [loadingToggleAccount, setLoadingToggleAccount] = useState(false);
   const [formData, setFormData] = useState({
@@ -168,14 +173,14 @@ const UserInfo = () => {
     });
   };
 
-  const calculateShiftDuration = (from, to) => {
-    const fromDate = new Date(from * 1000);
-    const toDate = new Date(to * 1000);
-    const durationInMs = toDate - fromDate;
+  // const calculateShiftDuration = (from, to) => {
+  //   const fromDate = new Date(from * 1000);
+  //   const toDate = new Date(to * 1000);
+  //   const durationInMs = toDate - fromDate;
 
-    const durationInHours = durationInMs / (1000 * 60 * 60);
-    return durationInHours.toFixed(2) + " hours";
-  };
+  //   const durationInHours = durationInMs / (1000 * 60 * 60);
+  //   return durationInHours.toFixed(2) + " hours";
+  // };
 
   const calculateDurationFromJoiningDate = (joiningDate) => {
     const joinDate = new Date(joiningDate * 1000);
@@ -306,6 +311,38 @@ const UserInfo = () => {
       setLoadingToggleAccount(false);
     }
   };
+
+  const calculateShiftDuration = (fromTime, toTime) => {
+    if (!fromTime || !toTime) return "";
+
+    console.log(fromTime, toTime);
+
+    const from = new Date(`1970-01-01T${fromTime}:00Z`);
+
+    const to = fromTime.slice(0,2)>toTime.slice(0,2)? new Date(`1970-01-02T${toTime}:00Z`): new Date(`1970-01-01T${toTime}:00Z`);
+
+
+    const totalMinutes = Math.abs(differenceInMinutes(from, to));
+
+    // Calculate hours and minutes
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+
+    return `${hours} hour${hours !== 1 ? "s" : ""} ${minutes} minute${
+      minutes !== 1 ? "s" : ""
+    }`;
+  };
+   // Update the component logic to handle the shift timing change
+   const handleShiftTimingChange = () => {
+    const shiftFrom = watch("shiftTimingFrom");
+    const shiftTo = watch("shiftTimingTo");
+    setShiftDuration(calculateShiftDuration(shiftFrom, shiftTo));
+  };
+
+  useEffect(() => {
+    handleShiftTimingChange();
+    console.log(shiftDuration)
+  }, [watch("shiftTimingFrom"), watch("shiftTimingTo")]); 
 
   return (
     <Box className="form-container-register">
@@ -643,7 +680,7 @@ const UserInfo = () => {
                   <CustomInputLabel
                     label="Total Shift Duration*"
                     name="totalShiftDuration"
-                    value={formData.totalShiftDuration}
+                    value={shiftDuration}
                     // onChange={handleChange}
                     border={false}
                     disabled={false}

@@ -3,7 +3,8 @@ import { useOutletContext, useParams } from 'react-router-dom';
 import { Box, Typography, Button } from '@mui/material';
 import axiosInstance from '../../auth/axiosInstance';
 import '../../PagesCss/UserDetailsStatic.css';
-import { Loader } from '../../components/Loaders';
+import { Loader, LoaderW } from '../../components/Loaders';
+import CustomButton from '../../components/CustomButton/CustomButton';
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -12,6 +13,10 @@ const UserDetailsStatic = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
+  const [image, setImage] = useState();
+  const [userActive, setUserActive] = useState(null);
+
+  
 
   useEffect(() => {
     setHeadertext("User Details");
@@ -20,7 +25,10 @@ const UserDetailsStatic = () => {
       try {
         const response = await axiosInstance.get(`${apiUrl}/api/admin/getUser`, { params: { id } });
         setUserData(response.data.user);
+         setImage(response.data.user.image);
+        setUserActive(response.data.user.active);
         setLoading(false);
+        console.log(response)
        
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -38,26 +46,73 @@ const UserDetailsStatic = () => {
     );
   }
 
+  function convertTimestampToDate(timestamp) {
+    // Create a new Date object using the timestamp
+    const date = new Date(timestamp);
+
+    // Extract the month, day, and year from the date
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, '0');
+    const year = date.getFullYear();
+
+    // Combine them into the desired format
+    return `${month}-${day}-${year}`;
+}
+
+
+
   return (
     <Box sx={{ display:"flex", flexDirection:"column", gap:"2rem"}}>
-        <Box
+       <Box
         sx={{
-          border: "1px dashed #C5C5C5",
-          width: "517px",
-          p: "1rem",
+          border: "1px dashed rgba(197, 197, 197, 0.6)",
+          width: { md: "517px", xs: "100%" },
+          p: { xs: "1rem 1rem", sm: "1rem 2rem" },
           borderRadius: "7px",
           position: { lg: "fixed", xs: "static" },
-          right: "40px",
-          top: "20px",
+          right: "35px",
+          top: "10px",
           zIndex: "100000 ",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
-        <Box sx={{ display: "flex", gap: "3rem", alignItems: "center" }}>
-          <img src="" style={{ width: "64px", height: "64px" }} alt="" />
+        <Box sx={{ display: "flex", gap: "1.5rem", alignItems: "center" }}>
+          <img
+            src={image}
+            style={{ width: "64px", height: "64px", borderRadius: "50%" }}
+            alt=""
+          />
           <Typography sx={{ color: "#010120", fontSize: "24px" }}>
-            Aman Raza Khan
+            {userData.fullName}
           </Typography>
         </Box>
+        <Typography>
+          <CustomButton
+            ButtonText={
+              userActive ? (
+                "Deactivate"
+              ) : (
+                "Activate"
+              )
+            }
+            fontSize="14px"
+            color="rgba(49, 186, 150, 1)"
+            fontWeight="500"
+            fullWidth={false}
+            variant="contained"
+            background="transparent"
+            hoverBg="white"
+            border="1px solid rgba(49, 186, 150, 1)"
+            hoverBorder="1px solid rgba(49, 186, 150, 1)"
+            hovercolor="white"
+            width={"124px"}
+            borderRadius="7px"
+            height="38px"
+           
+          />
+        </Typography>
       </Box>
     <Box className="user-details-container" sx={{p:{sm: "40px 50px", xs:"40px 15px"}}} >
       {/* Full Name, Phone Number, Email */}
@@ -112,11 +167,11 @@ const UserDetailsStatic = () => {
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Shift Timings From</Typography>
-          <Typography variant="body1" className="user-details-value">{userData.shiftTimingFrom}</Typography>
+          <Typography variant="body1" className="user-details-value">{convertTimestampToDate(userData.shiftTimingFrom)}</Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Shift Timings To</Typography>
-          <Typography variant="body1" className="user-details-value">{userData.shiftTimingTo}</Typography>
+          <Typography variant="body1" className="user-details-value">{convertTimestampToDate(userData.shiftTimingTo)}</Typography>
         </Box>
       </Box>
 

@@ -41,6 +41,19 @@ import logoutIcon from "../assets/logoutIcon.png";
 import { set } from "../sidebarSlice";
 import { setFormDirty } from "../Redux/formSlice";
 
+
+
+// importing icons
+
+import dashboardIcon from '../assets/icons/dashboard.png'
+import profileIcon from '../assets/icons/profile.png'
+import  userManaIcon from '../assets/icons/userManagement.png'
+import attenfanceManaIcon from '../assets/icons/attendanceManagement.png'
+import leaveManaIcon from '../assets/icons/leaveManagement.png'
+import wfhManaIcon from '../assets/icons/wfhManagement.png'
+import notificationIcon from '../assets/icons/notification.png'
+
+
 const parser = new UAParser();
 
 
@@ -208,8 +221,14 @@ const AppSidebar = () => {
             <>
               <CNavItem>
                 <CustomNavLink to="/dashboard/admin" className="nav-link" end>
-                  <CIcon className="nav-icon" icon={cilPeople} />{" "}
+                &nbsp;   <img src={dashboardIcon} alt="" /> {" "} &nbsp;&nbsp;
                   Dashboard
+                </CustomNavLink>
+              </CNavItem>
+              <CNavItem>
+                <CustomNavLink to="/dashboard/attendance" className="nav-link" end>
+                <img src={attenfanceManaIcon} alt="" /> {" "}&nbsp; 
+                  Attendance Management
                 </CustomNavLink>
               </CNavItem>
               <CNavItem>
@@ -218,14 +237,8 @@ const AppSidebar = () => {
                   className="nav-link"
                   end
                 >
-                  <CIcon className="nav-icon" icon={cilPeople} /> User
-                  Management
-                </CustomNavLink>
-              </CNavItem>
-              <CNavItem>
-                <CustomNavLink to="/dashboard/attendance" className="nav-link" end>
-                  <CIcon className="nav-icon" icon={cilNotes} />{" "}
-                  Attendance Management
+                 &nbsp;  <img src={userManaIcon} alt="" /> {" "}&nbsp; 
+                  User Management
                 </CustomNavLink>
               </CNavItem>
             
@@ -284,8 +297,8 @@ const AppSidebar = () => {
                   className="nav-link"
                   end
                 >
-                  <CIcon className="nav-icon" icon={cilNotes} /> Leave
-                  Management
+                <img src={leaveManaIcon} alt="" /> {" "} &nbsp;&nbsp; 
+                  Leave Management
                 </CustomNavLink>
               </CNavItem>
               <CNavItem>
@@ -294,8 +307,8 @@ const AppSidebar = () => {
                   className="nav-link"
                   end
                 >
-                  <CIcon className="nav-icon" icon={cilNotes} /> WFH
-                  Management
+                <img src={wfhManaIcon} alt="" /> {" "} &nbsp;
+                  WFH Management
                 </CustomNavLink>
               </CNavItem>
 </>
@@ -307,7 +320,8 @@ const AppSidebar = () => {
 
           <CNavItem>
                 <CustomNavLink to="/dashboard/profile" end className="nav-link">
-                  <CIcon className="nav-icon" icon={cilUser} />
+                &nbsp;&nbsp;<img src={profileIcon} alt="" /> {" "}&nbsp;&nbsp; 
+
                   My Profile
                 </CustomNavLink>
               </CNavItem>
@@ -318,7 +332,8 @@ const AppSidebar = () => {
                   className="nav-link"
                   style={{ position:"relative"}} 
                 >
-                  <CIcon className="nav-icon" icon={cilCalendar} />
+                                 &nbsp;&nbsp;<img src={notificationIcon} alt="" /> {" "} &nbsp;&nbsp; 
+
                   Notifications {count ? ( <span style={{position:"absolute", right:"30px", width:"30px", height:"30px", borderRadius:"50%", backgroundColor:"rgba(255, 255, 255, 0.3)", display:"flex", justifyContent:"center", alignItems:"center", color:"white"}} >{count}</span>): ""}
                 </CustomNavLink>
               </CNavItem>

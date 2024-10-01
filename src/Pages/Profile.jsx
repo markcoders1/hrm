@@ -207,9 +207,9 @@ const Profile = () => {
                 <img src={dotpng} alt="" /> <img src={dotpng} alt="" />
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
               </Box>
-              <Tooltip title="Edit Password">
+              <Tooltip title="Update Password">
                 <CustomButton
-                  ButtonText="Edit Password"
+                  ButtonText="Update Password"
                   fontSize="12px"
                   color="white"
                   fontWeight="500"
@@ -221,9 +221,9 @@ const Profile = () => {
                   hoverBg="#303f9f"
                   hovercolor="white"
                   height="37.19px"
-                  width={"125px"}
+                  width={"135px"}
                   borderRadius="7px"
-                  buttonStyle={{ mt: "-17px" }}
+                  buttonStyle={{ mt: "-17px"}}
                   onClick={() => setOpen(true)}
                 />{" "}
               </Tooltip>

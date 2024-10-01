@@ -26,6 +26,8 @@ const Register = () => {
   const [departments, setDepartments] = useState([]);
   const [joiningDuration, setJoiningDuration] = useState("");
   const [isFormDirty, setIsFormDirty] = useState(false);
+  const [companyIDValue, setCompanyIDValue] = useState("")
+
   const dispatch = useDispatch()
 
   const [shiftDuration, setShiftDuration] = useState("");
@@ -134,6 +136,8 @@ useEffect(()=>{
       setTeamLeads(response.data.TL);
       setHods(response.data.HOD);
       setDepartments(response.data.departments);
+      setCompanyIDValue(response.data.companyID)
+      console.log(response.data.companyID)
     } catch (error) {
       console.log(error);
     }
@@ -201,9 +205,12 @@ useEffect(()=>{
   //     // setValue("durationDiff", durationDiff);
   //   }
   // }, [watch("joiningDate"), setValue]);
-
+useEffect(()=>{
+console.log("sadfghjkdsfghjsdfghjdfgh", companyIDValue)
+},[companyIDValue])
 
  useEffect(() => {
+  console.log(companyIDValue)
   const handleBeforeUnload = (e) => {
     if (isDirty) {
       e.preventDefault();
@@ -218,6 +225,10 @@ useEffect(()=>{
     window.removeEventListener('beforeunload', handleBeforeUnload);
   };
 }, [isDirty]);
+
+
+
+
 
   return (
     <Box className="form-container-register">
@@ -422,10 +433,12 @@ useEffect(()=>{
                 <Controller
                   name="companyId"
                   control={control}
-                  defaultValue=""
-                  rules={{ required: "Company ID is required" }}
+                  defaultValue={companyIDValue}
+                 
+                  rules={{ required: "Employee ID is required" }}
                   render={({ field }) => (
                     <CustomInputLabel
+                    defaultValue={companyIDValue}
                       label="Employee ID*"
                       error={errors.companyId?.message}
                       {...field}
@@ -454,7 +467,7 @@ useEffect(()=>{
                 <Controller
                   name="password"
                   control={control}
-                  defaultValue=""
+                  defaultValue="Admin123"
                   rules={{ required: "Password is required" }}
                   render={({ field }) => (
                     <CustomInputLabel
@@ -837,7 +850,7 @@ useEffect(()=>{
                   defaultValue=""
                   render={({ field }) => (
                     <CustomInputLabel
-                      label="Net Salary"
+                      label="Basic Salary"
                       error={errors.netSalary?.message}
                       {...field}
                       type={"number"}
@@ -846,101 +859,7 @@ useEffect(()=>{
                 />
               </Typography>
             </Box>
-            <Box
-              sx={{
-                display: "flex",
-                gap: "20px",
-                flexDirection: { md: "row", xs: "column" },
-                position: "relative",
-              }}
-            >
-              <Typography
-                sx={{
-                  display: "flex",
-                  gap: "5px",
-                  flexDirection: "column",
-                  flexBasis: "33%",
-                }}
-              >
-                <Controller
-                  name="locationType"
-                  control={control}
-                  defaultValue=""
-                  rules={{ required: "Location Type is Required" }}
-                  render={({ field }) => (
-                    <CustomSelectForRole
-                      label="Location Type"
-                      height={"66px"}
-                      options={[
-                        { value: "onsite", label: "On-Site" },
-                        { value: "remote", label: "Remote" },
-                        { value: "hybrid", label: "Hybrid" },
-                      ]}
-                      value={field.value}
-                      handleChange={field.onChange}
-                      error={errors.locationType?.message}
-                    />
-                  )}
-                />
-              </Typography>
-              <Typography
-                sx={{
-                  display: "flex",
-                  gap: "5px",
-                  flexDirection: "column",
-                  flexBasis: "33%",
-                }}
-              >
-                <Controller
-                  name="onProbation"
-                  control={control}
-                  defaultValue=""
-                  rules={{ required: " On Probation is required" }}
-                  render={({ field }) => (
-                    <CustomSelectForRole
-                      label="On Probation"
-                      height={"66px"}
-                      options={[
-                        { value: "yes", label: "Yes" },
-                        { value: "no", label: "No" },
-                      ]}
-                      value={field.value}
-                      handleChange={field.onChange}
-                      error={errors.employementType?.message}
-                    />
-                  )}
-                />
-              </Typography>
-
-              <Typography
-                sx={{
-                  display: "flex",
-                  gap: "5px",
-                  flexDirection: "column",
-                  flexBasis: "33%",
-                }}
-              >
-                <Controller
-                  name="employmentType"
-                  control={control}
-                  defaultValue=""
-                  rules={{ required: "Employeement Type is required" }}
-                  render={({ field }) => (
-                    <CustomSelectForRole
-                      label="Employement Type"
-                      height={"66px"}
-                      options={[
-                        { value: "partTime", label: "Part Time" },
-                        { value: "fullTime", label: "Full Time" },
-                      ]}
-                      value={field.value}
-                      handleChange={field.onChange}
-                      error={errors.employmentType?.message}
-                    />
-                  )}
-                />
-              </Typography>
-            </Box>
+           
             
 
             <Box
@@ -1107,6 +1026,102 @@ useEffect(()=>{
                 />
               </Typography>
             </Box>  
+
+            <Box
+              sx={{
+                display: "flex",
+                gap: "20px",
+                flexDirection: { md: "row", xs: "column" },
+                position: "relative",
+              }}
+            >
+              <Typography
+                sx={{
+                  display: "flex",
+                  gap: "5px",
+                  flexDirection: "column",
+                  flexBasis: "33%",
+                }}
+              >
+                <Controller
+                  name="locationType"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Location Type is Required" }}
+                  render={({ field }) => (
+                    <CustomSelectForRole
+                      label="Location Type"
+                      height={"66px"}
+                      options={[
+                        { value: "onsite", label: "On-Site" },
+                        { value: "remote", label: "Remote" },
+                        { value: "hybrid", label: "Hybrid" },
+                      ]}
+                      value={field.value}
+                      handleChange={field.onChange}
+                      error={errors.locationType?.message}
+                    />
+                  )}
+                />
+              </Typography>
+              <Typography
+                sx={{
+                  display: "flex",
+                  gap: "5px",
+                  flexDirection: "column",
+                  flexBasis: "33%",
+                }}
+              >
+                <Controller
+                  name="onProbation"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: " On Probation is required" }}
+                  render={({ field }) => (
+                    <CustomSelectForRole
+                      label="On Probation"
+                      height={"66px"}
+                      options={[
+                        { value: "yes", label: "Yes" },
+                        { value: "no", label: "No" },
+                      ]}
+                      value={field.value}
+                      handleChange={field.onChange}
+                      error={errors.employementType?.message}
+                    />
+                  )}
+                />
+              </Typography>
+
+              <Typography
+                sx={{
+                  display: "flex",
+                  gap: "5px",
+                  flexDirection: "column",
+                  flexBasis: "33%",
+                }}
+              >
+                <Controller
+                  name="employmentType"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Employeement Type is required" }}
+                  render={({ field }) => (
+                    <CustomSelectForRole
+                      label="Employement Type"
+                      height={"66px"}
+                      options={[
+                        { value: "partTime", label: "Part Time" },
+                        { value: "fullTime", label: "Full Time" },
+                      ]}
+                      value={field.value}
+                      handleChange={field.onChange}
+                      error={errors.employmentType?.message}
+                    />
+                  )}
+                />
+              </Typography>
+            </Box>
           </Box>
 
           <Box sx={{ display: "flex", justifyContent: "end", mt: "20px", gap:"1.5rem"}}>

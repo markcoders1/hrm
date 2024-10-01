@@ -1,5 +1,5 @@
 import { Box, FormControl, TextField, Typography, IconButton } from "@mui/material";
-import { forwardRef, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import SearchIcon from '../../assets/searchIcon.png'
@@ -27,13 +27,15 @@ const CustomInputLabel = forwardRef(({
   fontSize = "18px",
   id= "",
   width = "",
-  disabled= false
+  disabled= false,
+  defaultValue= ""
 }, ref) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
 
   return (
     <Box sx={{ mb: mb, width: fullWidth ? '100%' : 'auto' }}>
@@ -120,6 +122,7 @@ const CustomInputLabel = forwardRef(({
           onChange={onChange} // Handle onChange
           name={name}
           value={value} // Handle value
+          defaultValue={defaultValue}
           multiline={multiline}
           rows={rows}
           inputProps={{

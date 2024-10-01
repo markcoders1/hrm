@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Typography, Box } from '@mui/material'
 import {
@@ -12,14 +12,24 @@ import { cilMenu } from '@coreui/icons'
 import { set } from '../sidebarSlice'  // Import your slice's set action
 import { useLocation } from 'react-router-dom'  // Import useLocation for accessing the current path
 import { useParams } from 'react-router-dom'
+import EditIcon from '../assets/Edit.png'
 
+import ChangeProfileImageModal from "../components/ChangeProfileImageModal/ChangeProfileImageModal";
+import CustomButton from "../components//CustomButton/CustomButton";
 const AppHeader = (props) => {
   const headerRef = useRef()
   const { headertext, paraText } = props
   const dispatch = useDispatch()
+
+  const [open, setOpen] = useState(false); // Modal state
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const {id} = useParams();
 
-  const user = useSelector(state => state.user);
+  const user = useSelector(state => state.user); 
+  
+ 
 
   
   
@@ -43,7 +53,7 @@ const AppHeader = (props) => {
     `/dashboard/my-leaves/edit-leave/${id}`,
   ]
 
-  // Function to check if the current route matches any of the defined routes
+
   const shouldRenderBox = routesWithBox.includes(location.pathname)
 
   useEffect(() => {
@@ -82,6 +92,12 @@ const AppHeader = (props) => {
       {/* Conditionally render the Box based on the current route */}
       {shouldRenderBox && (
         <Box
+        sx={{
+          
+          position:"relative"
+        }}
+        >
+        <Box
           sx={{
            width:{xs:"51px", md: "81px"},
            height:{xs:"51px", md: "81px"},
@@ -92,9 +108,41 @@ const AppHeader = (props) => {
           component="img"
           src={user.user.image}
         >
-         
         </Box>
-      )}
+        {
+          location.pathname.includes("/dashboard/profile") && (
+          <Box
+          sx={{
+            height:"25px",
+            width:"25px",
+            position:"absolute",
+           borderRadius:"50%",
+
+            bottom:"-10px",
+            left: "50%", // This centers the left edge horizontally
+            transform: "translateX(-50%)", 
+            backgroundColor:"rgba(21, 122, 255, 1)",
+            display:"flex",
+            justifyContent:"center",
+            alignItems:"center",
+            cursor:"pointer",
+            ":hover":{
+            backgroundColor:"rgba(21, 122, 255, .8)",
+              transition:".2s ease-in"
+            }
+          }}
+          
+          >
+              <img src={EditIcon} onClick={handleOpen} style={{width:"11.54px", height:"11.54px"}} alt="" />
+          </Box>
+
+          )
+        }   
+         <ChangeProfileImageModal open={open} handleClose={handleClose} />
+
+        </Box>
+
+)}
     </CHeader>
   )
 }

@@ -293,49 +293,48 @@ const Profile = () => {
             mb: "20px",
           }}
         >
-          {
-            yourData.workDays.length > 1 && (<>
-           
-          <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
-            <Typography variant="subtitle2" className="user-details-label">
-              Working Days
-            </Typography>
-            <Box
-              variant="body1"
-              className="user-details-value"
-              sx={{
-                display: "flex",
-                gap: "0.4rem",
-              }}
-            >
-              {yourData.workDays &&
-                yourData.workDays.map((day, index) => (
-                  <Box
-                    key={index}
-                    sx={{
-                      width: "41px",
-                      height: "41px",
-                      borderRadius: "50%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      cursor: "pointer",
-                      backgroundColor: "#157AFF",
-                      color: "#fff",
-                      border: "1px solid #DCDCDC",
-                      marginRight: "5px",
-                      transition: "background-color 0.3s ease, color 0.3s ease",
-                      fontWeight: "500",
-                    }}
-                  >
-                    {daysOfWeek[day]}
-                  </Box>
-                ))}
-            </Box>
-            
-          </Box>
-          </>)
-          }
+          {yourData.workDays.length > 1 && (
+            <>
+              <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
+                <Typography variant="subtitle2" className="user-details-label">
+                  Working Days
+                </Typography>
+                <Box
+                  variant="body1"
+                  className="user-details-value"
+                  sx={{
+                    display: "flex",
+                    gap: "0.4rem",
+                  }}
+                >
+                  {yourData.workDays &&
+                    yourData.workDays.map((day, index) => (
+                      <Box
+                        key={index}
+                        sx={{
+                          width: "41px",
+                          height: "41px",
+                          borderRadius: "50%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          cursor: "pointer",
+                          backgroundColor: "#157AFF",
+                          color: "#fff",
+                          border: "1px solid #DCDCDC",
+                          marginRight: "5px",
+                          transition:
+                            "background-color 0.3s ease, color 0.3s ease",
+                          fontWeight: "500",
+                        }}
+                      >
+                        {daysOfWeek[day]}
+                      </Box>
+                    ))}
+                </Box>
+              </Box>
+            </>
+          )}
           <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
             <Typography variant="subtitle2" className="user-details-label">
               HOD

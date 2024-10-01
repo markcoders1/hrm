@@ -15,8 +15,66 @@ const UserDetailsStatic = () => {
   const [userData, setUserData] = useState(null);
   const [image, setImage] = useState();
   const [userActive, setUserActive] = useState(null);
+  const daysOfWeek = ["", "M", "T", "W", "Th", "F", "S", ""];
 
-  
+
+
+
+
+function convertUnixToTime(unixTimestamp) {
+  // Create a Date object from the Unix timestamp (milliseconds)
+  const date = new Date(unixTimestamp * 1000);
+
+  // Get hours and minutes
+  let hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  // Determine AM or PM suffix
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+
+  // Convert hours from 24-hour format to 12-hour format
+  hours = hours % 12;
+  hours = hours ? hours : 12; // If hour is 0, make it 12
+
+  // Format minutes to always have two digits
+  const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+
+  // Return the formatted time string
+  return `${hours}:${formattedMinutes} ${ampm}`;
+}
+
+function calculateShiftDuration(fromUnix, toUnix) {
+  const diffInSeconds = toUnix - fromUnix; // Calculate the difference in seconds
+  const diffInMinutes = Math.floor(diffInSeconds / 60); // Convert total seconds to minutes
+  const hours = Math.floor(diffInMinutes / 60); // Get the number of full hours
+  const minutes = diffInMinutes % 60; // Get the remaining minutes
+  return `${hours} hours and ${minutes} minutes`;
+}
+
+
+function calculateYearsAndMonthsFromUnix(joiningUnix) {
+  const today = new Date(); // Current date
+  const joiningDate = new Date(joiningUnix); // Convert Unix timestamp to Date
+
+  let years = today.getFullYear() - joiningDate.getFullYear(); // Difference in years
+  let months = today.getMonth() - joiningDate.getMonth(); // Difference in months
+
+  // If months are negative, subtract a year and add 12 to months
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+
+  return `${years} years and ${months} months`;
+}
+
+// Example usage:
+const joiningUnixTimestamp = 1562889600000; // Example: January 1, 2013 (Unix timestamp in seconds)
+console.log(calculateYearsAndMonthsFromUnix(joiningUnixTimestamp));
+
+useEffect(()=>{
+  console.log(calculateShiftDuration(50400000 , 64320000 ))
+},[])
 
   useEffect(() => {
     setHeadertext("User Details");
@@ -167,11 +225,11 @@ const UserDetailsStatic = () => {
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Shift Timings From</Typography>
-          <Typography variant="body1" className="user-details-value">{convertTimestampToDate(userData.shiftTimingFrom)}</Typography>
+          <Typography variant="body1" className="user-details-value">{convertUnixToTime(userData.shiftTimingFrom)}</Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Shift Timings To</Typography>
-          <Typography variant="body1" className="user-details-value">{convertTimestampToDate(userData.shiftTimingTo)}</Typography>
+          <Typography variant="body1" className="user-details-value">{convertUnixToTime(userData.shiftTimingTo)}</Typography>
         </Box>
       </Box>
 
@@ -195,8 +253,47 @@ const UserDetailsStatic = () => {
       {/* Working Days, HOD, Department */}
       <Box sx={{ display: 'flex', gap: '20px', flexDirection: { md: 'row', xs: 'column' }, mb: '20px' }}>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
-          <Typography variant="subtitle2" className="user-details-label">Working Days</Typography>
-          <Typography variant="body1" className="user-details-value">{userData.workingDays}</Typography>
+          
+          
+              <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
+                <Typography variant="subtitle2" className="user-details-label">
+                  Working Days
+                </Typography>
+                <Box
+                  variant="body1"
+                  className="user-details-value"
+                  sx={{
+                    display: "flex",
+                    gap: "0.4rem",
+                  }}
+                >
+                  {userData.workDays &&
+                    userData.workDays.map((day, index) => (
+                      <Box
+                        key={index}
+                        sx={{
+                          width: "41px",
+                          height: "41px",
+                          borderRadius: "50%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          cursor: "pointer",
+                          backgroundColor: "#157AFF",
+                          color: "#fff",
+                          border: "1px solid #DCDCDC",
+                          marginRight: "5px",
+                          transition:
+                            "background-color 0.3s ease, color 0.3s ease",
+                          fontWeight: "500",
+                        }}
+                      >
+                        {daysOfWeek[day]}
+                      </Box>
+                    ))}
+                </Box>
+              </Box>
+           
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">HOD</Typography>
@@ -215,7 +312,9 @@ const UserDetailsStatic = () => {
       <Box sx={{ display: 'flex', gap: '20px', flexDirection: { md: 'row', xs: 'column' }, mb: '20px', pb: '20px', borderBottom: { md: '1px solid #E0E0E0', xs: 'none' } }}>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Total Shift Duration</Typography>
-          <Typography variant="body1" className="user-details-value">{userData?.shiftTimingFrom - userData?.shiftTimingTo}Hours</Typography>
+          <Typography variant="body1" className="user-details-value">
+          {calculateShiftDuration(userData.shiftTimingFrom, userData.shiftTimingTo)}
+  </Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Joining Date</Typography>
@@ -223,7 +322,7 @@ const UserDetailsStatic = () => {
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Duration</Typography>
-          <Typography variant="body1" className="user-details-value">{userData?.joiningDate} Years</Typography>
+          <Typography variant="body1" className="user-details-value">{calculateYearsAndMonthsFromUnix(userData?.joiningDate)}</Typography>
         </Box>
       </Box>
       {/* CNIC, DOB, Employee ID */}

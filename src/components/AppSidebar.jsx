@@ -221,26 +221,17 @@ const AppSidebar = () => {
             <>
               <CNavItem>
                 <CustomNavLink to="/dashboard/admin" className="nav-link" end>
-                &nbsp;   <img src={dashboardIcon} alt="" /> {" "} &nbsp;&nbsp;
+                &nbsp; <img src={dashboardIcon} alt="" style={{width:"17.77px", height:"17.75px"}} /> {" "}&nbsp;&nbsp;
                   Dashboard
                 </CustomNavLink>
               </CNavItem>
               <CNavItem>
                 <CustomNavLink to="/dashboard/attendance" className="nav-link" end>
-                <img src={attenfanceManaIcon} alt="" /> {" "}&nbsp; 
+                <img src={attenfanceManaIcon} alt="" style={{width:"27.21px", height:"28.16px"}} /> {" "}&nbsp; 
                   Attendance Management
                 </CustomNavLink>
               </CNavItem>
-              <CNavItem>
-                <CustomNavLink
-                  to="/dashboard/user-management"
-                  className="nav-link"
-                  end
-                >
-                 &nbsp;  <img src={userManaIcon} alt="" /> {" "}&nbsp; 
-                  User Management
-                </CustomNavLink>
-              </CNavItem>
+             
             
              
           {/* <CNavItem>
@@ -297,7 +288,7 @@ const AppSidebar = () => {
                   className="nav-link"
                   end
                 >
-                <img src={leaveManaIcon} alt="" /> {" "} &nbsp;&nbsp; 
+                <img src={leaveManaIcon}  alt=""  style={{width:"27.02px", height:"16.75px"}} /> {" "} &nbsp;
                   Leave Management
                 </CustomNavLink>
               </CNavItem>
@@ -307,7 +298,7 @@ const AppSidebar = () => {
                   className="nav-link"
                   end
                 >
-                <img src={wfhManaIcon} alt="" /> {" "} &nbsp;
+                <img src={wfhManaIcon} alt="" style={{width:"28.53px", height:"27.89px"}}  /> {" "} &nbsp;
                   WFH Management
                 </CustomNavLink>
               </CNavItem>
@@ -315,12 +306,27 @@ const AppSidebar = () => {
 
 
 ): ""}
+
+{isAdmin === "HOD" ? (
+  <>
+   <CNavItem>
+   <CustomNavLink
+     to="/dashboard/user-management"
+     className="nav-link"
+     end
+   >
+    &nbsp;&nbsp;<img src={userManaIcon} alt="" style={{width:"22.8px", height:"27.88px"}} /> {" "}&nbsp; 
+     User Management
+   </CustomNavLink>
+ </CNavItem>
+ </>
+): ""}
           <>
 
 
           <CNavItem>
                 <CustomNavLink to="/dashboard/profile" end className="nav-link">
-                &nbsp;&nbsp;<img src={profileIcon} alt="" /> {" "}&nbsp;&nbsp; 
+                &nbsp;&nbsp;<img src={profileIcon} alt="" style={{width:"17.97px", height:"23.09"}} /> {" "}&nbsp;
 
                   My Profile
                 </CustomNavLink>
@@ -332,7 +338,7 @@ const AppSidebar = () => {
                   className="nav-link"
                   style={{ position:"relative"}} 
                 >
-                                 &nbsp;&nbsp;<img src={notificationIcon} alt="" /> {" "} &nbsp;&nbsp; 
+                &nbsp;&nbsp;<img src={notificationIcon} alt="" style={{width:"19.52px", height:"22.22"}} /> {" "} &nbsp;
 
                   Notifications {count ? ( <span style={{position:"absolute", right:"30px", width:"30px", height:"30px", borderRadius:"50%", backgroundColor:"rgba(255, 255, 255, 0.3)", display:"flex", justifyContent:"center", alignItems:"center", color:"white"}} >{count}</span>): ""}
                 </CustomNavLink>

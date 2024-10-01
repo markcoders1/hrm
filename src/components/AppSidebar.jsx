@@ -43,7 +43,7 @@ import { setFormDirty } from "../Redux/formSlice";
 
 
 
-// importing icons
+// importing icons for Admins
 
 import dashboardIcon from '../assets/icons/dashboard.png'
 import profileIcon from '../assets/icons/profile.png'
@@ -52,6 +52,13 @@ import attenfanceManaIcon from '../assets/icons/attendanceManagement.png'
 import leaveManaIcon from '../assets/icons/leaveManagement.png'
 import wfhManaIcon from '../assets/icons/wfhManagement.png'
 import notificationIcon from '../assets/icons/notification.png'
+
+// import icons for User
+
+import myAttendanceIcon from '../assets/icons/myAttendance.png'
+import myLeaveIcon from '../assets/icons/myleave.png'
+import remoteWorkIcon from '../assets/icons/remotework.png'
+
 
 
 const parser = new UAParser();
@@ -188,24 +195,28 @@ const AppSidebar = () => {
             <>
               <CNavItem>
                 <CustomNavLink to="/dashboard" end className="nav-link">
-                  <CIcon className="nav-icon" icon={cilUser} /> Dashboard
+                &nbsp; <img src={dashboardIcon} alt="" style={{width:"17.77px", height:"17.75px"}} /> {" "}&nbsp;&nbsp;
+                  Dashboard
                 </CustomNavLink>
               </CNavItem>
               <CNavItem>
                 <CustomNavLink to="/dashboard/my-attendance" end className="nav-link">
-                  <CIcon className="nav-icon" icon={cilCalendar} />
+                &nbsp; <img src={myAttendanceIcon} alt="" style={{width:"18.38px", height:"22.75px"}} /> {" "}&nbsp;&nbsp;
+
                   My Attendance
                 </CustomNavLink>
               </CNavItem>
               <CNavItem>
                 <CustomNavLink to="/dashboard/my-leaves" end className="nav-link">
-                  <CIcon className="nav-icon" icon={cilCalendar} />
+                &nbsp; <img src={myLeaveIcon} alt="" style={{width:"21.42px", height:"16.41px"}} /> {" "}&nbsp;&nbsp;
+
                   My Leaves
                 </CustomNavLink>
               </CNavItem>
               <CNavItem>
                 <NavLink to="/dashboard/remote-work" end className="nav-link">
-                  <CIcon className="nav-icon" icon={cilCalendar} />
+                &nbsp; <img src={remoteWorkIcon} alt="" style={{width:"22.49px", height:"22.48px"}} /> {" "}&nbsp;&nbsp;
+
                   Remote Work
                 </NavLink>
               </CNavItem>
@@ -303,8 +314,6 @@ const AppSidebar = () => {
                 </CustomNavLink>
               </CNavItem>
 </>
-
-
 ): ""}
 
 {isAdmin === "HOD" ? (

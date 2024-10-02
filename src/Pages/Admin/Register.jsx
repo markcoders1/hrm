@@ -78,6 +78,13 @@ const Register = () => {
 useEffect(()=>{
 
 },[])
+
+function convertTimeToUnixTimestamp(timeString) {
+  const [hours, minutes] = timeString.split(":").map(Number);
+  const date = new Date();
+  date.setUTCHours(hours, minutes, 0, 0);
+  return Math.floor(date.getTime() / 1000);
+}
   const onSubmit = async (data) => {
     
     console.log(data)
@@ -89,12 +96,15 @@ useEffect(()=>{
 
       // Convert date and time to Unix timestamp in milliseconds
       const joiningDate = new Date(data.joiningDate).getTime();
-      const shiftTimingFrom = new Date(
-        `1970-01-01T${data.shiftTimingFrom}:00Z`
-      ).getTime();
-      const shiftTimingTo = new Date(
-        `1970-01-01T${data.shiftTimingTo}:00Z`
-      ).getTime();
+      // const shiftTimingFrom = new Date(
+      //   `1970-01-01T${data.shiftTimingFrom}:00Z`
+      // ).getTime();
+      // const shiftTimingTo = new Date(
+      //   `1970-01-01T${data.shiftTimingTo}:00Z`
+      // ).getTime();
+
+      const shiftTimingFrom = convertTimeToUnixTimestamp(data.shiftTimingFrom);
+      const shiftTimingTo = convertTimeToUnixTimestamp(data.shiftTimingTo);
 
       let DOB = new Date(data.DOB).getTime();
       DOB = DOB.toString()
@@ -896,13 +906,13 @@ useEffect(() => {
                 }}
               >
                 <Controller
-                  name="netSalary"
+                  name="basicSalary"
                   control={control}
                   defaultValue=""
                   render={({ field }) => (
                     <CustomInputLabel
                       label="Basic Salary"
-                      error={errors.netSalary?.message}
+                      error={errors.basicSalary?.message}
                       {...field}
                       type={"number"}
                     />

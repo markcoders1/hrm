@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-const AnnouncementBox = ({ announcementContent, id, onDelete , announcementDate}) => {
+const AnnouncementBox = ({ announcementContent, id, onDelete , announcementDate, announcementAuthor}) => {
 
 
 
@@ -86,8 +86,9 @@ const formatToCustomDate = (createdAt) => {
         fontSize:"14px"
       }}
       >
-      {formatToCustomDate(announcementDate)}
+      {formatToCustomDate(announcementDate)} &nbsp; &nbsp; {announcementAuthor}
       </Typography>
+
       </Box>
      
           {

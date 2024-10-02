@@ -443,7 +443,7 @@ const DashboardAdmin = () => {
                 id={announcement._id}
                 announcementContent={announcement.announcement}
                 announcementDate={announcement.createdAt}
-
+                announcementAuthor={announcement.author}
                 onDelete={handleDeleteAnnouncement}
               />
             ))}

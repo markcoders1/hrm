@@ -86,6 +86,7 @@ useEffect(()=>{
         method: "get",
       });
       setFetchAnnouncements(response.data.announcements);
+      console.log(response)
     } catch (error) {
       console.error(error);
     } finally {
@@ -362,6 +363,8 @@ useEffect(()=>{
                     <AnnouncementBox
                       key={index}
                       announcementContent={announcement.announcement}
+                      announcementDate={announcement.createdAt}
+                      announcementAuthor={announcement.author}
                     />
                   ))}
                 </Box>

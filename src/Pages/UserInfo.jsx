@@ -201,10 +201,9 @@ const UserInfo = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const shiftTimeFromUnix = convertTimeToUnixTimestamp(
-      formData.shiftTimingFrom
-    );
+    const shiftTimeFromUnix = convertTimeToUnixTimestamp(formData.shiftTimingFrom);
     const shiftTimeToUnix = convertTimeToUnixTimestamp(formData.shiftTimingTo);
+    
     const joiningDate = convertDateToUnixTimestamp(formData.joiningDate);
     const DOB = convertDateToUnixTimestamp(formData.DOB);
 
@@ -312,26 +311,26 @@ const UserInfo = () => {
     }
   };
 
-  const calculateShiftDuration = (fromTime, toTime) => {
-    if (!fromTime || !toTime) return "";
+  // const calculateShiftDuration = (fromTime, toTime) => {
+  //   if (!fromTime || !toTime) return "";
 
-    console.log(fromTime, toTime);
+  //   console.log(fromTime, toTime);
 
-    const from = new Date(`1970-01-01T${fromTime}:00Z`);
+  //   const from = new Date(`1970-01-01T${fromTime}:00Z`);
 
-    const to = fromTime.slice(0,2)>toTime.slice(0,2)? new Date(`1970-01-02T${toTime}:00Z`): new Date(`1970-01-01T${toTime}:00Z`);
+  //   const to = fromTime.slice(0,2)>toTime.slice(0,2)? new Date(`1970-01-02T${toTime}:00Z`): new Date(`1970-01-01T${toTime}:00Z`);
 
 
-    const totalMinutes = Math.abs(differenceInMinutes(from, to));
+  //   const totalMinutes = Math.abs(differenceInMinutes(from, to));
 
-    // Calculate hours and minutes
-    const hours = Math.floor(totalMinutes / 60);
-    const minutes = totalMinutes % 60;
+  //   // Calculate hours and minutes
+  //   const hours = Math.floor(totalMinutes / 60);
+  //   const minutes = totalMinutes % 60;
 
-    return `${hours} hour${hours !== 1 ? "s" : ""} ${minutes} minute${
-      minutes !== 1 ? "s" : ""
-    }`;
-  };
+  //   return `${hours} hour${hours !== 1 ? "s" : ""} ${minutes} minute${
+  //     minutes !== 1 ? "s" : ""
+  //   }`;
+  // };
    // Update the component logic to handle the shift timing change
    const handleShiftTimingChange = () => {
     const shiftFrom = watch("shiftTimingFrom");

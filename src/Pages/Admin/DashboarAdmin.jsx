@@ -66,7 +66,7 @@ const DashboardAdmin = () => {
         method: "post",
         data: { message: announcementText },
       });
-      console.log(response)
+      // console.log(response)
 
       toast.success("Announcement Added Sucessfully");
       setFetchAnnouncements((prevAnnouncements) => [
@@ -100,11 +100,12 @@ const DashboardAdmin = () => {
           date: dateTimestamp, // Pass the selected date as a Unix timestamp
         },
       });
+      
       const dataAllEmployee = response.data.users;
       setLengthOfEmployee(response.data.users.length)
       setAttendanceData(dataAllEmployee);
 
-      // console.log(response);
+      console.log(response);
     } catch (error) {
       console.error(error);
     } 
@@ -129,6 +130,34 @@ const DashboardAdmin = () => {
     setScrolling(true);
     setTimeout(() => setScrolling(false), 1500); // Hide scrollbar after 1.5 seconds of inactivity
   };  
+
+  const calculateDuration = (checkInTime) => {
+    if (!checkInTime) return "-- --";
+  
+    const now = new Date();
+    const checkInDate = new Date(checkInTime);
+  
+    const diffMs = now - checkInDate; // Difference in milliseconds
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60)); // Hours
+    const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60)); // Minutes
+  
+    // Format the result as 12-hour with AM/PM
+    const totalMinutes = diffHours * 60 + diffMinutes;
+    const formattedHour = Math.floor(totalMinutes / 60);
+    const formattedMinutes = totalMinutes % 60;
+    const ampm = formattedHour >= 12 ? "PM" : "AM";
+    const displayHour = formattedHour % 12 || 12; // Convert 0 to 12 for 12-hour format
+  
+    return `${displayHour}:${formattedMinutes.toString().padStart(2, "0")} ${ampm}`;
+  };
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setAttendanceData((prevData) => [...prevData]); // Trigger re-render every minute
+    }, 60000); // Update every 60 seconds
+  
+    return () => clearInterval(intervalId); // Cleanup interval on unmount
+  }, []);
+
 
   return (
     <>
@@ -306,7 +335,13 @@ const DashboardAdmin = () => {
                           borderRadius: "0px 8px 8px 0px",
                         }}
                       >
-                        {employee?.totalDuration ?customFormatTime(employee?.totalDuration) : "-- --"}
+                        {employee?.totalDuration 
+    ? customFormatTime(employee?.totalDuration) // Display totalDuration if present
+    : employee?.checkIn 
+      ? calculateDuration(employee?.checkIn)  // Otherwise, calculate duration in real-time
+      : "-- --"}
+       {/* {employee?.totalDuration ?customFormatTime(employee?.totalDuration) : "-- --"} */}
+                   
                       </TableCell>
                     </TableRow>
                   ))}

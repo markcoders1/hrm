@@ -141,14 +141,15 @@ const DashboardAdmin = () => {
     const diffHours = Math.floor(diffMs / (1000 * 60 * 60)); // Hours
     const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60)); // Minutes
   
-    // Format the result as 12-hour with AM/PM
+    // Format the result as 24-hour format
     const totalMinutes = diffHours * 60 + diffMinutes;
     const formattedHour = Math.floor(totalMinutes / 60);
     const formattedMinutes = totalMinutes % 60;
-    const ampm = formattedHour >= 12 ? "PM" : "AM";
-    const displayHour = formattedHour % 12 || 12; // Convert 0 to 12 for 12-hour format
   
-    return `${displayHour}:${formattedMinutes.toString().padStart(2, "0")} ${ampm}`;
+    // Ensure the hour is in 24-hour format
+    const displayHour = formattedHour.toString().padStart(2, "0");
+  
+    return `${displayHour}:${formattedMinutes.toString().padStart(2, "0")}`;
   };
   useEffect(() => {
     const intervalId = setInterval(() => {

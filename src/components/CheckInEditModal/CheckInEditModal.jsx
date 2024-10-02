@@ -9,6 +9,9 @@ import SnackAlert from "../SnackAlert/SnackAlert";
 import axiosInstance from "../../auth/axiosInstance";
 import CustomInputLabel from "../CustomInputField/CustomInputLabel";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -88,10 +91,8 @@ const CheckInOutModal = ({ open = false, handleClose = () => {}, checkId }) => {
 
       setLoading(false);
       if (response) {
-        setSnackAlertData({
-          open: true,
-          message: response?.data?.message,
-          severity: "success",
+        toast.success(response.data.message , {
+          position: "top-center",
         });
       }
       reset();
@@ -125,7 +126,7 @@ const CheckInOutModal = ({ open = false, handleClose = () => {}, checkId }) => {
         <Fade in={open}>
           <Box sx={style}>
             <Typography variant="h6" component="h2">
-              Set Check-In and Check-Out Time
+              Update Check-In and Check-Out Time
             </Typography>
             <Box sx={{ mt: "20px", display:"flex", flexDirection:"column", gap:"20px" }}>
               {/* Check-In Time */}

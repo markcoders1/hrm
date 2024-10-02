@@ -27,6 +27,13 @@ const Register = () => {
   const [joiningDuration, setJoiningDuration] = useState("");
   const [isFormDirty, setIsFormDirty] = useState(false);
   const [companyIDValue, setCompanyIDValue] = useState("")
+  const [netSalary, setNetSalary] = useState(0);
+  
+
+ 
+
+
+
 
   const dispatch = useDispatch()
 
@@ -61,8 +68,7 @@ const Register = () => {
     formState: { isDirty },
   } = useForm();
   ;
-
-
+ 
   const handleDayChange = (day) => {
     setSelectedDays((prevSelected) =>{
       const days = prevSelected.map((d) => d.value);
@@ -73,6 +79,7 @@ useEffect(()=>{
 
 },[])
   const onSubmit = async (data) => {
+    
     console.log(data)
      
   let phone = Number(data.phone);
@@ -227,7 +234,51 @@ console.log("sadfghjkdsfghjsdfghjdfgh", companyIDValue)
 }, [isDirty]);
 
 
+const commuteAllowance = watch("commuteAllowance");
+const internetAllowance = watch("internetAllowance");
+const mobileAllowance = watch("mobileAllowance");
+const basicSalary = watch("basicSalary");
 
+const calculateNetSalary = () => {
+  const net = 
+    (parseFloat(basicSalary) || 0) +
+    (parseFloat(mobileAllowance) || 0) +
+    (parseFloat(commuteAllowance) || 0) +
+    (parseFloat(internetAllowance) || 0);
+  
+  setNetSalary(net.toFixed(2)); // Round to 2 decimal places
+};
+
+
+
+useEffect(() => {
+  calculateNetSalary();
+}, [basicSalary, mobileAllowance, commuteAllowance, internetAllowance]);
+
+
+// calculating duration
+
+const calculateJoiningDuration = (joiningDate) => {
+  if (!joiningDate) return "";
+
+  const joining = new Date(joiningDate);
+  const today = new Date();
+
+  const years = today.getFullYear() - joining.getFullYear();
+  let months = today.getMonth() - joining.getMonth();
+
+  if (months < 0) {
+    months += 12;
+  }
+
+  return `${years} year${years !== 1 ? "s" : ""} and ${months} month${months !== 1 ? "s" : ""}`;
+};
+
+const joiningDate = watch("joiningDate");
+
+useEffect(() => {
+  setJoiningDuration(calculateJoiningDuration(joiningDate));
+}, [joiningDate]);
 
 
   return (
@@ -767,7 +818,7 @@ console.log("sadfghjkdsfghjsdfghjdfgh", companyIDValue)
                 <CustomInputLabel
                   label="Duration*"
                   type="text"
-                
+                  value={joiningDuration}
                   border={false}
                   readOnly
                   disabled
@@ -953,6 +1004,32 @@ console.log("sadfghjkdsfghjsdfghjdfgh", companyIDValue)
                 flexDirection: { md: "row", xs: "column" },
               }}
             >
+               <Typography
+                sx={{
+                  display: "flex",
+                  gap: "5px",
+                  flexDirection: "column",
+                  flexBasis: "33%",
+                }}
+              >
+                <Controller
+                  name=""
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <CustomInputLabel
+                      label="Net Salary*"
+                      type="text"
+                      value={netSalary} 
+                      
+                      // {...field}
+                      readOnly
+                      disabled={true}
+                      border={false}
+                    />
+                  )}
+                />
+              </Typography>
               <Typography
                 sx={{
                   display: "flex",
@@ -1001,7 +1078,18 @@ console.log("sadfghjkdsfghjsdfghjdfgh", companyIDValue)
                   )}
                 />
               </Typography>
-              <Typography
+           
+            </Box>  
+
+            <Box
+              sx={{
+                display: "flex",
+                gap: "20px",
+                flexDirection: { md: "row", xs: "column" },
+                position: "relative",
+              }}
+            >
+                 <Typography
                 sx={{
                   display: "flex",
                   gap: "5px",
@@ -1025,16 +1113,6 @@ console.log("sadfghjkdsfghjsdfghjdfgh", companyIDValue)
                   )}
                 />
               </Typography>
-            </Box>  
-
-            <Box
-              sx={{
-                display: "flex",
-                gap: "20px",
-                flexDirection: { md: "row", xs: "column" },
-                position: "relative",
-              }}
-            >
               <Typography
                 sx={{
                   display: "flex",
@@ -1093,12 +1171,24 @@ console.log("sadfghjkdsfghjsdfghjdfgh", companyIDValue)
                 />
               </Typography>
 
+            </Box>
+
+
+            <Box
+              sx={{
+                display: "flex",
+                gap: "20px",
+                flexDirection: { md: "row", xs: "column" },
+                position: "relative",
+                mt:"5px"
+              }}
+            >
               <Typography
                 sx={{
                   display: "flex",
                   gap: "5px",
                   flexDirection: "column",
-                  flexBasis: "33%",
+                  flexBasis: "32.5%",
                 }}
               >
                 <Controller

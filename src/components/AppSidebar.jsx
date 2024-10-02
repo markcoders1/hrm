@@ -349,7 +349,7 @@ const AppSidebar = () => {
                 >
                 &nbsp;&nbsp;<img src={notificationIcon} alt="" style={{width:"19.52px", height:"22.22"}} /> {" "} &nbsp;
 
-                  Notifications {count ? ( <span style={{position:"absolute", right:"30px", width:"30px", height:"30px", borderRadius:"50%", backgroundColor:"rgba(255, 255, 255, 0.3)", display:"flex", justifyContent:"center", alignItems:"center", color:"white"}} >{count}</span>): ""}
+                  Notifications {count >= 1 ? ( <span style={{position:"absolute", right:"30px", width:"30px", height:"30px", borderRadius:"50%", backgroundColor:"rgba(255, 255, 255, 0.3)", display:"flex", justifyContent:"center", alignItems:"center", color:"white"}} >{count}</span>): ""}
                 </CustomNavLink>
               </CNavItem>
           </>

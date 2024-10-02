@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Tooltip } from '@mui/material';
+import { Box, Tooltip, Typography } from '@mui/material';
 import deleteIconWhite from '../../assets/deleteIconWhite.png';
 import axiosInstance from '../../auth/axiosInstance';
 import "react-toastify/dist/ReactToastify.css";
@@ -7,7 +7,9 @@ import { toast } from "react-toastify";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-const AnnouncementBox = ({ announcementContent, id, onDelete }) => {
+const AnnouncementBox = ({ announcementContent, id, onDelete , announcementDate}) => {
+
+
 
   const [isAdmin , setIsAdmin]=  useState();
   const deleteAnnouncement = async (id) => {
@@ -37,10 +39,28 @@ const AnnouncementBox = ({ announcementContent, id, onDelete }) => {
             method:"get",
             url:`${apiUrl}/api/isAdmin`,
         })
-        console.log("==================",res.data)
+        // console.log("==================",res.data)
         setIsAdmin(res.data.isAdmin)
     })()
 },[])
+const formatToCustomDate = (createdAt) => {
+  const date = new Date(createdAt);
+
+  // Get each component of the date
+  const weekday = date.toLocaleDateString("en-US", { weekday: "short" });
+  const month = date.toLocaleDateString("en-US", { month: "short" });
+  const day = date.toLocaleDateString("en-US", { day: "numeric" });
+  const hours = date.getHours();
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+
+  // Convert to 12-hour format
+  const ampm = hours >= 12 ? "pm" : "am";
+  const formattedHour = hours % 12 || 12; // Convert 0 to 12 for 12-hour format
+
+  // Construct the formatted date string
+  return `${weekday}, ${month} ${day}, ${formattedHour}:${minutes}${ampm}`;
+};
+
 
   return (
     <Box sx={{ position: 'relative' }}>
@@ -56,6 +76,18 @@ const AnnouncementBox = ({ announcementContent, id, onDelete }) => {
         }}
       >
         {announcementContent}
+      <Typography
+      sx={{
+        position:"absolute",
+        bottom:"10px",
+        color:"rgba(255, 255, 255, 1)",
+        fontWeight:"500",
+        fontFamily:"poppins",
+        fontSize:"14px"
+      }}
+      >
+      {formatToCustomDate(announcementDate)}
+      </Typography>
       </Box>
      
           {

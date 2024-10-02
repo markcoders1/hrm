@@ -1180,7 +1180,7 @@ useEffect(() => {
                 gap: "20px",
                 flexDirection: { md: "row", xs: "column" },
                 position: "relative",
-                mt:"5px"
+                mt:"15px"
               }}
             >
               <Typography

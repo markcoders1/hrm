@@ -38,7 +38,7 @@ const DashboardAdmin = () => {
     setParaText(" ");
     fetchAnnouncementsData();
     fetchTodatAttendanceData();
-  }, [setHeadertext, setParaText]);
+  }, []);
 
   const fetchAnnouncementsData = async () => {
     try {
@@ -47,6 +47,7 @@ const DashboardAdmin = () => {
         method: "get",
       });
       setFetchAnnouncements(response.data.announcements);
+      console.log(response)
     } catch (error) {
       console.error(error);
     } finally {
@@ -65,14 +66,16 @@ const DashboardAdmin = () => {
         method: "post",
         data: { message: announcementText },
       });
+      console.log(response)
 
       toast.success("Announcement Added Sucessfully");
       setFetchAnnouncements((prevAnnouncements) => [
+        { _id: response.data._id, announcement: announcementText,   createdAt: new Date().toISOString()  }, // Adjust the key if necessary
         ...prevAnnouncements,
-        { _id: response.data._id, announcement: announcementText }, // Adjust the key if necessary
       ]);
-      fetchAnnouncements()
+    
       setAnnouncementText(""); // Clear the input after adding
+      fetchAnnouncementsData()
     } catch (error) {
       console.error(error);
       toast.error("Error Adding Announcement");
@@ -101,7 +104,7 @@ const DashboardAdmin = () => {
       setLengthOfEmployee(response.data.users.length)
       setAttendanceData(dataAllEmployee);
 
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       console.error(error);
     } 
@@ -403,6 +406,8 @@ const DashboardAdmin = () => {
                 key={index}
                 id={announcement._id}
                 announcementContent={announcement.announcement}
+                announcementDate={announcement.createdAt}
+
                 onDelete={handleDeleteAnnouncement}
               />
             ))}

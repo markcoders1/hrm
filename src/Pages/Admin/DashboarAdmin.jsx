@@ -31,6 +31,8 @@ const DashboardAdmin = () => {
   const [fetchAnnouncements, setFetchAnnouncements] = useState([]);
   const [fetchAttendanceDate, setAttendanceData] = useState([]);
   const [scrolling, setScrolling] = useState(false); 
+  const [employeeActiveCoount , setEmployeeActiveCount] = useState(0);
+
   const [lengthOfEmplyee  , setLengthOfEmployee] = useState(null);
 
   useEffect(() => {
@@ -38,7 +40,7 @@ const DashboardAdmin = () => {
     setParaText(" ");
     fetchAnnouncementsData();
     fetchTodatAttendanceData();
-  }, [setHeadertext, setParaText]);
+  }, []);
 
   const fetchAnnouncementsData = async () => {
     try {
@@ -47,6 +49,7 @@ const DashboardAdmin = () => {
         method: "get",
       });
       setFetchAnnouncements(response.data.announcements);
+      console.log(response)
     } catch (error) {
       console.error(error);
     } finally {
@@ -65,14 +68,16 @@ const DashboardAdmin = () => {
         method: "post",
         data: { message: announcementText },
       });
+      // console.log(response)
 
       toast.success("Announcement Added Sucessfully");
       setFetchAnnouncements((prevAnnouncements) => [
+        { _id: response.data._id, announcement: announcementText,   createdAt: new Date().toISOString()  }, // Adjust the key if necessary
         ...prevAnnouncements,
-        { _id: response.data._id, announcement: announcementText }, // Adjust the key if necessary
       ]);
-      fetchAnnouncements()
+    
       setAnnouncementText(""); // Clear the input after adding
+      fetchAnnouncementsData()
     } catch (error) {
       console.error(error);
       toast.error("Error Adding Announcement");
@@ -97,11 +102,15 @@ const DashboardAdmin = () => {
           date: dateTimestamp, // Pass the selected date as a Unix timestamp
         },
       });
+      
       const dataAllEmployee = response.data.users;
       setLengthOfEmployee(response.data.users.length)
       setAttendanceData(dataAllEmployee);
-
+      
       console.log(response);
+     // Filter users with checkIn and set the count
+    const activeUsersCount = dataAllEmployee.filter(user => user.checkIn).length;
+    setEmployeeActiveCount(activeUsersCount);
     } catch (error) {
       console.error(error);
     } 
@@ -127,6 +136,35 @@ const DashboardAdmin = () => {
     setTimeout(() => setScrolling(false), 1500); // Hide scrollbar after 1.5 seconds of inactivity
   };  
 
+  const calculateDuration = (checkInTime) => {
+    if (!checkInTime) return "-- --";
+  
+    const now = new Date();
+    const checkInDate = new Date(checkInTime);
+  
+    const diffMs = now - checkInDate; // Difference in milliseconds
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60)); // Hours
+    const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60)); // Minutes
+  
+    // Format the result as 24-hour format
+    const totalMinutes = diffHours * 60 + diffMinutes;
+    const formattedHour = Math.floor(totalMinutes / 60);
+    const formattedMinutes = totalMinutes % 60;
+  
+    // Ensure the hour is in 24-hour format
+    const displayHour = formattedHour.toString().padStart(2, "0");
+  
+    return `${displayHour}:${formattedMinutes.toString().padStart(2, "0")}`;
+  };
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setAttendanceData((prevData) => [...prevData]); // Trigger re-render every minute
+    }, 60000); // Update every 60 seconds
+  
+    return () => clearInterval(intervalId); // Cleanup interval on unmount
+  }, []);
+
+
   return (
     <>
       <Box
@@ -135,7 +173,7 @@ const DashboardAdmin = () => {
         <Typography
           sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
         >
-          {`Active Users (${lengthOfEmplyee})`}
+          {`Active Users (${employeeActiveCoount})`}
         </Typography>
         <Typography
           sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
@@ -303,7 +341,13 @@ const DashboardAdmin = () => {
                           borderRadius: "0px 8px 8px 0px",
                         }}
                       >
-                        {employee?.totalDuration ?customFormatTime(employee?.totalDuration) : "-- --"}
+                        {employee?.totalDuration 
+    ? customFormatTime(employee?.totalDuration) // Display totalDuration if present
+    : employee?.checkIn 
+      ? calculateDuration(employee?.checkIn)  // Otherwise, calculate duration in real-time
+      : "-- --"}
+       {/* {employee?.totalDuration ?customFormatTime(employee?.totalDuration) : "-- --"} */}
+                   
                       </TableCell>
                     </TableRow>
                   ))}
@@ -403,6 +447,8 @@ const DashboardAdmin = () => {
                 key={index}
                 id={announcement._id}
                 announcementContent={announcement.announcement}
+                announcementDate={announcement.createdAt}
+                announcementAuthor={announcement.author}
                 onDelete={handleDeleteAnnouncement}
               />
             ))}

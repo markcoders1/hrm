@@ -240,6 +240,11 @@ body {
   padding-left: 10px;
   font-size: 16px !important;
   font-weight: 500;
+
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+
 }
 
 .nav-link:hover {

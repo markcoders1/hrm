@@ -59,7 +59,7 @@ const MyNotifications = () => {
         fontWeight: "500",
         fontSize: "20px",
         color: "#010120"
-      }}>Total: {notification.length} New: {notification.filter(notif => notif.isNew).length}</Typography>
+      }}>Unread: {notification.filter(notif => notif.isNew).length}</Typography>
       {filteredNotifications.map((notification, index) => (
         <NotificationBox
           key={index}

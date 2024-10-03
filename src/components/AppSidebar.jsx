@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ChangePasswordModal from "./ChangePasswordModal/ChangePasswordModal";
 import hresquelogo from "../assets/hresquelogo.png";
+
 import {
   CSidebar,
   CSidebarFooter,
@@ -41,21 +42,35 @@ import logoutIcon from "../assets/logoutIcon.png";
 import { set } from "../sidebarSlice";
 import { setFormDirty } from "../Redux/formSlice";
 
-const parser = new UAParser();
+// importing icons for Admins
 
+import dashboardIcon from "../assets/icons/dashboard.png";
+import profileIcon from "../assets/icons/profile.png";
+import userManaIcon from "../assets/icons/userManagement.png";
+import attenfanceManaIcon from "../assets/icons/attendanceManagement.png";
+import leaveManaIcon from "../assets/icons/leaveManagement.png";
+import wfhManaIcon from "../assets/icons/wfhManagement.png";
+import notificationIcon from "../assets/icons/notification.png";
+
+// import icons for User
+
+import myAttendanceIcon from "../assets/icons/myAttendance.png";
+import myLeaveIcon from "../assets/icons/myleave.png";
+import remoteWorkIcon from "../assets/icons/remotework.png";
+
+const parser = new UAParser();
 
 const CustomNavLink = ({ children, ...props }) => {
   const formDirty = useSelector((state) => state.form.isFormDirty);
   const dispatch = useDispatch();
 
-
   const handleClick = (e) => {
     if (formDirty) {
       const confirmLeave = window.confirm(
-        'You have unsaved changes, are you sure you want to leave this page?'
+        "You have unsaved changes, are you sure you want to leave this page?"
       );
-      if(confirmLeave){
-        dispatch(setFormDirty(false))
+      if (confirmLeave) {
+        dispatch(setFormDirty(false));
       }
       if (!confirmLeave) {
         e.preventDefault();
@@ -63,14 +78,13 @@ const CustomNavLink = ({ children, ...props }) => {
     }
   };
 
-
-  return (<>
-
-    <NavLink {...props} onClick={handleClick}>
-      {children}
-    </NavLink>
-   
-  </>);
+  return (
+    <>
+      <NavLink {...props} onClick={handleClick}>
+        {children}
+      </NavLink>
+    </>
+  );
 };
 
 const AppSidebar = () => {
@@ -81,22 +95,24 @@ const AppSidebar = () => {
   const unfoldable = useSelector((state) => state.sidebarUnfoldable);
   const sidebarShow = useSelector((state) => state.sidebar.sidebarShow);
   const formDirty = useSelector((state) => state.form.isFormDirty);
-  const count = useSelector((state) => state.counter.count); 
+  const count = useSelector((state) => state.counter.count);
 
-  
 
   const [isAdmin, setIsAdmin] = useState(false);
   const [logoutVisible, setLogoutVisible] = useState(false);
   const [logoutAllVisible, setLogoutAllVisible] = useState(false);
   const [pageloading, setPageloading] = useState(true);
 
+  const user = useSelector(state => state.user.user.role)
   useEffect(() => {
     const checkIsAdmin = async () => {
       try {
         const res = await axiosInstance.get(`${apiUrl}/api/isAdmin`);
         setIsAdmin(res.data.isAdmin);
         setPageloading(false);
-        console.log("=================================> dirty form" ,formDirty);
+        console.log("=================================> dirty form", formDirty);
+console.log(user)
+
       } catch (error) {
         console.error(error);
         setPageloading(false);
@@ -132,21 +148,19 @@ const AppSidebar = () => {
     });
     setLogoutAllVisible(false);
 
-    toast.success(response.data.message); 
+    toast.success(response.data.message);
   };
 
   const handleClick = (e) => {
     if (formDirty) {
       const confirmLeave = window.confirm(
-        'You have unsaved changes, are you sure you want to leave this page?'
+        "You have unsaved changes, are you sure you want to leave this page?"
       );
       if (!confirmLeave) {
         e.preventDefault();
       }
     }
   };
-
-
 
   return (
     <>
@@ -157,7 +171,7 @@ const AppSidebar = () => {
         unfoldable={unfoldable}
         visible={sidebarShow}
         onVisibleChange={(visible) => {
-          dispatch(set({ sidebarShow: visible }))
+          dispatch(set({ sidebarShow: visible }));
         }}
         style={{ position: "relative", border: "1px solid red !important" }}
       >
@@ -171,73 +185,103 @@ const AppSidebar = () => {
           </div>
         </CSidebarHeader>
         <CSidebarNav className="nav-top">
-          {isAdmin == "user" || isAdmin == "TL" ? (
+          {user == "user" || user == "TL" ? (
             <>
               <CNavItem>
                 <CustomNavLink to="/dashboard" end className="nav-link">
-                  <CIcon className="nav-icon" icon={cilUser} /> Dashboard
-                </CustomNavLink>
-              </CNavItem>
-              <CNavItem>
-                <CustomNavLink to="/dashboard/my-attendance" end className="nav-link">
-                  <CIcon className="nav-icon" icon={cilCalendar} />
-                  My Attendance
-                </CustomNavLink>
-              </CNavItem>
-              <CNavItem>
-                <CustomNavLink to="/dashboard/my-leaves" end className="nav-link">
-                  <CIcon className="nav-icon" icon={cilCalendar} />
-                  My Leaves
-                </CustomNavLink>
-              </CNavItem>
-              <CNavItem>
-                <NavLink to="/dashboard/remote-work" end className="nav-link">
-                  <CIcon className="nav-icon" icon={cilCalendar} />
-                  Remote Work
-                </NavLink>
-              </CNavItem>
-             
-            </>
-          ): ""}
-
-
-
-         
-
-          {isAdmin === "HOD" ? (
-            <>
-              <CNavItem>
-                <CustomNavLink to="/dashboard/admin" className="nav-link" end>
-                  <CIcon className="nav-icon" icon={cilPeople} />{" "}
-                  Dashboard
+                  &nbsp;{" "}
+                  <img
+                    src={dashboardIcon}
+                    alt=""
+                    style={{ width: "17.77px", height: "17.75px" }}
+                  />{" "}
+                  &nbsp;&nbsp; Dashboard
                 </CustomNavLink>
               </CNavItem>
               <CNavItem>
                 <CustomNavLink
-                  to="/dashboard/user-management"
-                  className="nav-link"
+                  to="/dashboard/my-attendance"
                   end
+                  className="nav-link"
                 >
-                  <CIcon className="nav-icon" icon={cilPeople} /> User
-                  Management
+                  &nbsp;{" "}
+                  <img
+                    src={myAttendanceIcon}
+                    alt=""
+                    style={{ width: "18.38px", height: "22.75px" }}
+                  />{" "}
+                  &nbsp;&nbsp; My Attendance
                 </CustomNavLink>
               </CNavItem>
               <CNavItem>
-                <CustomNavLink to="/dashboard/attendance" className="nav-link" end>
-                  <CIcon className="nav-icon" icon={cilNotes} />{" "}
-                  Attendance Management
+                <CustomNavLink
+                  to="/dashboard/my-leaves"
+                  end
+                  className="nav-link"
+                >
+                  &nbsp;{" "}
+                  <img
+                    src={myLeaveIcon}
+                    alt=""
+                    style={{ width: "21.42px", height: "16.41px" }}
+                  />{" "}
+                  &nbsp;&nbsp; My Leaves
                 </CustomNavLink>
               </CNavItem>
-            
-             
-          {/* <CNavItem>
+              <CNavItem>
+                <NavLink to="/dashboard/remote-work" end className="nav-link">
+                  &nbsp;{" "}
+                  <img
+                    src={remoteWorkIcon}
+                    alt=""
+                    style={{ width: "22.49px", height: "22.48px" }}
+                  />{" "}
+                  &nbsp;&nbsp; Remote Work
+                </NavLink>
+              </CNavItem>
+            </>
+          ) : (
+            ""
+          )}
+
+          {user === "HOD" ? (
+            <>
+              <CNavItem>
+                <CustomNavLink to="/dashboard/admin" className="nav-link" end>
+                  &nbsp;{" "}
+                  <img
+                    src={dashboardIcon}
+                    alt=""
+                    style={{ width: "17.77px", height: "17.75px" }}
+                  />{" "}
+                  &nbsp;&nbsp; Dashboard
+                </CustomNavLink>
+              </CNavItem>
+              <CNavItem>
+                <CustomNavLink
+                  to="/dashboard/attendance"
+                  className="nav-link"
+                  end
+                >
+                  <img
+                    src={attenfanceManaIcon}
+                    alt=""
+                    style={{ width: "27.21px", height: "28.16px" }}
+                  />{" "}
+                  &nbsp; Attendance Management
+                </CustomNavLink>
+              </CNavItem>
+
+              {/* <CNavItem>
             <NavLink to="/dashboard/notifications" end className="nav-link">
             <CIcon className="nav-icon" icon={cilUser} /> Notifications
             </NavLink>
             </CNavItem> */}
             </>
-            ):""}
-         {/* <CNavGroup
+          ) : (
+            ""
+          )}
+          {/* <CNavGroup
             toggler={
               <>
                 <CIcon className="nav-icon" icon={cilLockLocked} />{" "}
@@ -272,20 +316,23 @@ const AppSidebar = () => {
               </div>
             </CNavItem>
           </CNavGroup> 
-           */} 
-            {/* grouping tl , user  admin */}
+           */}
+          {/* grouping tl , user  admin */}
 
-
-            {isAdmin === "HOD" || isAdmin === "TL"  ? (
-<>
-<CNavItem>
+          {user === "HOD" || user === "TL" ? (
+            <>
+              <CNavItem>
                 <CustomNavLink
                   to="/dashboard/leave-management"
                   className="nav-link"
                   end
                 >
-                  <CIcon className="nav-icon" icon={cilNotes} /> Leave
-                  Management
+                  <img
+                    src={leaveManaIcon}
+                    alt=""
+                    style={{ width: "27.02px", height: "16.75px" }}
+                  />{" "}
+                  &nbsp; Leave Management
                 </CustomNavLink>
               </CNavItem>
               <CNavItem>
@@ -294,42 +341,88 @@ const AppSidebar = () => {
                   className="nav-link"
                   end
                 >
-                  <CIcon className="nav-icon" icon={cilNotes} /> WFH
-                  Management
+                  <img
+                    src={wfhManaIcon}
+                    alt=""
+                    style={{ width: "28.53px", height: "27.89px" }}
+                  />{" "}
+                  &nbsp; WFH Management
                 </CustomNavLink>
               </CNavItem>
-</>
+            </>
+          ) : (
+            ""
+          )}
 
-
-): ""}
-          <>
-
-
-          <CNavItem>
-                <CustomNavLink to="/dashboard/profile" end className="nav-link">
-                  <CIcon className="nav-icon" icon={cilUser} />
-                  My Profile
-                </CustomNavLink>
-              </CNavItem>
-          <CNavItem>
+          {user === "HOD" ? (
+            <>
+              <CNavItem>
                 <CustomNavLink
-                  to="/dashboard/notifications"
-                  end
+                  to="/dashboard/user-management"
                   className="nav-link"
-                  style={{ position:"relative"}} 
+                  end
                 >
-                  <CIcon className="nav-icon" icon={cilCalendar} />
-                  Notifications {count ? ( <span style={{position:"absolute", right:"30px", width:"30px", height:"30px", borderRadius:"50%", backgroundColor:"rgba(255, 255, 255, 0.3)", display:"flex", justifyContent:"center", alignItems:"center", color:"white"}} >{count}</span>): ""}
+                  &nbsp;&nbsp;
+                  <img
+                    src={userManaIcon}
+                    alt=""
+                    style={{ width: "22.8px", height: "27.88px" }}
+                  />{" "}
+                  &nbsp; User Management
                 </CustomNavLink>
               </CNavItem>
-          </>
-          <Box
-            sx={{
-              position: "absolute",
-              bottom: "40px",
-              width: "260px",
-            }}
-          >
+            </>
+          ) : (
+            ""
+          )}
+          <>
+            <CNavItem>
+              <CustomNavLink to="/dashboard/profile" end className="nav-link">
+                &nbsp;&nbsp;
+                <img
+                  src={profileIcon}
+                  alt=""
+                  style={{ width: "17.97px", height: "23.09" }}
+                />{" "}
+                &nbsp; My Profile
+              </CustomNavLink>
+            </CNavItem>
+            <CNavItem>
+              <CustomNavLink
+                to="/dashboard/notifications"
+                end
+                className="nav-link"
+                style={{ position: "relative" }}
+              >
+                &nbsp;&nbsp;
+                <img
+                  src={notificationIcon}
+                  alt=""
+                  style={{ width: "19.52px", height: "22.22" }}
+                />{" "}
+                &nbsp; Notifications{" "}
+                {count >= 1 ? (
+                  <span
+                    style={{
+                      position: "absolute",
+                      right: "30px",
+                      width: "30px",
+                      height: "30px",
+                      borderRadius: "50%",
+                      backgroundColor: "rgba(255, 255, 255, 0.3)",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      color: "white",
+                    }}
+                  >
+                    {count}
+                  </span>
+                ) : (
+                  ""
+                )}
+              </CustomNavLink>
+            </CNavItem>
             <CNavItem>
               <div
                 className="nav-link"
@@ -338,16 +431,27 @@ const AppSidebar = () => {
                   cursor: "pointer",
                   display: "flex",
                   alignItems: "center",
-                  gap: "1rem",
+                  gap: "6px",
                 }}
               >
-                <img className="nav-icon" src={logoutIcon} />{" "}
+                <img
+                  className="nav-icon"
+                  style={{ width: "20.5px", height: "20.5px" }}
+                  src={logoutIcon}
+                />{" "}
                 <Typography sx={{ fontSize: "22px !important" }}>
                   Logout
                 </Typography>
               </div>
             </CNavItem>
-          </Box>
+          </>
+          <Box
+          // sx={{
+          //   position: "absolute",
+          //   bottom: "40px",
+          //   width: "260px",
+          // }}
+          ></Box>
         </CSidebarNav>
         {/* <CSidebarFooter className="d-none d-lg-flex">
                     <CSidebarToggler onClick={() => dispatch({ type: "set", sidebarUnfoldable: !unfoldable })} />

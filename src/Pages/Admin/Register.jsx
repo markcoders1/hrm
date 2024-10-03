@@ -26,6 +26,15 @@ const Register = () => {
   const [departments, setDepartments] = useState([]);
   const [joiningDuration, setJoiningDuration] = useState("");
   const [isFormDirty, setIsFormDirty] = useState(false);
+  const [companyIDValue, setCompanyIDValue] = useState("")
+  const [netSalary, setNetSalary] = useState(0);
+  
+
+ 
+
+
+
+
   const dispatch = useDispatch()
 
   const [shiftDuration, setShiftDuration] = useState("");
@@ -59,8 +68,7 @@ const Register = () => {
     formState: { isDirty },
   } = useForm();
   ;
-
-
+ 
   const handleDayChange = (day) => {
     setSelectedDays((prevSelected) =>{
       const days = prevSelected.map((d) => d.value);
@@ -70,7 +78,15 @@ const Register = () => {
 useEffect(()=>{
 
 },[])
+
+function convertTimeToUnixTimestamp(timeString) {
+  const [hours, minutes] = timeString.split(":").map(Number);
+  const date = new Date();
+  date.setUTCHours(hours, minutes, 0, 0);
+  return Math.floor(date.getTime() / 1000);
+}
   const onSubmit = async (data) => {
+    
     console.log(data)
      
   let phone = Number(data.phone);
@@ -80,12 +96,15 @@ useEffect(()=>{
 
       // Convert date and time to Unix timestamp in milliseconds
       const joiningDate = new Date(data.joiningDate).getTime();
-      const shiftTimingFrom = new Date(
-        `1970-01-01T${data.shiftTimingFrom}:00Z`
-      ).getTime();
-      const shiftTimingTo = new Date(
-        `1970-01-01T${data.shiftTimingTo}:00Z`
-      ).getTime();
+      // const shiftTimingFrom = new Date(
+      //   `1970-01-01T${data.shiftTimingFrom}:00Z`
+      // ).getTime();
+      // const shiftTimingTo = new Date(
+      //   `1970-01-01T${data.shiftTimingTo}:00Z`
+      // ).getTime();
+
+      const shiftTimingFrom = convertTimeToUnixTimestamp(data.shiftTimingFrom);
+      const shiftTimingTo = convertTimeToUnixTimestamp(data.shiftTimingTo);
 
       let DOB = new Date(data.DOB).getTime();
       DOB = DOB.toString()
@@ -134,6 +153,8 @@ useEffect(()=>{
       setTeamLeads(response.data.TL);
       setHods(response.data.HOD);
       setDepartments(response.data.departments);
+      setCompanyIDValue(response.data.companyID)
+      console.log(response.data.companyID)
     } catch (error) {
       console.log(error);
     }
@@ -201,9 +222,12 @@ useEffect(()=>{
   //     // setValue("durationDiff", durationDiff);
   //   }
   // }, [watch("joiningDate"), setValue]);
-
+useEffect(()=>{
+console.log("sadfghjkdsfghjsdfghjdfgh", companyIDValue)
+},[companyIDValue])
 
  useEffect(() => {
+  console.log(companyIDValue)
   const handleBeforeUnload = (e) => {
     if (isDirty) {
       e.preventDefault();
@@ -218,6 +242,54 @@ useEffect(()=>{
     window.removeEventListener('beforeunload', handleBeforeUnload);
   };
 }, [isDirty]);
+
+
+const commuteAllowance = watch("commuteAllowance");
+const internetAllowance = watch("internetAllowance");
+const mobileAllowance = watch("mobileAllowance");
+const basicSalary = watch("basicSalary");
+
+const calculateNetSalary = () => {
+  const net = 
+    (parseFloat(basicSalary) || 0) +
+    (parseFloat(mobileAllowance) || 0) +
+    (parseFloat(commuteAllowance) || 0) +
+    (parseFloat(internetAllowance) || 0);
+  
+  setNetSalary(net.toFixed(2)); // Round to 2 decimal places
+};
+
+
+
+useEffect(() => {
+  calculateNetSalary();
+}, [basicSalary, mobileAllowance, commuteAllowance, internetAllowance]);
+
+
+// calculating duration
+
+const calculateJoiningDuration = (joiningDate) => {
+  if (!joiningDate) return "";
+
+  const joining = new Date(joiningDate);
+  const today = new Date();
+
+  const years = today.getFullYear() - joining.getFullYear();
+  let months = today.getMonth() - joining.getMonth();
+
+  if (months < 0) {
+    months += 12;
+  }
+
+  return `${years} year${years !== 1 ? "s" : ""} and ${months} month${months !== 1 ? "s" : ""}`;
+};
+
+const joiningDate = watch("joiningDate");
+
+useEffect(() => {
+  setJoiningDuration(calculateJoiningDuration(joiningDate));
+}, [joiningDate]);
+
 
   return (
     <Box className="form-container-register">
@@ -422,10 +494,12 @@ useEffect(()=>{
                 <Controller
                   name="companyId"
                   control={control}
-                  defaultValue=""
-                  rules={{ required: "Company ID is required" }}
+                  defaultValue={companyIDValue}
+                 
+                  rules={{ required: "Employee ID is required" }}
                   render={({ field }) => (
                     <CustomInputLabel
+                    defaultValue={companyIDValue}
                       label="Employee ID*"
                       error={errors.companyId?.message}
                       {...field}
@@ -454,7 +528,7 @@ useEffect(()=>{
                 <Controller
                   name="password"
                   control={control}
-                  defaultValue=""
+                  defaultValue="Admin123"
                   rules={{ required: "Password is required" }}
                   render={({ field }) => (
                     <CustomInputLabel
@@ -754,7 +828,7 @@ useEffect(()=>{
                 <CustomInputLabel
                   label="Duration*"
                   type="text"
-                
+                  value={joiningDuration}
                   border={false}
                   readOnly
                   disabled
@@ -832,13 +906,13 @@ useEffect(()=>{
                 }}
               >
                 <Controller
-                  name="netSalary"
+                  name="basicSalary"
                   control={control}
                   defaultValue=""
                   render={({ field }) => (
                     <CustomInputLabel
-                      label="Net Salary"
-                      error={errors.netSalary?.message}
+                      label="Basic Salary"
+                      error={errors.basicSalary?.message}
                       {...field}
                       type={"number"}
                     />
@@ -846,101 +920,7 @@ useEffect(()=>{
                 />
               </Typography>
             </Box>
-            <Box
-              sx={{
-                display: "flex",
-                gap: "20px",
-                flexDirection: { md: "row", xs: "column" },
-                position: "relative",
-              }}
-            >
-              <Typography
-                sx={{
-                  display: "flex",
-                  gap: "5px",
-                  flexDirection: "column",
-                  flexBasis: "33%",
-                }}
-              >
-                <Controller
-                  name="locationType"
-                  control={control}
-                  defaultValue=""
-                  rules={{ required: "Location Type is Required" }}
-                  render={({ field }) => (
-                    <CustomSelectForRole
-                      label="Location Type"
-                      height={"66px"}
-                      options={[
-                        { value: "onsite", label: "On-Site" },
-                        { value: "remote", label: "Remote" },
-                        { value: "hybrid", label: "Hybrid" },
-                      ]}
-                      value={field.value}
-                      handleChange={field.onChange}
-                      error={errors.locationType?.message}
-                    />
-                  )}
-                />
-              </Typography>
-              <Typography
-                sx={{
-                  display: "flex",
-                  gap: "5px",
-                  flexDirection: "column",
-                  flexBasis: "33%",
-                }}
-              >
-                <Controller
-                  name="onProbation"
-                  control={control}
-                  defaultValue=""
-                  rules={{ required: " On Probation is required" }}
-                  render={({ field }) => (
-                    <CustomSelectForRole
-                      label="On Probation"
-                      height={"66px"}
-                      options={[
-                        { value: "yes", label: "Yes" },
-                        { value: "no", label: "No" },
-                      ]}
-                      value={field.value}
-                      handleChange={field.onChange}
-                      error={errors.employementType?.message}
-                    />
-                  )}
-                />
-              </Typography>
-
-              <Typography
-                sx={{
-                  display: "flex",
-                  gap: "5px",
-                  flexDirection: "column",
-                  flexBasis: "33%",
-                }}
-              >
-                <Controller
-                  name="employmentType"
-                  control={control}
-                  defaultValue=""
-                  rules={{ required: "Employeement Type is required" }}
-                  render={({ field }) => (
-                    <CustomSelectForRole
-                      label="Employement Type"
-                      height={"66px"}
-                      options={[
-                        { value: "partTime", label: "Part Time" },
-                        { value: "fullTime", label: "Full Time" },
-                      ]}
-                      value={field.value}
-                      handleChange={field.onChange}
-                      error={errors.employmentType?.message}
-                    />
-                  )}
-                />
-              </Typography>
-            </Box>
+           
             
 
             <Box
@@ -1034,6 +1014,32 @@ useEffect(()=>{
                 flexDirection: { md: "row", xs: "column" },
               }}
             >
+               <Typography
+                sx={{
+                  display: "flex",
+                  gap: "5px",
+                  flexDirection: "column",
+                  flexBasis: "33%",
+                }}
+              >
+                <Controller
+                  name=""
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <CustomInputLabel
+                      label="Net Salary*"
+                      type="text"
+                      value={netSalary} 
+                      
+                      // {...field}
+                      readOnly
+                      disabled={true}
+                      border={false}
+                    />
+                  )}
+                />
+              </Typography>
               <Typography
                 sx={{
                   display: "flex",
@@ -1082,7 +1088,18 @@ useEffect(()=>{
                   )}
                 />
               </Typography>
-              <Typography
+           
+            </Box>  
+
+            <Box
+              sx={{
+                display: "flex",
+                gap: "20px",
+                flexDirection: { md: "row", xs: "column" },
+                position: "relative",
+              }}
+            >
+                 <Typography
                 sx={{
                   display: "flex",
                   gap: "5px",
@@ -1106,7 +1123,105 @@ useEffect(()=>{
                   )}
                 />
               </Typography>
-            </Box>  
+              <Typography
+                sx={{
+                  display: "flex",
+                  gap: "5px",
+                  flexDirection: "column",
+                  flexBasis: "33%",
+                }}
+              >
+                <Controller
+                  name="locationType"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Location Type is Required" }}
+                  render={({ field }) => (
+                    <CustomSelectForRole
+                      label="Location Type"
+                      height={"66px"}
+                      options={[
+                        { value: "onsite", label: "On-Site" },
+                        { value: "remote", label: "Remote" },
+                        { value: "hybrid", label: "Hybrid" },
+                      ]}
+                      value={field.value}
+                      handleChange={field.onChange}
+                      error={errors.locationType?.message}
+                    />
+                  )}
+                />
+              </Typography>
+              <Typography
+                sx={{
+                  display: "flex",
+                  gap: "5px",
+                  flexDirection: "column",
+                  flexBasis: "33%",
+                }}
+              >
+                <Controller
+                  name="onProbation"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: " On Probation is required" }}
+                  render={({ field }) => (
+                    <CustomSelectForRole
+                      label="On Probation"
+                      height={"66px"}
+                      options={[
+                        { value: "yes", label: "Yes" },
+                        { value: "no", label: "No" },
+                      ]}
+                      value={field.value}
+                      handleChange={field.onChange}
+                      error={errors.employementType?.message}
+                    />
+                  )}
+                />
+              </Typography>
+
+            </Box>
+
+
+            <Box
+              sx={{
+                display: "flex",
+                gap: "20px",
+                flexDirection: { md: "row", xs: "column" },
+                position: "relative",
+                mt:"15px"
+              }}
+            >
+              <Typography
+                sx={{
+                  display: "flex",
+                  gap: "5px",
+                  flexDirection: "column",
+                  flexBasis: "32.5%",
+                }}
+              >
+                <Controller
+                  name="employmentType"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Employeement Type is required" }}
+                  render={({ field }) => (
+                    <CustomSelectForRole
+                      label="Employement Type"
+                      height={"66px"}
+                      options={[
+                        { value: "partTime", label: "Part Time" },
+                        { value: "fullTime", label: "Full Time" },
+                      ]}
+                      value={field.value}
+                      handleChange={field.onChange}
+                      error={errors.employmentType?.message}
+                    />
+                  )}
+                />
+              </Typography>
+            </Box>
           </Box>
 
           <Box sx={{ display: "flex", justifyContent: "end", mt: "20px", gap:"1.5rem"}}>

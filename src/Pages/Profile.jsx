@@ -207,9 +207,9 @@ const Profile = () => {
                 <img src={dotpng} alt="" /> <img src={dotpng} alt="" />
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
               </Box>
-              <Tooltip title="Edit Password">
+              <Tooltip title="Update Password">
                 <CustomButton
-                  ButtonText="Edit Password"
+                  ButtonText="Update Password"
                   fontSize="12px"
                   color="white"
                   fontWeight="500"
@@ -221,9 +221,9 @@ const Profile = () => {
                   hoverBg="#303f9f"
                   hovercolor="white"
                   height="37.19px"
-                  width={"125px"}
+                  width={"135px"}
                   borderRadius="7px"
-                  buttonStyle={{ mt: "-17px" }}
+                  buttonStyle={{ mt: "-17px"}}
                   onClick={() => setOpen(true)}
                 />{" "}
               </Tooltip>
@@ -293,49 +293,48 @@ const Profile = () => {
             mb: "20px",
           }}
         >
-          {
-            yourData.workDays.length > 1 && (<>
-           
-          <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
-            <Typography variant="subtitle2" className="user-details-label">
-              Working Days
-            </Typography>
-            <Box
-              variant="body1"
-              className="user-details-value"
-              sx={{
-                display: "flex",
-                gap: "0.4rem",
-              }}
-            >
-              {yourData.workDays &&
-                yourData.workDays.map((day, index) => (
-                  <Box
-                    key={index}
-                    sx={{
-                      width: "41px",
-                      height: "41px",
-                      borderRadius: "50%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      cursor: "pointer",
-                      backgroundColor: "#157AFF",
-                      color: "#fff",
-                      border: "1px solid #DCDCDC",
-                      marginRight: "5px",
-                      transition: "background-color 0.3s ease, color 0.3s ease",
-                      fontWeight: "500",
-                    }}
-                  >
-                    {daysOfWeek[day]}
-                  </Box>
-                ))}
-            </Box>
-            
-          </Box>
-          </>)
-          }
+          {yourData.workDays.length > 1 && (
+            <>
+              <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
+                <Typography variant="subtitle2" className="user-details-label">
+                  Working Days
+                </Typography>
+                <Box
+                  variant="body1"
+                  className="user-details-value"
+                  sx={{
+                    display: "flex",
+                    gap: "0.4rem",
+                  }}
+                >
+                  {yourData.workDays &&
+                    yourData.workDays.map((day, index) => (
+                      <Box
+                        key={index}
+                        sx={{
+                          width: "41px",
+                          height: "41px",
+                          borderRadius: "50%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          cursor: "pointer",
+                          backgroundColor: "#157AFF",
+                          color: "#fff",
+                          border: "1px solid #DCDCDC",
+                          marginRight: "5px",
+                          transition:
+                            "background-color 0.3s ease, color 0.3s ease",
+                          fontWeight: "500",
+                        }}
+                      >
+                        {daysOfWeek[day]}
+                      </Box>
+                    ))}
+                </Box>
+              </Box>
+            </>
+          )}
           <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
             <Typography variant="subtitle2" className="user-details-label">
               HOD

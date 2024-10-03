@@ -177,7 +177,7 @@ const Login = () => {
                                 label="Remember me"
                             />
                             <Box  >
-                                <NavLink style={{ color: "white", textDecoration: "none" }} to='forgotPassword'>Forget Password</NavLink>
+                                <NavLink style={{ color: "white", textDecoration: "none" }} to='forgotPassword'>Forgot Password</NavLink>
                             </Box>
                         </Box>
                     </Box>

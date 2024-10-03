@@ -32,6 +32,7 @@ const EmployeeAttendance = () => {
   const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
   const [modalOpen, setModalOpen] = useState(false); // Modal state
   const [selectedCheckId, setSelectedCheckId] = useState("");
+  const [employeeActiveCoount , setEmployeeActiveCount] = useState(0);
 
 
   // const applyTimezoneOffset = (timestamp) => {
@@ -56,6 +57,7 @@ const EmployeeAttendance = () => {
         console.log("get today -----------------------===", response);
         const dataAllEmployee = response.data.users;
         setAllEmployee(dataAllEmployee);
+        setEmployeeActiveCount(dataAllEmployee.length)
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -193,7 +195,7 @@ const EmployeeAttendance = () => {
               <Typography
                 sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
               >
-                {`Active Users (${allEmployee.length})`}
+                {`Active Users (${employeeActiveCoount})`}
               </Typography>
               <Typography
                 sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}

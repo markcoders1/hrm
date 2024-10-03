@@ -31,6 +31,8 @@ const DashboardAdmin = () => {
   const [fetchAnnouncements, setFetchAnnouncements] = useState([]);
   const [fetchAttendanceDate, setAttendanceData] = useState([]);
   const [scrolling, setScrolling] = useState(false); 
+  const [employeeActiveCoount , setEmployeeActiveCount] = useState(0);
+
   const [lengthOfEmplyee  , setLengthOfEmployee] = useState(null);
 
   useEffect(() => {
@@ -104,8 +106,11 @@ const DashboardAdmin = () => {
       const dataAllEmployee = response.data.users;
       setLengthOfEmployee(response.data.users.length)
       setAttendanceData(dataAllEmployee);
-
+      
       console.log(response);
+     // Filter users with checkIn and set the count
+    const activeUsersCount = dataAllEmployee.filter(user => user.checkIn).length;
+    setEmployeeActiveCount(activeUsersCount);
     } catch (error) {
       console.error(error);
     } 
@@ -168,7 +173,7 @@ const DashboardAdmin = () => {
         <Typography
           sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
         >
-          {`Active Users (${lengthOfEmplyee})`}
+          {`Active Users (${employeeActiveCoount})`}
         </Typography>
         <Typography
           sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}

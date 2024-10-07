@@ -54,7 +54,7 @@ const UserInfo = () => {
     basicSalary: "",
     locationType: "",
     onProbation: "",
-    employementType: "",
+    employmentType: "",
   });
 
   const daysOfWeek = [
@@ -120,7 +120,7 @@ const UserInfo = () => {
           basicSalary: dataAllEmployee?.basicSalary,
           locationType: dataAllEmployee.locationType || "",
           onProbation: dataAllEmployee.onProbation || "",
-          employmentType: dataAllEmployee.employementType || "",
+          employmentType: dataAllEmployee.employmentType || "",
           internetAllowance: dataAllEmployee?.internetAllowance ,
           mobileAllowance: dataAllEmployee?.mobileAllowance,
           commuteAllowance: dataAllEmployee?.commuteAllowance ,
@@ -236,17 +236,18 @@ const UserInfo = () => {
 
   function unixToTimeInput(unixTimestamp) {
     const date = new Date(unixTimestamp * 1000);
-    let hours = date.getUTCHours().toString().padStart(2, "0");
-    let minutes = date.getUTCMinutes().toString().padStart(2, "0");
+    let hours = date.getHours().toString().padStart(2, "0");
+    let minutes = date.getMinutes().toString().padStart(2, "0");
     return `${hours}:${minutes}`;
   }
 
   function convertTimeToUnixTimestamp(timeString) {
     const [hours, minutes] = timeString.split(":").map(Number);
     const date = new Date();
-    date.setUTCHours(hours, minutes, 0, 0);
+    date.setHours(hours, minutes, 0, 0); // use setHours instead of setUTCHours for local time
     return Math.floor(date.getTime() / 1000);
   }
+
 
   function timeToUnixTimestamp(timeString) {
     // Split the timeString into hours, minutes, and seconds
@@ -349,13 +350,13 @@ const UserInfo = () => {
       <Box
         sx={{
           border: "1px dashed rgba(197, 197, 197, 0.6)",
-          width: { md: "517px", xs: "100%" },
+          width: { lg: "517px", xs: "100%" },
           p: { xs: "1rem 1rem", sm: "1rem 2rem" },
           borderRadius: "7px",
           position: { lg: "fixed", xs: "static" },
           right: "35px",
           top: "10px",
-          zIndex: "100000 ",
+          zIndex: {lg:"1000", xs:"0"},
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -736,7 +737,7 @@ const UserInfo = () => {
                   <CustomInputLabel
                     label="Net Salary*"
                     name="basicSalary"
-                    value={formData.netSalary}
+                    value={formData.basicSalary}
                     onChange={handleChange}
                   />
                 </Box>
@@ -785,7 +786,7 @@ const UserInfo = () => {
                   <CustomSelectForRole
                     label="Employment Type"
                     height={"66px"}
-                    name="employementType"
+                    name="employmentType"
                     options={[
                       { value: "partTime", label: "Part Time" },
                       { value: "fullTime", label: "Full Time" },

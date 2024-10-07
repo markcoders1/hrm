@@ -82,7 +82,7 @@ useEffect(()=>{
 function convertTimeToUnixTimestamp(timeString) {
   const [hours, minutes] = timeString.split(":").map(Number);
   const date = new Date();
-  date.setUTCHours(hours, minutes, 0, 0);
+  date.setHours(hours, minutes, 0, 0); // use setHours instead of setUTCHours for local time
   return Math.floor(date.getTime() / 1000);
 }
   const onSubmit = async (data) => {

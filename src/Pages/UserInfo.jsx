@@ -47,13 +47,14 @@ const UserInfo = () => {
     HODID: "",
 
     joiningDate: "",
-
+    mobileAllowance:'',
+    internetAllowance: "",
     role: "",
     annualLeaves: "",
-    netSalary: "",
+    basicSalary: "",
     locationType: "",
     onProbation: "",
-    employmentType: "",
+    employementType: "",
   });
 
   const daysOfWeek = [
@@ -95,7 +96,7 @@ const UserInfo = () => {
           emergencyContactNumber: dataAllEmployee.emergencyNumber || "",
           CNIC: dataAllEmployee.CNIC || "",
           DOB: dataAllEmployee.DOB
-            ? new Date(dataAllEmployee.DOB).toISOString().split("T")[0]
+            ? new Date(dataAllEmployee.DOB).toLocaleDateString("en-CA")
             : "",
           companyId: dataAllEmployee.companyId || "",
           shiftTimingFrom: dataAllEmployee.shiftTimingFrom
@@ -111,18 +112,18 @@ const UserInfo = () => {
           HODID: dataAllEmployee.HODID || "",
 
           joiningDate: dataAllEmployee.joiningDate
-            ? new Date(dataAllEmployee.joiningDate).toISOString().split("T")[0]
+            ? new Date(dataAllEmployee.joiningDate).toLocaleDateString("en-CA")
             : "",
 
           role: dataAllEmployee.role || "",
           annualLeaves: dataAllEmployee.annualLeaves || "",
-          netSalary: dataAllEmployee.netSalary || "",
+          basicSalary: dataAllEmployee?.basicSalary,
           locationType: dataAllEmployee.locationType || "",
           onProbation: dataAllEmployee.onProbation || "",
-          employmentType: dataAllEmployee.employmentType || "",
-          internetAllowance: dataAllEmployee.internetAllowance || "",
-          mobileAllowance: dataAllEmployee.mobileAllowance || "",
-          commuteAllowance: dataAllEmployee.commuteAllowance || "",
+          employmentType: dataAllEmployee.employementType || "",
+          internetAllowance: dataAllEmployee?.internetAllowance ,
+          mobileAllowance: dataAllEmployee?.mobileAllowance,
+          commuteAllowance: dataAllEmployee?.commuteAllowance ,
           bank: dataAllEmployee.bank || "",
           BAN: dataAllEmployee.BAN || "",
           BAT: dataAllEmployee.BAT || "",
@@ -173,14 +174,14 @@ const UserInfo = () => {
     });
   };
 
-  // const calculateShiftDuration = (from, to) => {
-  //   const fromDate = new Date(from * 1000);
-  //   const toDate = new Date(to * 1000);
-  //   const durationInMs = toDate - fromDate;
+  const calculateShiftDuration = (from, to) => {
+    const fromDate = new Date(from * 1000);
+    const toDate = new Date(to * 1000);
+    const durationInMs = toDate - fromDate;
 
-  //   const durationInHours = durationInMs / (1000 * 60 * 60);
-  //   return durationInHours.toFixed(2) + " hours";
-  // };
+    const durationInHours = durationInMs / (1000 * 60 * 60);
+    return durationInHours.toFixed(2) + " hours";
+  };
 
   const calculateDurationFromJoiningDate = (joiningDate) => {
     const joinDate = new Date(joiningDate * 1000);
@@ -331,7 +332,7 @@ const UserInfo = () => {
   //     minutes !== 1 ? "s" : ""
   //   }`;
   // };
-   // Update the component logic to handle the shift timing change
+
    const handleShiftTimingChange = () => {
     const shiftFrom = watch("shiftTimingFrom");
     const shiftTo = watch("shiftTimingTo");
@@ -653,7 +654,7 @@ const UserInfo = () => {
                       displayValue={
                         hods.find((hod) => hod.id === formData.HODID)
                           ?.fullName || ""
-                      } // Display the fullName for the selected HODID
+                      } 
                     />
                   </Box>
                 </Box>
@@ -734,7 +735,7 @@ const UserInfo = () => {
                   />
                   <CustomInputLabel
                     label="Net Salary*"
-                    name="netSalary"
+                    name="basicSalary"
                     value={formData.netSalary}
                     onChange={handleChange}
                   />
@@ -784,7 +785,7 @@ const UserInfo = () => {
                   <CustomSelectForRole
                     label="Employment Type"
                     height={"66px"}
-                    name="employmentType"
+                    name="employementType"
                     options={[
                       { value: "partTime", label: "Part Time" },
                       { value: "fullTime", label: "Full Time" },

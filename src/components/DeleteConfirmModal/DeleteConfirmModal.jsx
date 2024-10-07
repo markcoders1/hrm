@@ -2,7 +2,7 @@ import React from "react";
 import { Modal, Box, Typography } from "@mui/material";
 import CustomButton from "../CustomButton/CustomButton";
 
-const DeleteConfirmationModal = ({ open, handleClose, onConfirm, loading , request}) => {
+const DeleteConfirmationModal = ({ open, handleClose, onConfirm, loading , requestText , requestHeading}) => {
   return (
     <Modal open={open} onClose={handleClose}>
       <Box
@@ -19,10 +19,10 @@ const DeleteConfirmationModal = ({ open, handleClose, onConfirm, loading , reque
         }}
       >
         <Typography variant="h6" component="h2" sx={{ mb: 2 }}>
-          Confirm Deletion
+          {requestHeading}
         </Typography>
         <Typography variant="body1" sx={{ mb: 3 }}>
-          Are you sure you want to delete this {request}? Request This action cannot be undone.
+          {requestText}
         </Typography>
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <CustomButton

@@ -20,6 +20,26 @@ const NewLeave = () => {
   const [totalDays, setTotalDays] = useState(0);
   const { setHeadertext } = useOutletContext();
   const navigate = useNavigate();
+  const [leaveDetails, setLeaveDetails] = useState([]);
+
+
+  const fetchAllLeaves = async () => {
+    try {
+      const response = await axiosInstance({
+        url: `${apiUrl}/api/allleaves`,
+        method: "get",
+      });
+      console.log(response.data);
+     
+      setLeaveDetails(response.data)
+    } catch (error) {
+      console.log("error making leave request", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllLeaves();
+  }, []);
 
   useEffect(() => {
     setHeadertext("New Leave Request");
@@ -86,10 +106,10 @@ try {
   return (
     <Box className="sheet-container-admin">
       <Box sx={{ display: 'flex', justifyContent: 'start',gap:"4rem",  mb: 4 }}>
-        <Typography sx={{fontWeight:"600", fontSize:"24px", color:"#010120"}} >Total: 12</Typography>
-        <Typography sx={{fontWeight:"600", fontSize:"24px", color:"#010120"}} >Availded: 4</Typography>
-        <Typography sx={{fontWeight:"600", fontSize:"24px", color:"#010120"}} >Remaining: 8</Typography>
->
+        <Typography sx={{fontWeight:"600", fontSize:"24px", color:"#010120"}} >Total: {leaveDetails?.annualLeaves}</Typography>
+        <Typography sx={{fontWeight:"600", fontSize:"24px", color:"#010120"}} >Availded: {leaveDetails?.leavesTaken}</Typography>
+        <Typography sx={{fontWeight:"600", fontSize:"24px", color:"#010120"}} >Remaining:  {leaveDetails?.annualLeaves - leaveDetails?.leavesTaken? leaveDetails?.annualLeaves - leaveDetails?.leavesTaken : "--"}</Typography>
+
       </Box>
 
       <form onSubmit={handleSubmit(onSubmit)}>

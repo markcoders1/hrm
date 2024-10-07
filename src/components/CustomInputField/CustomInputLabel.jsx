@@ -94,6 +94,7 @@ const CustomInputLabel = forwardRef(({
               color: color,
               height: "100%",
             },
+            
             '& .MuiInputBase-input': {
               color:color, // Ensures the text color in the input field is white
               '&:-webkit-autofill': {

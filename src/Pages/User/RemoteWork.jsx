@@ -353,7 +353,8 @@ const RemoteWork = () => {
         handleClose={handleModalClose}
         loading={loadingDelete}
         onConfirm={handleDeleteConfirmed} // Handle confirmed delete
-        request = {"Work From Home"}
+        requestHeading = {"WFH Deletion"}
+        requestText={"Are you sure you want to Delete this WFH request"}
       />
     </Box>
   );

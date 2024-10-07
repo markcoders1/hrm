@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ChangePasswordModal from "./ChangePasswordModal/ChangePasswordModal";
 import hresquelogo from "../assets/hresquelogo.png";
+import DeleteConfirmationModal from "./DeleteConfirmModal/DeleteConfirmModal";
 
 import {
   CSidebar,
@@ -51,6 +52,7 @@ import attenfanceManaIcon from "../assets/icons/attendanceManagement.png";
 import leaveManaIcon from "../assets/icons/leaveManagement.png";
 import wfhManaIcon from "../assets/icons/wfhManagement.png";
 import notificationIcon from "../assets/icons/notification.png";
+import { logout } from "../Redux/userSlice";
 
 // import icons for User
 
@@ -63,6 +65,7 @@ const parser = new UAParser();
 const CustomNavLink = ({ children, ...props }) => {
   const formDirty = useSelector((state) => state.form.isFormDirty);
   const dispatch = useDispatch();
+ 
 
   const handleClick = (e) => {
     if (formDirty) {
@@ -97,13 +100,14 @@ const AppSidebar = () => {
   const formDirty = useSelector((state) => state.form.isFormDirty);
   const count = useSelector((state) => state.counter.count);
 
-
   const [isAdmin, setIsAdmin] = useState(false);
   const [logoutVisible, setLogoutVisible] = useState(false);
   const [logoutAllVisible, setLogoutAllVisible] = useState(false);
   const [pageloading, setPageloading] = useState(true);
+  const [logoutModalOpen, setLogoutModalOpen] = useState(false);
+  const [loadingLogout, setLoadingLogout] = useState(false);
 
-  const user = useSelector(state => state.user.user.role)
+  const user = useSelector((state) => state.user.user.role);
   useEffect(() => {
     const checkIsAdmin = async () => {
       try {
@@ -111,8 +115,7 @@ const AppSidebar = () => {
         setIsAdmin(res.data.isAdmin);
         setPageloading(false);
         console.log("=================================> dirty form", formDirty);
-console.log(user)
-
+        console.log(user);
       } catch (error) {
         console.error(error);
         setPageloading(false);
@@ -131,6 +134,15 @@ console.log(user)
           parser.getCPU().architecture
         } | ${parser.getOS().name}`,
       },
+    });
+    logout({
+      image: null,
+      name: null,
+      accessToken: null,
+      refreshToken: null,
+      email: null,
+      userId: null,
+      role: null,
     });
     sessionStorage.clear();
     localStorage.clear();
@@ -426,7 +438,7 @@ console.log(user)
             <CNavItem>
               <div
                 className="nav-link"
-                onClick={() => setLogoutVisible(true)}
+                onClick={() => setLogoutModalOpen(true)} // Use the DeleteConfirmationModal
                 style={{
                   cursor: "pointer",
                   display: "flex",
@@ -458,49 +470,54 @@ console.log(user)
                 </CSidebarFooter> */}
       </CSidebar>
 
-      <CModal
-        alignment="center"
-        visible={logoutVisible}
-        onClose={() => setLogoutVisible(false)}
-        aria-labelledby="VerticallyCenteredExample"
-      >
-        <CModalHeader>
-          <CModalTitle id="VerticallyCenteredExample">Logout</CModalTitle>
-        </CModalHeader>
-        <CModalBody>Are you sure you want to log out?</CModalBody>
-        <CModalFooter>
-          <CButton color="secondary" onClick={() => setLogoutVisible(false)}>
-            Close
-          </CButton>
-          <CButton color="info" onClick={handleLogout}>
-            Log Out
-          </CButton>
-        </CModalFooter>
-      </CModal>
 
-      <CModal
-        alignment="center"
-        visible={logoutAllVisible}
-        onClose={() => setLogoutAllVisible(false)}
-        aria-labelledby="VerticallyCenteredExample"
-      >
-        <CModalHeader>
-          <CModalTitle id="VerticallyCenteredExample">Logout</CModalTitle>
-        </CModalHeader>
-        <CModalBody>
-          Are you sure you want to log out of all devices?
-        </CModalBody>
-        <CModalFooter>
-          <CButton color="secondary" onClick={() => setLogoutAllVisible(false)}>
-            Close
-          </CButton>
-          <CButton color="info" onClick={handleLogoutAll}>
-            Log Out
-          </CButton>
-        </CModalFooter>
-      </CModal>
+    
 
       <ChangePasswordModal open={open} handleClose={() => setOpen(false)} />
+
+      <DeleteConfirmationModal
+        open={logoutModalOpen}
+        handleClose={() => setLogoutModalOpen(false)}
+        loading={loadingLogout}
+        onConfirm={async () => {
+          setLoadingLogout(true);
+          try {
+            await axiosInstance({
+              url: `${apiUrl}/api/auth/logout`,
+              method: "post",
+              data: {
+                refreshToken: sessionStorage.getItem("refreshToken"),
+                deviceId: `${parser.getBrowser().name} | ${
+                  parser.getCPU().architecture
+                } | ${parser.getOS().name}`,
+              },
+            });
+            dispatch(
+              logout({
+                image: null,
+                name: null,
+                accessToken: null,
+                refreshToken: null,
+                email: null,
+                userId: null,
+                role: null,
+              })
+            );
+            sessionStorage.clear();
+            localStorage.clear();
+            navigate("/");
+            toast.success("Logout Successful", { position: "top-center" });
+          } catch (error) {
+            console.error("Error during logout:", error);
+            toast.error("Logout Failed", { position: "top-center" });
+          } finally {
+            setLoadingLogout(false);
+            setLogoutModalOpen(false);
+          }
+        }}
+        requestText={"Are you sure you want to LogOut"}
+        requestHeading={"Log Out Confirmation"}
+      />
     </>
   );
 };

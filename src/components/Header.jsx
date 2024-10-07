@@ -64,9 +64,15 @@ const AppHeader = (props) => {
   }, [])
 
   return (
-    <CHeader position="sticky" className="mb-0 p-0 px-5 py-3" style={{ border: "none" }} ref={headerRef}>
+    <CHeader position="sticky" className="mb-0 p-0 px-5 py-5" style={{ border: "none" }} ref={headerRef}>
       <div>
         <CContainer fluid>
+          <Box
+          sx={{
+            display:{lg:"none", xs:"block"}
+          }}
+          >
+
           <CHeaderToggler
             onClick={() => {
               dispatch(set({ sidebarShow: !sidebarShow }))
@@ -76,6 +82,8 @@ const AppHeader = (props) => {
           >
             <CIcon icon={cilMenu} size="lg" />
           </CHeaderToggler>
+          </Box>
+
         </CContainer>
         <CContainer className="d-flex" fluid>
           <Typography sx={{ color: "#010120", fontWeight: "600", fontSize: "40px" }}>

@@ -91,6 +91,11 @@ function convertTimeToUnixTimestamp(timeString) {
      
   let phone = Number(data.phone);
   let emergencyNumber = Number(data.emergencyNumber);
+  
+        const shiftTimingFrom = convertTimeToUnixTimestamp(data.shiftTimingFrom);
+        const shiftTimingTo = convertTimeToUnixTimestamp(data.shiftTimingTo);
+
+        
     try {
       const workDays = selectedDays.map((day) => day.value);
 
@@ -102,9 +107,6 @@ function convertTimeToUnixTimestamp(timeString) {
       // const shiftTimingTo = new Date(
       //   `1970-01-01T${data.shiftTimingTo}:00Z`
       // ).getTime();
-
-      const shiftTimingFrom = convertTimeToUnixTimestamp(data.shiftTimingFrom);
-      const shiftTimingTo = convertTimeToUnixTimestamp(data.shiftTimingTo);
 
       let DOB = new Date(data.DOB).getTime();
       DOB = DOB.toString()

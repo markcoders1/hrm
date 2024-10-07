@@ -59,6 +59,7 @@ const Login = () => {
             };
 
             dispatch(login(userData));
+           
 
             sessionStorage.setItem("accessToken", response.data.accessToken);
             sessionStorage.setItem("refreshToken", response.data.refreshToken);
@@ -94,14 +95,6 @@ const Login = () => {
     };
 
 
-    useEffect(() => {
-        console.log(userState)
-
-        dispatch(login({
-            accessToken: "23456789",
-            isAuthenticated: true
-        }))
-    }, [])
     return (
         <>
             <Box className="login-container">

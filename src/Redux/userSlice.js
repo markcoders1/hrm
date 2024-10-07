@@ -11,6 +11,7 @@
             role: null
         },
         isAuthenticated: false,
+        
     };
 
     const userSlice = createSlice({
@@ -26,10 +27,11 @@
                     refreshToken: action.payload.refreshToken,
                     email: action.payload.email,
                     userId: action.payload.userId,
-            role: action.payload.role,
+                    role: action.payload.role
 
                 };
                 state.isAuthenticated = true;
+               
             },
             logout: (state) => {
                 

@@ -20,6 +20,8 @@ import axiosInstance from "../../auth/axiosInstance";
 import "../../PagesCss/Employee.css";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+import { Send } from 'lucide-react';
+
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const DashboardAdmin = () => {
@@ -426,6 +428,7 @@ const DashboardAdmin = () => {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
+                    p:"10px",
                     cursor: "pointer",
                     transition: "background-color 0.3s ease", // Smooth transition for hover effect
                     "&:hover": {
@@ -434,11 +437,7 @@ const DashboardAdmin = () => {
                   }}
                   onClick={handleAddAnnouncement}
                 >
-                  <img
-                    src={plusIcon}
-                    alt="Add Icon"
-                    style={{ width: "16px", height: "16px" }}
-                  />
+                     <Send />
                 </Box>
               </Tooltip>
             </Box>

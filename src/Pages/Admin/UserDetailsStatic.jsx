@@ -130,7 +130,7 @@ useEffect(()=>{
           position: { lg: "fixed", xs: "static" },
           right: "35px",
           top: "10px",
-          zIndex: "100000 ",
+          zIndex: {lg: "1000" , xs:"0"},
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -337,7 +337,7 @@ useEffect(()=>{
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Net Salary</Typography>
-          <Typography variant="body1" className="user-details-value">{userData?.netSalary}</Typography>
+          <Typography variant="body1" className="user-details-value">{userData?.basicSalary}</Typography>
         </Box>
       </Box>
 
@@ -353,7 +353,7 @@ useEffect(()=>{
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Employement type</Typography>
-          <Typography variant="body1" className="user-details-value">{userData?.employmentType}</Typography>
+          <Typography variant="body1" className="user-details-value">{userData?.employementType}</Typography>
         </Box>
       </Box>
 

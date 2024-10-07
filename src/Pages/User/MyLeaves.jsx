@@ -474,7 +474,8 @@ const MyLeaves = () => {
         handleClose={handleModalClose}
         loading={loadingDelete}
         onConfirm={handleDeleteConfirmed} 
-        request={"Leave"}
+        requestText={"Are you sure you want to Delete this Leave request"}
+        requestHeading = {"Leave Deletion"}
 
       />
     </Box>

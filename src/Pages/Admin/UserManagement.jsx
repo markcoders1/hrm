@@ -69,6 +69,7 @@ const EmployeeData = () => {
         });
 
         const dataAllEmployee = response.data;
+        console.log(response.data)
 
         setAllEmployee(dataAllEmployee);
         setFilteredEmployees(dataAllEmployee);
@@ -226,14 +227,19 @@ const EmployeeData = () => {
     );
   };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = date.toLocaleString("default", { month: "long" });
-    const year = date.getFullYear();
-    return `${day} ${month} ${year}`;
-  };
+  // const formatDate = (dateString) => {
+  //   const date = new Date(dateString);
+  //   const day = String(date.getDate()).padStart(2, "0");
+  //   const month = date.toLocaleString("default", { month: "long" });
+  //   const year = date.getFullYear();
+  //   return `${day} ${month} ${year}`;
+  // };
 
+  function formatDate(timestamp) {
+    const date = new Date(timestamp);
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    return date.toLocaleDateString('en-GB', options);
+  }
   return (
     <Box className="sheet-container-admin" >
       {/* add search input field here with functionality */}
@@ -412,7 +418,7 @@ const EmployeeData = () => {
                       }}
                       className="MuiTableCell-root"
                     >
-                      {employee.companyId}
+                      {employee?.companyId}
                     </TableCell>
                     <TableCell
                       sx={{
@@ -422,7 +428,7 @@ const EmployeeData = () => {
                       }}
                       className="MuiTableCell-root"
                     >
-                      {employee.fullName}
+                      {employee?.fullName}
                     </TableCell>
                     <TableCell
                       sx={{
@@ -431,7 +437,7 @@ const EmployeeData = () => {
                       }}
                       className="MuiTableCell-root"
                     >
-                      {employee.email}
+                      {employee?.email}
                     </TableCell>
                     <TableCell
                       sx={{
@@ -441,7 +447,7 @@ const EmployeeData = () => {
                       }}
                       className="MuiTableCell-root"
                     >
-                      {formatDate(employee.createdAt)}
+                      {formatDate(employee?.joiningDate)}
                     </TableCell>
                     <TableCell
                       sx={{ borderRadius: "0px 8px 8px 0px" }}

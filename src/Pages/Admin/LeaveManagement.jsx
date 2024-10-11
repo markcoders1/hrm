@@ -22,6 +22,7 @@ import CustomInputLabel from "../../components/CustomInputField/CustomInputLabel
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
+import SpinnerLoader from "../../components/SpinnerLoader";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -34,6 +35,8 @@ const LeaveManagement = () => {
   const { setHeadertext, setParaText } = useOutletContext();
   const navigate = useNavigate();
   const [leaveData, setLeaveData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const [statusFilter, setStatusFilter] = useState("pending");
   const [searchTerm, setSearchTerm] = useState(""); // State for search term
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth().toString()); // Default to current month
@@ -59,12 +62,17 @@ const getUnixTimestampForMonthYear = (month, year) => {
     const date = getUnixTimestampForMonthYear(selectedMonth, selectedYear);
     console.log(date)
     try {
+      setLoading(true)
       const response = await axiosInstance.get(`${apiUrl}/api/admin/getallleaves`, {params: {date : date}});
       console.log(response.data)
         setLeaveData(response.data.leaves);
+      setLoading(false)
+
    
     } catch (error) {
       console.error("Error fetching leave data:", error);
+      setLoading(false)
+
     }
   };
 
@@ -89,16 +97,13 @@ const getUnixTimestampForMonthYear = (month, year) => {
   const filteredLeaveData = leaveData.filter((row) => {
     const matchesStatus = row.overallStatus === statusFilter;
     const matchesSearchTerm =
-      row.employeeId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.leaveType.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.endDate.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.startDate.toLowerCase().includes(searchTerm.toLowerCase()) 
-
+      (row.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false) ||
+      (row.leaveType?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false) ||
+      (row.endDate?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false) ||
+      (row.startDate?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false);
   
     return matchesStatus && matchesSearchTerm;
   });
-
   const validateAccept = async (leaveId) => {
     try {
       const response = await axiosInstance.get(`${apiUrl}/api/admin/validateleaves`, {
@@ -190,6 +195,17 @@ const getUnixTimestampForMonthYear = (month, year) => {
       label: (2024 + i).toString(),
       value: (2024 + i).toString(),
     }));
+
+    if (loading) {
+      return (
+        <Box className="loaderContainer">
+          <SpinnerLoader />
+
+
+        </Box>
+      );
+    }
+  
 
   return (
     <Box className="sheet-container-admin">
@@ -338,7 +354,7 @@ const getUnixTimestampForMonthYear = (month, year) => {
                     sm: "21px",
                     xs: "16px",
                   },
-                  textAlign: "start",
+                  textAlign: "center !important",
                   borderRadius: "8px 0px 0px 8px",
                   color: "#010120",
                   paddingLeft: "40px",
@@ -356,7 +372,9 @@ const getUnixTimestampForMonthYear = (month, year) => {
                     sm: "21px",
                     xs: "16px",
                   },
-                  textAlign: "start",
+                  textAlign: "center !important",
+
+
                   color: "#010120",
                   minWidth: "250px",
                 }}
@@ -372,7 +390,8 @@ const getUnixTimestampForMonthYear = (month, year) => {
                     sm: "21px",
                     xs: "16px",
                   },
-                  textAlign: "center",
+                  textAlign: "center !important",
+
                   color: "#010120",
                   minWidth: "100px",
                 }}
@@ -388,7 +407,8 @@ const getUnixTimestampForMonthYear = (month, year) => {
                     sm: "21px",
                     xs: "16px",
                   },
-                  textAlign: "center",
+                  textAlign: "center !important",
+
                   color: "#010120",
                   minWidth: "100px",
                 }}
@@ -404,7 +424,8 @@ const getUnixTimestampForMonthYear = (month, year) => {
                     sm: "21px",
                     xs: "16px",
                   },
-                  textAlign: "center",
+                  textAlign: "center !important",
+
                   color: "#31BA96",
                   minWidth: "190px ",
                 }}
@@ -420,7 +441,8 @@ const getUnixTimestampForMonthYear = (month, year) => {
                     sm: "21px",
                     xs: "16px",
                   },
-                  textAlign: "center",
+                  textAlign: "center !important",
+
                   color: "#31BA96",
                   minWidth: "190px ",
                 }}
@@ -436,7 +458,8 @@ const getUnixTimestampForMonthYear = (month, year) => {
                     sm: "21px",
                     xs: "16px",
                   },
-                  textAlign: "center",
+                  textAlign: "center !important",
+
                   color: "#010120",
                   minWidth: "120px",
                 }}
@@ -452,7 +475,8 @@ const getUnixTimestampForMonthYear = (month, year) => {
                     sm: "21px",
                     xs: "16px",
                   },
-                  textAlign: "center",
+                  textAlign: "center !important",
+
                   color: "#010120",
                   minWidth: "290px",
                 }}
@@ -468,7 +492,8 @@ const getUnixTimestampForMonthYear = (month, year) => {
                     sm: "21px",
                     xs: "16px",
                   },
-                  textAlign: "center",
+                  textAlign: "center !important",
+
                   color: "#010120",
                   minWidth: "200px",
                 }}
@@ -486,7 +511,8 @@ const getUnixTimestampForMonthYear = (month, year) => {
                       sm: "21px",
                       xs: "16px",
                     },
-                    textAlign: "center",
+                    textAlign: "center !important",
+
                     borderRadius: "0px 8px 8px 0px",
                     color: "#010120",
                   }}
@@ -527,7 +553,8 @@ const getUnixTimestampForMonthYear = (month, year) => {
                   className="MuiTableCell-root"
                   sx={{
                     color: "white",
-                    textAlign: "start !important",
+                    textAlign: "center !important",
+
                   }}
                 >
                   <img
@@ -547,6 +574,7 @@ const getUnixTimestampForMonthYear = (month, year) => {
                   sx={{
                     color: "#99999C",
                     textAlign: "center !important",
+
                   }}
                 >
                   {row?.annualLeaves - row?.leavesTaken ? row?.annualLeaves - row.leavesTaken : "--"}
@@ -554,7 +582,7 @@ const getUnixTimestampForMonthYear = (month, year) => {
                 <TableCell
                   className="MuiTableCell-root"
                   sx={{
-                    color: "white",
+                    color: "black",
                     textAlign: "center !important",
                   }}
                 >
@@ -581,7 +609,8 @@ const getUnixTimestampForMonthYear = (month, year) => {
                 <TableCell
                   className="MuiTableCell-root"
                   sx={{
-                    color: "white",
+                    color: "black",
+
                     textAlign: "center !important",
                   }}
                 >

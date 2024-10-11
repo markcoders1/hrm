@@ -23,7 +23,6 @@ import axiosInstance from "../../auth/axiosInstance";
 import DeleteConfirmationModal from "../../components/DeleteConfirmModal/DeleteConfirmModal"; // Import the modal component
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import SpinnerLoader from "../../components/SpinnerLoader";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const RemoteWork = () => {
@@ -34,8 +33,6 @@ const RemoteWork = () => {
   const [itemToDelete, setItemToDelete] = useState(null); // Item to delete
   const [loadingDelete, setLoadingDelete] = useState(false); // Loading state for delete
   const [id , setId] = useState()
-  const [loading , setLoading] = useState(true)
-
 
   useEffect(() => {
     setHeadertext("Remote Work");
@@ -45,23 +42,14 @@ const RemoteWork = () => {
 
   const fetchRemoteData = async () => {
     try {
-      setLoading(true)
       const response = await axiosInstance({
         url: `${apiUrl}/api/allwfh`,
         method: "get",
       });
       console.log("wfh requests", response.data);
       setRemoteWorkData(response.data.requests);
-      setLoading(false)
-
     } catch (error) {
       console.log("error fetching WFH requests", error);
-      setLoading(false)
-
-    }
-    finally{
-      setLoading(false)
-
     }
   };
 
@@ -126,15 +114,6 @@ const RemoteWork = () => {
       .padStart(2, "0")}-${d.getFullYear()}`;
   };
 
-  if (loading) {
-    return (
-      <Box className="loaderContainer">
-        <SpinnerLoader />
-      </Box>
-    );
-  }
-  
-
   return (
     <Box className="sheet-container-admin">
       <Box className="progress-mini-container">
@@ -183,10 +162,11 @@ const RemoteWork = () => {
                       sm: "21px",
                       xs: "16px",
                     },
-                    textAlign: "start",
+                    textAlign: "center !important",
+
                     borderRadius: "8px 0px 0px 8px",
                     color: "#010120",
-                    paddingLeft: "40px",
+                    
                   }}
                 >
                   #
@@ -200,8 +180,9 @@ const RemoteWork = () => {
                     fontSize: {
                       sm: "21px",
                       xs: "16px",
-                    },
-                    textAlign: "start",
+                    },                  
+                        textAlign: "center !important",
+
                     color: "#010120",
                   }}
                 >
@@ -217,7 +198,8 @@ const RemoteWork = () => {
                       sm: "21px",
                       xs: "16px",
                     },
-                    textAlign: "start",
+                    textAlign: "center !important",
+
                     color: "#010120",
                   }}
                 >
@@ -232,7 +214,8 @@ const RemoteWork = () => {
                       sm: "21px",
                       xs: "16px",
                     },
-                    textAlign: "start",
+                    textAlign: "center !important",
+
                     color: "#010120",
                   }}
                 >
@@ -247,7 +230,8 @@ const RemoteWork = () => {
                       sm: "21px",
                       xs: "16px",
                     },
-                    textAlign: "center",
+                    textAlign: "center !important",
+
                     borderRadius: "0px 8px 8px 0px",
                     color: "#010120",
                   }}
@@ -268,8 +252,7 @@ const RemoteWork = () => {
                     sx={{
                       borderRadius: "8px 0px 0px 8px",
                       color: "#010120",
-                      textAlign: "start !important",
-                      paddingLeft: "40px !important",
+                      textAlign: "center !important",
                     }}
                     className="MuiTableCell-root"
                   >
@@ -282,7 +265,8 @@ const RemoteWork = () => {
 
                   <TableCell
                     sx={{
-                      textAlign: "start !important",
+                      textAlign: "center !important",
+
                       color:
                         remote.statusManager === "Approved"
                           ? "green"
@@ -296,7 +280,8 @@ const RemoteWork = () => {
                   </TableCell>
                   <TableCell
                     sx={{
-                      textAlign: "start !important",
+                      textAlign: "center !important",
+
                       color:
                         remote.statusHOD === "Approved"
                           ? "green"
@@ -311,7 +296,8 @@ const RemoteWork = () => {
                   <TableCell
                     sx={{
                       borderRadius: "0px 8px 8px 0px",
-                      textAlign: "center",
+                      textAlign: "center !important",
+
                     }}
                     className="MuiTableCell-root"
                   >
@@ -319,7 +305,21 @@ const RemoteWork = () => {
                       <Tooltip
                         title={isActionDisabled(remote.overallStatus) ? "Could not edit" : "Click to Edit"}
                       >
-                        <IconButton>
+                       <Typography
+                          sx={{
+                            width: "45px",
+                            height: "45px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "50%",
+
+                            transition: "background-color 0.3s ease",
+                            "&:hover": {
+                              backgroundColor: "rgba(255, 255, 255, 0.2)",
+                            },
+                          }}
+                        >
                           <Box
                             component="img"
                             src={isActionDisabled(remote.overallStatus) ? disabledEdit : editIcon}
@@ -335,12 +335,27 @@ const RemoteWork = () => {
                               handleEditClick(event, remote._id)
                             }
                           />
-                        </IconButton>
+                          </Typography>
+                      
                       </Tooltip>
                       <Tooltip
                         title={isActionDisabled(remote.overallStatus) ? "Could not Delete" : "Click to Delete"}
                       >
-                        <IconButton>
+                       <Typography
+                          sx={{
+                            width: "45px",
+                            height: "45px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "50%",
+
+                            transition: "background-color 0.3s ease",
+                            "&:hover": {
+                              backgroundColor: "rgba(255, 255, 255, 0.2)",
+                            },
+                          }}
+                        >
                           <Box
                             component="img"
                             src={isActionDisabled(remote.overallStatus) ? disabledDelete : deleteIcon}
@@ -357,7 +372,7 @@ const RemoteWork = () => {
                               
                             }
                           />
-                        </IconButton>
+                       </Typography>
                       </Tooltip>
                     </Box>
                   </TableCell>

@@ -21,7 +21,7 @@ import "../../PagesCss/Employee.css";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import { Send } from 'lucide-react';
-
+import SpinnerLoader from "../../components/SpinnerLoader";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const DashboardAdmin = () => {
@@ -166,6 +166,13 @@ const DashboardAdmin = () => {
     return () => clearInterval(intervalId); // Cleanup interval on unmount
   }, []);
 
+  if (loading) {
+    return (
+      <Box className="loaderContainer">
+        <SpinnerLoader />
+      </Box>
+    );
+  }
 
   return (
     <>

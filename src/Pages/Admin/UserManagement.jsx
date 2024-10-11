@@ -23,6 +23,7 @@ import editwhite from '../../assets/editwhite.png'
 import { useLocation } from "react-router-dom";
 import CustomTextField from "../../components/CustomInput/CustomInput";
 import CustomInputLabel from "../../components/CustomInputField/CustomInputLabel";
+import SpinnerLoader from "../../components/SpinnerLoader";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -160,23 +161,32 @@ const EmployeeData = () => {
           fontSize: "14px",
           color: "#010120",
           fontWeight: "500",
-          width: "27px",
-          height: "27px",
-          padding: "5px 10px",
-          backgroundColor: "#fff",
-          cursor: "pointer",
-          transition:
-            "background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease",
+          width: "45px",
+          height: "45px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: "50%",
+
+          transition: "background-color 0.3s ease",
           "&:hover": {
-            backgroundColor: "#157AFF", // Or any other color you prefer
-            color: "darkgreen",
-            borderColor: "#010120",
+            backgroundColor: "rgba(255, 255, 255, 0.2)",
           },
+          padding: "5px 10px",
+          // backgroundColor: "#fff",
+          cursor: "pointer",
+          // transition:
+          //   "background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease",
+          // "&:hover": {
+          //   backgroundColor: "#157AFF", // Or any other color you prefer
+          //   color: "darkgreen",
+          //   borderColor: "#010120",
+          // },
         }}
       >
         <img
           src={editIcon}
-          style={{ width: "21.75px", height: "21.75px" }}
+          style={{ width: "22.75px", height: "21.75px" }}
           alt="Edit"
         />
       </Box>
@@ -216,7 +226,7 @@ const EmployeeData = () => {
       <Box
         sx={{
           display: "flex",
-          gap: "5rem",
+          gap: "1.5rem",
           alignItems: "center",
           justifyContent: "start",
         }}
@@ -301,7 +311,7 @@ const EmployeeData = () => {
       <Box sx={{ mt: "30px", padding: "0px 0px" }}>
         {loading ? (
           <Box className="loaderContainer">
-            <Loader />
+            <SpinnerLoader   />
           </Box>
         ) : (
           <TableContainer component={Paper} className="MuiTableContainer-root">
@@ -326,10 +336,11 @@ const EmployeeData = () => {
                         sm: "21px",
                         xs: "16px",
                       },
-                      textAlign: "start",
+                      textAlign: "center !important",
                       borderRadius: "8px 0px 0px 8px",
                       color: "#010120",
                       paddingLeft: "40px",
+                      minWidth:"150px"
                     }}
                   >
                     Emp ID
@@ -345,7 +356,8 @@ const EmployeeData = () => {
                       },
                       textAlign: "start",
                       color: "#010120",
-                      paddingLeft: "40px",
+                      paddingLeft: "40px !important",
+
                     }}
                   >
                     Full Name
@@ -377,6 +389,8 @@ const EmployeeData = () => {
                       },
                       textAlign: "start",
                       color: "#010120",
+                      minWidth:"180px"
+
                     }}
                   >
                     Joining Date
@@ -390,7 +404,7 @@ const EmployeeData = () => {
                         sm: "21px",
                         xs: "16px",
                       },
-                      textAlign: "start",
+                      textAlign: "center",
                       borderRadius: "0px 8px 8px 0px",
                       color: "#010120",
                       paddingLeft: "10px !important",
@@ -412,8 +426,9 @@ const EmployeeData = () => {
                     <TableCell
                       sx={{
                         borderRadius: "8px 0px 0px 8px",
-                        color: "white",
-                        textAlign: "start !important",
+                        color: "#010120",
+                        textAlign: "center !important",
+
                         paddingLeft: "40px !important",
                       }}
                       className="MuiTableCell-root"
@@ -422,7 +437,7 @@ const EmployeeData = () => {
                     </TableCell>
                     <TableCell
                       sx={{
-                        color: "white",
+                        color: "#010120",
                         textAlign: "start !important",
                         paddingLeft: "40px !important",
                       }}

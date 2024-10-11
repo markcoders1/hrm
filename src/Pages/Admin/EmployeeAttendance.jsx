@@ -20,6 +20,8 @@ import editIcon from "../../assets/EditIcon.png";
 import editIconWhite from "../../assets/editIconWhite.png";
 import CustomInputLabel from "../../components/CustomInputField/CustomInputLabel";
 import CheckInOutModal from "../../components/CheckInEditModal/CheckInEditModal";
+import SpinnerLoader from "../../components/SpinnerLoader";
+
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -78,7 +80,7 @@ const EmployeeAttendance = () => {
         sx={{
           display: "flex",
           alignItems: "center",
-          gap: "2.5rem",
+          gap: "1rem",
           justifyContent: "center",
         }}
       >
@@ -89,10 +91,11 @@ const EmployeeAttendance = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            borderRadius: "8px",
+            borderRadius: "50%",
+
             transition: "background-color 0.3s ease",
             "&:hover": {
-              backgroundColor: "rgba(255, 255, 255, 0.2)", // White color with 0.3 opacity
+              backgroundColor: "rgba(255, 255, 255, 0.2)", 
             },
           }}
           onClick={(e) => {
@@ -110,7 +113,7 @@ const EmployeeAttendance = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            borderRadius: "8px",
+            borderRadius: "50%",
             transition: "background-color 0.3s ease",
             "&:hover": {
               backgroundColor: "rgba(255, 255, 255, 0.2)", // White color with 0.3 opacity
@@ -161,6 +164,13 @@ const EmployeeAttendance = () => {
     setSelectedCheckId(null)
   };
 
+  if (loading) {
+    return (
+      <Box className="loaderContainer">
+        <SpinnerLoader />
+      </Box>
+    );
+  }
 
   return (
     <Box className="sheet-container-admin">
@@ -185,11 +195,7 @@ const EmployeeAttendance = () => {
         />
       </Box>
       <Box>
-        {loading ? (
-          <Box className="loaderContainer">
-            <Loader />
-          </Box>
-        ) : (
+       
           <>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <Typography
@@ -232,10 +238,12 @@ const EmployeeAttendance = () => {
                           sm: "21px",
                           xs: "16px",
                         },
-                        textAlign: "start",
+                        textAlign: "center !important",
                         borderRadius: "8px 0px 0px 8px",
                         color: "#010120",
-                        paddingLeft: "40px",
+                  minWidth: "120px",
+
+                        
                       }}
                     >
                       Emp Id
@@ -249,8 +257,9 @@ const EmployeeAttendance = () => {
                           sm: "21px",
                           xs: "16px",
                         },
-                        textAlign: "start",
+                        textAlign: "start !important",
                         color: "#010120",
+                        pl:"40px !important"
                       }}
                     >
                       Name
@@ -264,9 +273,12 @@ const EmployeeAttendance = () => {
                           sm: "21px",
                           xs: "16px",
                         },
-                        textAlign: "center",
+                        textAlign: "center !important",
+
                         color: "#010120",
-                        paddingLeft: "0px",
+                       
+                  minWidth: "250px",
+
                       }}
                     >
                       Checked-In Date
@@ -280,9 +292,12 @@ const EmployeeAttendance = () => {
                           sm: "21px",
                           xs: "16px",
                         },
-                        textAlign: "center",
+                        textAlign: "center !important",
+
                         color: "#010120",
-                        paddingLeft: "10px !important",
+                        
+                  minWidth: "150px",
+
                       }}
                     >
                       Check-In
@@ -296,9 +311,12 @@ const EmployeeAttendance = () => {
                           sm: "21px",
                           xs: "16px",
                         },
-                        textAlign: "center",
+                        textAlign: "center !important",
+
                         color: "#010120",
-                        paddingLeft: "10px !important",
+                          
+                  minWidth: "250px",
+
                       }}
                     >
                       Check-Out
@@ -313,6 +331,7 @@ const EmployeeAttendance = () => {
                           xs: "16px",
                         },
                         textAlign: "center !important",
+
                         paddingLeft: "10px !important",
                         borderRadius: "0px 8px 8px 0px",
                         color: "#010120",
@@ -341,15 +360,15 @@ const EmployeeAttendance = () => {
                         sx={{
                           borderRadius: "8px 0px 0px 8px",
                           color: "#010120",
-                          textAlign: "start !important",
-                          paddingLeft: "40px !important",
+                          textAlign: "center !important",
+
                         }}
                         className="MuiTableCell-root"
                       >
                         {employee.employeeId}
                       </TableCell>
                       <TableCell
-                        sx={{ color: "#010120", textAlign: "start !important" }}
+                        sx={{ color: "#010120", textAlign: "start !important", pl:"40px !important"}}
                         className="MuiTableCell-root"
                       >
                         <Box
@@ -357,6 +376,7 @@ const EmployeeAttendance = () => {
                             display: "flex",
                             justifyContent: "start",
                             alignItems: "center",
+                            
                           }}
                         >
                           <Typography>
@@ -412,7 +432,8 @@ const EmployeeAttendance = () => {
                       </TableCell>
                       <TableCell
                         sx={{
-                          textAlign: "start !important",
+                          textAlign: "center !important",
+
                           paddingLeft: "10px !important",
                           borderRadius: "0px 8px 8px 0px",
                         }}
@@ -426,7 +447,7 @@ const EmployeeAttendance = () => {
               </Table>
             </TableContainer>
           </>
-        )}
+       
       </Box>
       <CheckInOutModal
         open={modalOpen}

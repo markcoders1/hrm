@@ -91,7 +91,7 @@ try {
   });
   console.log(response)
   toast.success(response.data.message, { position: "top-center" })
-  navigate(-1)
+  navigate(-1, { state: true });
 
   
 } catch (error) {

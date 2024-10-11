@@ -15,6 +15,7 @@ import CustomInputLabel from "../components/CustomInputField/CustomInputLabel";
 import AnnouncementBox from "../components/AnnouncementBox/AnnouncementBox";
 import CustomButton from "../components/CustomButton/CustomButton";
 import { Box, Typography } from "@mui/material";
+import SpinnerLoader from "../components/SpinnerLoader.jsx";
 
 
 
@@ -235,7 +236,7 @@ useEffect(()=>{
       {
         loading ? (
           <div className="loaderContainer">
-            <Loader />
+            <SpinnerLoader />
           </div>) : (
             <>
             
@@ -340,7 +341,7 @@ useEffect(()=>{
                     display: "flex",
                     flexDirection: "column",
                     gap: "1rem",
-                    height: "75vh",
+                    height: "55vh",
                     overflowX: "hidden",
                     padding: "20px 15px 20px 0px",
                     "&::-webkit-scrollbar": {

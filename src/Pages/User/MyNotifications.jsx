@@ -4,6 +4,7 @@ import NotificationBox from '../../components/NotificationBox/NotificationBox';
 import { useOutletContext } from 'react-router-dom';
 import axiosInstance from '../../auth/axiosInstance';
 import CustomInputLabel from '../../components/CustomInputField/CustomInputLabel';
+import SpinnerLoader from '../../components/SpinnerLoader';
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -11,6 +12,7 @@ const MyNotifications = () => {
   const { setHeadertext, setParaText } = useOutletContext();
   const [notification, setNotification] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [loading , setLoading] = useState(true)
 
   useEffect(() => {
     setHeadertext("Notifications");
@@ -22,11 +24,14 @@ const MyNotifications = () => {
     setParaText("");
     const getUserNotification = async () => {
       try {
+        setLoading(true)
         const response = await axiosInstance.get(`${apiUrl}/api/notifications`);
         console.log("notification", response);
         setNotification(response?.data?.notifications);
       } catch (error) {
         console.error('Error fetching notification:', error);
+      } finally{
+        setLoading(false)
       }
     };
 
@@ -42,6 +47,15 @@ const MyNotifications = () => {
     notif.notification.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+
+  if (loading) {
+    return (
+      <Box className="loaderContainer">
+        <SpinnerLoader />
+      </Box>
+    );
+  }
+  
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: "1.5rem", p: "20px" }} >
       <Box sx={{ width: { lg: "380px", xs: "100%" }, position: { lg: "fixed", xs: "static" }, right: "60px", top: "40px", zIndex: "100000 " }} >

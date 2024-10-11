@@ -21,6 +21,7 @@ import CustomInputLabel from "../components/CustomInputField/CustomInputLabel";
 
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+import SpinnerLoader from "../components/SpinnerLoader";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -32,7 +33,7 @@ const Attendance = () => {
   const [toDate, setToDate] = useState("");
   const [pdfLoading, setPdfLoading] = useState(false);
   const [month, setMonth] = useState(new Date().getMonth().toString()); // Default to current month
-  const [year, setYear] = useState(new Date().getFullYear().toString()); 
+  const [year, setYear] = useState(new Date().getFullYear().toString());
 
   useEffect(() => {
     (async function () {
@@ -43,16 +44,15 @@ const Attendance = () => {
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
-    const day = date.toLocaleString('en-US', { weekday: 'long' });
-    const formattedDate = date.toLocaleDateString('en-GB');
+    const day = date.toLocaleString("en-US", { weekday: "long" });
+    const formattedDate = date.toLocaleDateString("en-GB");
     return { day, formattedDate };
   };
 
   function millisecondsTo12HourFormat(milliseconds) {
-    if (milliseconds === 0 || !milliseconds){
-      console.log("printend zero")
+    if (milliseconds === 0 || !milliseconds) {
+      console.log("printend zero");
     } else {
-
       const date = new Date(milliseconds);
       const hours = date.getHours();
       const minutes = date.getMinutes().toString().padStart(2, "0");
@@ -76,18 +76,16 @@ const Attendance = () => {
   };
 
   const getEmployeeData = async () => {
-    const date = getUnixTimestampForMonthYear(month, year); 
-    console.log(date)
+    const date = getUnixTimestampForMonthYear(month, year);
+    console.log(date);
     try {
       const response = await axiosInstance({
         url: `${apiUrl}/api/getUserAttendance`,
         method: "get",
         params: {
-          date: date
+          date: date,
         },
       });
-
-     
 
       const transformedData = response.data.attendances.map((item) => ({
         ...item,
@@ -102,24 +100,22 @@ const Attendance = () => {
     } catch (error) {
       console.error(error);
       setPdfLoading(false);
-
     }
   };
 
   useEffect(() => {
     getEmployeeData();
-  }, [month , year]);
+  }, [month, year]);
 
   const millisecondsToHMS = (milliseconds) => {
     if (milliseconds) {
-      console.log("printend Zero")
+      console.log("printend Zero");
     } else {
       const date = new Date(milliseconds);
       const hours = date.getUTCHours().toString().padStart(2, "0");
       const minutes = date.getUTCMinutes().toString().padStart(2, "0");
       const seconds = date.getUTCSeconds().toString().padStart(2, "0");
       return `${hours}:${minutes}:${seconds}`;
-
     }
   };
 
@@ -146,8 +142,8 @@ const Attendance = () => {
       a.remove();
       window.URL.revokeObjectURL(url);
 
-      if (response){
-        toast.success("PDF Downloaded Sucessfully")
+      if (response) {
+        toast.success("PDF Downloaded Sucessfully");
       }
     } catch (error) {
       console.log(error);
@@ -156,19 +152,31 @@ const Attendance = () => {
     }
   };
 
+  if (loading === true) {
+    return (
+      <Box className="loaderContainer">
+        <SpinnerLoader />
+      </Box>
+    );
+  }
+
   return (
     <Box className="sheet-container-admin">
       <Box className="progress-mini-container">
-        
         <Box>
-        <Box
-    sx={{
-      display: "flex",
-      gap: 2,
-      position:{lg:"fixed", xs:"static"}, right:"45px", top:"40px", zIndex:"100000"
-    }}
-  >
-    <FormControl sx={{ width: { md: "200px", xs: "100%" }, height: "50px" }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: 2,
+              position: { lg: "fixed", xs: "static" },
+              right: "45px",
+              top: "40px",
+              zIndex: "100000",
+            }}
+          >
+            <FormControl
+              sx={{ width: { md: "200px", xs: "100%" }, height: "50px" }}
+            >
               <CustomSelectForType
                 label="Month"
                 value={month}
@@ -190,7 +198,9 @@ const Attendance = () => {
               />
             </FormControl>
 
-            <FormControl sx={{ width: { md: "200px", xs: "100%" }, height: "50px" }}>
+            <FormControl
+              sx={{ width: { md: "200px", xs: "100%" }, height: "50px" }}
+            >
               <CustomSelectForType
                 label="Year"
                 value={year}
@@ -203,10 +213,12 @@ const Attendance = () => {
                 ]}
               />
             </FormControl>
-  </Box>
+          </Box>
         </Box>
-        <Box className="generate" sx={{ mt: 3, display:"flex", justifyContent:"end" }}>
-     
+        <Box
+          className="generate"
+          sx={{ mt: 3, display: "flex", justifyContent: "end" }}
+        >
           <Button
             variant="contained"
             color="primary"
@@ -222,7 +234,7 @@ const Attendance = () => {
             {pdfLoading ? <LoaderW /> : "Generate PDF"}
           </Button>
         </Box>
-       
+
         {loading ? (
           <Box className="loaderContainer">
             <Loader />
@@ -237,6 +249,7 @@ const Attendance = () => {
                     backgroundImage: `linear-gradient(90deg, #E0EBFF 0%, #E0EBFF 100%) !important`,
                     padding: "0px",
                   }}
+                  start
                 >
                   <TableCell
                     className="MuiTableCell-root-head"
@@ -247,10 +260,10 @@ const Attendance = () => {
                         sm: "21px",
                         xs: "16px",
                       },
-                      textAlign: "start",
+                      textAlign: "center",
                       borderRadius: "8px 0px 0px 8px",
                       color: "#010120",
-                      paddingLeft: "40px",
+                      // paddingLeft: "40px",
                     }}
                   >
                     #
@@ -264,7 +277,7 @@ const Attendance = () => {
                         sm: "21px",
                         xs: "16px",
                       },
-                      textAlign: "start",
+                      textAlign: "center",
                       color: "#010120",
                     }}
                   >
@@ -279,7 +292,7 @@ const Attendance = () => {
                         sm: "21px",
                         xs: "16px",
                       },
-                      textAlign: "start",
+                      textAlign: "center",
                       color: "#010120",
                     }}
                   >
@@ -294,7 +307,7 @@ const Attendance = () => {
                         sm: "21px",
                         xs: "16px",
                       },
-                      textAlign: "start",
+                      textAlign: "center",
                       color: "#010120",
                     }}
                   >
@@ -309,7 +322,7 @@ const Attendance = () => {
                         sm: "21px",
                         xs: "16px",
                       },
-                      textAlign: "start",
+                      textAlign: "center",
                       color: "#010120",
                     }}
                   >
@@ -326,7 +339,7 @@ const Attendance = () => {
                         sm: "21px",
                         xs: "16px",
                       },
-                      textAlign: "start",
+                      textAlign: "center",
                       color: "#010120",
                     }}
                   >
@@ -341,8 +354,8 @@ const Attendance = () => {
                       sx={{
                         borderRadius: "8px 0px 0px 8px",
                         color: "#010120",
-                        textAlign: "start !important",
-                        paddingLeft: "40px !important",
+                        textAlign: "center !important",
+                        // paddingLeft: "40px !important",
                       }}
                       className="MuiTableCell-root"
                     >
@@ -351,7 +364,7 @@ const Attendance = () => {
                     <TableCell
                       sx={{
                         color: "#010120",
-                        textAlign: "start !important",
+                        textAlign: "center !important",
                       }}
                       className="MuiTableCell-root"
                     >
@@ -360,29 +373,38 @@ const Attendance = () => {
                     <TableCell
                       sx={{
                         color: "#010120",
-                        textAlign: "start !important",
+                        textAlign: "center !important",
                       }}
                       className="MuiTableCell-root"
                     >
                       {item?.formattedDate}
                     </TableCell>
                     <TableCell
-                      sx={{ textAlign: "start !important" }}
+                      sx={{ textAlign: "center !important" }}
                       className="MuiTableCell-root"
                     >
-                      {item?.formattedCheckIn ?  item?.formattedCheckIn : "-- --"}
+                      {item?.formattedCheckIn
+                        ? item?.formattedCheckIn
+                        : "-- --"}
                     </TableCell>
                     <TableCell
-                      sx={{ textAlign: "start !important" }}
+                      sx={{ textAlign: "center !important" }}
                       className="MuiTableCell-root"
                     >
-                      {item?.formattedCheckOut ? item?.formattedCheckOut : "-- --"}
+                      {item?.formattedCheckOut
+                        ? item?.formattedCheckOut
+                        : "-- --"}
                     </TableCell>
                     <TableCell
-                      sx={{ textAlign: "start !important", borderRadius:"0px 8px 8px 0px" }}
+                      sx={{
+                        textAlign: "center !important",
+                        borderRadius: "0px 8px 8px 0px",
+                      }}
                       className="MuiTableCell-root"
                     >
-                      { !item.formattedTotalDuration ? item.formattedTotalDuration : "-- --"}
+                      {!item.formattedTotalDuration
+                        ? item.formattedTotalDuration
+                        : "-- --"}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -390,7 +412,6 @@ const Attendance = () => {
             </Table>
           </TableContainer>
         )}
-       
       </Box>
     </Box>
   );

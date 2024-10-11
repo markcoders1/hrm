@@ -13,6 +13,7 @@ import ChangePasswordModal from "../components/ChangePasswordModal/ChangePasswor
 
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+import SpinnerLoader from "../components/SpinnerLoader";
 const Profile = () => {
   const navigate = useNavigate();
   const { setHeadertext } = useOutletContext();
@@ -45,7 +46,7 @@ const Profile = () => {
   if (loading) {
     return (
       <Box className="loaderContainer">
-        <Loader />
+        <SpinnerLoader />
       </Box>
     );
   }

@@ -23,6 +23,7 @@ import axiosInstance from "../../auth/axiosInstance";
 import DeleteConfirmationModal from "../../components/DeleteConfirmModal/DeleteConfirmModal"; // Import the modal component
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+import SpinnerLoader from "../../components/SpinnerLoader";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const RemoteWork = () => {
@@ -33,6 +34,8 @@ const RemoteWork = () => {
   const [itemToDelete, setItemToDelete] = useState(null); // Item to delete
   const [loadingDelete, setLoadingDelete] = useState(false); // Loading state for delete
   const [id , setId] = useState()
+  const [loading , setLoading] = useState(true)
+
 
   useEffect(() => {
     setHeadertext("Remote Work");
@@ -42,14 +45,23 @@ const RemoteWork = () => {
 
   const fetchRemoteData = async () => {
     try {
+      setLoading(true)
       const response = await axiosInstance({
         url: `${apiUrl}/api/allwfh`,
         method: "get",
       });
       console.log("wfh requests", response.data);
       setRemoteWorkData(response.data.requests);
+      setLoading(false)
+
     } catch (error) {
       console.log("error fetching WFH requests", error);
+      setLoading(false)
+
+    }
+    finally{
+      setLoading(false)
+
     }
   };
 
@@ -113,6 +125,15 @@ const RemoteWork = () => {
       .toString()
       .padStart(2, "0")}-${d.getFullYear()}`;
   };
+
+  if (loading) {
+    return (
+      <Box className="loaderContainer">
+        <SpinnerLoader />
+      </Box>
+    );
+  }
+  
 
   return (
     <Box className="sheet-container-admin">

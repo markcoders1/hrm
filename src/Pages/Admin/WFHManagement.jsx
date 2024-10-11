@@ -292,7 +292,7 @@ const filteredWFHData = allWfh.filter((row) => {
                     sm: "21px",
                     xs: "16px",
                   },
-                  textAlign: "start",
+                  textAlign: "center",
                   borderRadius: "8px 0px 0px 8px",
                   color: "#010120",
                   paddingLeft: "40px",
@@ -329,8 +329,10 @@ const filteredWFHData = allWfh.filter((row) => {
                   },
                   textAlign: "center",
                   color: "#010120",
-                  // paddingLeft: '40px',
-                  minWidth: "100px",
+              
+               
+                  minWidth: "150px",
+
                 }}
               >
                 Date
@@ -348,6 +350,8 @@ const filteredWFHData = allWfh.filter((row) => {
                   color: "#010120",
                   // paddingLeft: '40px',
                   minWidth: "150px",
+                  minWidth: "250px",
+
                 }}
               >
                 Status (Line Manager)
@@ -364,7 +368,7 @@ const filteredWFHData = allWfh.filter((row) => {
                   textAlign: "center",
                   color: "#010120",
                   // paddingLeft: '40px',
-                  minWidth: "150px",
+                  minWidth: "170px",
                 }}
               >
                 Status (HOD)
@@ -414,7 +418,7 @@ const filteredWFHData = allWfh.filter((row) => {
                   className="MuiTableCell-root"
                   sx={{
                     borderRadius: "8px 0px 0px 8px",
-                    color: "white",
+                    color: "#010120",
                     textAlign: "center !important",
                     // paddingLeft: "40px !important",
                     // border: "2px solid red  !important",
@@ -425,7 +429,8 @@ const filteredWFHData = allWfh.filter((row) => {
                 <TableCell
                   className="MuiTableCell-root"
                   sx={{
-                    color: "white",
+                    color: "#010120",
+
                     textAlign: "start !important",
                     // paddingLeft: "40px !important",
                   }}

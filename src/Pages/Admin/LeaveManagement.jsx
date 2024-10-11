@@ -354,7 +354,7 @@ const getUnixTimestampForMonthYear = (month, year) => {
                     sm: "21px",
                     xs: "16px",
                   },
-                  textAlign: "start",
+                  textAlign: "center !important",
                   borderRadius: "8px 0px 0px 8px",
                   color: "#010120",
                   paddingLeft: "40px",
@@ -372,7 +372,9 @@ const getUnixTimestampForMonthYear = (month, year) => {
                     sm: "21px",
                     xs: "16px",
                   },
-                  textAlign: "start",
+                  textAlign: "center !important",
+
+
                   color: "#010120",
                   minWidth: "250px",
                 }}
@@ -388,7 +390,8 @@ const getUnixTimestampForMonthYear = (month, year) => {
                     sm: "21px",
                     xs: "16px",
                   },
-                  textAlign: "center",
+                  textAlign: "center !important",
+
                   color: "#010120",
                   minWidth: "100px",
                 }}
@@ -404,7 +407,8 @@ const getUnixTimestampForMonthYear = (month, year) => {
                     sm: "21px",
                     xs: "16px",
                   },
-                  textAlign: "center",
+                  textAlign: "center !important",
+
                   color: "#010120",
                   minWidth: "100px",
                 }}
@@ -420,7 +424,8 @@ const getUnixTimestampForMonthYear = (month, year) => {
                     sm: "21px",
                     xs: "16px",
                   },
-                  textAlign: "center",
+                  textAlign: "center !important",
+
                   color: "#31BA96",
                   minWidth: "190px ",
                 }}
@@ -436,7 +441,8 @@ const getUnixTimestampForMonthYear = (month, year) => {
                     sm: "21px",
                     xs: "16px",
                   },
-                  textAlign: "center",
+                  textAlign: "center !important",
+
                   color: "#31BA96",
                   minWidth: "190px ",
                 }}
@@ -452,7 +458,8 @@ const getUnixTimestampForMonthYear = (month, year) => {
                     sm: "21px",
                     xs: "16px",
                   },
-                  textAlign: "center",
+                  textAlign: "center !important",
+
                   color: "#010120",
                   minWidth: "120px",
                 }}
@@ -468,7 +475,8 @@ const getUnixTimestampForMonthYear = (month, year) => {
                     sm: "21px",
                     xs: "16px",
                   },
-                  textAlign: "center",
+                  textAlign: "center !important",
+
                   color: "#010120",
                   minWidth: "290px",
                 }}
@@ -484,7 +492,8 @@ const getUnixTimestampForMonthYear = (month, year) => {
                     sm: "21px",
                     xs: "16px",
                   },
-                  textAlign: "center",
+                  textAlign: "center !important",
+
                   color: "#010120",
                   minWidth: "200px",
                 }}
@@ -502,7 +511,8 @@ const getUnixTimestampForMonthYear = (month, year) => {
                       sm: "21px",
                       xs: "16px",
                     },
-                    textAlign: "center",
+                    textAlign: "center !important",
+
                     borderRadius: "0px 8px 8px 0px",
                     color: "#010120",
                   }}
@@ -543,7 +553,8 @@ const getUnixTimestampForMonthYear = (month, year) => {
                   className="MuiTableCell-root"
                   sx={{
                     color: "white",
-                    textAlign: "start !important",
+                    textAlign: "center !important",
+
                   }}
                 >
                   <img
@@ -563,6 +574,7 @@ const getUnixTimestampForMonthYear = (month, year) => {
                   sx={{
                     color: "#99999C",
                     textAlign: "center !important",
+
                   }}
                 >
                   {row?.annualLeaves - row?.leavesTaken ? row?.annualLeaves - row.leavesTaken : "--"}
@@ -570,7 +582,7 @@ const getUnixTimestampForMonthYear = (month, year) => {
                 <TableCell
                   className="MuiTableCell-root"
                   sx={{
-                    color: "white",
+                    color: "black",
                     textAlign: "center !important",
                   }}
                 >
@@ -597,7 +609,8 @@ const getUnixTimestampForMonthYear = (month, year) => {
                 <TableCell
                   className="MuiTableCell-root"
                   sx={{
-                    color: "white",
+                    color: "black",
+
                     textAlign: "center !important",
                   }}
                 >

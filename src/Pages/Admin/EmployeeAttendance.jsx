@@ -80,7 +80,7 @@ const EmployeeAttendance = () => {
         sx={{
           display: "flex",
           alignItems: "center",
-          gap: "2.5rem",
+          gap: "1rem",
           justifyContent: "center",
         }}
       >
@@ -238,10 +238,12 @@ const EmployeeAttendance = () => {
                           sm: "21px",
                           xs: "16px",
                         },
-                        textAlign: "start",
+                        textAlign: "center !important",
                         borderRadius: "8px 0px 0px 8px",
                         color: "#010120",
-                        paddingLeft: "40px",
+                  minWidth: "120px",
+
+                        
                       }}
                     >
                       Emp Id
@@ -255,8 +257,9 @@ const EmployeeAttendance = () => {
                           sm: "21px",
                           xs: "16px",
                         },
-                        textAlign: "start",
+                        textAlign: "start !important",
                         color: "#010120",
+                        pl:"40px !important"
                       }}
                     >
                       Name
@@ -270,9 +273,12 @@ const EmployeeAttendance = () => {
                           sm: "21px",
                           xs: "16px",
                         },
-                        textAlign: "center",
+                        textAlign: "center !important",
+
                         color: "#010120",
-                        paddingLeft: "0px",
+                       
+                  minWidth: "250px",
+
                       }}
                     >
                       Checked-In Date
@@ -286,9 +292,12 @@ const EmployeeAttendance = () => {
                           sm: "21px",
                           xs: "16px",
                         },
-                        textAlign: "center",
+                        textAlign: "center !important",
+
                         color: "#010120",
-                        paddingLeft: "10px !important",
+                        
+                  minWidth: "150px",
+
                       }}
                     >
                       Check-In
@@ -302,9 +311,12 @@ const EmployeeAttendance = () => {
                           sm: "21px",
                           xs: "16px",
                         },
-                        textAlign: "center",
+                        textAlign: "center !important",
+
                         color: "#010120",
-                        paddingLeft: "10px !important",
+                          
+                  minWidth: "250px",
+
                       }}
                     >
                       Check-Out
@@ -319,6 +331,7 @@ const EmployeeAttendance = () => {
                           xs: "16px",
                         },
                         textAlign: "center !important",
+
                         paddingLeft: "10px !important",
                         borderRadius: "0px 8px 8px 0px",
                         color: "#010120",
@@ -347,15 +360,15 @@ const EmployeeAttendance = () => {
                         sx={{
                           borderRadius: "8px 0px 0px 8px",
                           color: "#010120",
-                          textAlign: "start !important",
-                          paddingLeft: "40px !important",
+                          textAlign: "center !important",
+
                         }}
                         className="MuiTableCell-root"
                       >
                         {employee.employeeId}
                       </TableCell>
                       <TableCell
-                        sx={{ color: "#010120", textAlign: "start !important" }}
+                        sx={{ color: "#010120", textAlign: "start !important", pl:"40px !important"}}
                         className="MuiTableCell-root"
                       >
                         <Box
@@ -363,6 +376,7 @@ const EmployeeAttendance = () => {
                             display: "flex",
                             justifyContent: "start",
                             alignItems: "center",
+                            
                           }}
                         >
                           <Typography>
@@ -418,7 +432,8 @@ const EmployeeAttendance = () => {
                       </TableCell>
                       <TableCell
                         sx={{
-                          textAlign: "start !important",
+                          textAlign: "center !important",
+
                           paddingLeft: "10px !important",
                           borderRadius: "0px 8px 8px 0px",
                         }}

@@ -260,13 +260,15 @@ const Attendance = () => {
                       fontWeight: "500",
                       padding: "12px 0px",
                       fontSize: {
-                        sm: "21px",
-                        xs: "16px",
+                        xl: "21px !important",
+                        md: "14px !important ",
+                        xs: "16px !important ",
+
                       },
                       textAlign: "center",
                       borderRadius: "8px 0px 0px 8px",
                       color: "#010120",
-                      // paddingLeft: "40px",
+                     
                     }}
                   >
                     #
@@ -277,8 +279,10 @@ const Attendance = () => {
                       fontWeight: "500",
                       padding: "12px 0px",
                       fontSize: {
-                        sm: "21px",
-                        xs: "16px",
+                        xl: "21px !important",
+                        md: "14px !important ",
+                        xs: "16px !important ",
+
                       },
                       textAlign: "center",
                       color: "#010120",
@@ -292,8 +296,10 @@ const Attendance = () => {
                       fontWeight: "500",
                       padding: "12px 0px",
                       fontSize: {
-                        sm: "21px",
-                        xs: "16px",
+                        xl: "21px !important",
+                        md: "14px !important ",
+                        xs: "16px !important ",
+
                       },
                       textAlign: "center",
                       color: "#010120",
@@ -307,8 +313,10 @@ const Attendance = () => {
                       fontWeight: "500",
                       padding: "12px 0px",
                       fontSize: {
-                        sm: "21px",
-                        xs: "16px",
+                        xl: "21px !important",
+                        md: "14px !important ",
+                        xs: "16px !important ",
+
                       },
                       textAlign: "center",
                       color: "#010120",
@@ -322,8 +330,10 @@ const Attendance = () => {
                       fontWeight: "500",
                       padding: "12px 0px",
                       fontSize: {
-                        sm: "21px",
-                        xs: "16px",
+                        xl: "21px !important",
+                        md: "14px !important ",
+                        xs: "16px !important ",
+
                       },
                       textAlign: "center",
                       color: "#010120",
@@ -339,8 +349,10 @@ const Attendance = () => {
                       borderRadius: "0px 8px 8px 0px",
 
                       fontSize: {
-                        sm: "21px",
-                        xs: "16px",
+                        xl: "21px !important",
+                        md: "14px !important ",
+                        xs: "16px !important ",
+
                       },
                       textAlign: "center",
                       color: "#010120",
@@ -358,7 +370,7 @@ const Attendance = () => {
                         borderRadius: "8px 0px 0px 8px",
                         color: "#010120",
                         textAlign: "center !important",
-                        // paddingLeft: "40px !important",
+                       
                       }}
                       className="MuiTableCell-root"
                     >

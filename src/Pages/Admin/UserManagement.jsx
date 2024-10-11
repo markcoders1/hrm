@@ -226,7 +226,7 @@ const EmployeeData = () => {
       <Box
         sx={{
           display: "flex",
-          gap: "5rem",
+          gap: "1.5rem",
           alignItems: "center",
           justifyContent: "start",
         }}
@@ -336,10 +336,11 @@ const EmployeeData = () => {
                         sm: "21px",
                         xs: "16px",
                       },
-                      textAlign: "start",
+                      textAlign: "center !important",
                       borderRadius: "8px 0px 0px 8px",
                       color: "#010120",
                       paddingLeft: "40px",
+                      minWidth:"150px"
                     }}
                   >
                     Emp ID
@@ -355,7 +356,8 @@ const EmployeeData = () => {
                       },
                       textAlign: "start",
                       color: "#010120",
-                      paddingLeft: "40px",
+                      paddingLeft: "40px !important",
+
                     }}
                   >
                     Full Name
@@ -387,6 +389,8 @@ const EmployeeData = () => {
                       },
                       textAlign: "start",
                       color: "#010120",
+                      minWidth:"180px"
+
                     }}
                   >
                     Joining Date
@@ -400,7 +404,7 @@ const EmployeeData = () => {
                         sm: "21px",
                         xs: "16px",
                       },
-                      textAlign: "start",
+                      textAlign: "center",
                       borderRadius: "0px 8px 8px 0px",
                       color: "#010120",
                       paddingLeft: "10px !important",
@@ -422,8 +426,9 @@ const EmployeeData = () => {
                     <TableCell
                       sx={{
                         borderRadius: "8px 0px 0px 8px",
-                        color: "white",
-                        textAlign: "start !important",
+                        color: "#010120",
+                        textAlign: "center !important",
+
                         paddingLeft: "40px !important",
                       }}
                       className="MuiTableCell-root"
@@ -432,7 +437,7 @@ const EmployeeData = () => {
                     </TableCell>
                     <TableCell
                       sx={{
-                        color: "white",
+                        color: "#010120",
                         textAlign: "start !important",
                         paddingLeft: "40px !important",
                       }}

@@ -107,7 +107,7 @@ const AppSidebar = () => {
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
   const [loadingLogout, setLoadingLogout] = useState(false);
 
-  const user = useSelector((state) => state.user.user.role);
+  const user = useSelector((state) => state.user.user.role);  
   useEffect(() => {
     const checkIsAdmin = async () => {
       try {
@@ -197,7 +197,7 @@ const AppSidebar = () => {
           </div>
         </CSidebarHeader>
         <CSidebarNav className="nav-top">
-          {user == "user" || user == "TL" ? (
+          {user == "user" || user == "TL" || user == "HR"  ? (
             <>
               <CNavItem>
                 <CustomNavLink to="/dashboard" end className="nav-link">
@@ -256,7 +256,7 @@ const AppSidebar = () => {
             ""
           )}
 
-          {user === "HOD" ? (
+          {user === "HOD" || user == "HR"  ? (
             <>
               <CNavItem>
                 <CustomNavLink to="/dashboard/admin" className="nav-link" end>
@@ -331,7 +331,7 @@ const AppSidebar = () => {
            */}
           {/* grouping tl , user  admin */}
 
-          {user === "HOD" || user === "TL" ? (
+          {user === "HOD" || user === "TL" || user == "HR" ? (
             <>
               <CNavItem>
                 <CustomNavLink

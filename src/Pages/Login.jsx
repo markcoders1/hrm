@@ -70,7 +70,7 @@ const Login = () => {
             if (rememberMe) {
                 localStorage.setItem("refreshToken", response.data.refreshToken);
             }
-            if (response.data.role === "user" || response.data.role === "TL") {
+            if (response.data.role === "user" || response.data.role === "TL" || response.data.role === "HR" ) {
                 navigate("/dashboard")
 
             } else if (response.data.role === "HOD") {

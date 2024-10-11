@@ -22,7 +22,7 @@ import axiosInstance from "../../auth/axiosInstance";
 import DeleteConfirmationModal from "../../components/DeleteConfirmModal/DeleteConfirmModal";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-
+import { useQuery } from "@tanstack/react-query";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const MyLeaves = () => {
@@ -32,32 +32,24 @@ const MyLeaves = () => {
   const [leaveDetails, setLeaveDetails] = useState([]);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null); // Item to be deleted
-  const [loadingDelete, setLoadingDelete] = useState(false); 
-  const [leaveIdToDelete, SetLeaveIdToDelete]=  useState();
-
-
+  const [loadingDelete, setLoadingDelete] = useState(false);
+  const [leaveIdToDelete, SetLeaveIdToDelete] = useState();
 
   useEffect(() => {
     setHeadertext("My Leaves");
   }, []);
 
-  const fetchAllLeaves = async () => {
-    try {
-      const response = await axiosInstance({
-        url: `${apiUrl}/api/allleaves`,
-        method: "get",
-      });
-      console.log(response.data);
-      setLeaveData(response.data.leaves);
-      setLeaveDetails(response.data)
-    } catch (error) {
-      console.log("error making leave request", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchAllLeaves();
-  }, []);
+  // Fetch leaves data with useQuery
+  const { data, error, isLoading, refetch } = useQuery({
+    queryKey: ["leavesData"],
+    queryFn: async () => {
+      const response = await axiosInstance.get(`${apiUrl}/api/allleaves`);
+      console.log(response);
+      return response.data;
+    },
+    staleTime: 1000 * 60 * 5, // cache for 5 minutes
+    refetchOnWindowFocus: false,
+  });
 
   // Function to determine if actions (edit/delete) should be enabled or disabled
   const isActionDisabled = (overallStatus) => {
@@ -77,7 +69,9 @@ const MyLeaves = () => {
 
   const formatDate = (date) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
-    return new Date(date).toLocaleDateString("en-US", options).replace(/\//g, "-");
+    return new Date(date)
+      .toLocaleDateString("en-US", options)
+      .replace(/\//g, "-");
   };
 
   const capitalizeFirstLetter = (string) => {
@@ -94,7 +88,7 @@ const MyLeaves = () => {
   //       }
   //     });
   //     console.log(response.data);
-    
+
   //   } catch (error) {
   //     console.log("error making Delete leave Request", error);
   //   }
@@ -102,8 +96,8 @@ const MyLeaves = () => {
 
   const handleDeleteClick = (event, leaveId) => {
     event.stopPropagation();
-    console.log(leaveId)
-    SetLeaveIdToDelete(leaveId)
+    console.log(leaveId);
+    SetLeaveIdToDelete(leaveId);
     setItemToDelete(leaveId);
     setDeleteModalOpen(true); // Open the confirmation modal
   };
@@ -115,17 +109,17 @@ const MyLeaves = () => {
 
   const handleDeleteConfirmed = async () => {
     setLoadingDelete(true);
-    console.log(leaveIdToDelete)
+    console.log(leaveIdToDelete);
     try {
       const response = await axiosInstance({
         url: `${apiUrl}/api/leaves`,
         method: "delete",
         params: {
-          leaveId: leaveIdToDelete, 
+          leaveId: leaveIdToDelete,
         },
       });
       console.log("Delete response:", response.data);
-      toast.success("Leave Deleted Sucessfully", {position : "top-center",})
+      toast.success("Leave Deleted Sucessfully", { position: "top-center" });
 
       // Fetch the updated leave data
       fetchAllLeaves();
@@ -137,19 +131,54 @@ const MyLeaves = () => {
     } catch (error) {
       console.error("Error deleting leave:", error);
       setLoadingDelete(false);
-      toast.success("Leave Delete Could Not be Proceed Now")
-
+      toast.success("Leave Delete Could Not be Proceed Now");
     }
   };
 
-
   return (
     <Box className="sheet-container-admin">
-
-<Box sx={{ display: 'flex', justifyContent: {sm: "start", xs:"space-between"}, gap: {sm: "4rem", xs:"0.2rem"}, mb: 4, position:{lg:"fixed", xs:"static"}, right:"60px", top:"40px", zIndex:"100000 " }}>
-        <Typography sx={{ fontWeight: "600", fontSize:{sm: "24px", xs:"14px"}, color: "#010120" }}>Total: {leaveDetails?.annualLeaves}</Typography>
-        <Typography sx={{ fontWeight: "600", fontSize: {sm: "24px", xs:"14px"}, color: "#010120" }}>Availed: {leaveDetails?.leavesTaken}</Typography>
-        <Typography sx={{ fontWeight: "600", fontSize: {sm: "24px", xs:"14px"}, color: "#010120" }}>Remaining: {leaveDetails?.annualLeaves - leaveDetails?.leavesTaken? leaveDetails?.annualLeaves - leaveDetails?.leavesTaken : "--"}</Typography>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: { sm: "start", xs: "space-between" },
+          gap: { sm: "4rem", xs: "0.2rem" },
+          mb: 4,
+          position: { lg: "fixed", xs: "static" },
+          right: "60px",
+          top: "40px",
+          zIndex: "100000 ",
+        }}
+      >
+        <Typography
+          sx={{
+            fontWeight: "600",
+            fontSize: { sm: "24px", xs: "14px" },
+            color: "#010120",
+          }}
+        >
+          Total: {leaveDetails?.annualLeaves}
+        </Typography>
+        <Typography
+          sx={{
+            fontWeight: "600",
+            fontSize: { sm: "24px", xs: "14px" },
+            color: "#010120",
+          }}
+        >
+          Availed: {leaveDetails?.leavesTaken}
+        </Typography>
+        <Typography
+          sx={{
+            fontWeight: "600",
+            fontSize: { sm: "24px", xs: "14px" },
+            color: "#010120",
+          }}
+        >
+          Remaining:{" "}
+          {leaveDetails?.annualLeaves - leaveDetails?.leavesTaken
+            ? leaveDetails?.annualLeaves - leaveDetails?.leavesTaken
+            : "--"}
+        </Typography>
       </Box>
       <Box className="progress-mini-container">
         <Box sx={{ display: "flex", justifyContent: "end", mb: 2 }}>
@@ -314,11 +343,15 @@ const MyLeaves = () => {
               </TableRow>
             </TableHead>
             <TableBody className="MuiTableBody-root">
-              {leaveData.map((leave, index) => (
+              {data?.leaves?.map((leave, index) => (
                 <TableRow
                   key={index}
                   className="MuiTableRow-root"
-                  onClick={() => navigate(`/dashboard/my-leaves/my-leave-detail/${leave._id}`)}
+                  onClick={() =>
+                    navigate(
+                      `/dashboard/my-leaves/my-leave-detail/${leave._id}`
+                    )
+                  }
                   sx={{ cursor: "pointer" }}
                 >
                   <TableCell
@@ -330,7 +363,7 @@ const MyLeaves = () => {
                     }}
                     className="MuiTableCell-root"
                   >
-                    {leave.companyId}
+                    {leave?.companyId}
                   </TableCell>
                   <TableCell
                     sx={{
@@ -340,7 +373,7 @@ const MyLeaves = () => {
                     className="MuiTableCell-root"
                   >
                     <span className="formatted-date">
-                      {formatDate(leave.startDate)}
+                      {formatDate(leave?.startDate)}
                     </span>
                   </TableCell>
                   <TableCell
@@ -350,8 +383,8 @@ const MyLeaves = () => {
                     }}
                     className="MuiTableCell-root"
                   >
-                    <span className="formatted-date" >
-                      {formatDate(leave.endDate)}
+                    <span className="formatted-date">
+                      {formatDate(leave?.endDate)}
                     </span>
                   </TableCell>
                   <TableCell
@@ -364,21 +397,21 @@ const MyLeaves = () => {
                     sx={{ textAlign: "start !important" }}
                     className="MuiTableCell-root"
                   >
-                    {capitalizeFirstLetter(leave.leaveType)}
+                    {capitalizeFirstLetter(leave?.leaveType)}
                   </TableCell>
                   <TableCell
                     sx={{
                       textAlign: "start !important",
                       color:
-                        leave.statusTL === "approved"
+                        leave?.statusTL === "approved"
                           ? "green"
-                          : leave.statusTL === "rejected"
+                          : leave?.statusTL === "rejected"
                           ? "red"
                           : "black",
                     }}
                     className="MuiTableCell-root"
                   >
-                    {capitalizeFirstLetter(leave.statusTL)}
+                    {capitalizeFirstLetter(leave?.statusTL)}
                   </TableCell>
                   <TableCell
                     sx={{
@@ -392,7 +425,7 @@ const MyLeaves = () => {
                     }}
                     className="MuiTableCell-root"
                   >
-                    {capitalizeFirstLetter(leave.statusHOD)}
+                    {capitalizeFirstLetter(leave?.statusHOD)}
                   </TableCell>
                   <TableCell
                     sx={{
@@ -410,7 +443,7 @@ const MyLeaves = () => {
                     >
                       <Tooltip
                         title={
-                          isActionDisabled(leave.overallStatus)
+                          isActionDisabled(leave?.overallStatus)
                             ? "Could not edit"
                             : "Click to Edit"
                         }
@@ -418,26 +451,26 @@ const MyLeaves = () => {
                         <Box
                           component="img"
                           src={
-                            isActionDisabled(leave.overallStatus)
+                            isActionDisabled(leave?.overallStatus)
                               ? disabledEdit
                               : editIcon
                           }
                           sx={{
-                            cursor: isActionDisabled(leave.overallStatus)
+                            cursor: isActionDisabled(leave?.overallStatus)
                               ? "not-allowed"
                               : "pointer",
                             width: "24px",
                             height: "24px",
                           }}
                           onClick={(event) =>
-                            !isActionDisabled(leave.overallStatus) &&
-                            handleEditClick(event, leave._id)
+                            !isActionDisabled(leave?.overallStatus) &&
+                            handleEditClick(event, leave?._id)
                           }
                         />
                       </Tooltip>
                       <Tooltip
                         title={
-                          isActionDisabled(leave.overallStatus)
+                          isActionDisabled(leave?.overallStatus)
                             ? "Could not Delete"
                             : "Click to Delete"
                         }
@@ -445,19 +478,20 @@ const MyLeaves = () => {
                         <Box
                           component="img"
                           src={
-                            isActionDisabled(leave.overallStatus)
+                            isActionDisabled(leave?.overallStatus)
                               ? disabledDelete
                               : deleteIcon
                           }
                           sx={{
-                            cursor: isActionDisabled(leave.overallStatus)
+                            cursor: isActionDisabled(leave?.overallStatus)
                               ? "not-allowed"
                               : "pointer",
                             width: "24px",
                             height: "24px",
                           }}
                           onClick={(event) =>
-                            !isActionDisabled(leave.overallStatus) && handleDeleteClick(event, leave._id)
+                            !isActionDisabled(leave?.overallStatus) &&
+                            handleDeleteClick(event, leave?._id)
                           }
                         />
                       </Tooltip>
@@ -473,10 +507,9 @@ const MyLeaves = () => {
         open={deleteModalOpen}
         handleClose={handleModalClose}
         loading={loadingDelete}
-        onConfirm={handleDeleteConfirmed} 
+        onConfirm={handleDeleteConfirmed}
         requestText={"Are you sure you want to Delete this Leave request"}
-        requestHeading = {"Leave Deletion"}
-
+        requestHeading={"Leave Deletion"}
       />
     </Box>
   );

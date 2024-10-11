@@ -352,7 +352,7 @@ useEffect(() => {
                       label="Phone Number*"
                       error={errors.phone?.message}
                       {...field}
-                      type={"number"}
+                    
                     />
                   )}
                 />
@@ -422,7 +422,7 @@ useEffect(() => {
                   render={({ field }) => (
                     <CustomInputLabel
                       label="Emergency Number*"
-                      type="number"
+                     
                       error={errors.emergencyNumber?.message}
                       {...field}
                     />

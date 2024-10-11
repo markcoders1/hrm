@@ -21,10 +21,13 @@ import CustomSelectForType from "../../components/CustomSelect/CustomSelect";
 import CustomInputLabel from "../../components/CustomInputField/CustomInputLabel";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const LeaveManagement = () => {
+  const user = useSelector((state) => state.user.user.role);
+
 
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
@@ -472,22 +475,27 @@ const getUnixTimestampForMonthYear = (month, year) => {
               >
                 Status (HOD)
               </TableCell>
-              <TableCell
-                className="MuiTableCell-root-head"
-                sx={{
-                  fontWeight: "500",
-                  padding: "12px 0px",
-                  fontSize: {
-                    sm: "21px",
-                    xs: "16px",
-                  },
-                  textAlign: "center",
-                  borderRadius: "0px 8px 8px 0px",
-                  color: "#010120",
-                }}
-              >
-                Actions
-              </TableCell>
+              {
+                user === "HR"? "" : (
+                  <TableCell
+                  className="MuiTableCell-root-head"
+                  sx={{
+                    fontWeight: "500",
+                    padding: "12px 0px",
+                    fontSize: {
+                      sm: "21px",
+                      xs: "16px",
+                    },
+                    textAlign: "center",
+                    borderRadius: "0px 8px 8px 0px",
+                    color: "#010120",
+                  }}
+                >
+                  Actions
+                </TableCell>
+                )
+              }
+             
             </TableRow>
           </TableHead>
           <TableBody className="MuiTableBody-root">
@@ -607,55 +615,61 @@ const getUnixTimestampForMonthYear = (month, year) => {
                 >
                   {row?.statusHOD}
                 </TableCell>
-                <TableCell
-                  className="MuiTableCell-root"
-                  sx={{
-                    borderRadius: "0px 8px 8px 0px",
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      gap: "1rem",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Tooltip title="Approve Request">
-                      <img
-                        src={tickPng}
-                        alt="Approve"
-                        style={{
-                          width: "34px",
-                          height: "34px",
-                          cursor: "pointer",
-                        }}
-                        onClick={(e) => {
-                          validateAccept(row._id);
-                          e.stopPropagation(); // Prevent the row click event from firing
-                          console.log("Approved action");
-                        }}
-                      />
-                    </Tooltip>
 
-                    <Tooltip title="Reject Request">
-                      <img
-                        src={cancelPng}
-                        alt="Reject"
-                        style={{
-                          width: "34px",
-                          height: "34px",
-                          cursor: "pointer",
+                {
+                    user === "HR"? "" : (
+                      <TableCell
+                      className="MuiTableCell-root"
+                      sx={{
+                        borderRadius: "0px 8px 8px 0px",
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          gap: "1rem",
+                          alignItems: "center",
                         }}
-                        onClick={(e) => {
-                          validateReject(row._id);
-                          e.stopPropagation(); // Prevent the row click event from firing
-                          console.log("Rejected action");
-                        }}
-                      />
-                    </Tooltip>
-                  </Typography>
-                </TableCell>
+                      >
+                        <Tooltip title="Approve Request">
+                          <img
+                            src={tickPng}
+                            alt="Approve"
+                            style={{
+                              width: "34px",
+                              height: "34px",
+                              cursor: "pointer",
+                            }}
+                            onClick={(e) => {
+                              validateAccept(row._id);
+                              e.stopPropagation(); // Prevent the row click event from firing
+                              console.log("Approved action");
+                            }}
+                          />
+                        </Tooltip>
+    
+                        <Tooltip title="Reject Request">
+                          <img
+                            src={cancelPng}
+                            alt="Reject"
+                            style={{
+                              width: "34px",
+                              height: "34px",
+                              cursor: "pointer",
+                            }}
+                            onClick={(e) => {
+                              validateReject(row._id);
+                              e.stopPropagation(); // Prevent the row click event from firing
+                              console.log("Rejected action");
+                            }}
+                          />
+                        </Tooltip>
+                      </Typography>
+                    </TableCell>
+                    )
+                }
+               
               </TableRow>
             ))}
           </TableBody>

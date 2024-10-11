@@ -284,7 +284,7 @@ useEffect(()=>{
               <Box sx={{
                 mt:"30px"
               }} >
-                 <Chart graphData={graphData} />;
+                 <Chart graphData={graphData} />
 
               </Box>
             </Box>

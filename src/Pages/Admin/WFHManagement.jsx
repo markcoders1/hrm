@@ -25,6 +25,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import axiosInstance from "../../auth/axiosInstance";
 import CustomInputLabel from "../../components/CustomInputField/CustomInputLabel";
+import { useSelector } from "react-redux";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -42,6 +43,8 @@ const WFHManagement = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [statusFilter, setStatusFilter] = useState("pending");
   const [searchTerm, setSearchTerm] = useState("");
+  const user = useSelector((state) => state.user.user.role);
+
 
   const months = [
     { label: "January", value: "0" },
@@ -365,24 +368,30 @@ const WFHManagement = () => {
               >
                 Status (HOD)
               </TableCell>
-              <TableCell
-                className="MuiTableCell-root-head"
-                sx={{
-                  fontWeight: "500",
-                  padding: "12px 0px",
-                  fontSize: {
-                    sm: "21px",
-                    xs: "16px",
-                  },
-                  textAlign: "center",
-                  borderRadius: "0px 8px 8px 0px",
-                  color: "#010120",
-                  // paddingLeft: "40px",
-                  minWidth: "150px",
-                }}
-              >
-                Actions
-              </TableCell>
+
+              {
+                user === "HR" ? "" : (
+                  <TableCell
+                  className="MuiTableCell-root-head"
+                  sx={{
+                    fontWeight: "500",
+                    padding: "12px 0px",
+                    fontSize: {
+                      sm: "21px",
+                      xs: "16px",
+                    },
+                    textAlign: "center",
+                    borderRadius: "0px 8px 8px 0px",
+                    color: "#010120",
+                    // paddingLeft: "40px",
+                    minWidth: "150px",
+                  }}
+                >
+                  Actions
+                </TableCell>
+                )
+              }
+             
             </TableRow>
           </TableHead>
           <TableBody className="MuiTableBody-root">
@@ -489,55 +498,61 @@ const WFHManagement = () => {
                   /> */}
                   {row.statusHOD}
                 </TableCell>
-                <TableCell
-                  className="MuiTableCell-root"
-                  sx={{
-                    borderRadius: "0px 8px 8px 0px",
-                  }}
-                >
-                  <Typography
+
+                {
+                  user === "HR" ? "" : (
+                    <TableCell
+                    className="MuiTableCell-root"
                     sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      gap: "1rem",
-                      alignItems: "center",
+                      borderRadius: "0px 8px 8px 0px",
                     }}
                   >
-                    <Tooltip title="Approved Request">
-                      <img
-                        src={tickPng}
-                        alt="Approve"
-                        style={{
-                          width: "34px",
-                          height: "34px",
-                          cursor: "pointer",
-                        }}
-                        onClick={(e) => {
-                          e.stopPropagation(); // Prevent the row click event from firing
-                          console.log("Approved action");
-                          validateAccepted(row._id);
-                        }}
-                      />
-                    </Tooltip>
-
-                    <Tooltip title="Reject Request">
-                      <img
-                        src={cancelPng}
-                        alt="Reject"
-                        style={{
-                          width: "34px",
-                          height: "34px",
-                          cursor: "pointer",
-                        }}
-                        onClick={(e) => {
-                          e.stopPropagation(); // Prevent the row click event from firing
-                          console.log("Rejected action");
-                          validateRejected(row._id);
-                        }}
-                      />
-                    </Tooltip>
-                  </Typography>
-                </TableCell>
+                    <Typography
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        gap: "1rem",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Tooltip title="Approved Request">
+                        <img
+                          src={tickPng}
+                          alt="Approve"
+                          style={{
+                            width: "34px",
+                            height: "34px",
+                            cursor: "pointer",
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent the row click event from firing
+                            console.log("Approved action");
+                            validateAccepted(row._id);
+                          }}
+                        />
+                      </Tooltip>
+  
+                      <Tooltip title="Reject Request">
+                        <img
+                          src={cancelPng}
+                          alt="Reject"
+                          style={{
+                            width: "34px",
+                            height: "34px",
+                            cursor: "pointer",
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent the row click event from firing
+                            console.log("Rejected action");
+                            validateRejected(row._id);
+                          }}
+                        />
+                      </Tooltip>
+                    </Typography>
+                  </TableCell>
+                  )
+                }
+               
               </TableRow>
             ))}
           </TableBody>

@@ -23,6 +23,7 @@ import editwhite from '../../assets/editwhite.png'
 import { useLocation } from "react-router-dom";
 import CustomTextField from "../../components/CustomInput/CustomInput";
 import CustomInputLabel from "../../components/CustomInputField/CustomInputLabel";
+import SpinnerLoader from "../../components/SpinnerLoader";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -160,23 +161,32 @@ const EmployeeData = () => {
           fontSize: "14px",
           color: "#010120",
           fontWeight: "500",
-          width: "27px",
-          height: "27px",
-          padding: "5px 10px",
-          backgroundColor: "#fff",
-          cursor: "pointer",
-          transition:
-            "background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease",
+          width: "45px",
+          height: "45px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: "50%",
+
+          transition: "background-color 0.3s ease",
           "&:hover": {
-            backgroundColor: "#157AFF", // Or any other color you prefer
-            color: "darkgreen",
-            borderColor: "#010120",
+            backgroundColor: "rgba(255, 255, 255, 0.2)",
           },
+          padding: "5px 10px",
+          // backgroundColor: "#fff",
+          cursor: "pointer",
+          // transition:
+          //   "background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease",
+          // "&:hover": {
+          //   backgroundColor: "#157AFF", // Or any other color you prefer
+          //   color: "darkgreen",
+          //   borderColor: "#010120",
+          // },
         }}
       >
         <img
           src={editIcon}
-          style={{ width: "21.75px", height: "21.75px" }}
+          style={{ width: "22.75px", height: "21.75px" }}
           alt="Edit"
         />
       </Box>
@@ -301,7 +311,7 @@ const EmployeeData = () => {
       <Box sx={{ mt: "30px", padding: "0px 0px" }}>
         {loading ? (
           <Box className="loaderContainer">
-            <Loader />
+            <SpinnerLoader   />
           </Box>
         ) : (
           <TableContainer component={Paper} className="MuiTableContainer-root">

@@ -45,7 +45,10 @@ const Attendance = () => {
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     const day = date.toLocaleString("en-US", { weekday: "long" });
-    const formattedDate = date.toLocaleDateString("en-GB");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+    const dayOfMonth = String(date.getDate()).padStart(2, "0");
+    const year = String(date.getFullYear()).slice(-2); // Get last two digits of the year
+    const formattedDate = `${month}-${dayOfMonth}-${year}`;
     return { day, formattedDate };
   };
 
@@ -372,15 +375,16 @@ const Attendance = () => {
                     </TableCell>
                     <TableCell
                       sx={{
-                        color: "#010120",
+                        // color: "#010120",
                         textAlign: "center !important",
+                        color:"#99999C !important"
                       }}
                       className="MuiTableCell-root"
                     >
                       {item?.formattedDate}
                     </TableCell>
                     <TableCell
-                      sx={{ textAlign: "center !important" }}
+                      sx={{ textAlign: "center !important",  }}
                       className="MuiTableCell-root"
                     >
                       {item?.formattedCheckIn

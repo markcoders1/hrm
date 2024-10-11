@@ -20,6 +20,8 @@ import editIcon from "../../assets/EditIcon.png";
 import editIconWhite from "../../assets/editIconWhite.png";
 import CustomInputLabel from "../../components/CustomInputField/CustomInputLabel";
 import CheckInOutModal from "../../components/CheckInEditModal/CheckInEditModal";
+import SpinnerLoader from "../../components/SpinnerLoader";
+
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -89,10 +91,11 @@ const EmployeeAttendance = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            borderRadius: "8px",
+            borderRadius: "50%",
+
             transition: "background-color 0.3s ease",
             "&:hover": {
-              backgroundColor: "rgba(255, 255, 255, 0.2)", // White color with 0.3 opacity
+              backgroundColor: "rgba(255, 255, 255, 0.2)", 
             },
           }}
           onClick={(e) => {
@@ -110,7 +113,7 @@ const EmployeeAttendance = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            borderRadius: "8px",
+            borderRadius: "50%",
             transition: "background-color 0.3s ease",
             "&:hover": {
               backgroundColor: "rgba(255, 255, 255, 0.2)", // White color with 0.3 opacity
@@ -161,6 +164,13 @@ const EmployeeAttendance = () => {
     setSelectedCheckId(null)
   };
 
+  if (loading) {
+    return (
+      <Box className="loaderContainer">
+        <SpinnerLoader />
+      </Box>
+    );
+  }
 
   return (
     <Box className="sheet-container-admin">
@@ -185,11 +195,7 @@ const EmployeeAttendance = () => {
         />
       </Box>
       <Box>
-        {loading ? (
-          <Box className="loaderContainer">
-            <Loader />
-          </Box>
-        ) : (
+       
           <>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <Typography
@@ -426,7 +432,7 @@ const EmployeeAttendance = () => {
               </Table>
             </TableContainer>
           </>
-        )}
+       
       </Box>
       <CheckInOutModal
         open={modalOpen}

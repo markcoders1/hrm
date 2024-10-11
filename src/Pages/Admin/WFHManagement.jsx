@@ -170,14 +170,15 @@ const WFHManagement = () => {
     setStatusFilter(selectedValue); // Update the filter state
   };
 
-  const filteredWFHData = allWfh.filter((row) => {
-    const matchesStatus = row.overallStatus === statusFilter;
-    const matchesSearchTerm =
-      row.employeeId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.fullName.toLowerCase().includes(searchTerm.toLowerCase());
 
-    return matchesStatus && matchesSearchTerm;
-  });
+const filteredWFHData = allWfh.filter((row) => {
+  const matchesStatus = row.overallStatus === statusFilter;
+  const matchesSearchTerm =
+    (row.employeeId?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false) ||
+    (row.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false);
+
+  return matchesStatus && matchesSearchTerm;
+});
 
   useEffect(() => {
     fetchAllWFH(page);

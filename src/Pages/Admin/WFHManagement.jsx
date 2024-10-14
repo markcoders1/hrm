@@ -147,7 +147,8 @@ const WFHManagement = () => {
 
   useEffect(() => {
     setHeadertext("WFH Management");
-    setParaText(" ");
+    setParaText("Manage Employees WFH Requestes");
+
     fetchAllWFH();
   }, [selectedMonth, selectedYear]);
 

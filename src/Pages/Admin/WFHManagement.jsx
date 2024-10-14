@@ -211,7 +211,7 @@ const filteredWFHData = allWfh.filter((row) => {
       >
         <Box sx={{ flexBasis: { lg: "320px", xs: "60%" } }}>
           <CustomInputLabel
-            height={"56px"}
+            height={"36px"}
             fontSize={"20px"}
             showSearchIcon={true}
             placeholder={"Search User"}
@@ -225,7 +225,7 @@ const filteredWFHData = allWfh.filter((row) => {
             label="Status"
             value={statusFilter}
             handleChange={handleStatusChange}
-            height={"56px"}
+            height={"46px"}
             options={[
               { value: "pending", label: "Pending" },
               { value: "approved", label: "Approved" },
@@ -252,6 +252,8 @@ const filteredWFHData = allWfh.filter((row) => {
             value={selectedMonth}
             handleChange={handleMonthChange}
             options={months}
+            height={"46px"}
+
           />
         </FormControl>
         <FormControl
@@ -262,6 +264,8 @@ const filteredWFHData = allWfh.filter((row) => {
             value={selectedYear}
             handleChange={handleYearChange}
             options={years}
+            height={"46px"}
+
           />
         </FormControl>
       </Box>
@@ -430,6 +434,7 @@ const filteredWFHData = allWfh.filter((row) => {
                   className="MuiTableCell-root"
                   sx={{
                     color: "#010120",
+                    minWidth:"300px",
 
                     textAlign: "start !important",
                     // paddingLeft: "40px !important",

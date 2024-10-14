@@ -452,7 +452,7 @@ const AppSidebar = () => {
                   src={logoutIcon}
                 />{" "}
                 <Typography sx={{ fontSize: "22px !important" }}>
-                  Logout
+                  LogOut
                 </Typography>
               </div>
             </CNavItem>

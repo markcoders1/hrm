@@ -55,12 +55,12 @@ const Notification = () => {
     <>
       <Box sx={{ width: { lg: "380px", xs: "100%" }, position: { lg: "fixed", xs: "static" }, right: "40px", top: "40px", zIndex: "100000 " }} >
         <CustomInputLabel
-          height={"56px"}
           fontSize={"20px"}
           showSearchIcon={true}
           placeholder={"Search Notifications"}
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)} // Update the search term state
+          onChange={(e) => setSearchTerm(e.target.value)} 
+          height={"36px"}
         />
       </Box>
       <Box sx={{ display: "flex", flexDirection: "column", gap: "1.5rem", mt: '80px' }}>

@@ -29,7 +29,6 @@ const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 const LeaveManagement = () => {
   const user = useSelector((state) => state.user.user.role);
 
-
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const { setHeadertext, setParaText } = useOutletContext();
@@ -39,15 +38,17 @@ const LeaveManagement = () => {
 
   const [statusFilter, setStatusFilter] = useState("pending");
   const [searchTerm, setSearchTerm] = useState(""); // State for search term
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth().toString()); // Default to current month
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear().toString()); // Default to current year
+  const [selectedMonth, setSelectedMonth] = useState(
+    new Date().getMonth().toString()
+  ); // Default to current month
+  const [selectedYear, setSelectedYear] = useState(
+    new Date().getFullYear().toString()
+  ); // Default to current year
 
- 
-const getUnixTimestampForMonthYear = (month, year) => {
-  const date = new Date(year, month, 1);
-  return date.getTime();
-};
-
+  const getUnixTimestampForMonthYear = (month, year) => {
+    const date = new Date(year, month, 1);
+    return date.getTime();
+  };
 
   useEffect(() => {
     setHeadertext("Leave Management");
@@ -60,19 +61,19 @@ const getUnixTimestampForMonthYear = (month, year) => {
 
   const fetchAllLeaves = async () => {
     const date = getUnixTimestampForMonthYear(selectedMonth, selectedYear);
-    console.log(date)
+    console.log(date);
     try {
-      setLoading(true)
-      const response = await axiosInstance.get(`${apiUrl}/api/admin/getallleaves`, {params: {date : date}});
-      console.log(response.data)
-        setLeaveData(response.data.leaves);
-      setLoading(false)
-
-   
+      setLoading(true);
+      const response = await axiosInstance.get(
+        `${apiUrl}/api/admin/getallleaves`,
+        { params: { date: date } }
+      );
+      console.log(response.data);
+      setLeaveData(response.data.leaves);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching leave data:", error);
-      setLoading(false)
-
+      setLoading(false);
     }
   };
 
@@ -84,7 +85,6 @@ const getUnixTimestampForMonthYear = (month, year) => {
       console.error("Invalid selection, event target value is undefined");
     }
   };
-  
 
   const handleFromDateChange = (event) => {
     setFromDate(new Date(event.target.value).getTime());
@@ -97,46 +97,58 @@ const getUnixTimestampForMonthYear = (month, year) => {
   const filteredLeaveData = leaveData.filter((row) => {
     const matchesStatus = row.overallStatus === statusFilter;
     const matchesSearchTerm =
-      (row.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false) ||
-      (row.leaveType?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false) ||
-      (row.endDate?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false) ||
-      (row.startDate?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false);
-  
+      (row.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ??
+        false) ||
+      (row.leaveType?.toLowerCase().includes(searchTerm.toLowerCase()) ??
+        false) ||
+      (row.endDate?.toLowerCase().includes(searchTerm.toLowerCase()) ??
+        false) ||
+      (row.startDate?.toLowerCase().includes(searchTerm.toLowerCase()) ??
+        false);
+
     return matchesStatus && matchesSearchTerm;
   });
   const validateAccept = async (leaveId) => {
     try {
-      const response = await axiosInstance.get(`${apiUrl}/api/admin/validateleaves`, {
-        params: {
-          leaveID: leaveId,
-          status: "approved",
-        },
-      });
-      console.log(response)
+      const response = await axiosInstance.get(
+        `${apiUrl}/api/admin/validateleaves`,
+        {
+          params: {
+            leaveID: leaveId,
+            status: "approved",
+          },
+        }
+      );
+      console.log(response);
       toast.success("Leave Validate SucessFully", { position: "top-center" });
 
       fetchAllLeaves(); // Refresh data after updating status
     } catch (error) {
       console.error("Error approving leave request:", error);
-      toast.error("Leave Validate Could not proceed", { position: "top-center" });
-
+      toast.error("Leave Validate Could not proceed", {
+        position: "top-center",
+      });
     }
   };
 
   const validateReject = async (leaveId) => {
     try {
-      const response = await axiosInstance.get(`${apiUrl}/api/admin/validateleaves`, {
-        params: {
-          leaveID: leaveId,
-          status: "rejected",
-        },
-      });
+      const response = await axiosInstance.get(
+        `${apiUrl}/api/admin/validateleaves`,
+        {
+          params: {
+            leaveID: leaveId,
+            status: "rejected",
+          },
+        }
+      );
       fetchAllLeaves(); // Refresh data after updating status
       toast.success("Leave Validate SucessFully", { position: "top-center" });
     } catch (error) {
       console.error("Error rejecting leave request:", error);
-      toast.error("Leave Validate Could not proceed", { position: "top-center" });
-
+      toast.error("Leave Validate Could not proceed", {
+        position: "top-center",
+      });
     }
   };
 
@@ -162,14 +174,14 @@ const getUnixTimestampForMonthYear = (month, year) => {
       .padStart(2, "0")}-${d.getDate().toString().padStart(2, "0")}`;
   };
 
-  const handleRowClick = (id,e) => {
+  const handleRowClick = (id, e) => {
     navigate(`/dashboard/leave-management/leave-details/${id}`);
   };
 
   const handleMonthChange = (event) => {
     setSelectedMonth(event.target.value);
   };
-  
+
   const handleYearChange = (event) => {
     setSelectedYear(event.target.value);
   };
@@ -189,29 +201,26 @@ const getUnixTimestampForMonthYear = (month, year) => {
     { label: "December", value: "11" },
   ];
 
-    // Generate years starting from 2024
-    const currentYear = new Date().getFullYear();
-    const years = Array.from({ length: currentYear - 2024 + 1 }, (v, i) => ({
-      label: (2024 + i).toString(),
-      value: (2024 + i).toString(),
-    }));
+  // Generate years starting from 2024
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: currentYear - 2024 + 1 }, (v, i) => ({
+    label: (2024 + i).toString(),
+    value: (2024 + i).toString(),
+  }));
 
-    if (loading) {
-      return (
-        <Box className="loaderContainer">
-          <SpinnerLoader />
-
-
-        </Box>
-      );
-    }
-  
+  if (loading) {
+    return (
+      <Box className="loaderContainer">
+        <SpinnerLoader />
+      </Box>
+    );
+  }
 
   return (
     <Box className="sheet-container-admin">
       <Box
         sx={{
-          width: { lg: "500px", xs: "100%",  },
+          width: { lg: "500px", xs: "100%" },
           position: { lg: "fixed", xs: "static" },
           right: "50px",
           top: "40px",
@@ -219,120 +228,139 @@ const getUnixTimestampForMonthYear = (month, year) => {
           display: "flex",
           gap: "1rem",
           // border:"2px solid red",
-          flexDirection:{
-            sm:"row",
-            xs:"column"
-          }
+          flexDirection: {
+            sm: "row",
+            xs: "column",
+          },
         }}
       >
-        <Box sx={{flexBasis:{lg:"300px", xs:"60%"}}} >
-
-        <CustomInputLabel
-  height={"56px"}
-  fontSize={"20px"}
-  showSearchIcon={true}
-  placeholder={"Search User"}
-  value={searchTerm}
-  onChange={(e) => setSearchTerm(e.target.value)} // Update the search term state
-/>
-          </Box>
-          <Box sx={{flexBasis:{lg:"200px", xs:"40%"}}}>
-
-        <CustomSelectForType
-          label="Status"
-          value={statusFilter}
-          handleChange={handleStatusChange}
-          height={"56px"}
-          options={[
-            { value: "pending", label: "Pending" },
-            { value: "approved", label: "Approved" },
-            { value: "rejected", label: "Rejected" },
-          ]}
+        <Box sx={{ flexBasis: { lg: "300px", xs: "60%" } }}>
+          <CustomInputLabel
+            height={"36px"}
+            fontSize={"20px"}
+            showSearchIcon={true}
+            placeholder={"Search User"}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)} // Update the search term state
           />
-          </Box>
+        </Box>
+        <Box sx={{ flexBasis: { lg: "200px", xs: "40%" } }}>
+          <CustomSelectForType
+            label="Status"
+            value={statusFilter}
+            handleChange={handleStatusChange}
+            height={"46px"}
+            options={[
+              { value: "pending", label: "Pending" },
+              { value: "approved", label: "Approved" },
+              { value: "rejected", label: "Rejected" },
+            ]}
+          />
+        </Box>
       </Box>
 
       <Box
-  sx={{
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width:"100%",
-    mb: 3,
-    flexDirection: {
-      md: "row",  // Row on larger screens
-      xs: "column",  // Column on smaller screens
-    },
-    // border:"2px solid blue"
-  }}
->
-  {/* Start and End Date Box */}
-  <Box sx={{ display: "flex", gap: 6, flexDirection: { xs: "column", md: "row" }, flexBasis:{md:"", xs:"100%", display:"none"} }}>
-    <Box sx={{ display: "flex", gap: ".4rem", alignItems: "center" }}>
-      <Typography sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}>
-        Start Date
-      </Typography>
-      <input
-        type="date"
-        style={{
-          border: "none",
-          borderBottom: "2px solid black",
-          width: "195px",
-          outline: "none",
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%",
+          mb: 3,
+          flexDirection: {
+            md: "row", // Row on larger screens
+            xs: "column", // Column on smaller screens
+          },
+          // border:"2px solid blue"
         }}
-        onChange={handleFromDateChange}
-      />
-    </Box>
-    <Box sx={{ display: "flex", gap: ".4rem", alignItems: "center" }}>
-      <Typography sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}>
-        End Date
-      </Typography>
-      <input
-        type="date"
-        style={{
-          border: "none",
-          borderBottom: "2px solid black",
-          width: "195px",
-          outline: "none",
-        }}
-        onChange={handleToDateChange}
-      />
-    </Box>
-  </Box>
+      >
+        {/* Start and End Date Box */}
+        <Box
+          sx={{
+            display: "flex",
+            gap: 6,
+            flexDirection: { xs: "column", md: "row" },
+            flexBasis: { md: "", xs: "100%", display: "none" },
+         
+          }}
+        >
+          <Box sx={{ display: "flex", gap: ".4rem", alignItems: "center" }}>
+            <Typography
+              sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
+            >
+              Start Date
+            </Typography>
+            <input
+              type="date"
+              style={{
+                border: "none",
+                borderBottom: "2px solid black",
+                width: "195px",
+                outline: "none",
+              }}
+              onChange={handleFromDateChange}
+            />
+          </Box>
+          <Box sx={{ display: "flex", gap: ".4rem", alignItems: "center" }}>
+            <Typography
+              sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
+            >
+              End Date
+            </Typography>
+            <input
+              type="date"
+              style={{
+                border: "none",
+                borderBottom: "2px solid black",
+                width: "195px",
+                outline: "none",
+              }}
+              onChange={handleToDateChange}
+            />
+          </Box>
+        </Box>
 
-  {/* Month Select Box */}
-  <Box
-    sx={{
-      display: "flex",
-      gap: 2,
-      alignItems:"center",
-      justifyContent:"end",
-      
-      width:"100%  "
-     
-    }}
-  >
-    <FormControl sx={{ width: {md:"200px", xs:"100%"}, height: "50px" }}>
-      <CustomSelectForType
-        label="Month"
-        value={selectedMonth}
-        handleChange={handleMonthChange}
-        options={months}
-      />
-    </FormControl>
-    <FormControl sx={{ width: { md: "200px", xs: "100%" }, height: "50px" }}>
-          <CustomSelectForType
-            label="Year"
-            value={selectedYear}
-            handleChange={handleYearChange}
-            options={years}
-          />
-        </FormControl>
-  </Box>
-</Box>
+        {/* Month Select Box */}
+        <Box
+          sx={{
+            display: "flex",
+            gap: 2,
+            alignItems: "center",
+            justifyContent: "end",
 
+            width: "100%",
+          }}
+        >
+          <FormControl
+            sx={{ width: { md: "200px", xs: "100%" }, height: "50px" }}
+          >
+            <CustomSelectForType
+              label="Month"
+              value={selectedMonth}
+              handleChange={handleMonthChange}
+              options={months}
+              height={"46px"}
+            />
+          </FormControl>
+          <FormControl
+            sx={{ width: { md: "200px", xs: "100%" }, height: "50px" }}
+          >
+            <CustomSelectForType
+              label="Year"
+              value={selectedYear}
+              handleChange={handleYearChange}
+              options={years}
+              height={"46px"}
 
-      <TableContainer component={Paper} className="MuiTableContainer-root" sx={{ overflowX: "auto" }}>
+            />
+          </FormControl>
+        </Box>
+      </Box>
+
+      <TableContainer
+        component={Paper}
+        className="MuiTableContainer-root"
+        sx={{ overflowX: "auto" }}
+      >
         <Table className="data-table">
           <TableHead className="MuiTableHead-root">
             <TableRow
@@ -372,8 +400,7 @@ const getUnixTimestampForMonthYear = (month, year) => {
                     sm: "21px",
                     xs: "16px",
                   },
-                  textAlign: "center !important",
-
+                  textAlign: "start !important",
 
                   color: "#010120",
                   minWidth: "250px",
@@ -500,9 +527,10 @@ const getUnixTimestampForMonthYear = (month, year) => {
               >
                 Status (HOD)
               </TableCell>
-              {
-                user === "HR"? "" : (
-                  <TableCell
+              {user === "HR" ? (
+                ""
+              ) : (
+                <TableCell
                   className="MuiTableCell-root-head"
                   sx={{
                     fontWeight: "500",
@@ -519,9 +547,7 @@ const getUnixTimestampForMonthYear = (month, year) => {
                 >
                   Actions
                 </TableCell>
-                )
-              }
-             
+              )}
             </TableRow>
           </TableHead>
           <TableBody className="MuiTableBody-root">
@@ -553,8 +579,7 @@ const getUnixTimestampForMonthYear = (month, year) => {
                   className="MuiTableCell-root"
                   sx={{
                     color: "white",
-                    textAlign: "center !important",
-
+                    textAlign: "start !important",
                   }}
                 >
                   <img
@@ -574,10 +599,11 @@ const getUnixTimestampForMonthYear = (month, year) => {
                   sx={{
                     color: "#99999C",
                     textAlign: "center !important",
-
                   }}
                 >
-                  {row?.annualLeaves - row?.leavesTaken ? row?.annualLeaves - row.leavesTaken : "--"}
+                  {row?.annualLeaves - row?.leavesTaken
+                    ? row?.annualLeaves - row.leavesTaken
+                    : "--"}
                 </TableCell>
                 <TableCell
                   className="MuiTableCell-root"
@@ -645,60 +671,59 @@ const getUnixTimestampForMonthYear = (month, year) => {
                   {row?.statusHOD}
                 </TableCell>
 
-                {
-                    user === "HR"? "" : (
-                      <TableCell
-                      className="MuiTableCell-root"
+                {user === "HR" ? (
+                  ""
+                ) : (
+                  <TableCell
+                    className="MuiTableCell-root"
+                    sx={{
+                      borderRadius: "0px 8px 8px 0px",
+                    }}
+                  >
+                    <Typography
                       sx={{
-                        borderRadius: "0px 8px 8px 0px",
+                        display: "flex",
+                        justifyContent: "center",
+                        gap: "1rem",
+                        alignItems: "center",
                       }}
                     >
-                      <Typography
-                        sx={{
-                          display: "flex",
-                          justifyContent: "center",
-                          gap: "1rem",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Tooltip title="Approve Request">
-                          <img
-                            src={tickPng}
-                            alt="Approve"
-                            style={{
-                              width: "34px",
-                              height: "34px",
-                              cursor: "pointer",
-                            }}
-                            onClick={(e) => {
-                              validateAccept(row._id);
-                              e.stopPropagation(); // Prevent the row click event from firing
-                              console.log("Approved action");
-                            }}
-                          />
-                        </Tooltip>
-    
-                        <Tooltip title="Reject Request">
-                          <img
-                            src={cancelPng}
-                            alt="Reject"
-                            style={{
-                              width: "34px",
-                              height: "34px",
-                              cursor: "pointer",
-                            }}
-                            onClick={(e) => {
-                              validateReject(row._id);
-                              e.stopPropagation(); // Prevent the row click event from firing
-                              console.log("Rejected action");
-                            }}
-                          />
-                        </Tooltip>
-                      </Typography>
-                    </TableCell>
-                    )
-                }
-               
+                      <Tooltip title="Approve Request">
+                        <img
+                          src={tickPng}
+                          alt="Approve"
+                          style={{
+                            width: "34px",
+                            height: "34px",
+                            cursor: "pointer",
+                          }}
+                          onClick={(e) => {
+                            validateAccept(row._id);
+                            e.stopPropagation(); // Prevent the row click event from firing
+                            console.log("Approved action");
+                          }}
+                        />
+                      </Tooltip>
+
+                      <Tooltip title="Reject Request">
+                        <img
+                          src={cancelPng}
+                          alt="Reject"
+                          style={{
+                            width: "34px",
+                            height: "34px",
+                            cursor: "pointer",
+                          }}
+                          onClick={(e) => {
+                            validateReject(row._id);
+                            e.stopPropagation(); // Prevent the row click event from firing
+                            console.log("Rejected action");
+                          }}
+                        />
+                      </Tooltip>
+                    </Typography>
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>

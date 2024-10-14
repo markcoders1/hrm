@@ -52,7 +52,7 @@ const CustomInputLabel = forwardRef(({
           mb: 2,
           width: '100%',
           position: "relative",
-          // padding: "5px 15px",
+          padding: "5px 15px",
           boxShadow: boxShadow ? "0px 8px 26px -4px rgba(0, 0, 0, 0.15)" : "",
           '&:hover': {
             borderColor: '#BDBDBD',
@@ -68,7 +68,7 @@ const CustomInputLabel = forwardRef(({
             position: 'absolute',
             top: '0px',
             left: '10px',
-            backgroundColor: 'white',
+            backgroundColor: 'red !important',
             padding: '0 10px',
             transform: 'translateY(-50%)',
           }}
@@ -87,16 +87,22 @@ const CustomInputLabel = forwardRef(({
             '& .MuiOutlinedInput-root': {
               borderRadius: "8px",
               border: "none",
+              
             },
             '& .MuiInputBase-input': {
               padding: "5 0px 12px",
               fontSize: fontSize,
               color: color,
               height: "100%",
+              
             },
             
             '& .MuiInputBase-input': {
               color:color, // Ensures the text color in the input field is white
+              padding:"7px 5px",
+           
+             
+              
               '&:-webkit-autofill': {
                 // WebkitBoxShadow: '0 0 0 1000px #010115 inset !important', // Ensure background color of the autofill
                 WebkitTextFillColor: 'black', // Text color of the autofill

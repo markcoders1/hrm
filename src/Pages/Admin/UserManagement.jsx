@@ -257,7 +257,7 @@ const EmployeeData = () => {
 
   
       <CustomInputLabel
-        height={"56px"}
+        height={"36px"}
         fontSize={"20px"}
         showSearchIcon={true}
         placeholder={"Search User"}
@@ -357,6 +357,7 @@ const EmployeeData = () => {
                       textAlign: "start",
                       color: "#010120",
                       paddingLeft: "40px !important",
+                      minWidth:"370px"
 
                     }}
                   >
@@ -374,6 +375,8 @@ const EmployeeData = () => {
                       textAlign: "start",
                       color: "#010120",
                       paddingLeft: "0px",
+                      minWidth:"370px"
+
                     }}
                   >
                     Email

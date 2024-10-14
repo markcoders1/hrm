@@ -262,6 +262,7 @@ const DashboardAdmin = () => {
                         borderRadius: "8px 0px 0px 8px",
                         color: "#010120 !important",
                         paddingLeft: "40px",
+                        minWidth:"300px"
                       }}
                     >
                       Name
@@ -276,6 +277,8 @@ const DashboardAdmin = () => {
                         },
                         textAlign: "center",
                         color: "#010120  !important",
+                        minWidth:"100px"
+
                       }}
                     >
                       Check-In
@@ -291,6 +294,8 @@ const DashboardAdmin = () => {
                         textAlign: "center",
                         color: "#010120  !important",
                         borderRadius: "0px 8px 8px 0px",
+                        minWidth:"100px"
+
                       }}
                     >
                       Duration

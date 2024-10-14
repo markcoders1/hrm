@@ -60,7 +60,7 @@ const MyNotifications = () => {
     <Box sx={{ display: "flex", flexDirection: "column", gap: "1.5rem", p: "20px" }} >
       <Box sx={{ width: { lg: "380px", xs: "100%" }, position: { lg: "fixed", xs: "static" }, right: "60px", top: "40px", zIndex: "100000 " }} >
         <CustomInputLabel
-          height={"56px"}
+          height={"36px"}
           fontSize={"20px"}
           showSearchIcon={true}
           placeholder={"Search Notifications"}

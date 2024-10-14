@@ -86,7 +86,7 @@ const AppHeader = (props) => {
 
         </CContainer>
         <CContainer className="d-flex" fluid>
-          <Typography sx={{ color: "#010120", fontWeight: "600", fontSize: "40px" }}>
+          <Typography sx={{ color: "#010120", fontWeight: "600", fontSize: {xl:"40px", xs:"30px"} }}>
             {headertext}
           </Typography>
         </CContainer>
@@ -107,8 +107,8 @@ const AppHeader = (props) => {
         >
         <Box
           sx={{
-           width:{xs:"51px", md: "81px"},
-           height:{xs:"51px", md: "81px"},
+           width:{xs:"51px", xl: "81px"},
+           height:{xs:"51px", xl: "81px"},
            borderRadius:"50%",
            
            mt:"10px",

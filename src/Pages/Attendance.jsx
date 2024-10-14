@@ -172,7 +172,7 @@ const Attendance = () => {
               display: "flex",
               gap: 2,
               position: { lg: "fixed", xs: "static" },
-              right: "45px",
+              right: "55px",
               top: "40px",
               zIndex: "100000",
             }}

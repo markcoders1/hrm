@@ -48,7 +48,7 @@ const EmployeeAttendance = () => {
       console.log(dateTimestamp)
       try {
         setHeadertext("Attendance Management");
-        setParaText("Lorem Ipsum");
+        
         const response = await axiosInstance({
           url: `${apiUrl}/api/admin/getToday`,
           method: "get",
@@ -178,13 +178,13 @@ const EmployeeAttendance = () => {
         sx={{
           width: { lg: "220px", xs: "100%" },
           position: { lg: "fixed", xs: "static" },
-          right: "70px",
+          right: "55px",
           top: "40px",
           zIndex: "100000 ",
         }}
       >
         <CustomInputLabel
-          height={"56px"} 
+          height={"36px"} 
           fontSize={"20px"}
           showSearchIcon={false}
           placeholder={"Search User"}

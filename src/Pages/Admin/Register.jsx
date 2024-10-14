@@ -28,8 +28,139 @@ const Register = () => {
   const [isFormDirty, setIsFormDirty] = useState(false);
   const [companyIDValue, setCompanyIDValue] = useState("")
   const [netSalary, setNetSalary] = useState(0);
+  const [showDocuments, setShowDocuments] = useState(false)
   
+// here file upload codebase 
+ const FileUpload = ({ label, name, formData, setFormData , labeStyling, BoxStyling }) => {
+  const [previewImage, setPreviewImage] = useState(null);
+  const [selectedFileName, setSelectedFileName] = useState("");
 
+  // Handle the file selection
+  const handleChange = (e) => {
+    const file = e.target.files[0];
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: file,
+    }));
+    setSelectedFileName(file?.name || "");
+    setPreviewImage(file ? URL.createObjectURL(file) : null);
+  };
+
+  return (
+    <Box
+      sx={{
+        flexBasis: "50%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        ...BoxStyling
+   
+      }}
+    >
+      <label
+        htmlFor={`upload-${name}`}
+        style={{
+          cursor: "pointer",
+          color: "#FFA100",
+          textAlign: "center",
+          border: "2px dashed rgba(197, 197, 197, 0.6)",
+        //   maxWidth: "509px",
+          height: "181px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "#FFFF",
+          borderRadius: "8px",
+          flexDirection: "column",
+          width: "100%",
+          ...labeStyling    
+        }}
+      >
+        <Box
+          sx={{
+            width: "100%",
+            height: "165px",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          {previewImage ? (
+            <img
+              src={previewImage}
+              alt={label}
+              style={{
+                width: "100%",
+                height: "100%",
+                borderRadius: "12px",
+                
+              }}
+            />
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              <img
+                src={picFrame}
+                alt="Placeholder"
+                style={{
+                  width: "31px",
+                  height: "auto",
+                  objectFit: "contain",
+                }}
+              />
+              <Typography
+                sx={{
+                  fontSize: { sm: "20px", xs: "16px" },
+                  fontWeight: "600",
+                  mt: "10px",
+                  fontFamily: "Poppins",
+                  color: "#010120",
+                }}
+              >
+                {label}
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: { sm: "10px", xs: "9px" },
+                  fontWeight: "600",
+                  mt: "10px",
+                  fontFamily: "Poppins",
+                  color: "#878787",
+                }}
+              >
+                Supports: JPG, JPEG2000, PNG
+              </Typography>
+            </Box>
+          )}
+        </Box>
+        {/* File Input */}
+        <input
+          type="file"
+          id={`upload-${name}`}
+          name={name}
+          style={{ display: "none" }}
+          onChange={handleChange}
+        />
+      </label>
+    </Box>
+  );
+};
+
+const [formData, setFormData] = useState({
+  frontCnic: null,
+  backCnic: null,
+  lastEducation: null,
+  lastEmployer: null,
+  lastPayroll: null,
+  photo: null,
+  resume: null,
+  status: "",
+});
  
 
 
@@ -86,14 +217,15 @@ function convertTimeToUnixTimestamp(timeString) {
   return Math.floor(date.getTime() / 1000);
 }
   const onSubmit = async (data) => {
-    
-    console.log(data)
-     
-  let phone = Number(data.phone);
-  let emergencyNumber = Number(data.emergencyNumber);
-  
-        const shiftTimingFrom = convertTimeToUnixTimestamp(data.shiftTimingFrom);
-        const shiftTimingTo = convertTimeToUnixTimestamp(data.shiftTimingTo);
+    const keys = Object.keys(formData);
+    for (let key of keys) {
+      if (formData[key] && formData[key].size > 2 * 1024 * 1024) {
+        console.error("File size exceeds 2MB for", key);
+        return;
+      }
+    }
+    const formDataToSend = new FormData();
+
 
         
     try {
@@ -329,6 +461,9 @@ useEffect(() => {
                     <CustomInputLabel
                       label="Full Name*"
                       error={errors.fullName?.message}
+                      height={{xl:"64px", md:"45px"}}
+                      paddingInput={{xl:"21px 10px", md:"13px 8px"}}
+                      
                       {...field}
                     />
                   )}
@@ -351,6 +486,8 @@ useEffect(() => {
                     <CustomInputLabel
                       label="Phone Number*"
                       error={errors.phone?.message}
+                      height={{xl:"64px", md:"45px"}}
+                      paddingInput={{xl:"21px 10px", md:"13px 8px"}}
                       {...field}
                     
                     />
@@ -374,6 +511,8 @@ useEffect(() => {
                     <CustomInputLabel
                       label="Email*"
                       type="email"
+                      height={{xl:"64px", md:"45px"}}
+                      paddingInput={{xl:"21px 10px", md:"13px 8px"}}
                       error={errors.email?.message}
                       {...field}
                     />
@@ -401,6 +540,8 @@ useEffect(() => {
                       label="Address"
                       fullWidth
                       error={errors.address?.message}
+                      height={{xl:"64px", md:"45px"}}
+                      paddingInput={{xl:"21px 10px", md:"13px 8px"}}
                       {...field}
                     />
                   )}
@@ -422,7 +563,8 @@ useEffect(() => {
                   render={({ field }) => (
                     <CustomInputLabel
                       label="Emergency Number*"
-                     
+                      height={{xl:"64px", md:"45px"}}
+                      paddingInput={{xl:"21px 10px", md:"13px 8px"}}
                       error={errors.emergencyNumber?.message}
                       {...field}
                     />
@@ -456,6 +598,8 @@ useEffect(() => {
                     <CustomInputLabel
                       label="CNIC*"
                       error={errors.CNIC?.message}
+                      height={{xl:"64px", md:"45px"}}
+                      paddingInput={{xl:"21px 10px", md:"13px 8px"}}
                       {...field}
                     />
                   )}
@@ -479,6 +623,8 @@ useEffect(() => {
                       label="Date of Birth*"
                       type="date"
                       error={errors.DOB?.message}
+                      height={{xl:"64px", md:"45px"}}
+                      paddingInput={{xl:"21px 10px", md:"13px 8px"}}
                       {...field}
                     />
                   )}
@@ -504,6 +650,8 @@ useEffect(() => {
                     defaultValue={companyIDValue}
                       label="Employee ID*"
                       error={errors.companyId?.message}
+                      height={{xl:"64px", md:"45px"}}
+                      paddingInput={{xl:"21px 10px", md:"13px 8px"}}
                       {...field}
                     />
                   )}
@@ -538,6 +686,8 @@ useEffect(() => {
                       error={errors.password?.message}
                       {...field}
                       showPasswordToggle={true}
+                      height={{xl:"64px", md:"45px"}}
+                      paddingInput={{xl:"21px 10px", md:"13px 8px"}}
                       type={"password"}
                     />
                   )}
@@ -561,6 +711,8 @@ useEffect(() => {
                       label="Shift Timings From*"
                       type="time"
                       error={errors.shiftTimingFrom?.message}
+                      height={{xl:"64px", md:"45px"}}
+                      paddingInput={{xl:"21px 10px", md:"13px 8px"}}
                       {...field}
                     />
                   )}
@@ -584,6 +736,8 @@ useEffect(() => {
                       label="Shift Timings To*"
                       type="time"
                       error={errors.shiftTimingTo?.message}
+                      height={{xl:"64px", md:"45px"}}
+                      paddingInput={{xl:"21px 10px", md:"13px 8px"}}
                       {...field}
                     />
                   )}
@@ -614,7 +768,8 @@ useEffect(() => {
                   render={({ field }) => (
                     <CustomSelectForRole
                       label="Department*"
-                      height={"66px"}
+                      height={{xl:"66px", md:"58px"}} 
+
                       options={departments.map((depart) => ({
                         value: depart, // The value to send to the API
                         label: depart, // The label to display in the select
@@ -622,6 +777,8 @@ useEffect(() => {
                       value={field.value}
                       handleChange={field.onChange}
                       error={errors.department?.message}
+                      // height={{xl:"64px", md:"45px"}}
+                      // paddingInput={{xl:"21px 10px", md:"13px 8px"}}
                     />
                   )}
                 />
@@ -642,7 +799,8 @@ useEffect(() => {
                   render={({ field }) => (
                     <CustomSelectForRole
                       label="Line Manager"
-                      height={"66px"}
+                      height={{xl:"66px", md:"58px"}} 
+
                       options={teamLeads.map((tl) => ({
                         value: tl.id, 
                         label: tl.fullName, 
@@ -671,6 +829,8 @@ useEffect(() => {
                     <CustomInputLabel
                       label="Designation*"
                       error={errors.designation?.message}
+                      height={{xl:"64px", md:"45px"}}
+                      paddingInput={{xl:"21px 10px", md:"13px 8px"}}
                       {...field}
                     />
                   )}
@@ -741,7 +901,8 @@ useEffect(() => {
                   render={({ field }) => (
                     <CustomSelectForRole
                       label="HOD*"
-                      height={"66px"}
+                      height={{xl:"66px", md:"58px"}}   
+
                       options={hods.map((hod) => ({
                         value: hod.id, // The value to send to the API
                         label: hod.fullName, // The label to display in the select
@@ -813,6 +974,8 @@ useEffect(() => {
                     <CustomInputLabel
                       label="Joining Date*"
                       type="date"
+                      height={{xl:"64px", md:"45px"}}
+                      paddingInput={{xl:"21px 10px", md:"13px 8px"}} 
                       error={errors.joiningDate?.message}
                       {...field}
                     />
@@ -831,6 +994,8 @@ useEffect(() => {
                   label="Duration*"
                   type="text"
                   value={joiningDuration}
+                  height={{xl:"64px", md:"45px"}}
+                  paddingInput={{xl:"21px 10px", md:"13px 8px"}}
                   border={false}
                   readOnly
                   disabled
@@ -864,7 +1029,8 @@ useEffect(() => {
                   render={({ field }) => (
                     <CustomSelectForRole
                       label="User Role"
-                      height={"66px"}
+                      height={{xl:"66px", md:"58px"}} 
+
                       options={[
                         { value: "HOD", label: "HOD" },
                         { value: "user", label: "User" },
@@ -893,6 +1059,8 @@ useEffect(() => {
                     <CustomInputLabel
                       label="Annual Leaves*"
                       error={errors.annualLeaves?.message}
+                      height={{xl:"64px", md:"45px"}}
+                      paddingInput={{xl:"21px 10px", md:"13px 8px"}}
                       {...field}
                       type={"number"}
                     />
@@ -915,6 +1083,8 @@ useEffect(() => {
                     <CustomInputLabel
                       label="Basic Salary"
                       error={errors.basicSalary?.message}
+                      height={{xl:"64px", md:"45px"}}
+                      paddingInput={{xl:"21px 10px", md:"13px 8px"}}
                       {...field}
                       type={"number"}
                     />
@@ -951,6 +1121,8 @@ useEffect(() => {
                     <CustomInputLabel
                       label="Convenience Allowance*"
                       error={errors.commuteAllowance?.message}
+                      height={{xl:"64px", md:"45px"}}
+                      paddingInput={{xl:"21px 10px", md:"13px 8px"}}
                       {...field}
                       type={"number"}
                     />
@@ -975,6 +1147,8 @@ useEffect(() => {
                     <CustomInputLabel
                       label="Internet Allowance*"
                       error={errors.internetAllowance?.message}
+                      height={{xl:"64px", md:"45px"}}
+                      paddingInput={{xl:"21px 10px", md:"13px 8px"}}
                       {...field}
                       type={"number"}
                     />
@@ -999,6 +1173,8 @@ useEffect(() => {
                     <CustomInputLabel
                       label="Mobile allowance"
                       error={errors.mobileAllowance?.message}
+                      height={{xl:"64px", md:"45px"}}
+                      paddingInput={{xl:"21px 10px", md:"13px 8px"}}
                       {...field}
                       type={"number"}
                     />
@@ -1033,7 +1209,8 @@ useEffect(() => {
                       label="Net Salary*"
                       type="text"
                       value={netSalary} 
-                      
+                      height={{xl:"64px", md:"45px"}}
+                      paddingInput={{xl:"21px 10px", md:"13px 8px"}}
                       // {...field}
                       readOnly
                       disabled={true}
@@ -1060,6 +1237,8 @@ useEffect(() => {
                     <CustomInputLabel
                       label="Bank Name*"
                       error={errors.bank?.message}
+                      height={{xl:"64px", md:"45px"}}
+                      paddingInput={{xl:"21px 10px", md:"13px 8px"}}
                       {...field}
                       
                     />
@@ -1085,6 +1264,8 @@ useEffect(() => {
                       label="Bank Account Number*"
                       error={errors.BAN?.message}
                       {...field}
+                      height={{xl:"64px", md:"45px"}}
+                      paddingInput={{xl:"21px 10px", md:"13px 8px"}}
                    
                     />
                   )}
@@ -1120,6 +1301,8 @@ useEffect(() => {
                       label="Bank Account Title"
                       error={errors.BAT?.message}
                       {...field}
+                      height={{xl:"64px", md:"45px"}}
+                      paddingInput={{xl:"21px 10px", md:"13px 8px"}}
                      
                     />
                   )}
@@ -1141,7 +1324,8 @@ useEffect(() => {
                   render={({ field }) => (
                     <CustomSelectForRole
                       label="Location Type"
-                      height={"66px"}
+                      height={{xl:"66px", md:"58px"}} 
+
                       options={[
                         { value: "onsite", label: "On-Site" },
                         { value: "remote", label: "Remote" },
@@ -1170,7 +1354,8 @@ useEffect(() => {
                   render={({ field }) => (
                     <CustomSelectForRole
                       label="On Probation"
-                      height={"66px"}
+                      height={{xl:"66px", md:"58px"}} 
+
                       options={[
                         { value: "yes", label: "Yes" },
                         { value: "no", label: "No" },
@@ -1210,8 +1395,9 @@ useEffect(() => {
                   rules={{ required: "Employeement Type is required" }}
                   render={({ field }) => (
                     <CustomSelectForRole
-                      label="Employement Type"
-                      height={"66px"}
+                      label="Employement Type"  
+                      height={{xl:"66px", md:"58px"}} 
+
                       options={[
                         { value: "partTime", label: "Part Time" },
                         { value: "fullTime", label: "Full Time" },
@@ -1236,7 +1422,7 @@ useEffect(() => {
               fullWidth={false}
               variant="contained"
               // padding="10px 20px"
-              type="submit"
+              
               background="white"
               hoverBg="#303f9f"
               hovercolor="white"
@@ -1248,6 +1434,7 @@ useEffect(() => {
                border:"1px solid #010120",
                boxShadow:"none"
               }}
+              onClick={()=> setShowDocuments(true)}
             />
             <CustomButton
               ButtonText="Add User +"
@@ -1267,6 +1454,12 @@ useEffect(() => {
               height="45px"
             />
           </Box>
+
+          {
+            showDocuments ? (
+            
+            ) : "
+          }
         </form>
       </Box>
     </Box>

@@ -147,7 +147,8 @@ const WFHManagement = () => {
 
   useEffect(() => {
     setHeadertext("WFH Management");
-    setParaText(" ");
+    setParaText("Manage Employees WFH Requestes");
+
     fetchAllWFH();
   }, [selectedMonth, selectedYear]);
 
@@ -211,7 +212,8 @@ const filteredWFHData = allWfh.filter((row) => {
       >
         <Box sx={{ flexBasis: { lg: "320px", xs: "60%" } }}>
           <CustomInputLabel
-            height={"36px"}
+           height={{xs:"36px"}}
+           paddingInput={{xs:" 8px 10px"}}
             fontSize={"20px"}
             showSearchIcon={true}
             placeholder={"Search User"}

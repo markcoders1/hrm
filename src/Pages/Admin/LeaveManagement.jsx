@@ -52,7 +52,7 @@ const LeaveManagement = () => {
 
   useEffect(() => {
     setHeadertext("Leave Management");
-    setParaText("Manage Employee Leaves");
+    setParaText("Manage Employees Leaves Requestes");
   }, [setHeadertext, setParaText]);
 
   useEffect(() => {
@@ -236,7 +236,8 @@ const LeaveManagement = () => {
       >
         <Box sx={{ flexBasis: { lg: "300px", xs: "60%" } }}>
           <CustomInputLabel
-            height={"36px"}
+            height={{xs:"36px"}}
+            paddingInput={{xs:" 8px 10px"}}
             fontSize={"20px"}
             showSearchIcon={true}
             placeholder={"Search User"}

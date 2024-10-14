@@ -28,139 +28,8 @@ const Register = () => {
   const [isFormDirty, setIsFormDirty] = useState(false);
   const [companyIDValue, setCompanyIDValue] = useState("")
   const [netSalary, setNetSalary] = useState(0);
-  const [showDocuments, setShowDocuments] = useState(false)
   
-// here file upload codebase 
- const FileUpload = ({ label, name, formData, setFormData , labeStyling, BoxStyling }) => {
-  const [previewImage, setPreviewImage] = useState(null);
-  const [selectedFileName, setSelectedFileName] = useState("");
 
-  // Handle the file selection
-  const handleChange = (e) => {
-    const file = e.target.files[0];
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: file,
-    }));
-    setSelectedFileName(file?.name || "");
-    setPreviewImage(file ? URL.createObjectURL(file) : null);
-  };
-
-  return (
-    <Box
-      sx={{
-        flexBasis: "50%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        ...BoxStyling
-   
-      }}
-    >
-      <label
-        htmlFor={`upload-${name}`}
-        style={{
-          cursor: "pointer",
-          color: "#FFA100",
-          textAlign: "center",
-          border: "2px dashed rgba(197, 197, 197, 0.6)",
-        //   maxWidth: "509px",
-          height: "181px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "#FFFF",
-          borderRadius: "8px",
-          flexDirection: "column",
-          width: "100%",
-          ...labeStyling    
-        }}
-      >
-        <Box
-          sx={{
-            width: "100%",
-            height: "165px",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          {previewImage ? (
-            <img
-              src={previewImage}
-              alt={label}
-              style={{
-                width: "100%",
-                height: "100%",
-                borderRadius: "12px",
-                
-              }}
-            />
-          ) : (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-              }}
-            >
-              <img
-                src={picFrame}
-                alt="Placeholder"
-                style={{
-                  width: "31px",
-                  height: "auto",
-                  objectFit: "contain",
-                }}
-              />
-              <Typography
-                sx={{
-                  fontSize: { sm: "20px", xs: "16px" },
-                  fontWeight: "600",
-                  mt: "10px",
-                  fontFamily: "Poppins",
-                  color: "#010120",
-                }}
-              >
-                {label}
-              </Typography>
-              <Typography
-                sx={{
-                  fontSize: { sm: "10px", xs: "9px" },
-                  fontWeight: "600",
-                  mt: "10px",
-                  fontFamily: "Poppins",
-                  color: "#878787",
-                }}
-              >
-                Supports: JPG, JPEG2000, PNG
-              </Typography>
-            </Box>
-          )}
-        </Box>
-        {/* File Input */}
-        <input
-          type="file"
-          id={`upload-${name}`}
-          name={name}
-          style={{ display: "none" }}
-          onChange={handleChange}
-        />
-      </label>
-    </Box>
-  );
-};
-
-const [formData, setFormData] = useState({
-  frontCnic: null,
-  backCnic: null,
-  lastEducation: null,
-  lastEmployer: null,
-  lastPayroll: null,
-  photo: null,
-  resume: null,
-  status: "",
-});
  
 
 
@@ -217,15 +86,14 @@ function convertTimeToUnixTimestamp(timeString) {
   return Math.floor(date.getTime() / 1000);
 }
   const onSubmit = async (data) => {
-    const keys = Object.keys(formData);
-    for (let key of keys) {
-      if (formData[key] && formData[key].size > 2 * 1024 * 1024) {
-        console.error("File size exceeds 2MB for", key);
-        return;
-      }
-    }
-    const formDataToSend = new FormData();
-
+    
+    console.log(data)
+     
+  let phone = Number(data.phone);
+  let emergencyNumber = Number(data.emergencyNumber);
+  
+        const shiftTimingFrom = convertTimeToUnixTimestamp(data.shiftTimingFrom);
+        const shiftTimingTo = convertTimeToUnixTimestamp(data.shiftTimingTo);
 
         
     try {
@@ -1395,7 +1263,7 @@ useEffect(() => {
                   rules={{ required: "Employeement Type is required" }}
                   render={({ field }) => (
                     <CustomSelectForRole
-                      label="Employement Type"  
+                      label="Employement Type"
                       height={{xl:"66px", md:"58px"}} 
 
                       options={[
@@ -1422,7 +1290,7 @@ useEffect(() => {
               fullWidth={false}
               variant="contained"
               // padding="10px 20px"
-              
+              type="submit"
               background="white"
               hoverBg="#303f9f"
               hovercolor="white"
@@ -1434,7 +1302,6 @@ useEffect(() => {
                border:"1px solid #010120",
                boxShadow:"none"
               }}
-              onClick={()=> setShowDocuments(true)}
             />
             <CustomButton
               ButtonText="Add User +"
@@ -1454,12 +1321,6 @@ useEffect(() => {
               height="45px"
             />
           </Box>
-
-          {
-            showDocuments ? (
-            
-            ) : "
-          }
         </form>
       </Box>
     </Box>

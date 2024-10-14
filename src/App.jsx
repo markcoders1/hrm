@@ -47,6 +47,7 @@ import EditMyProfile from './Pages/User/EditMyProfile.jsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import store from './store.js';
+import HodProfile from './Pages/HodProfile.jsx';
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 const queryClient = new QueryClient();
@@ -67,6 +68,8 @@ function App() {
           <Route path='/dashboard' element={<ProtectedRoute><DefaultLayout /></ProtectedRoute>}>
             <Route path='' element={<Check />} />
             <Route path='profile' element={<Profile />} />
+            <Route path='hod-profile' element={<HodProfile />} />
+
             <Route path='profile/edit-profile' element={<EditMyProfile />} />
             <Route path='my-notifications' element={<MyNotifications />} />
             <Route path='notifications' element={<Notifications />} />

@@ -257,11 +257,13 @@ const EmployeeData = () => {
 
   
       <CustomInputLabel
-        height={"36px"}
+        height={{xs:"36px"}}
+        paddingInput={{xs:" 8px 10px"}}
         fontSize={"20px"}
         showSearchIcon={true}
         placeholder={"Search User"}
         value={searchTerm}
+        // paddingInput={{xl:"21px 10px", md:"7px 5px"}}
         onChange={(e) => setSearchTerm(e.target.value)} // Update the search term state
       />
     </Box>

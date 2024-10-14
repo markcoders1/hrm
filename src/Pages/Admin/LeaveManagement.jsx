@@ -236,7 +236,8 @@ const LeaveManagement = () => {
       >
         <Box sx={{ flexBasis: { lg: "300px", xs: "60%" } }}>
           <CustomInputLabel
-            height={"36px"}
+            height={{xs:"36px"}}
+            paddingInput={{xs:" 8px 10px"}}
             fontSize={"20px"}
             showSearchIcon={true}
             placeholder={"Search User"}

@@ -10,40 +10,43 @@ import Tooltip from "@mui/material/Tooltip";
 import CustomCheckbox from "../components/CustomCheckbox/CustomCheckbox";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 import ChangePasswordModal from "../components/ChangePasswordModal/ChangePasswordModal";
+import { useQuery } from "@tanstack/react-query";
+
 
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import SpinnerLoader from "../components/SpinnerLoader";
+
+const fetchUserProfile = async (id) => {
+  const response = await axiosInstance.get(`${apiUrl}/api/getUser`, {
+    params: { id },
+  });
+  return response.data.user;
+};
+
 const HodProfile = () => {
   const navigate = useNavigate();
   const { setHeadertext } = useOutletContext();
   const { id } = useParams();
-  const [yourData, setYourData] = useState({});
-  const [loading, setLoading] = useState(true);
+  // const [yourData, setYourData] = useState({});
+  const [loading, setLoading] = useState(false);
   const daysOfWeek = ["", "M", "T", "W", "Th", "F", "S", ""];
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    const getProfileInfo = async () => {
-      try {
-        const response = await axiosInstance({
-          url: `${apiUrl}/api/getUser`,
-          method: "get",
-          params: { id },
-        });
-        setYourData(response.data.user);
-        console.log(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  setHeadertext("HOD Profile")
 
-    getProfileInfo();
-    setHeadertext("My Profile");
-  }, [id, setHeadertext]);
+  // Use React Query v5 to fetch data
+  const { data: yourData, isPending } = useQuery({
+    queryKey: ["userProfile", id],
+    queryFn: () => fetchUserProfile(id),
+    staleTime: 600000, 
+    onError: (error) => {
+      console.error(error);
+      toast.error("Error fetching profile data.");
+    },
+  });
 
-  if (loading) {
+  if (isPending) {
     return (
       <Box className="loaderContainer">
         <SpinnerLoader />
@@ -260,7 +263,7 @@ const HodProfile = () => {
             
           }}
         >
-          {yourData.workDays.length > 1 && (
+          {yourData?.workDays?.length > 1 && (
             <>
               <Box className="user-details-item" sx={{ flexBasis: "33%", border:"none !important" }}>
                 <Typography variant="subtitle2" className="user-details-label">
@@ -275,8 +278,8 @@ const HodProfile = () => {
                      border:"none !important"
                   }}
                 >
-                  {yourData.workDays &&
-                    yourData.workDays.map((day, index) => (
+                  {yourData?.workDays &&
+                    yourData?.workDays.map((day, index) => (
                       <Box
                         key={index}
                         sx={{

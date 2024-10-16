@@ -60,6 +60,8 @@ const EmployeeData = () => {
   const [tabValue, setTabValue] = useState(0);
 
   useEffect(() => {
+    setHeadertext("User Management");
+
     const getAllUser = async () => {
       try {
       
@@ -75,7 +77,6 @@ const EmployeeData = () => {
         setAllEmployee(dataAllEmployee);
         setFilteredEmployees(dataAllEmployee);
         setLoading(false);
-        setHeadertext("User Management");
         setParaText(`${response.data.length} Users Found`);
       } catch (error) {
         console.error(error);

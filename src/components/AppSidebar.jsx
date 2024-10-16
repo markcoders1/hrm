@@ -65,7 +65,6 @@ const parser = new UAParser();
 const CustomNavLink = ({ children, ...props }) => {
   const formDirty = useSelector((state) => state.form.isFormDirty);
   const dispatch = useDispatch();
- 
 
   const handleClick = (e) => {
     if (formDirty) {
@@ -107,7 +106,7 @@ const AppSidebar = () => {
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
   const [loadingLogout, setLoadingLogout] = useState(false);
 
-  const user = useSelector((state) => state.user.user.role);  
+  const user = useSelector((state) => state.user.user.role);
   useEffect(() => {
     const checkIsAdmin = async () => {
       try {
@@ -197,7 +196,7 @@ const AppSidebar = () => {
           </div>
         </CSidebarHeader>
         <CSidebarNav className="nav-top">
-          {user == "user" || user == "TL" || user == "HR"  ? (
+          {user == "user" || user == "TL" || user == "HR" ? (
             <>
               <CNavItem>
                 <CustomNavLink to="/dashboard" end className="nav-link">
@@ -251,13 +250,12 @@ const AppSidebar = () => {
                   &nbsp;&nbsp; Remote Work
                 </NavLink>
               </CNavItem>
-              
             </>
           ) : (
             ""
           )}
 
-          {user === "HOD" || user == "HR"  ? (
+          {user === "HOD" || user == "HR" ? (
             <>
               <CNavItem>
                 <CustomNavLink to="/dashboard/admin" className="nav-link" end>
@@ -367,7 +365,7 @@ const AppSidebar = () => {
             ""
           )}
 
-          {user === "HOD" ? (
+          {user === "HOD" || user === "HR" ? (
             <>
               <CNavItem>
                 <CustomNavLink
@@ -384,26 +382,18 @@ const AppSidebar = () => {
                   &nbsp; User Management
                 </CustomNavLink>
               </CNavItem>
-              <CNavItem>
-              <CustomNavLink to="/dashboard/hod-profile" end className="nav-link">
-                &nbsp;&nbsp;
-                <img
-                  src={profileIcon}
-                  alt=""
-                  style={{ width: "17.97px", height: "23.09" }}
-                />{" "}
-                &nbsp; My Profile
-              </CustomNavLink>
-            </CNavItem>
             </>
           ) : (
             ""
           )}
-          <>
-          {
-            user == "user" || user == "TL" || user == "HR"  ? (
-              <CNavItem>
-              <CustomNavLink to="/dashboard/profile" end className="nav-link">
+
+          {user === "HOD" ? (
+            <CNavItem>
+              <CustomNavLink
+                to="/dashboard/hod-profile"
+                end
+                className="nav-link"
+              >
                 &nbsp;&nbsp;
                 <img
                   src={profileIcon}
@@ -413,9 +403,26 @@ const AppSidebar = () => {
                 &nbsp; My Profile
               </CustomNavLink>
             </CNavItem>
-            ) : ""
-          }
-            
+          ) : (
+            ""
+          )}
+          <>
+            {user == "user" || user == "TL" || user == "HR" ? (
+              <CNavItem>
+                <CustomNavLink to="/dashboard/profile" end className="nav-link">
+                  &nbsp;&nbsp;
+                  <img
+                    src={profileIcon}
+                    alt=""
+                    style={{ width: "17.97px", height: "23.09" }}
+                  />{" "}
+                  &nbsp; My Profile
+                </CustomNavLink>
+              </CNavItem>
+            ) : (
+              ""
+            )}
+
             <CNavItem>
               <CustomNavLink
                 to="/dashboard/notifications"
@@ -486,9 +493,6 @@ const AppSidebar = () => {
                     <CSidebarToggler onClick={() => dispatch({ type: "set", sidebarUnfoldable: !unfoldable })} />
                 </CSidebarFooter> */}
       </CSidebar>
-
-
-    
 
       <ChangePasswordModal open={open} handleClose={() => setOpen(false)} />
 

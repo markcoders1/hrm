@@ -86,6 +86,7 @@ function convertTimeToUnixTimestamp(timeString) {
   return Math.floor(date.getTime() / 1000);
 }
   const onSubmit = async (data) => {
+    console.log("============================")
     
     console.log(data)
      
@@ -111,36 +112,71 @@ function convertTimeToUnixTimestamp(timeString) {
       let DOB = new Date(data.DOB).getTime();
       DOB = DOB.toString()
 
-      const payload = {
-        ...data,
-        workDays,
-        joiningDate, 
-        shiftTimingFrom,
-        shiftTimingTo,
-        DOB,
-        // phone,
-        // emergencyNumber
-        
-        
-      };
+      // const payload = {
+      //   ...data,
+      //   workDays,
+      //   joiningDate, 
+      //   shiftTimingFrom,
+      //   shiftTimingTo,
+      //   DOB,
+      //   // phone,
+      //   // emergencyNumber
+      // };
 
-      console.log(payload); // Log the payload to check the data
-      console.log(data);
-      const response = await axiosInstance.post(
-        `${apiUrl}/api/admin/register`,
-        payload,
+      // const response = await axiosInstance.post(
+      //   `${apiUrl}/api/admin/register`,
+      //   payload,
        
-      );
-      console.log(response)
+      // );
+      const res = await axiosInstance({
+        url : `${apiUrl}/api/admin/register`,
+        method: "post",
+        data : {
+          fullName : data.fullName,
+          phone : data.phone,
+          email : data.email,
+          address : data.address,
+          emergencyNumber : data.emergencyNumber,
+          CNIC : data.CNIC,
+          DOB : DOB,
+          companyId : data.companyId,
+          password : data.password,
+          shiftTimingFrom : shiftTimingFrom,
+          shiftTimingTo : shiftTimingTo,
+          department : data.department,
+          teamLeadID : data.teamLeadID,
+          designation : data.designation,
+          workDays : workDays,
+          HODID : data.HODID,
+          joiningDate : joiningDate,
+          role : data.role,
+          annualLeaves : data.annualLeaves,
+          basicSalary : data.basicSalary,
+          commuteAllowance : data.commuteAllowance,
+          internetAllowance : data.internetAllowance,
+          mobileAllowance : data.mobileAllowance,
+          bank : data.bank,
+          BAN:data.BAN,
+          BAT : data.BAT,
+          locationType : data.locationType,
+          onProbation : data.onProbation,
+          employmentType : data.employmentType,
+
+
+        }
+      })
+      console.log(res);
 
       toast.success("User Registered Sucessfully", { position: "top-right" });
 
       setSelectedDays([]); // Reset selected days
     } catch (error) {
-      const err = error?.response?.data?.message || error.message;
+      console.log(error)
+
+      const err = error?.res?.data?.message || error.message;
       toast.error(err, { position: "top-center" });
       console.log(error);
-      toast.error(error.response.data.message[0].message, { position: "top-right" });
+      toast.error(error.res.data.message[0].message, { position: "top-right" });
 
     }
   };
@@ -636,7 +672,7 @@ useEffect(() => {
                   render={({ field }) => (
                     <CustomSelectForRole
                       label="Department*"
-                      height={{xl:"66px", md:"58px"}} 
+                      height={{xl:"76px !important", md:"58px !important"}} 
 
                       options={departments.map((depart) => ({
                         value: depart, // The value to send to the API
@@ -667,7 +703,7 @@ useEffect(() => {
                   render={({ field }) => (
                     <CustomSelectForRole
                       label="Line Manager"
-                      height={{xl:"66px", md:"58px"}} 
+                      height={{xl:"76px !important", md:"58px !important"}} 
 
                       options={teamLeads.map((tl) => ({
                         value: tl.id, 
@@ -769,7 +805,8 @@ useEffect(() => {
                   render={({ field }) => (
                     <CustomSelectForRole
                       label="HOD*"
-                      height={{xl:"66px", md:"58px"}}   
+                      height={{xl:"76px !important", md:"58px !important"}} 
+  
 
                       options={hods.map((hod) => ({
                         value: hod.id, // The value to send to the API
@@ -897,7 +934,8 @@ useEffect(() => {
                   render={({ field }) => (
                     <CustomSelectForRole
                       label="User Role"
-                      height={{xl:"66px", md:"58px"}} 
+                      height={{xl:"76px !important", md:"58px !important"}} 
+
 
                       options={[
                         { value: "HOD", label: "HOD" },
@@ -1192,7 +1230,8 @@ useEffect(() => {
                   render={({ field }) => (
                     <CustomSelectForRole
                       label="Location Type"
-                      height={{xl:"66px", md:"58px"}} 
+                      height={{xl:"76px !important", md:"58px !important"}} 
+
 
                       options={[
                         { value: "onsite", label: "On-Site" },
@@ -1222,7 +1261,8 @@ useEffect(() => {
                   render={({ field }) => (
                     <CustomSelectForRole
                       label="On Probation"
-                      height={{xl:"66px", md:"58px"}} 
+                      height={{xl:"76px !important", md:"58px !important"}} 
+ 
 
                       options={[
                         { value: "yes", label: "Yes" },
@@ -1264,7 +1304,8 @@ useEffect(() => {
                   render={({ field }) => (
                     <CustomSelectForRole
                       label="Employement Type"
-                      height={{xl:"66px", md:"58px"}} 
+                      height={{xl:"76px !important", md:"58px !important"}} 
+
 
                       options={[
                         { value: "partTime", label: "Part Time" },
@@ -1280,8 +1321,11 @@ useEffect(() => {
             </Box>
           </Box>
 
-          <Box sx={{ display: "flex", justifyContent: "end", mt: "20px", gap:"1.5rem"}}>
+          <Box>
 
+          </Box>
+
+          <Box sx={{ display: "flex", justifyContent: "end", mt: "20px", gap:"1.5rem"}}>
           <CustomButton
               ButtonText="Add Documents +"
               fontSize="16px"
@@ -1317,7 +1361,7 @@ useEffect(() => {
               hovercolor="white"
               width={"150px"}
               borderRadius="7px"
-            
+              // onClick={(()=> onSubmit())}
               height="45px"
             />
           </Box>

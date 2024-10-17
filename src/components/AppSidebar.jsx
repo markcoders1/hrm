@@ -255,7 +255,7 @@ const AppSidebar = () => {
             ""
           )}
 
-          {user === "HOD" || user == "HR" ? (
+          {user === "HOD"? (
             <>
               <CNavItem>
                 <CustomNavLink to="/dashboard/admin" className="nav-link" end>
@@ -382,6 +382,20 @@ const AppSidebar = () => {
                   &nbsp; User Management
                 </CustomNavLink>
               </CNavItem>
+              <CNavItem>
+                <CustomNavLink
+                  to="/dashboard/attendance"
+                  className="nav-link"
+                  end
+                >
+                  <img
+                    src={attenfanceManaIcon}
+                    alt=""
+                    style={{ width: "27.21px", height: "28.16px" }}
+                  />{" "}
+                  &nbsp; Attendance Management
+                </CustomNavLink>
+              </CNavItem>
             </>
           ) : (
             ""
@@ -476,7 +490,7 @@ const AppSidebar = () => {
                   src={logoutIcon}
                 />{" "}
                 <Typography sx={{ fontSize: "22px !important" }}>
-                  LogOut
+                  Log Out
                 </Typography>
               </div>
             </CNavItem>

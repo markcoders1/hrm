@@ -111,7 +111,7 @@ const DashboardAdmin = () => {
       
       console.log(response);
      // Filter users with checkIn and set the count
-    const activeUsersCount = dataAllEmployee.filter(user => user.checkIn).length;
+     const activeUsersCount = dataAllEmployee.filter(user => user.checkIn && !user.checkOut).length;
     setEmployeeActiveCount(activeUsersCount);
     } catch (error) {
       console.error(error);
@@ -425,6 +425,7 @@ const DashboardAdmin = () => {
                 color="white"
                 fontSize="14px"
                 value={announcementText}
+                paddingInput={"0px"}
                 onChange={(e) => setAnnouncementText(e.target.value)}
               />
               <Tooltip title="Add">

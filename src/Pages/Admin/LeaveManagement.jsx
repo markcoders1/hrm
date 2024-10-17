@@ -52,7 +52,7 @@ const LeaveManagement = () => {
 
   useEffect(() => {
     setHeadertext("Leave Management");
-    setParaText("Manage Employees Leaves Requestes");
+    setParaText("Manage Employees Leaves Requests");
   }, [setHeadertext, setParaText]);
 
   useEffect(() => {
@@ -250,7 +250,7 @@ const LeaveManagement = () => {
             label="Status"
             value={statusFilter}
             handleChange={handleStatusChange}
-            height={"46px"}
+            height={"46px !important"}
             options={[
               { value: "pending", label: "Pending" },
               { value: "approved", label: "Approved" },

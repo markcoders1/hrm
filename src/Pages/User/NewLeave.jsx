@@ -107,7 +107,7 @@ try {
     <Box className="sheet-container-admin">
       <Box sx={{ display: 'flex', justifyContent: 'start',gap:"4rem",  mb: 4 }}>
         <Typography sx={{fontWeight:"600", fontSize:"24px", color:"#010120"}} >Total: {leaveDetails?.annualLeaves}</Typography>
-        <Typography sx={{fontWeight:"600", fontSize:"24px", color:"#010120"}} >Availded: {leaveDetails?.leavesTaken}</Typography>
+        <Typography sx={{fontWeight:"600", fontSize:"24px", color:"#010120"}} >Availed: {leaveDetails?.leavesTaken}</Typography>
         <Typography sx={{fontWeight:"600", fontSize:"24px", color:"#010120"}} >Remaining:  {leaveDetails?.annualLeaves - leaveDetails?.leavesTaken? leaveDetails?.annualLeaves - leaveDetails?.leavesTaken : "--"}</Typography>
 
       </Box>

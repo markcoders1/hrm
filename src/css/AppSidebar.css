@@ -50,3 +50,13 @@
 /* .d-none.d-lg-flex { */
   /* justify-content: start !important; */
 }
+
+
+.custom-sidebar::-webkit-scrollbar {
+  display: none !important; /* For Chrome, Safari, and Opera */
+}
+
+.custom-sidebar {
+  -ms-overflow-style: none !important; /* For Internet Explorer and Edge */
+  scrollbar-width: none !important; /* For Firefox */
+}

@@ -450,3 +450,12 @@ html, body {
     width: 100%;
   }
 }
+
+.custom-sidebar::-webkit-scrollbar {
+  display: none !important;
+}
+
+.custom-sidebar {
+  -ms-overflow-style: none !important; 
+  scrollbar-width: none !important; 
+}

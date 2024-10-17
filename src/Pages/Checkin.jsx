@@ -14,40 +14,41 @@ import Chart from "../components/Charts/Charts.jsx";
 import CustomInputLabel from "../components/CustomInputField/CustomInputLabel";
 import AnnouncementBox from "../components/AnnouncementBox/AnnouncementBox";
 import CustomButton from "../components/CustomButton/CustomButton";
-import { Box, Typography } from "@mui/material";
+import { Box, Tooltip, Typography } from "@mui/material";
 import SpinnerLoader from "../components/SpinnerLoader.jsx";
-
+import { Send } from "lucide-react";
 
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const formatTime = (val) => {
-  const totalSeconds = Math.floor(val/1000)
+  const totalSeconds = Math.floor(val / 1000);
   const hours = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const secs = totalSeconds % 60;
- 
-  
-  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-};
 
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+    2,
+    "0"
+  )}:${String(secs).padStart(2, "0")}`;
+};
 
 function unixTimestampToTime(UNIX_timestamp) {
   // console.log(UNIX_timestamp)
   var date = new Date(UNIX_timestamp);
 
-  console.log(date.toString())
+  console.log(date.toString());
 
   var hours = date.getHours();
   var minutes = date.getMinutes();
   var secends = date.getSeconds();
 
-  var ampm = hours >= 12 ? 'pm' : 'am';
+  var ampm = hours >= 12 ? "pm" : "am";
   hours = hours % 12;
   hours = hours ? hours : 12;
-  minutes = minutes < 10 ? '0' + minutes : minutes;
-  secends = secends < 10 ? '0' + secends : secends;
-  var strTime = hours + ':' + minutes + ':' + secends + ' ' + ampm;
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  secends = secends < 10 ? "0" + secends : secends;
+  var strTime = hours + ":" + minutes + ":" + secends + " " + ampm;
 
   return strTime;
 }
@@ -61,24 +62,21 @@ const Check = () => {
   const [longitude, setLongitude] = useState();
   const { setHeadertext, setParaText } = useOutletContext();
   const [fetchAnnouncements, setFetchAnnouncements] = useState([]);
-  const [time,setTime] = useState(0)
-  const [checkTime,setCheckTime] = useState(0)
+  const [time, setTime] = useState(0);
+  const [checkTime, setCheckTime] = useState(0);
   const [graphData, setGraphData] = useState([]);
   const dispatch = useDispatch();
-  
+  const role = useSelector((state)=> state.user.user.role)
+  console.log(role)
 
-useEffect(()=>{
-
-},[])
+  useEffect(() => {}, []);
   useEffect(() => {
     const interval = setInterval(() => {
-      setTime(prevTime => prevTime + 1000);
-    }, 1000);
+      setTime((prevTime) => prevTime + 1000);
+    }, 1000 );
 
     return () => clearInterval(interval); // Cleanup interval on component unmount
   }, []);
-
-
 
   const fetchAnnouncementsData = async () => {
     try {
@@ -87,7 +85,7 @@ useEffect(()=>{
         method: "get",
       });
       setFetchAnnouncements(response.data.announcements);
-      console.log(response)
+      console.log(response);
     } catch (error) {
       console.error(error);
     } finally {
@@ -136,14 +134,13 @@ useEffect(()=>{
 
       console.log(response);
       toast.success(response.data.message);
-      if(response.data.status==="checkin"){
-        setTime(0)
+      if (response.data.status === "checkin") {
+        setTime(0);
       }
-      if(response.data.checkIn){
-        setCheckTime(response.data.checkIn)
+      if (response.data.checkIn) {
+        setCheckTime(response.data.checkIn);
       }
       setStatus(response.data.status);
-
     } catch (error) {
       console.error(error);
       toast.error(error.response.data.message);
@@ -173,7 +170,7 @@ useEffect(()=>{
   useEffect(() => {
     requestNotificationPermission();
     setHeadertext("Dashboard");
-    fetchAnnouncementsData()
+    fetchAnnouncementsData();
 
     const getStatus = async () => {
       try {
@@ -181,12 +178,12 @@ useEffect(()=>{
           method: "get",
           url: `${apiUrl}/api/getstatus`,
         });
-        console.log("status",response);
+        console.log("status", response);
         setStatus(response.data.status);
-        if(response.data.time){
-          setCheckTime(response.data.time)
+        if (response.data.time) {
+          setCheckTime(response.data.time);
           // console.log("time",response.data.time)
-          setTime(new Date().valueOf() - response.data.time)
+          setTime(new Date().valueOf() - response.data.time);
         }
         setLoading(false);
       } catch (error) {
@@ -209,10 +206,10 @@ useEffect(()=>{
         method: "get",
         url: `${apiUrl}/api/graph`,
       });
-      console.log("grapgh",response);
-      setGraphData(response.data.graphdata)
+      console.log("grapgh", response);
+      setGraphData(response.data.graphdata);
       // setStatus(response.data.status);
-    
+
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -220,26 +217,66 @@ useEffect(()=>{
     }
   };
 
-
-
   const data = [
-    { day: 'Mon', value: 3 },
-    { day: 'Tue', value: 5 },
-    { day: 'Wed', value: 2 },
-    { day: 'Thu', value: 9 },
-    { day: 'Fri', value: 6 },
-];
+    { day: "Mon", value: 3 },
+    { day: "Tue", value: 5 },
+    { day: "Wed", value: 2 },
+    { day: "Thu", value: 9 },
+    { day: "Fri", value: 6 },
+  ];
+
+  // add anouncement feature for HR
+
+  const [announcementText, setAnnouncementText] = useState("");
+
+  const handleAddAnnouncement = async () => {
+    if (!announcementText.trim()) {
+      return; // Don't add empty announcements
+    }
+
+    try {
+      const response = await axiosInstance({
+        url: `${apiUrl}/api/admin/announcement`,
+        method: "post",
+        data: { message: announcementText },
+      });
+      // console.log(response)
+
+      toast.success("Announcement Added Sucessfully");
+      setFetchAnnouncements((prevAnnouncements) => [
+        {
+          _id: response.data._id,
+          announcement: announcementText,
+          createdAt: new Date().toISOString(),
+        }, // Adjust the key if necessary
+        ...prevAnnouncements,
+      ]);
+
+      setAnnouncementText(""); // Clear the input after adding
+      fetchAnnouncementsData();
+    } catch (error) {
+      console.error(error);
+      toast.error("Error Adding Announcement");
+    }
+  };
+
+  const handleDeleteAnnouncement = (announcementId) => {
+    // Remove the deleted announcement from the state
+    setFetchAnnouncements((prevAnnouncements) =>
+      prevAnnouncements.filter(
+        (announcement) => announcement._id !== announcementId
+      )
+    );
+  };
 
   return (
     <>
-
-      {
-        loading ? (
-          <div className="loaderContainer">
-            <SpinnerLoader />
-          </div>) : (
-            <>
-            
+      {loading ? (
+        <div className="loaderContainer">
+          <SpinnerLoader />
+        </div>
+      ) : (
+        <>
           <Box
             sx={{
               width: "100%",
@@ -250,18 +287,14 @@ useEffect(()=>{
                 md: "row",
                 xs: "column",
               },
-              
             }}
           >
-           
-
-            <Box sx={{
-              flexBasis: "50%",
-              backgroundColor: "white ",
-
-
-
-            }} >
+            <Box
+              sx={{
+                flexBasis: "50%",
+                backgroundColor: "white ",
+              }}
+            >
               <CustomButton
                 onClick={handleCheck}
                 ButtonText={status === "checkin" ? "Check Out" : "Check In"}
@@ -274,48 +307,52 @@ useEffect(()=>{
                 padding="26px 0px"
                 borderRadius="12px"
                 buttonStyle={{
-                  height:"10rem",
-                  display:"flex",
-                  flexDirection:"column",
-                  justifyContent:"center"
+                  height: "10rem",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
                 }}
-                extraText={status === "checkin" ? `${unixTimestampToTime(checkTime)}` : null}
+                extraText={
+                  status === "checkin"
+                    ? `${unixTimestampToTime(checkTime)}`
+                    : null
+                }
               />
-
-              <Box sx={{
-                mt:"30px"
-              }} >
-                 <Chart graphData={graphData} />
-
-              </Box>
-            </Box>
-
-
-            <Box
-            sx={{
-              flexBasis: "50%",
-              
-
-            }}
-            >
-            {status=="checkin"?
-            <Box sx={{
-              height:"10rem",
-              border:"2px solid rgba(170, 170, 170,0.5)",
-              borderRadius:"20px",
-              display:"flex",
-              justifyContent:"center",
-              alignItems:"center",
-              marginBottom:"2rem",
-              fontSize:"2.5rem"
-            }}>
-              {formatTime(time)}
-            </Box>
-            :null}
 
               <Box
                 sx={{
-                  width:"100%",
+                  mt: "30px",
+                }}
+              >
+                <Chart graphData={graphData} />
+              </Box>
+            </Box>
+
+            <Box
+              sx={{
+                flexBasis: "50%",
+              }}
+            >
+              {status == "checkin" ? (
+                <Box
+                  sx={{
+                    height: "10rem",
+                    border: "2px solid rgba(170, 170, 170,0.5)",
+                    borderRadius: "20px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginBottom: "2rem",
+                    fontSize: "2.5rem",
+                  }}
+                >
+                  {formatTime(time)}
+                </Box>
+              ) : null}
+
+              <Box
+                sx={{
+                  width: "100%",
                   backgroundColor: "#010120",
                   color: "white",
                   p: "24px 0px 24px 17px",
@@ -333,14 +370,13 @@ useEffect(()=>{
                   <Typography sx={{ fontSize: "24px", fontWeight: "500" }}>
                     Announcement
                   </Typography>
-
                 </Box>
                 <Box
-                   sx={{
+                  sx={{
                     mt: "30px",
                     display: "flex",
                     flexDirection: "column",
-                    gap: "1rem",
+                    gap: "1rem",  
                     height: "55vh",
                     overflowX: "hidden",
                     padding: "20px 15px 20px 0px",
@@ -360,8 +396,53 @@ useEffect(()=>{
                     },
                   }}
                 >
+                  {
+                    role == "HR" ? (
+                      <Box sx={{ position: "relative" }}>
+                      <CustomInputLabel
+                        multiline="true"
+                        height={"150px"}
+                        border={false}
+                        bgcolor="#272741"
+                        color="white"
+                        fontSize="14px"
+                        value={announcementText}
+                        paddingInput={"0px"}
+                        onChange={(e) => setAnnouncementText(e.target.value)}
+                      />
+                      <Tooltip title="Add">
+                        <Box
+                          sx={{
+                            width: "42px",
+                            height: "42px",
+                            borderRadius: "50%",
+                            backgroundColor: "#157AFF",
+                            position: "absolute",
+                            right: "10px",
+                            bottom: "25px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            p: "10px",
+                            cursor: "pointer",
+                            transition: "background-color 0.3s ease", // Smooth transition for hover effect
+                            "&:hover": {
+                              backgroundColor: "#0e5bb5", // Darker shade on hover
+                            },
+                          }}
+                          onClick={handleAddAnnouncement}
+                        >
+                          <Send />
+                        </Box>
+                      </Tooltip>
+                    </Box>
+                    ) : null
+                  }
+                 
+
                   {fetchAnnouncements.map((announcement, index) => (
                     <AnnouncementBox
+                    
                       key={index}
                       announcementContent={announcement.announcement}
                       announcementDate={announcement.createdAt}
@@ -369,23 +450,11 @@ useEffect(()=>{
                     />
                   ))}
                 </Box>
-
-
               </Box>
             </Box>
-        
-
-
-
           </Box>
-          </>
-
-        )
-
-
-      }
-
-
+        </>
+      )}
     </>
   );
 };

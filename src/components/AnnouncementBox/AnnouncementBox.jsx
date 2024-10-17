@@ -14,6 +14,7 @@ const AnnouncementBox = ({
   onDelete,
   announcementDate,
   announcementAuthor,
+  styleBox = {}
 }) => {
   const [isAdmin, setIsAdmin] = useState();
   const [open, setOpen] = useState(false);

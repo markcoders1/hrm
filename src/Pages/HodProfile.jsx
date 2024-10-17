@@ -26,14 +26,16 @@ const fetchUserProfile = async (id) => {
 
 const HodProfile = () => {
   const navigate = useNavigate();
-  const { setHeadertext } = useOutletContext();
+  const { setHeadertext , setParaText} = useOutletContext();
   const { id } = useParams();
   // const [yourData, setYourData] = useState({});
   const [loading, setLoading] = useState(false);
   const daysOfWeek = ["", "M", "T", "W", "Th", "F", "S", ""];
   const [open, setOpen] = useState(false);
 
-  setHeadertext("HOD Profile")
+  setHeadertext("HOD Profile");
+  setParaText(" ");
+  
 
   // Use React Query v5 to fetch data
   const { data: yourData, isPending } = useQuery({

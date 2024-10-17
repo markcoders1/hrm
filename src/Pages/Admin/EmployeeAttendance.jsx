@@ -46,8 +46,9 @@ const EmployeeAttendance = () => {
   useEffect(() => {
     const fetchEmployeeData = async (dateTimestamp) => {
       console.log(dateTimestamp)
+      setHeadertext("Attendance Management");
+      setParaText(" ")
       try {
-        setHeadertext("Attendance Management");
         
         const response = await axiosInstance({
           url: `${apiUrl}/api/admin/getToday`,

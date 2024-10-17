@@ -52,7 +52,7 @@ const LeaveManagement = () => {
 
   useEffect(() => {
     setHeadertext("Leave Management");
-    setParaText("Manage Employees Leaves Requestes");
+    setParaText("Manage Employees Leaves Requests");
   }, [setHeadertext, setParaText]);
 
   useEffect(() => {

@@ -365,7 +365,7 @@ const AppSidebar = () => {
             ""
           )}
 
-          {user === "HOD" || user === "HR" ? (
+          {user === "HOD"? (
             <>
               <CNavItem>
                 <CustomNavLink

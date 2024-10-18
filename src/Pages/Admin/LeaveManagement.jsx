@@ -44,6 +44,7 @@ const LeaveManagement = () => {
   const [selectedYear, setSelectedYear] = useState(
     new Date().getFullYear().toString()
   ); // Default to current year
+  const [payrollType, setPayrollType] = useState("Payroll Type"); 
 
   const getUnixTimestampForMonthYear = (month, year) => {
     const date = new Date(year, month, 1);
@@ -182,10 +183,28 @@ const LeaveManagement = () => {
     setSelectedMonth(event.target.value);
   };
 
+  const handlePayrollTypeChange = (event) => {
+    setSelectedMonth(event.target.value);
+  };
+
   const handleYearChange = (event) => {
     setSelectedYear(event.target.value);
   };
 
+  const payrollTYPE = [
+    { label: "Commission", value: "0" },
+    { label: "February", value: "1" },
+    { label: "March", value: "2" },
+    { label: "April", value: "3" },
+    { label: "May", value: "4" },
+    { label: "June", value: "5" },
+    { label: "July", value: "6" },
+    { label: "August", value: "7" },
+    { label: "September", value: "8" },
+    { label: "October", value: "9" },
+    { label: "November", value: "10" },
+    { label: "December", value: "11" },
+  ];
   const months = [
     { label: "January", value: "0" },
     { label: "February", value: "1" },
@@ -202,11 +221,11 @@ const LeaveManagement = () => {
   ];
 
   // Generate years starting from 2024
-  const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: currentYear - 2024 + 1 }, (v, i) => ({
-    label: (2024 + i).toString(),
-    value: (2024 + i).toString(),
-  }));
+    const currentYear = new Date().getFullYear();
+    const years = Array.from({ length: currentYear - 2024 + 1 }, (v, i) => ({
+      label: (2024 + i).toString(),
+      value: (2024 + i).toString(),
+    }));
 
   if (loading) {
     return (

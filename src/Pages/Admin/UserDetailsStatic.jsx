@@ -318,7 +318,7 @@ useEffect(()=>{
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Joining Date</Typography>
-          <Typography variant="body1" className="user-details-value">{new Date(userData.DOB).toLocaleDateString()}</Typography>
+          <Typography variant="body1" className="user-details-value">{new Date(userData.joiningDate).toLocaleDateString()}</Typography>
         </Box>
         <Box className="user-details-item" sx={{ flexBasis: '33%' }}>
           <Typography variant="subtitle2" className="user-details-label">Duration</Typography>

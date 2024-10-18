@@ -110,6 +110,7 @@ const AppHeader = (props) => {
            width:{xs:"51px", xl: "81px"},
            height:{xs:"51px", xl: "81px"},
            borderRadius:"50%",
+           objectFit:"cover",
            
            mt:"10px",
           }}

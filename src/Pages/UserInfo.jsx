@@ -56,13 +56,15 @@ const UserInfo = () => {
     locationType: "",
     onProbation: "",
     employmentType: "",
-    CNICFront: "",
-    CNICBack: "",
-    EducationalCert: "",
-    EmploymentLetter: "",
-    Payslip: "",
-    photograph: "",
-    resume: "",
+    documents : {
+      CNICFront: "",
+      CNICBack: "",
+      EducationalCert: "",
+      EmploymentLetter: "",
+      Payslip: "",
+      photograph: "",
+      resume: "",
+    }
   });
 
   const daysOfWeek = [
@@ -137,13 +139,16 @@ const UserInfo = () => {
           BAT: dataAllEmployee.BAT || "",
 
           // documents
-          CNICFront: dataAllEmployee.documents.CNICFront || "",
-          CNICBack: dataAllEmployee.documents.CNICBack || "",
-          EducationalCert: dataAllEmployee.documents.EducationalCert || "",
-          EmploymentLetter: dataAllEmployee.documents.EmploymentLetter || "",
-          Payslip: dataAllEmployee.documents.Payslip || "",
-          photograph: dataAllEmployee.documents.photograph || "",
-          resume: dataAllEmployee.documents.resume || "",
+          documents : {
+
+            CNICFront: dataAllEmployee.documents.CNICFront || "",
+            CNICBack: dataAllEmployee.documents.CNICBack || "",
+            EducationalCert: dataAllEmployee.documents.EducationalCert || "",
+            EmploymentLetter: dataAllEmployee.documents.EmploymentLetter || "",
+            Payslip: dataAllEmployee.documents.Payslip || "",
+            photograph: dataAllEmployee.documents.photograph || "",
+            resume: dataAllEmployee.documents.resume || "",
+          }
         });
 
         console.log(response);
@@ -240,15 +245,8 @@ const UserInfo = () => {
           shiftTimingFrom: shiftTimeFromUnix,
           shiftTimingTo: shiftTimeToUnix,
           joiningDate: +joiningDate,
-          DOB: DOB.toString(),
+          DOB: DOB.toString(),  
           id: id,
-          CNICFront: formData.CNICFront,
-          CNICBack: formData.CNICBack,
-          EducationalCert: formData.EducationalCert,
-          EmploymentLetter: formData.employmentType,
-          Payslip: formData.Payslip,
-          photograph: formData.photograph,
-          resume: formData.resume,
         },
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -925,14 +923,14 @@ const UserInfo = () => {
                     name="CNICFront"
                     formData={formData}
                     setFormData={setFormData}
-                    existingFile={formData.CNICFront}
+                    existingFile={formData?.documents?.CNICFront}
                   />
                   <FileUpload
                     label="Back CNIC"
                     name="CNICBack"
                     formData={formData}
                     setFormData={setFormData}
-                    existingFile={formData.CNICBack}
+                    existingFile={formData?.documents?.CNICBack}
                   />
                 </Box>
 
@@ -952,14 +950,14 @@ const UserInfo = () => {
                     name="EducationalCert"
                     formData={formData}
                     setFormData={setFormData}
-                    existingFile={formData.EducationalCert}
+                    existingFile={formData?.documents?.EducationalCert}
                   />
                   <FileUpload
                     label="Employment Letter"
                     name="EmploymentLetter"
                     formData={formData}
                     setFormData={setFormData}
-                    existingFile={formData.EmploymentLetter}
+                    existingFile={formData?.documents?.EmploymentLetter}
                   />
                 </Box>
 
@@ -979,14 +977,14 @@ const UserInfo = () => {
                     name="Payslip"
                     formData={formData}
                     setFormData={setFormData}
-                    existingFile={formData.Payslip}
+                    existingFile={formData?.documents?.Payslip}
                   />
                   <FileUpload
                     label="Photograph"
                     name="photograph"
                     formData={formData}
                     setFormData={setFormData}
-                    existingFile={formData.photograph}
+                    existingFile={formData?.documents?.photograph}
                   />
                 </Box>
 
@@ -1006,7 +1004,7 @@ const UserInfo = () => {
                     name="resume"
                     formData={formData}
                     setFormData={setFormData}
-                    existingFile={formData.resume}
+                    existingFile={formData?.documents?.resume}
                     BoxStyling={{
                       flexBasis:"100%"
                     }}

@@ -382,6 +382,22 @@ const AppSidebar = () => {
                   &nbsp; User Management
                 </CustomNavLink>
               </CNavItem>
+
+              {/* <CNavItem>
+                <CustomNavLink
+                  to="/dashboard/payroll-management"
+                  className="nav-link"
+                  end
+                >
+                  &nbsp;&nbsp;
+                  <img
+                    src={userManaIcon}
+                    alt=""
+                    style={{ width: "22.8px", height: "27.88px" }}
+                  />{" "}
+                  &nbsp; Payroll Management
+                </CustomNavLink>
+              </CNavItem> */}
               
             </>
           ) : (

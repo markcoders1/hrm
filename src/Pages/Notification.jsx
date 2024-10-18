@@ -59,8 +59,9 @@ const Notification = () => {
           showSearchIcon={true}
           placeholder={"Search Notifications"}
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)} 
-          height={"36px"}
+          height={{ xl: "64px", md: "45px" }}
+          paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+          
         />
       </Box>
       <Box sx={{ display: "flex", flexDirection: "column", gap: "1.5rem", mt: '80px' }}>

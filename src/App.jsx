@@ -43,6 +43,7 @@ import MyWfhDetail from './Pages/User/MyWFHDetail.jsx';
 import NewWFHRequest from './Pages/User/NewWfhRequest.jsx';
 import EditFHRequest from './Pages/User/EditWfhRequest.jsx';
 import EditMyProfile from './Pages/User/EditMyProfile.jsx';
+import PayrollManagement from './Pages/Payroll/PayrollManagement.jsx';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -94,6 +95,10 @@ function App() {
             <Route path='user-management/user-detail/:id' element={<ProtectedAdmin><UserDetailsStatic /></ProtectedAdmin>} />
             <Route path='wfh-management' element={<ProtectedAdmin><WFHManagement /></ProtectedAdmin>} />
             <Route path='wfh-management/wfh-details/:id' element={<ProtectedAdmin><WFHDetails /></ProtectedAdmin>} />
+
+            {/* now 2nd phase from here  */}
+            <Route path='payroll-management' element={<ProtectedAdmin><PayrollManagement /></ProtectedAdmin>} />
+
           </Route>
         </Routes>
       </Suspense>

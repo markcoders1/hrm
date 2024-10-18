@@ -383,7 +383,7 @@ const AppSidebar = () => {
                 </CustomNavLink>
               </CNavItem>
 
-              {/* <CNavItem>
+              <CNavItem>
                 <CustomNavLink
                   to="/dashboard/payroll-management"
                   className="nav-link"
@@ -397,7 +397,7 @@ const AppSidebar = () => {
                   />{" "}
                   &nbsp; Payroll Management
                 </CustomNavLink>
-              </CNavItem> */}
+              </CNavItem>
               
             </>
           ) : (

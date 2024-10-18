@@ -30,6 +30,7 @@ const PayrollManagement = () => {
   const { setHeadertext, setParaText } = useOutletContext();
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState(""); // State for search term
+  const [payrollData, setPayrollData] = useState([]);
 
 
   // const { data: graphData, isPending } = useQuery({
@@ -53,6 +54,7 @@ const PayrollManagement = () => {
 
       })
       console.log(response)
+      setPayrollData(response.data);
     } catch (error) {
       console.log(error)
     }
@@ -98,14 +100,32 @@ const PayrollManagement = () => {
          <Box
         sx={{
           flexBasis:"50%",
-          border:"2px solid yellow",
+        
           backgroundColor:"#E0EBFF",
           display:"flex",
           justifyContent:"center",
-          alignItems:"center",
+          alignItems:"start",
+          flexDirection:"column",
+          p:"25px 50px",
+          borderRadius:"10px",
+          fontWeight:"600 !important"
           
         }}
-        >data</Box>
+        >
+          <Box sx={{ fontWeight:"600 !important", fontSize:{xl:"40px", xs:"30px"},}}>
+            Total Payroll: {payrollData.totalSalary}
+          </Box>
+          <Box sx={{ fontWeight:"600", fontSize:{xl:"40px", xs:"30px"},}}>
+            Current Employees: {payrollData.currentEmployees}
+          </Box>
+          <Box sx={{ fontWeight:"600", fontSize:{xl:"40px", xs:"30px"},}}>
+          Last Payroll: {payrollData.lastPayroll}
+          </Box>
+          <Box sx={{ fontWeight:"600", fontSize:{xl:"40px", xs:"30px"},}}>
+          Difference: {payrollData.difference}
+          </Box>
+          
+        </Box>
       </Box>
     </Box>
   );

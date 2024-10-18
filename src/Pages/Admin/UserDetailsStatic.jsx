@@ -127,13 +127,15 @@ useEffect(()=>{
           width: { md: "517px", xs: "100%" },
           p: { xs: "1rem 1rem", sm: "1rem 2rem" },
           borderRadius: "7px",
-          position: { lg: "fixed", xs: "static" },
+          position: { lg: "absolute", xs: "static" },
           right: "35px",
           top: "10px",
-          zIndex: {lg: "1000" , xs:"0"},
+          zIndex:"1000000",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+         
+
         }}
       >
         <Box sx={{ display: "flex", gap: "1.5rem", alignItems: "center" }}>

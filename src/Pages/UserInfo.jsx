@@ -141,13 +141,13 @@ const UserInfo = () => {
           // documents
           documents : {
 
-            CNICFront: dataAllEmployee.documents.CNICFront || "",
-            CNICBack: dataAllEmployee.documents.CNICBack || "",
-            EducationalCert: dataAllEmployee.documents.EducationalCert || "",
-            EmploymentLetter: dataAllEmployee.documents.EmploymentLetter || "",
-            Payslip: dataAllEmployee.documents.Payslip || "",
-            photograph: dataAllEmployee.documents.photograph || "",
-            resume: dataAllEmployee.documents.resume || "",
+            CNICFront: dataAllEmployee?.documents?.CNICFront || "",
+            CNICBack: dataAllEmployee?.documents?.CNICBack || "",
+            EducationalCert: dataAllEmployee?.documents?.EducationalCert || "",
+            EmploymentLetter: dataAllEmployee?.documents?.EmploymentLetter || "",
+            Payslip: dataAllEmployee?.documents?.Payslip || "",
+            photograph: dataAllEmployee?.documents?.photograph || "",
+            resume: dataAllEmployee?.documents?.resume || "",
           }
         });
 
@@ -384,10 +384,11 @@ const UserInfo = () => {
           position: { lg: "absolute", xs: "static" },
           right: "35px",
           top: "20px",
-          zIndex: "10000",
+          zIndex: "1000000000 !important",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          
         }}
       >
         <Box sx={{ display: "flex", gap: "1.5rem", alignItems: "center" }}>

@@ -10,6 +10,7 @@ import { Loader, LoaderW } from "../components/Loaders";
 import CustomCheckbox from "../components/CustomCheckbox/CustomCheckbox";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
+import FileUpload from "../components/FileUpload/FileUpload";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -25,7 +26,7 @@ const UserInfo = () => {
   const [image, setImage] = useState();
   const [shiftDuration, setShiftDuration] = useState("");
 
-  const {watch} = useForm()
+  const { watch } = useForm();
 
   const [userActive, setUserActive] = useState(null);
   const [loadingToggleAccount, setLoadingToggleAccount] = useState(false);
@@ -47,7 +48,7 @@ const UserInfo = () => {
     HODID: "",
 
     joiningDate: "",
-    mobileAllowance:'',
+    mobileAllowance: "",
     internetAllowance: "",
     role: "",
     annualLeaves: "",
@@ -55,6 +56,13 @@ const UserInfo = () => {
     locationType: "",
     onProbation: "",
     employmentType: "",
+    CNICFront: "",
+    CNICBack: "",
+    EducationalCert: "",
+    EmploymentLetter: "",
+    Payslip: "",
+    photograph: "",
+    resume: "",
   });
 
   const daysOfWeek = [
@@ -121,12 +129,21 @@ const UserInfo = () => {
           locationType: dataAllEmployee.locationType || "",
           onProbation: dataAllEmployee.onProbation || "",
           employmentType: dataAllEmployee.employmentType || "",
-          internetAllowance: dataAllEmployee?.internetAllowance ,
+          internetAllowance: dataAllEmployee?.internetAllowance,
           mobileAllowance: dataAllEmployee?.mobileAllowance,
-          commuteAllowance: dataAllEmployee?.commuteAllowance ,
+          commuteAllowance: dataAllEmployee?.commuteAllowance,
           bank: dataAllEmployee.bank || "",
           BAN: dataAllEmployee.BAN || "",
           BAT: dataAllEmployee.BAT || "",
+
+          // documents
+          CNICFront: dataAllEmployee.documents.CNICFront || "",
+          CNICBack: dataAllEmployee.documents.CNICBack || "",
+          EducationalCert: dataAllEmployee.documents.EducationalCert || "",
+          EmploymentLetter: dataAllEmployee.documents.EmploymentLetter || "",
+          Payslip: dataAllEmployee.documents.Payslip || "",
+          photograph: dataAllEmployee.documents.photograph || "",
+          resume: dataAllEmployee.documents.resume || "",
         });
 
         console.log(response);
@@ -134,7 +151,7 @@ const UserInfo = () => {
         if (dataAllEmployee.workDays) {
           setSelectedDays(
             dataAllEmployee.workDays.map((day) =>
-              daysOfWeek.find((d) => d.value === day)
+              daysOfWeek.find((d) => d.value === Number(day))
             )
           );
         }
@@ -202,9 +219,11 @@ const UserInfo = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const shiftTimeFromUnix = convertTimeToUnixTimestamp(formData.shiftTimingFrom);
+    const shiftTimeFromUnix = convertTimeToUnixTimestamp(
+      formData.shiftTimingFrom
+    );
     const shiftTimeToUnix = convertTimeToUnixTimestamp(formData.shiftTimingTo);
-    
+
     const joiningDate = convertDateToUnixTimestamp(formData.joiningDate);
     const DOB = convertDateToUnixTimestamp(formData.DOB);
 
@@ -223,9 +242,17 @@ const UserInfo = () => {
           joiningDate: +joiningDate,
           DOB: DOB.toString(),
           id: id,
+          CNICFront: formData.CNICFront,
+          CNICBack: formData.CNICBack,
+          EducationalCert: formData.EducationalCert,
+          EmploymentLetter: formData.employmentType,
+          Payslip: formData.Payslip,
+          photograph: formData.photograph,
+          resume: formData.resume,
         },
+        headers: { "Content-Type": "multipart/form-data" },
       });
-      toast.success(response.data.message, {position: "top-center"});
+      toast.success(response.data.message, { position: "top-center" });
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message[0].message, {
@@ -247,7 +274,6 @@ const UserInfo = () => {
     date.setHours(hours, minutes, 0, 0); // use setHours instead of setUTCHours for local time
     return Math.floor(date.getTime() / 1000);
   }
-
 
   function timeToUnixTimestamp(timeString) {
     // Split the timeString into hours, minutes, and seconds
@@ -303,7 +329,7 @@ const UserInfo = () => {
         },
       });
       console.log(response);
-      toast.success( response.data.message, { position: "top-center" });
+      toast.success(response.data.message, { position: "top-center" });
       setUserActive(!userActive);
       setLoadingToggleAccount(false);
     } catch (error) {
@@ -322,7 +348,6 @@ const UserInfo = () => {
 
   //   const to = fromTime.slice(0,2)>toTime.slice(0,2)? new Date(`1970-01-02T${toTime}:00Z`): new Date(`1970-01-01T${toTime}:00Z`);
 
-
   //   const totalMinutes = Math.abs(differenceInMinutes(from, to));
 
   //   // Calculate hours and minutes
@@ -334,7 +359,7 @@ const UserInfo = () => {
   //   }`;
   // };
 
-   const handleShiftTimingChange = () => {
+  const handleShiftTimingChange = () => {
     const shiftFrom = watch("shiftTimingFrom");
     const shiftTo = watch("shiftTimingTo");
     setShiftDuration(calculateShiftDuration(shiftFrom, shiftTo));
@@ -342,21 +367,26 @@ const UserInfo = () => {
 
   useEffect(() => {
     handleShiftTimingChange();
-    console.log(shiftDuration)
-  }, [watch("shiftTimingFrom"), watch("shiftTimingTo")]); 
+    console.log(shiftDuration);
+  }, [watch("shiftTimingFrom"), watch("shiftTimingTo")]);
 
   return (
-    <Box className="form-container-register">
+    <Box
+      className="form-container-register"
+      sx={{
+        flexDirection: "column !important",
+      }}
+    >
       <Box
         sx={{
           border: "1px dashed rgba(197, 197, 197, 0.6)",
           width: { lg: "517px", xs: "100%" },
           p: { xs: "1rem 1rem", sm: "1rem 2rem" },
           borderRadius: "7px",
-          position: { lg: "fixed", xs: "static" },
+          position: { lg: "absolute", xs: "static" },
           right: "35px",
-          top: "10px",
-          zIndex: {lg:"1000", xs:"0"},
+          top: "20px",
+          zIndex: "10000",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -624,7 +654,7 @@ const UserInfo = () => {
                             key={day.label}
                             label={day.label}
                             selected={selectedDays.some(
-                              (selected) => selected.value === day.value
+                              (selected) => selected?.value === day?.value
                             )}
                             onChange={() => handleDayChange(day)}
                           />
@@ -655,7 +685,7 @@ const UserInfo = () => {
                       displayValue={
                         hods.find((hod) => hod.id === formData.HODID)
                           ?.fullName || ""
-                      } 
+                      }
                     />
                   </Box>
                 </Box>
@@ -810,7 +840,7 @@ const UserInfo = () => {
                     flexDirection: { md: "row", xs: "column" },
                   }}
                 >
-                   <CustomInputLabel
+                  <CustomInputLabel
                     label="Convenience Allowance*"
                     name="commuteAllowance"
                     value={formData.commuteAllowance}
@@ -830,7 +860,6 @@ const UserInfo = () => {
                   />
                 </Box>
 
-
                 <Box
                   sx={{
                     display: "flex",
@@ -839,7 +868,7 @@ const UserInfo = () => {
                     flexDirection: { md: "row", xs: "column" },
                   }}
                 >
-                   <CustomInputLabel
+                  <CustomInputLabel
                     label="Bank Name*"
                     name="bank"
                     value={formData.bank}
@@ -858,9 +887,131 @@ const UserInfo = () => {
                     onChange={handleChange}
                   />
                 </Box>
-             
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "start",
+                  flexDirection: "column",
+                  gap: "5rem",
+                  mt: "100px",
+                }}
+              >
+                <Typography
+              sx={{
+                color:"#010120",
+                fontWeight:"600",
+                fontSize: {xl:"40px", xs:"30px"},
+            
+  
+              }}
+              >
+                Documents
+              </Typography>
+                <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection: "row",
+                      gap: "3rem",
+                    
+                    }}
+                >
+                  <FileUpload
+                    label="Front CNIC"
+                    name="CNICFront"
+                    formData={formData}
+                    setFormData={setFormData}
+                    existingFile={formData.CNICFront}
+                  />
+                  <FileUpload
+                    label="Back CNIC"
+                    name="CNICBack"
+                    formData={formData}
+                    setFormData={setFormData}
+                    existingFile={formData.CNICBack}
+                  />
+                </Box>
 
-               
+                <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection: "row",
+                      gap: "3rem",
+                    
+                    }}
+                >
+                  <FileUpload
+                    label="Education Certificate"
+                    name="EducationalCert"
+                    formData={formData}
+                    setFormData={setFormData}
+                    existingFile={formData.EducationalCert}
+                  />
+                  <FileUpload
+                    label="Employment Letter"
+                    name="EmploymentLetter"
+                    formData={formData}
+                    setFormData={setFormData}
+                    existingFile={formData.EmploymentLetter}
+                  />
+                </Box>
+
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "row",
+                    gap: "3rem",
+                  
+                  }}
+                >
+                  <FileUpload
+                    label="Payslip"
+                    name="Payslip"
+                    formData={formData}
+                    setFormData={setFormData}
+                    existingFile={formData.Payslip}
+                  />
+                  <FileUpload
+                    label="Photograph"
+                    name="photograph"
+                    formData={formData}
+                    setFormData={setFormData}
+                    existingFile={formData.photograph}
+                  />
+                </Box>
+
+                <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection: "row",
+                      gap: "3rem",
+                    
+                    }}
+                >
+                  <FileUpload
+                    label="Resume"
+                    name="resume"
+                    formData={formData}
+                    setFormData={setFormData}
+                    existingFile={formData.resume}
+                    BoxStyling={{
+                      flexBasis:"100%"
+                    }}
+                  />
+                </Box>
               </Box>
 
               <Box sx={{ display: "flex", justifyContent: "end", mt: "20px" }}>

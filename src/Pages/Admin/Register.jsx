@@ -29,6 +29,7 @@ const Register = () => {
   const [isFormDirty, setIsFormDirty] = useState(false);
   const [companyIDValue, setCompanyIDValue] = useState("");
   const [netSalary, setNetSalary] = useState(0);
+  const [documentShow , setDocumentShow] =useState(false)
 
   const dispatch = useDispatch();
 
@@ -186,11 +187,11 @@ const Register = () => {
           CNICFront : formData.frontCnic,
           CNICBack: formData.backCnic,
 
-          CNICFront : formData.lastEducation,
-          CNICBack: formData.lastEmployer,
-          CNICFront : formData.lastPayroll,
-          CNICBack: formData.resume,
-          CNICBack: formData.photo,
+          EducationalCert : formData.lastEducation,
+          EmploymentLetter: formData.lastEmployer,
+          Payslip : formData.lastPayroll,
+          resume: formData.resume,
+          photograph: formData.photo,
 
         },
       });
@@ -1317,113 +1318,135 @@ const Register = () => {
               </Typography>
             </Box>
           </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
-              gap: "3rem",
-            }}
-          >
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "row",
-                gap: "3rem",
-              }}
+          {
+            documentShow ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "start",
+                  flexDirection: "column",
+                  gap: "5rem",
+                  mt:"100px"
+    
+                }}
             >
-              <FileUpload
-                label="Front CNIC"
-                name="frontCnic"
-                formData={formData}
-                setFormData={setFormData}
-              />
-              <FileUpload
-                label="Back CNIC"
-                name="backCnic"
-                formData={formData}
-                setFormData={setFormData}
-              />
-            </Box>
-            <Box
+              <Typography
               sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "row",
-                gap: "3rem",
-              }}
-            >
-              <FileUpload
-                label="Education Certificate"
-                name="lastEducation"
-                formData={formData}
-                setFormData={setFormData}
-              />
-              <FileUpload
-                label="Employement Letter"
-                name="lastEmployer"
-                formData={formData}
-                setFormData={setFormData}
-              />
-            </Box>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "row",
-                gap: "3rem",
-              }}
-            >
-              <FileUpload
-                label="Payslip"
-                name="lastPayroll"
-                formData={formData}
-                setFormData={setFormData}
-              />
-              <FileUpload
-                label="Photograph"
-                name="photo"
-                formData={formData}
-                setFormData={setFormData}
-              />
-            </Box>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "row",
-                gap: "3rem",
-              }}
-            >
-              <FileUpload
-                label="Resume"
-                name="resume"
-                formData={formData}
-                setFormData={setFormData}
-              />
+                color:"#010120",
+                fontWeight:"600",
+                fontSize: {xl:"40px", xs:"30px"},
             
+  
+              }}
+              >
+                Documents
+              </Typography>
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  gap: "3rem",
+                
+                }}
+              >
+                <FileUpload
+                  label="Front CNIC"
+                  name="frontCnic"
+                  formData={formData}
+                  setFormData={setFormData}
+                />
+                <FileUpload
+                  label="Back CNIC"
+                  name="backCnic"
+                  formData={formData}
+                  setFormData={setFormData}
+                />
+              </Box>
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  gap: "3rem",
+                }}
+              >
+                <FileUpload
+                  label="Education Certificate"
+                  name="lastEducation"
+                  formData={formData}
+                  setFormData={setFormData}
+                />
+                <FileUpload
+                  label="Employement Letter"
+                  name="lastEmployer"
+                  formData={formData}
+                  setFormData={setFormData}
+                />
+              </Box>
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  gap: "3rem",
+                }}
+              >
+                <FileUpload
+                  label="Payslip"
+                  name="lastPayroll"
+                  formData={formData}
+                  setFormData={setFormData}
+                />
+                <FileUpload
+                  label="Photograph"
+                  name="photo"
+                  formData={formData}
+                  setFormData={setFormData}
+                />
+              </Box>
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  gap: "3rem",
+                }}
+              >
+                <FileUpload
+                  label="Resume"
+                  name="resume"
+                  formData={formData}
+                  setFormData={setFormData}
+                  BoxStyling={{
+                    flexBasis:"100%"
+                  }}
+                />
+              
+              </Box>
+  
+                {/* 
+                 lastEducation: null,
+      lastEmployer: null,
+      lastPayroll: null,
+      photo: null,
+      resume: null,
+                */}
+             
             </Box>
+            ) : ""
+          }
 
-              {/* 
-               lastEducation: null,
-    lastEmployer: null,
-    lastPayroll: null,
-    photo: null,
-    resume: null,
-              */}
-           
-          </Box>
+         
 
           <Box
             sx={{
@@ -1433,26 +1456,39 @@ const Register = () => {
               gap: "1.5rem",
             }}
           >
-            <CustomButton
-              ButtonText="Add Documents +"
-              fontSize="16px"
-              color="#010120"
-              fontWeight="500"
-              fullWidth={false}
-              variant="contained"
-              // padding="10px 20px"
-              type="submit"
-              background="white"
-              hoverBg="#303f9f"
-              hovercolor="white"
-              width={"195px"}
-              borderRadius="7px"
-              height="45px"
-              buttonStyle={{
-                border: "1px solid #010120",
-                boxShadow: "none",
-              }}
-            />
+            <Typography
+            sx={{
+              fontSize:"16px",
+              color:"#010120",
+              fontWeight:"500",
+              ":hover":{
+                backgroundColor:"#303f9f",
+                color:"white",
+                border:"none"
+
+              },
+              borderRadius:"7px",
+              height:"45px",
+              width:"195px",
+              border: "1px solid #010120",
+              boxShadow: "none",
+              display:"flex",
+              justifyContent:"center",
+              alignItems:"center",
+              cursor:"pointer",
+              transition:".1s ease-in",
+
+
+
+              
+
+            }}
+            onClick={()=> setDocumentShow(true)}
+
+            >
+            Add Documents +
+            </Typography>
+          
             <CustomButton
               ButtonText="Add User +"
               fontSize="16px"

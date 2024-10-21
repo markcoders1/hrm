@@ -4,7 +4,8 @@ import CustomButton from "../CustomButton/CustomButton";
 
 const DeleteConfirmationModal = ({ open, handleClose, onConfirm, loading , requestText , requestHeading}) => {
   return (
-    <Modal open={open} onClose={handleClose}>
+        
+    <Modal open={open} onClose={handleClose} sx={{  border:"none !important"}} >
       <Box
         sx={{
           position: "absolute",
@@ -16,6 +17,7 @@ const DeleteConfirmationModal = ({ open, handleClose, onConfirm, loading , reque
           borderRadius: "8px",
           boxShadow: 24,
           p: 4,
+          border:"none !important"
         }}
       >
         <Typography variant="h6" component="h2" sx={{ mb: 2 }}>

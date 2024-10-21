@@ -44,7 +44,8 @@ import NewWFHRequest from './Pages/User/NewWfhRequest.jsx';
 import EditFHRequest from './Pages/User/EditWfhRequest.jsx';
 import EditMyProfile from './Pages/User/EditMyProfile.jsx';
 import PayrollManagement from './Pages/Payroll/PayrollManagement.jsx';
-
+import ManagePayroll from './Pages/Payroll/ManagePayroll.jsx';
+// import LastPayrollList from './Pages/Payroll/LastPayrollList.jsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import store from './store.js';
@@ -98,6 +99,8 @@ function App() {
 
             {/* now 2nd phase from here  */}
             <Route path='payroll-management' element={<ProtectedAdmin><PayrollManagement /></ProtectedAdmin>} />
+            <Route path='payroll-management/manage-payroll' element={<ProtectedAdmin><ManagePayroll /></ProtectedAdmin>} />
+
 
           </Route>
         </Routes>

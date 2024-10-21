@@ -90,7 +90,7 @@ table tr td:last-child{
   border-top: 1px solid rgba(197, 197, 197, 0.6) !important;
   border-bottom: 1px solid rgba(197, 197, 197, 0.6) !important;
 }
-table tr td:nth-child(2),table tr td:nth-child(3) ,table tr td:nth-child(4), table tr td:nth-child(5), table tr td:nth-child(6), table tr td:nth-child(7),  table tr td:nth-child(8),  table tr td:nth-child(9){
+table tr td:nth-child(2),table tr td:nth-child(3) ,table tr td:nth-child(4), table tr td:nth-child(5), table tr td:nth-child(6), table tr td:nth-child(7),  table tr td:nth-child(8),  table tr td:nth-child(9), table tr td:nth-child(10), table tr td:nth-child(11), table tr td:nth-child(12), table tr td:nth-child(13){
   border-top: 1px solid rgba(197, 197, 197, 0.6) !important;
   border-bottom: 1px solid rgba(197, 197, 197, 0.6) !important;
 }
@@ -100,6 +100,7 @@ table tr td:first-child {
 
 table tr td:last-child {
   border-right: 1px solid rgba(197, 197, 197, 0.6) !important;
+ border-radius: 0px 8px 8px 0px;
 }
 
 table > tbody > tr {

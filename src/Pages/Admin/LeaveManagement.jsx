@@ -736,8 +736,8 @@ const LeaveManagement = () => {
                           }}
                           onClick={(e) => {
                             validateReject(row._id);
-                            e.stopPropagation(); // Prevent the row click event from firing
-                            console.log("Rejected action");
+                            e.stopPropagation(); 
+                            
                           }}
                         />
                       </Tooltip>

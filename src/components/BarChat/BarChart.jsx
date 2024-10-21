@@ -3,12 +3,15 @@ import { BarChart } from '@mui/x-charts/BarChart';
 
 export default function BasicBars({
     width = "700",
-    height = 300
+    height = 300,
+    tax = 0,
+    salary = 0,
+    commission = 0
 }) {
   return (
     <BarChart
-      xAxis={[{ scaleType: 'band', data: ['group A'] }]}
-      series={[{ data: [4] }, { data: [1] }, { data: [2] }]}
+      xAxis={[{ scaleType: 'band', data: ['Commission', 'Tax', 'Salary'] }]}
+      series={[{ data: [commission, tax, salary] }]}
       width={width}
       height={height}
     />

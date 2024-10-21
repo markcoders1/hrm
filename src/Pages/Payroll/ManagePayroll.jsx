@@ -37,6 +37,21 @@ const ManagePayroll = () => {
   const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
   const [inputValues, setInputValues] = useState({});
 
+  const { data: payrollData, isLoading: payrollLoading } = useQuery({
+    queryKey: ["payrollData"],
+    queryFn: async () => {
+      const response = await axiosInstance.get(`${apiUrl}/api/admin/payroll`);
+      console.log(response);
+      return response?.data?.unpaidMonths;
+    },
+    keepPreviousData: true,
+
+    onError: (error) => {
+      console.error(error);
+      toast.error("Error fetching payroll data.");
+    },
+  });
+
   const handleInputChange = (e, index, field) => {
     const value = e.target.value;
     setInputValues((prev) => ({
@@ -135,21 +150,7 @@ const ManagePayroll = () => {
     setParaText(" ");
   }, [setHeadertext, setParaText]);
 
-  // Use React Query to fetch payroll data with caching
-  const { data: payrollData, isLoading: payrollLoading } = useQuery({
-    queryKey: ["payrollData"],
-    queryFn: async () => {
-      const response = await axiosInstance.get(`${apiUrl}/api/admin/payroll`);
-      console.log(response);
-      return response.data.unpaidMonths;
-    },
-    // keepPreviousData: true,
-
-    onError: (error) => {
-      console.error(error);
-      toast.error("Error fetching payroll data.");
-    },
-  });
+ 
 
   if (payrollLoading) {
     return <SpinnerLoader />;
@@ -391,245 +392,250 @@ const ManagePayroll = () => {
                 </TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {payrollData?.map((payroll, index) => (
-                <TableRow
-                  key={index}
-                  sx={{
-                    backgroundColor:
-                      hoveredRow === index ? "#D1E4FF" : "inherit",
-                    transition: "background-color 0.3s ease",
-                    cursor: "pointer",
-                  }}
-                  onMouseEnter={() => setHoveredRow(index)}
-                  onMouseLeave={() => setHoveredRow(null)}
-                >
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-
-                      paddingLeft: "40px !important",
-                      borderRadius: "8px 0px 0px 8px",
-                    }}
-                  >
-                    {payroll?.companyId ? payroll?.companyId : "-- -- "}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      color: "#010120",
-                      textAlign: "start !important",
-                      paddingLeft: "20px !important",
-                    }}
-                  >
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
-                      <Box sx={{ width: "50px", height: "50px" }}>
-                        <img
-                          src={payroll?.image}
-                          style={{
-                            borderRadius: "50%",
-                            width: "100%",
-                            height: "100%",
-                          }}
-                          alt=""
-                        />
-                      </Box>
-                      <Typography
-                        sx={{ ml: "10px", textAlign: "start !important" }}
+            {
+                payrollData?.length > 0 ? (
+                    <TableBody>
+                    {payrollData?.map((payroll, index) => (
+                      <TableRow
+                        key={index}
+                        sx={{
+                          backgroundColor:
+                            hoveredRow === index ? "#D1E4FF" : "inherit",
+                          transition: "background-color 0.3s ease",
+                          cursor: "pointer",
+                        }}
+                        onMouseEnter={() => setHoveredRow(index)}
+                        onMouseLeave={() => setHoveredRow(null)}
                       >
-                        {payroll?.fullName}
-                      </Typography>
-                    </Box>
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      paddingLeft: "0px !important",
-                    }}
-                  >
-                    {payroll?.department ? payroll?.department : "-- -- "}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      paddingLeft: "0px !important",
-                    }}
-                  >
-                    {payroll?.designation ? payroll?.designation : "-- -- "}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      paddingLeft: "0px !important",
-                    }}
-                  >
-                    {payroll?.basicSalary ? payroll?.basicSalary : "00"}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      paddingLeft: "0px !important",
-                    }}
-                  >
-                    <input
-                      type="text"
-                      className="input-payroll"
-                      inputMode="numeric"
-                      pattern="[0-9]*"
-                      onChange={(e) => handleInputChange(e, index, "CA")}
-                      onInput={(e) =>
-                        (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
-                      }
-                    />
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      paddingLeft: "0px !important",
-                    }}
-                  >
-                    <input
-                      type="text"
-                      className="input-payroll"
-                      inputMode="numeric"
-                      pattern="[0-9]*"
-                      onChange={(e) => handleInputChange(e, index, "MA")}
-                      onInput={(e) =>
-                        (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
-                      }
-                    />
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      paddingLeft: "0px !important",
-                    }}
-                  >
-                    <input
-                      type="text"
-                      className="input-payroll"
-                      inputMode="numeric"
-                      pattern="[0-9]*"
-                      onChange={(e) => handleInputChange(e, index, "IA")}
-                      onInput={(e) =>
-                        (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
-                      }
-                    />
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      paddingLeft: "0px !important",
-                    }}
-                  >
-                    <input
-                      type="text"
-                      className="input-payroll"
-                      inputMode="numeric"
-                      pattern="[0-9]*"
-                      onChange={(e) =>
-                        handleInputChange(e, index, "commission")
-                      }
-                      onInput={(e) =>
-                        (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
-                      }
-                    />
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      paddingLeft: "0px !important",
-                    }}
-                  >
-                    {calculateNetGrossSalary(payroll, index).salary}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      paddingLeft: "0px !important",
-                    }}
-                  >
-                    <input
-                      type="text"
-                      className="input-payroll"
-                      inputMode="numeric"
-                      pattern="[0-9]*"
-                      onChange={(e) => handleInputChange(e, index, "tax")}
-                      onInput={(e) =>
-                        (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
-                      }
-                    />
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      paddingLeft: "0px !important",
-                    }}
-                  >
-                    <input
-                      type="text"
-                      className="input-payroll"
-                      inputMode="numeric"
-                      pattern="[0-9]*"
-                      onChange={(e) => handleInputChange(e, index, "deduction")}
-                      onInput={(e) =>
-                        (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
-                      }
-                    />
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      paddingLeft: "0px !important",
-                    }}
-                  >
-                    {calculateNetGrossSalary(payroll, index).netGrossSalary}
-                  </TableCell>
-
-                  <TableCell>
-                    <Typography
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        gap: "1rem",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Tooltip title="Approve Request">
-                        <img
-                          src={tickPng}
-                          alt="Approve"
-                          style={{
-                            width: "34px",
-                            height: "34px",
-                            cursor: "pointer",
+                        <TableCell
+                          sx={{
+                            textAlign: "center !important",
+      
+                            paddingLeft: "40px !important",
+                            borderRadius: "8px 0px 0px 8px",
                           }}
-                          onClick={(e) => {
-                            handleApprove(index , payroll);
-                            e.stopPropagation(); // Prevent the row click event from firing
+                        >
+                          {payroll?.companyId ? payroll?.companyId : "-- -- "}
+                        </TableCell>
+                        <TableCell
+                          sx={{
+                            color: "#010120",
+                            textAlign: "start !important",
+                            paddingLeft: "20px !important",
                           }}
-                        />
-                      </Tooltip>
-
-                      <Tooltip title="Reject Request">
-                        <img
-                          src={cancelPng}
-                          alt="Reject"
-                          style={{
-                            width: "34px",
-                            height: "34px",
-                            cursor: "pointer",
+                        >
+                          <Box sx={{ display: "flex", alignItems: "center" }}>
+                            <Box sx={{ width: "50px", height: "50px" }}>
+                              <img
+                                src={payroll?.image}
+                                style={{
+                                  borderRadius: "50%",
+                                  width: "100%",
+                                  height: "100%",
+                                }}
+                                alt=""
+                              />
+                            </Box>
+                            <Typography
+                              sx={{ ml: "10px", textAlign: "start !important" }}
+                            >
+                              {payroll?.fullName}
+                            </Typography>
+                          </Box>
+                        </TableCell>
+                        <TableCell
+                          sx={{
+                            textAlign: "center !important",
+                            paddingLeft: "0px !important",
                           }}
-                          onClick={(e) => {
-                            // validateReject(row._id);
-                            e.stopPropagation();
+                        >
+                          {payroll?.department ? payroll?.department : "-- -- "}
+                        </TableCell>
+                        <TableCell
+                          sx={{
+                            textAlign: "center !important",
+                            paddingLeft: "0px !important",
                           }}
-                        />
-                      </Tooltip>
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
+                        >
+                          {payroll?.designation ? payroll?.designation : "-- -- "}
+                        </TableCell>
+                        <TableCell
+                          sx={{
+                            textAlign: "center !important",
+                            paddingLeft: "0px !important",
+                          }}
+                        >
+                          {payroll?.basicSalary ? payroll?.basicSalary : "00"}
+                        </TableCell>
+                        <TableCell
+                          sx={{
+                            textAlign: "center !important",
+                            paddingLeft: "0px !important",
+                          }}
+                        >
+                          <input
+                            type="text"
+                            className="input-payroll"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            onChange={(e) => handleInputChange(e, index, "CA")}
+                            onInput={(e) =>
+                              (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
+                            }
+                          />
+                        </TableCell>
+                        <TableCell
+                          sx={{
+                            textAlign: "center !important",
+                            paddingLeft: "0px !important",
+                          }}
+                        >
+                          <input
+                            type="text"
+                            className="input-payroll"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            onChange={(e) => handleInputChange(e, index, "MA")}
+                            onInput={(e) =>
+                              (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
+                            }
+                          />
+                        </TableCell>
+                        <TableCell
+                          sx={{
+                            textAlign: "center !important",
+                            paddingLeft: "0px !important",
+                          }}
+                        >
+                          <input
+                            type="text"
+                            className="input-payroll"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            onChange={(e) => handleInputChange(e, index, "IA")}
+                            onInput={(e) =>
+                              (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
+                            }
+                          />
+                        </TableCell>
+                        <TableCell
+                          sx={{
+                            textAlign: "center !important",
+                            paddingLeft: "0px !important",
+                          }}
+                        >
+                          <input
+                            type="text"
+                            className="input-payroll"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            onChange={(e) =>
+                              handleInputChange(e, index, "commission")
+                            }
+                            onInput={(e) =>
+                              (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
+                            }
+                          />
+                        </TableCell>
+                        <TableCell
+                          sx={{
+                            textAlign: "center !important",
+                            paddingLeft: "0px !important",
+                          }}
+                        >
+                          {calculateNetGrossSalary(payroll, index).salary}
+                        </TableCell>
+                        <TableCell
+                          sx={{
+                            textAlign: "center !important",
+                            paddingLeft: "0px !important",
+                          }}
+                        >
+                          <input
+                            type="text"
+                            className="input-payroll"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            onChange={(e) => handleInputChange(e, index, "tax")}
+                            onInput={(e) =>
+                              (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
+                            }
+                          />
+                        </TableCell>
+                        <TableCell
+                          sx={{
+                            textAlign: "center !important",
+                            paddingLeft: "0px !important",
+                          }}
+                        >
+                          <input
+                            type="text"
+                            className="input-payroll"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            onChange={(e) => handleInputChange(e, index, "deduction")}
+                            onInput={(e) =>
+                              (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
+                            }
+                          />
+                        </TableCell>
+                        <TableCell
+                          sx={{
+                            textAlign: "center !important",
+                            paddingLeft: "0px !important",
+                          }}
+                        >
+                          {calculateNetGrossSalary(payroll, index).netGrossSalary}
+                        </TableCell>
+      
+                        <TableCell>
+                          <Typography
+                            sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                              gap: "1rem",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Tooltip title="Approve Request">
+                              <img
+                                src={tickPng}
+                                alt="Approve"
+                                style={{
+                                  width: "34px",
+                                  height: "34px",
+                                  cursor: "pointer",
+                                }}
+                                onClick={(e) => {
+                                  handleApprove(index , payroll);
+                                  e.stopPropagation(); // Prevent the row click event from firing
+                                }}
+                              />
+                            </Tooltip>
+      
+                            <Tooltip title="Reject Request">
+                              <img
+                                src={cancelPng}
+                                alt="Reject"
+                                style={{
+                                  width: "34px",
+                                  height: "34px",
+                                  cursor: "pointer",
+                                }}
+                                onClick={(e) => {
+                                  // validateReject(row._id);
+                                  e.stopPropagation();
+                                }}
+                              />
+                            </Tooltip>
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                ) : ""
+            }
+          
           </Table>
         </TableContainer>
       </Box>

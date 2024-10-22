@@ -320,7 +320,7 @@ const PayrollManagement = () => {
     </Box>
 
     {/* Last Payroll List */}
-    <LastPayrollList />
+    {/* <LastPayrollList /> */}
     </Box>
   );
 };

@@ -45,11 +45,15 @@ import EditFHRequest from './Pages/User/EditWfhRequest.jsx';
 import EditMyProfile from './Pages/User/EditMyProfile.jsx';
 import PayrollManagement from './Pages/Payroll/PayrollManagement.jsx';
 import ManagePayroll from './Pages/Payroll/ManagePayroll.jsx';
+import ComparePayroll from './Pages/Payroll/ComparePayroll.jsx';
 // import LastPayrollList from './Pages/Payroll/LastPayrollList.jsx';
+import AddEmployementType from './Pages/Settings/AddEmployementType.jsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import store from './store.js';
 import HodProfile from './Pages/HodProfile.jsx';
+import AddLeaveType from './Pages/Settings/AddNewLeaveType.jsx';
+import AddLocationtype from './Pages/Settings/AddLocationType.jsx';
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 const queryClient = new QueryClient();
@@ -100,6 +104,17 @@ function App() {
             {/* now 2nd phase from here  */}
             <Route path='payroll-management' element={<ProtectedAdmin><PayrollManagement /></ProtectedAdmin>} />
             <Route path='payroll-management/manage-payroll' element={<ProtectedAdmin><ManagePayroll /></ProtectedAdmin>} />
+            <Route path='payroll-management/compare-payroll' element={<ProtectedAdmin><ComparePayroll /></ProtectedAdmin>} />
+
+
+            {/* settings pages */}
+            <Route path='settings/add-employement-type' element={<ProtectedAdmin><AddEmployementType /></ProtectedAdmin>} />
+            <Route path='settings/add-leave-type' element={<ProtectedAdmin><AddLeaveType /></ProtectedAdmin>} />
+            <Route path='settings/add-location-type' element={<ProtectedAdmin>< AddLocationtype/></ProtectedAdmin>} />
+
+
+
+
 
 
           </Route>

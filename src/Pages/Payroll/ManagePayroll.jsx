@@ -70,7 +70,7 @@ const ManagePayroll = () => {
     const tax = parseFloat(inputs.tax || 0);
     const deduction = parseFloat(inputs.deduction || 0);
   
-    const salary = basicSalary ? basicSalary : 0 + commuteAllowance + mobileAllowance + internetAllowance;
+    const salary = basicSalary  + commuteAllowance + mobileAllowance + internetAllowance;
     const netSalary = salary + commission;
     const netGrossSalary = netSalary - tax - deduction;
     // console.log( index , "=========>",salary)

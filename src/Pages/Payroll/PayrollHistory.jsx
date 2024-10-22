@@ -31,8 +31,9 @@ import EditIcon from "../../assets/Edit.png";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 
-const LastPayrollList = ({ payrollList }) => {
+const PayrollHistory = ({ payrollList }) => {
   const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
+  const navigate = useNavigate();
 
   const calculatePayableAmount = (payroll) => {
     const basicSalary = payroll?.basicSalary || 0;
@@ -46,14 +47,7 @@ const LastPayrollList = ({ payrollList }) => {
     return basicSalary + commission + ca + ma + ia - tax - deduction;
   };
 
-  const handleProcess =async () => {
-    try {
-      const response = await axiosInstance.get(`${apiUrl}/api/admin/exportConfirmedPayrolls`);
-      // console.log(response)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+
   return (
     <Box>
       <Box
@@ -73,7 +67,7 @@ const LastPayrollList = ({ payrollList }) => {
         
       }}
       >
-        Last Payroll List
+        Payroll History & Reports
       </Typography>
 
 
@@ -85,7 +79,7 @@ const LastPayrollList = ({ payrollList }) => {
         
       }}
       >
-      Status: Pending
+      Select components
       </Typography>
         </Box>
         <Box
@@ -107,7 +101,7 @@ const LastPayrollList = ({ payrollList }) => {
         
       }}
       >
-        Sep / 2024
+       month and year
       </Typography>
 
 
@@ -138,10 +132,10 @@ const LastPayrollList = ({ payrollList }) => {
               
 
             }}
-            onClick={handleProcess}
+            onClick={()=> navigate('/dashboard/payroll-management/compare-payroll')}
 
             >
-           Process  
+           Compare
             </Typography>
         </Box>
       <Box sx={{ flexBasis: "100%", mt:"10px" }}>
@@ -659,4 +653,4 @@ const LastPayrollList = ({ payrollList }) => {
   );
 };
 
-export default LastPayrollList;
+export default PayrollHistory;

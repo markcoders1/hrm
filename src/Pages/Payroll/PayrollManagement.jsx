@@ -17,14 +17,15 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import axiosInstance from "../../auth/axiosInstance";
 import CustomSelectForType from "../../components/CustomSelect/CustomSelect";
 import CustomInputLabel from "../../components/CustomInputField/CustomInputLabel";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+  import { toast } from "react-toastify";
+  import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import SpinnerLoader from "../../components/SpinnerLoader";
 import { useQuery } from "@tanstack/react-query";
 import BasicBars from "../../components/BarChat/BarChart";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import LastPayrollList from "./LastPayrollList";
+import PayrollHistory from "./PayrollHistory";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -32,7 +33,7 @@ const PayrollManagement = () => {
   const { setHeadertext, setParaText } = useOutletContext();
 
   const navigate = useNavigate()
-  const [searchTerm, setSearchTerm] = useState(""); // State for search term
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedMonth, setSelectedMonth] = useState(
     new Date().getMonth().toString()
   ); // Default to current month
@@ -40,17 +41,18 @@ const PayrollManagement = () => {
     new Date().getFullYear().toString()
   ); // Default to current year
   const [selectedPayrollType, setSelectedPayrollType] = useState("none")
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
 
-  const handleMonthChange = (event) => {
-    setSelectedMonth(event.target.value);
-  };
+  const [payrollListData , setPayrollListData] = useState([])
+  const [payrollHistoryData , setPayrollHistoryData] = useState([])
+
   const handlePayrollChange = (event) => {
     setSelectedPayrollType(event.target.value);
   };
-
-
+  
+  
+  const handleMonthChange = (event) => {
+    setSelectedMonth(event.target.value);
+  };
   const months = [
     { label: "January", value: "0" },
     { label: "February", value: "1" },
@@ -118,6 +120,7 @@ const PayrollManagement = () => {
           params: { month: month },
         }
       );
+      
       return response;
     },
     keepPreviousData: true, 
@@ -137,9 +140,9 @@ const PayrollManagement = () => {
     queryFn: async () => {
       const response = await axiosInstance.get(`${apiUrl}/api/admin/confirmedPayrolls`);
       console.log(response);
-    //   return response.data.unpaidMonths;
+      return response.data.payrolls;
     },
-    // keepPreviousData: true,
+    keepPreviousData: true,
 
     onError: (error) => {
       console.error(error);
@@ -147,12 +150,29 @@ const PayrollManagement = () => {
     },
   });
 
+  useEffect(()=>{
+    const fetchPayroll =async () => {
+
+      const response = await axiosInstance.get(`${apiUrl}/api/admin/confirmedPayrolls`);
+      console.log(response)
+      setPayrollListData(response.data.payrolls)
+    }
+    fetchPayroll()
+  },[])
+
+  useEffect(()=>{
+    const fetchPayroll =async () => {
+
+      const response = await axiosInstance.get(`${apiUrl}/api/admin/payrollhistory`);
+      console.log(response)
+      setPayrollHistoryData(response.data)
+    }
+    fetchPayroll()
+  },[])
+
   if (payrollLoading) {
     return <SpinnerLoader />;
-  } else if(graphLoading) {
-    return <SpinnerLoader />;
-
-  }
+  } 
 
 
   return (
@@ -215,8 +235,6 @@ const PayrollManagement = () => {
           <Box>
           <CustomSelectForType
             label="Payroll Type"
-          
-
             value={selectedPayrollType ? selectedPayrollType : ""}
             handleChange={handlePayrollChange}
             options={payrollType}
@@ -228,7 +246,7 @@ const PayrollManagement = () => {
 
           <Box>
 
-           <Tooltip title="Update Profile">
+           <Tooltip title="Manage Payroll">
               <CustomButton
 
               ButtonText="Manage Payroll"
@@ -277,9 +295,10 @@ const PayrollManagement = () => {
               />
             ) : (
               <BasicBars
-              tax={"10"}
-              salary={"10"}
-              commission={"10"}
+              
+              tax={""}
+              salary={""}
+              commission={""}
             />
             )}
           </Box>
@@ -320,7 +339,27 @@ const PayrollManagement = () => {
     </Box>
 
     {/* Last Payroll List */}
-    {/* <LastPayrollList /> */}
+    <Box
+    sx={{
+      mt:"100px"
+    }}
+    >
+    <LastPayrollList
+payrollList={payrollList}
+/>
+
+    </Box>
+
+    <Box
+    sx={{
+      mt:"120px"
+    }}
+    >
+    <PayrollHistory
+payrollList={payrollList}
+/>
+
+    </Box>
     </Box>
   );
 };

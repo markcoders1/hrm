@@ -64,7 +64,7 @@ const AppHeader = (props) => {
   }, [])
 
   return (
-    <CHeader position="sticky" className="mb-0 p-0 px-2 py-5" style={{ border: "none" }} ref={headerRef}>
+    <CHeader position="sticky" className="mb-0 p-0 px-4 py-5" style={{ border: "none" }} ref={headerRef}>
       <div>
         <CContainer fluid>
           <Box

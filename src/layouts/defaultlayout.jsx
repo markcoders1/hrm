@@ -50,7 +50,7 @@ const DefaultLayout = () => {
       <AppSidebar />
       <div className="outlet-box">
         <Header headertext={headertext} paraText={paraText} />
-        <div className="body flex-grow-1 p-4">
+        <div className="body flex-grow-1 px-5 py-4">
           <Outlet  context={{setHeadertext, setParaText}}  />
         </div>
       </div>

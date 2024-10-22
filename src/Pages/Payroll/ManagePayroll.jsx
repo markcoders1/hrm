@@ -64,18 +64,20 @@ const ManagePayroll = () => {
   };
 
   const calculateNetGrossSalary = (rowData, index) => {
-    const { basicSalary } = rowData;
+    const { basicSalary, commuteAllowance, mobileAllowance, internetAllowance } = rowData;
     const inputs = inputValues[index] || {};
-    const ca = parseFloat(inputs.CA || 0);
-    const ma = parseFloat(inputs.MA || 0);
-    const ia = parseFloat(inputs.IA || 0);
     const commission = parseFloat(inputs.commission || 0);
     const tax = parseFloat(inputs.tax || 0);
     const deduction = parseFloat(inputs.deduction || 0);
-
-    const salary = basicSalary + ca + ma + ia;
-    const netSalary = basicSalary + ca + ma + ia + commission;
+  
+    const salary = basicSalary ? basicSalary : 0 + commuteAllowance + mobileAllowance + internetAllowance;
+    const netSalary = salary + commission;
     const netGrossSalary = netSalary - tax - deduction;
+    // console.log( index , "=========>",salary)
+    // console.log( index , "=========>",basicSalary)
+    // console.log( index , "=========>",commuteAllowance)
+    // console.log( index , "=========>",mobileAllowance)
+    // console.log( index , "=========>",internetAllowance)
 
     return { netSalary, netGrossSalary, salary };
   };
@@ -126,16 +128,17 @@ const ManagePayroll = () => {
         method: "post",
         data: {
         
-          userId: payroll.userId,
-          ca: +inputs?.CA,
-          ma: +inputs?.MA,
-          ia: +inputs?.IA,
+          userId: payroll?.userId,
+          ca: payroll?.commuteAllowance,
+          ma: payroll?.mobileAllowance,
+          ia: payroll?.internetAllowance,
           commission: +inputs?.commission,
           tax: +inputs?.tax,
           deduction: +inputs?.deduction,
-          month : payroll.month 
+          month : payroll?.month 
         },
       });
+      console.log(payroll?.commuteAllowance + payroll?.mobileAllowance + payroll?.internetAllowance + +inputs?.commission + +inputs?.tax + +inputs?.deduction )
       console.log(response);
 
   
@@ -473,7 +476,7 @@ const ManagePayroll = () => {
                             paddingLeft: "0px !important",
                           }}
                         >
-                          <input
+                          {/* <input
                             type="text"
                             className="input-payroll"
                             inputMode="numeric"
@@ -482,7 +485,8 @@ const ManagePayroll = () => {
                             onInput={(e) =>
                               (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
                             }
-                          />
+                          /> */}
+                          {payroll?.commuteAllowance ? payroll?.commuteAllowance : "0"}
                         </TableCell>
                         <TableCell
                           sx={{
@@ -490,7 +494,7 @@ const ManagePayroll = () => {
                             paddingLeft: "0px !important",
                           }}
                         >
-                          <input
+                          {/* <input
                             type="text"
                             className="input-payroll"
                             inputMode="numeric"
@@ -499,7 +503,9 @@ const ManagePayroll = () => {
                             onInput={(e) =>
                               (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
                             }
-                          />
+                          /> */}
+                          {payroll?.mobileAllowance ? payroll?.mobileAllowance : "0"}
+
                         </TableCell>
                         <TableCell
                           sx={{
@@ -507,7 +513,7 @@ const ManagePayroll = () => {
                             paddingLeft: "0px !important",
                           }}
                         >
-                          <input
+                          {/* <input
                             type="text"
                             className="input-payroll"
                             inputMode="numeric"
@@ -516,7 +522,9 @@ const ManagePayroll = () => {
                             onInput={(e) =>
                               (e.target.value = e.target.value.replace(/[^0-9]/g, ""))
                             }
-                          />
+                          /> */}
+                          {payroll?.internetAllowance ? payroll?.internetAllowance : "0"}
+
                         </TableCell>
                         <TableCell
                           sx={{

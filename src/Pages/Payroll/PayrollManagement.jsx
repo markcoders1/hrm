@@ -41,6 +41,7 @@ const PayrollManagement = () => {
     new Date().getFullYear().toString()
   ); // Default to current year
   const [selectedPayrollType, setSelectedPayrollType] = useState("none")
+  const [totalPayroll, setTotalPayroll] = useState();
 
   const [payrollListData , setPayrollListData] = useState([])
   const [payrollHistoryData , setPayrollHistoryData] = useState([])
@@ -108,7 +109,7 @@ const PayrollManagement = () => {
   };
 
   // React Query to fetch graph data
-  const { data: graphData, isLoading: graphLoading ,  } = useQuery({
+  const { data: graphData, isLoading: graphLoading   } = useQuery({
     queryKey: ["payrollGraph", selectedMonth, selectedYear],
     queryFn: async () => {
       const date = new Date(parseInt(selectedYear), parseInt(selectedMonth));
@@ -140,6 +141,7 @@ const PayrollManagement = () => {
     queryFn: async () => {
       const response = await axiosInstance.get(`${apiUrl}/api/admin/confirmedPayrolls`);
       console.log(response);
+      setTotalPayroll(response.data.total)
       return response.data.payrolls;
     },
     keepPreviousData: true,
@@ -345,6 +347,7 @@ const PayrollManagement = () => {
     }}
     >
     <LastPayrollList
+    
 payrollList={payrollList}
 />
 
@@ -356,7 +359,9 @@ payrollList={payrollList}
     }}
     >
     <PayrollHistory
+    
 payrollList={payrollList}
+
 />
 
     </Box>

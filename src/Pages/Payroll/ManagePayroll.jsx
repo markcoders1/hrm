@@ -43,7 +43,7 @@ const ManagePayroll = () => {
   const [editingRow, setEditingRow] = useState(null);
 
   const [editableAllowances, setEditableAllowances] = useState({});
-const [fixedInputs, setFixedInputs] = useState({});
+  const [fixedInputs, setFixedInputs] = useState({});
 
   const { data: payrollData, isLoading: payrollLoading } = useQuery({
     queryKey: ["payrollData"],
@@ -52,6 +52,17 @@ const [fixedInputs, setFixedInputs] = useState({});
       console.log(response);
       const data = response?.data?.unpaidMonths;
       setPayrollList(data);
+
+      const initialFixedInputs = {};
+      data.forEach((payroll, index) => {
+        initialFixedInputs[index] = {
+          commission: payroll.commission || "",
+          tax: payroll.tax || "",
+          deduction: payroll.deduction || "",
+        };
+      });
+      setFixedInputs(initialFixedInputs);
+
       return data;
     },
     keepPreviousData: true,
@@ -62,108 +73,161 @@ const [fixedInputs, setFixedInputs] = useState({});
     },
   });
 
-  const handleInputChange = (e, index, field) => {
-     const value = e.target.value.replace(/[^0-9]/g, ""); 
-    setInputValues((prev) => ({
-      ...prev,
-      [index]: {
-        ...prev[index],
-        [field]: value,
-      },
-    }));
+  const handleInputChange = (e, index, field, type) => {
+    const value = e.target.value.replace(/[^0-9]/g, ""); // Allow only numbers
+    if (type === "allowance") {
+      setEditableAllowances((prev) => ({
+        ...prev,
+        [index]: {
+          ...prev[index],
+          [field]: value,
+        },
+      }));
+    } else if (type === "fixed") {
+      setFixedInputs((prev) => ({
+        ...prev,
+        [index]: {
+          ...prev[index],
+          [field]: value,
+        },
+      }));
+    }
   };
 
   const calculateNetGrossSalary = (rowData, index) => {
     const { basicSalary } = rowData;
-    const inputs = inputValues[index] || {};
-    
-    // Use edited values if available, otherwise fallback to original data
-    const CA = parseFloat(inputs.CA) || parseFloat(rowData.commuteAllowance) || 0;
-    const MA = parseFloat(inputs.MA) || parseFloat(rowData.mobileAllowance) || 0;
-    const IA = parseFloat(inputs.IA) || parseFloat(rowData.internetAllowance) || 0;
-    const commission = parseFloat(inputs.commission) || 0;
-    const tax = parseFloat(inputs.tax) || 0;
-    const deduction = parseFloat(inputs.deduction) || 0;
-  
-    const salary = basicSalary + CA + MA + IA;
+    const allowanceInputs = editableAllowances[index] || {};
+    const fixedInput = fixedInputs[index] || {};
+
+
+    const basicSal =
+      editingRow === index
+        ? parseFloat(allowanceInputs.basicSalary) ||
+          parseFloat(rowData.basicSalary) ||
+          0
+        : parseFloat(rowData.basicSalary) || 0;
+    const CA =
+      editingRow === index
+        ? parseFloat(allowanceInputs.CA) ||
+          parseFloat(rowData.commuteAllowance) ||
+          0
+        : parseFloat(rowData.commuteAllowance) || 0;
+    const MA =
+      editingRow === index
+        ? parseFloat(allowanceInputs.MA) ||
+          parseFloat(rowData.mobileAllowance) ||
+          0
+        : parseFloat(rowData.mobileAllowance) || 0;
+    const IA =
+      editingRow === index
+        ? parseFloat(allowanceInputs.IA) ||
+          parseFloat(rowData.internetAllowance) ||
+          0
+        : parseFloat(rowData.internetAllowance) || 0;
+    const commission = parseFloat(fixedInput.commission) || 0;
+    const tax = parseFloat(fixedInput.tax) || 0;
+    const deduction = parseFloat(fixedInput.deduction) || 0;
+
+    const salary = basicSal + CA + MA + IA;
     const netSalary = salary + commission;
     const netGrossSalary = netSalary - tax - deduction;
-  
+
     return { netSalary, netGrossSalary, salary };
   };
-
-  //   const calculateNetSalary = (rowData, index) => {
-  //     const { basicSalary } = rowData;
-  //     const inputs = inputValues[index] || {};
-  //     const ca = parseFloat(inputs.CA || 0);
-  //     const ma = parseFloat(inputs.MA || 0);
-  //     const ia = parseFloat(inputs.IA || 0);
-  //     const commission = parseFloat(inputs.commission || 0);
-  //     const tax = parseFloat(inputs.tax || 0);
-  //     const deduction = parseFloat(inputs.deduction || 0);
-
-  //     // Calculate net salary and gross salary
-  //     const netSalary = basicSalary + ca + ma + ia + commission;
-  //     const netGrossSalary = netSalary - tax - deduction;
-
-  //     return { netSalary, netGrossSalary };
-  //   };
 
   const handleApprove = async (index, payroll) => {
     const { netSalary, netGrossSalary } = calculateNetGrossSalary(
       payroll,
       index
     );
-    const inputs = inputValues[index];
-
-    //     const inputValues3 = {
-    //         userId: payroll.userId,
-    //         ca: +inputs?.CA,
-    //         ma: +inputs?.MA,
-    //         ia: +inputs?.IA,
-    //         commission: +inputs?.commission,
-    //         tax: +inputs?.tax,
-    //         deduction: +inputs?.deduction,
-    //     }
-    // console.log(inputValues3.tax)
+    const allowanceInputs = editableAllowances[index] || {};
+    const fixedInput = fixedInputs[index] || {};
 
     const obj = {
       userId: payroll?.userId,
-      ca: parseFloat(inputs?.CA ?? payroll?.commuteAllowance ?? 0),
-      ma: parseFloat(inputs?.MA ?? payroll?.mobileAllowance ?? 0),
-      ia: parseFloat(inputs?.IA ?? payroll?.internetAllowance ?? 0),
-      commission: parseFloat(inputs?.commission ?? 0),
-      tax: parseFloat(inputs?.tax ?? 0),
-      deduction: parseFloat(inputs?.deduction ?? 0),
+      basicSalary:
+        editingRow === index
+          ? parseFloat(allowanceInputs.basicSalary) ||
+            parseFloat(payroll.basicSalary) ||
+            0
+          : parseFloat(payroll.basicSalary) || 0,
+      ca:
+        editingRow === index
+          ? parseFloat(allowanceInputs.CA) ||
+            parseFloat(payroll.commuteAllowance) ||
+            0
+          : parseFloat(payroll.commuteAllowance) || 0,
+      ma:
+        editingRow === index
+          ? parseFloat(allowanceInputs.MA) ||
+            parseFloat(payroll.mobileAllowance) ||
+            0
+          : parseFloat(payroll.mobileAllowance) || 0,
+      ia:
+        editingRow === index
+          ? parseFloat(allowanceInputs.IA) ||
+            parseFloat(payroll.internetAllowance) ||
+            0
+          : parseFloat(payroll.internetAllowance) || 0,
+      commission: parseFloat(fixedInput.commission) || 0,
+      tax: parseFloat(fixedInput.tax) || 0,
+      deduction: parseFloat(fixedInput.deduction) || 0,
       month: payroll?.month,
+    };
+    console.log(obj);
+
+    try {
+      const response = await axiosInstance.post(`${apiUrl}/api/admin/payroll`, {
+        userId: payroll?.userId,
+        basicSalary:
+          editingRow === index
+            ? parseFloat(allowanceInputs.basicSalary) ||
+              parseFloat(payroll.basicSalary) ||
+              0
+            : parseFloat(payroll.basicSalary) || 0,
+        ca:
+          editingRow === index
+            ? parseFloat(allowanceInputs.CA) ||
+              parseFloat(payroll.commuteAllowance) ||
+              0
+            : parseFloat(payroll.commuteAllowance) || 0,
+        ma:
+          editingRow === index
+            ? parseFloat(allowanceInputs.MA) ||
+              parseFloat(payroll.mobileAllowance) ||
+              0
+            : parseFloat(payroll.mobileAllowance) || 0,
+        ia:
+          editingRow === index
+            ? parseFloat(allowanceInputs.IA) ||
+              parseFloat(payroll.internetAllowance) ||
+              0
+            : parseFloat(payroll.internetAllowance) || 0,
+        commission: parseFloat(fixedInput.commission) || 0,
+        tax: parseFloat(fixedInput.tax) || 0,
+        deduction: parseFloat(fixedInput.deduction) || 0,
+        month: payroll?.month,
+      });
+      console.log(response);
+      setPayrollList((prev) =>
+        prev.filter((item) => item.userId !== payroll.userId)
+      );
+      setFixedInputs({})
+      setEditableAllowances({})
+
+      toast.success("Payroll updated successfully!");
+
+      // Exit edit mode and clear editable allowances
+      setEditingRow(null);
+      setEditableAllowances((prev) => {
+        const updated = { ...prev };
+        delete updated[index];
+        return updated;
+      });
+    } catch (error) {
+      console.error("Error updating payroll:", error);
+      toast.error("Failed to update payroll.");
     }
-    console.log(obj)
-
-    // try {
-    //   const response = await axiosInstance({
-    //     url: `${apiUrl}/api/admin/payroll`,
-    //     method: "post",
-    //     data: {
-    //       userId: payroll?.userId,
-    //       ca: parseFloat(inputs?.CA ?? payroll?.commuteAllowance ?? 0),
-    //       ma: parseFloat(inputs?.MA ?? payroll?.mobileAllowance ?? 0),
-    //       ia: parseFloat(inputs?.IA ?? payroll?.internetAllowance ?? 0),
-    //       commission: parseFloat(inputs?.commission ?? 0),
-    //       tax: parseFloat(inputs?.tax ?? 0),
-    //       deduction: parseFloat(inputs?.deduction ?? 0),
-    //       month: payroll?.month,
-    //     },
-    //   });
-
-    //   console.log(response);
-    //   setPayrollList((prev) =>
-    //     prev.filter((item) => item.userId !== payroll.userId)
-    //   );
-    //   toast.success("Payroll updated successfully!");
-    // } catch (error) {
-    //   console.error("Error updating payroll:", error);
-    //   toast.error("Failed to update payroll.");
-    // }
   };
 
   useEffect(() => {
@@ -388,7 +452,7 @@ const [fixedInputs, setFixedInputs] = useState({});
                     minWidth: "180px",
                   }}
                 >
-                  Net Gross salary
+                  Gross salary
                 </TableCell>
                 <TableCell
                   sx={{
@@ -480,70 +544,97 @@ const [fixedInputs, setFixedInputs] = useState({});
                         paddingLeft: "0px !important",
                       }}
                     >
-                      {payroll?.basicSalary ? payroll?.basicSalary : "00"}
-                    </TableCell>
-                    <TableCell>
                       {editingRow === index ? (
                         <input
                           type="text"
                           className="input-payroll"
                           inputMode="numeric"
                           pattern="[0-9]*"
-                          onChange={(e) => handleInputChange(e, index, "CA")}
-                          onInput={(e) =>
-                            (e.target.value = e.target.value.replace(
-                              /[^0-9]/g,
-                              ""
-                            ))
+                          onChange={(e) =>
+                            handleInputChange(
+                              e,
+                              index,
+                              "basicSalary",
+                              "allowance"
+                            )
                           }
-                          value={inputValues[index]?.CA || ""}
+                          value={editableAllowances[index]?.basicSalary || ""}
+                          style={{ width: "100px" }}
+                        />
+                      ) : payroll?.basicSalary ? (
+                        payroll.basicSalary
+                      ) : (
+                        "0"
+                      )}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        textAlign: "center !important",
+                        paddingLeft: "0px !important",
+                      }}
+                    >
+                      {editingRow === index ? (
+                        <input
+                          type="text"
+                          className="input-payroll"
+                          inputMode="numeric"
+                          pattern="[0-9]*"
+                          onChange={(e) =>
+                            handleInputChange(e, index, "CA", "allowance")
+                          }
+                          value={editableAllowances[index]?.CA || ""}
+                          style={{ width: "100px" }}
                         />
                       ) : payroll?.commuteAllowance ? (
-                        payroll?.commuteAllowance
+                        payroll.commuteAllowance
                       ) : (
                         "0"
                       )}
                     </TableCell>
-                    <TableCell>
+                    <TableCell
+                      sx={{
+                        textAlign: "center !important",
+                        paddingLeft: "0px !important",
+                      }}
+                    >
                       {editingRow === index ? (
                         <input
                           type="text"
                           className="input-payroll"
                           inputMode="numeric"
                           pattern="[0-9]*"
-                          onChange={(e) => handleInputChange(e, index, "MA")}
-                          onInput={(e) =>
-                            (e.target.value = e.target.value.replace(
-                              /[^0-9]/g,
-                              ""
-                            ))
+                          onChange={(e) =>
+                            handleInputChange(e, index, "MA", "allowance")
                           }
-                          value={inputValues[index]?.MA || ""}
+                          value={editableAllowances[index]?.MA || ""}
+                          style={{ width: "100px" }}
                         />
                       ) : payroll?.mobileAllowance ? (
-                        payroll?.mobileAllowance
+                        payroll.mobileAllowance
                       ) : (
                         "0"
                       )}
                     </TableCell>
-                    <TableCell>
+                    <TableCell
+                      sx={{
+                        textAlign: "center !important",
+                        paddingLeft: "0px !important",
+                      }}
+                    >
                       {editingRow === index ? (
                         <input
                           type="text"
                           className="input-payroll"
                           inputMode="numeric"
                           pattern="[0-9]*"
-                          onChange={(e) => handleInputChange(e, index, "IA")}
-                          onInput={(e) =>
-                            (e.target.value = e.target.value.replace(
-                              /[^0-9]/g,
-                              ""
-                            ))
+                          onChange={(e) =>
+                            handleInputChange(e, index, "IA", "allowance")
                           }
-                          value={inputValues[index]?.IA || ""}
+                          value={editableAllowances[index]?.IA || ""}
+                          style={{ width: "100px" }}
                         />
                       ) : payroll?.internetAllowance ? (
-                        payroll?.internetAllowance
+                        payroll.internetAllowance
                       ) : (
                         "0"
                       )}
@@ -560,14 +651,10 @@ const [fixedInputs, setFixedInputs] = useState({});
                         inputMode="numeric"
                         pattern="[0-9]*"
                         onChange={(e) =>
-                          handleInputChange(e, index, "commission")
+                          handleInputChange(e, index, "commission", "fixed")
                         }
-                        onInput={(e) =>
-                          (e.target.value = e.target.value.replace(
-                            /[^0-9]/g,
-                            ""
-                          ))
-                        }
+                        value={fixedInputs[index]?.commission || ""}
+                        style={{ width: "100px" }}
                       />
                     </TableCell>
                     <TableCell
@@ -589,13 +676,11 @@ const [fixedInputs, setFixedInputs] = useState({});
                         className="input-payroll"
                         inputMode="numeric"
                         pattern="[0-9]*"
-                        onChange={(e) => handleInputChange(e, index, "tax")}
-                        onInput={(e) =>
-                          (e.target.value = e.target.value.replace(
-                            /[^0-9]/g,
-                            ""
-                          ))
+                        onChange={(e) =>
+                          handleInputChange(e, index, "tax", "fixed")
                         }
+                        value={fixedInputs[index]?.tax || ""}
+                        style={{ width: "100px" }}
                       />
                     </TableCell>
                     <TableCell
@@ -610,14 +695,10 @@ const [fixedInputs, setFixedInputs] = useState({});
                         inputMode="numeric"
                         pattern="[0-9]*"
                         onChange={(e) =>
-                          handleInputChange(e, index, "deduction")
+                          handleInputChange(e, index, "deduction", "fixed")
                         }
-                        onInput={(e) =>
-                          (e.target.value = e.target.value.replace(
-                            /[^0-9]/g,
-                            ""
-                          ))
-                        }
+                        value={fixedInputs[index]?.deduction || ""}
+                        style={{ width: "100px" }}
                       />
                     </TableCell>
                     <TableCell
@@ -639,21 +720,36 @@ const [fixedInputs, setFixedInputs] = useState({});
                             alignItems: "center",
                           }}
                         >
+                          {/* Save Button */}
                           <Tooltip title="Save Changes">
-                            <img
-                              src={tickSinglePng}
-                              alt="Save"
-                              style={{
-                                width: "12.5px",
-                                height: "9.6px",
-                                cursor: "pointer",
+                            <Typography
+                              sx={{
+                                border: "2px solid #31BA96",
+                                width: "35px",
+                                height: "35px",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderRadius: "50%",
                               }}
                               onClick={(e) => {
                                 handleApprove(index, payroll);
                                 e.stopPropagation();
                               }}
-                            />
+                            >
+                              <img
+                                src={tickSinglePng}
+                                alt="Save"
+                                style={{
+                                  width: "12.5px",
+                                  height: "9.6px",
+                                  cursor: "pointer",
+                                }}
+                              />
+                            </Typography>
                           </Tooltip>
+
+                          {/* Cancel Button */}
                           <Tooltip title="Cancel">
                             <img
                               src={cancelImage}
@@ -665,10 +761,10 @@ const [fixedInputs, setFixedInputs] = useState({});
                               }}
                               onClick={(e) => {
                                 setEditingRow(null); // Exit edit mode
-                                setInputValues((prev) => {
-                                  const updatedValues = { ...prev };
-                                  delete updatedValues[index];
-                                  return updatedValues;
+                                setEditableAllowances((prev) => {
+                                  const updated = { ...prev };
+                                  delete updated[index]; // Remove editable allowances for the current row
+                                  return updated;
                                 });
                                 e.stopPropagation();
                               }}
@@ -684,16 +780,21 @@ const [fixedInputs, setFixedInputs] = useState({});
                             alignItems: "center",
                           }}
                         >
+                          {/* Approve Button */}
                           <Tooltip title="Approve Request">
                             <Typography
+                              onClick={(e) => {
+                                handleApprove(index, payroll);
+                                e.stopPropagation();
+                              }}
                               sx={{
+                                border: "2px solid #31BA96",
+                                width: "35px",
+                                height: "35px",
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                width: "35px",
-                                height: "35px",
                                 borderRadius: "50%",
-                                border: "2px solid grey",
                               }}
                             >
                               <img
@@ -704,14 +805,11 @@ const [fixedInputs, setFixedInputs] = useState({});
                                   height: "9.6px",
                                   cursor: "pointer",
                                 }}
-                                onClick={(e) => {
-                                  handleApprove(index, payroll);
-                                  e.stopPropagation(); // Prevent the row click event from firing
-                                }}
                               />
                             </Typography>
                           </Tooltip>
 
+                          {/* Edit Button */}
                           <Tooltip title="Edit Fields">
                             <img
                               src={EditIcon}
@@ -722,26 +820,27 @@ const [fixedInputs, setFixedInputs] = useState({});
                                 cursor: "pointer",
                               }}
                               onClick={(e) => {
-                                setEditingRow(index);
-                                setInputValues((prev) => ({
+                                // Prevent multiple rows from being edited simultaneously
+                                if (
+                                  editingRow !== null &&
+                                  editingRow !== index
+                                ) {
+                                  toast.warn(
+                                    "Please save or cancel the current edit before editing another row."
+                                  );
+                                  return;
+                                }
+                                setEditingRow(index); // Set the current row as being edited
+                                setEditableAllowances((prev) => ({
                                   ...prev,
                                   [index]: {
-                                    ...prev[index],
-                                    CA:
-                                      prev[index]?.CA ||
-                                      payroll.commuteAllowance,
-                                    MA:
-                                      prev[index]?.MA ||
-                                      payroll.mobileAllowance,
-                                    IA:
-                                      prev[index]?.IA ||
-                                      payroll.internetAllowance,
-                                    commission: prev[index]?.commission || 0,
-                                    tax: prev[index]?.tax || 0,
-                                    deduction: prev[index]?.deduction || 0,
+                                    CA: payroll.commuteAllowance || "",
+                                    MA: payroll.mobileAllowance || "",
+                                    IA: payroll.internetAllowance || "",
+                                    basicSalary: payroll.basicSalary || "",
                                   },
                                 }));
-                                e.stopPropagation();
+                                e.stopPropagation(); // Prevent triggering other row events
                               }}
                             />
                           </Tooltip>

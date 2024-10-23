@@ -31,7 +31,7 @@ import EditIcon from "../../assets/Edit.png";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 
-const LastPayrollList = ({ payrollList }) => {
+const LastPayrollList = ({ payrollList, totalPayroll }) => {
   const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
 
   const calculatePayableAmount = (payroll) => {
@@ -48,7 +48,7 @@ const LastPayrollList = ({ payrollList }) => {
 
   const handleProcess =async () => {
     try {
-      const response = await axiosInstance.get(`${apiUrl}/api/admin/exportConfirmedPayrolls`);
+      const response = await axiosInstance.get(`${apiUrl}/api/admin/processpayroll`);
       // console.log(response)
     } catch (error) {
       console.log(error)
@@ -558,7 +558,7 @@ const LastPayrollList = ({ payrollList }) => {
                       fontSize:"18px !important"
                     }}
                   >
-                  Total: //of Basic Salary
+                  Total:{totalPayroll}
 
                   </TableCell>
                   <TableCell

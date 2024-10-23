@@ -34,6 +34,68 @@ const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 const PayrollHistory = ({ payrollList }) => {
   const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
   const navigate = useNavigate();
+  const [payrollHistoryData , setPayrollHistoryData] = useState([])
+  const [payrollHistoryTotal, setPayrollHistoryTotal] = useState()
+  const [selectedMonth, setSelectedMonth] = useState(
+    new Date().getMonth().toString()
+  ); // Default to current month
+  const [selectedYear, setSelectedYear] = useState(
+    new Date().getFullYear().toString()
+  ); // Default to current year
+
+  const handleMonthChange = (event) => {
+    setSelectedMonth(event.target.value);
+  };
+  const months = [
+    { label: "January", value: "0" },
+    { label: "February", value: "1" },
+    { label: "March", value: "2" },
+    { label: "April", value: "3" },
+    { label: "May", value: "4" },
+    { label: "June", value: "5" },
+    { label: "July", value: "6" },
+    { label: "August", value: "7" },
+    { label: "September", value: "8" },
+    { label: "October", value: "9" },
+    { label: "November", value: "10" },
+    { label: "December", value: "11" },
+  ];
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: currentYear - 2024 + 1 }, (v, i) => ({
+    label: (2024 + i).toString(),
+    value: (2024 + i).toString(),
+  }));
+
+  const handleYearChange = (event) => {
+    setSelectedYear(event.target.value);
+  };
+
+  
+    useEffect(()=>{
+    const fetchPayroll =async () => {
+      const date = new Date(parseInt(selectedYear), parseInt(selectedMonth));
+      const month = date.getTime();
+
+      try {
+        const response = await axiosInstance({
+          url : `${apiUrl}/api/admin/payrollhistory` ,
+          method : "get",
+          params : {
+            month : month
+          }
+        });
+        console.log(response)
+        setPayrollHistoryData(response?.data?.payrolls)
+        setPayrollHistoryTotal(response?.data?.total)
+      } catch (error) {
+        console.log("=========================> error at ",error)
+      }
+
+     
+    }
+    fetchPayroll()
+  },[])
 
   const calculatePayableAmount = (payroll) => {
     const basicSalary = payroll?.basicSalary || 0;
@@ -355,7 +417,7 @@ const PayrollHistory = ({ payrollList }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {payrollList?.map((payroll, index) => (
+              {payrollHistoryData?.map((payroll, index) => (
                 <TableRow
                   key={index}
                   sx={{
@@ -465,7 +527,7 @@ const PayrollHistory = ({ payrollList }) => {
                       paddingLeft: "0px !important",
                     }}
                   >
-                    {payroll?.grossSalary ? payroll?.grossSalary : "00"}
+                    {payroll?.basicSalary + payroll?.ca + payroll?.ma + payroll?.ia + payroll?.commission}
                   </TableCell>
                   <TableCell
                     sx={{
@@ -491,7 +553,8 @@ const PayrollHistory = ({ payrollList }) => {
                     paddingLeft: "0px !important",
                   }}
                   >
-                    {calculatePayableAmount(payroll)}
+                    {/* {calculatePayableAmount(payroll)} */}
+                    {payroll?.grossSalary ? payroll?.grossSalary : ""}
                   </TableCell>
                 </TableRow>
               ))}
@@ -552,7 +615,7 @@ const PayrollHistory = ({ payrollList }) => {
                       fontSize:"18px !important"
                     }}
                   >
-                  Total: //of Basic Salary
+                  Total: {payrollHistoryTotal?.basicSalary ? payrollHistoryTotal?.basicSalary : ""}
 
                   </TableCell>
                   <TableCell
@@ -563,7 +626,9 @@ const PayrollHistory = ({ payrollList }) => {
                       fontSize:"18px !important"
                     }}
                   >
-                  Total: //of ca
+                   Total: {payrollHistoryTotal?.ca ? payrollHistoryTotal?.ca : ""}
+
+
 
                   </TableCell>
                   <TableCell
@@ -585,7 +650,8 @@ const PayrollHistory = ({ payrollList }) => {
                       fontSize:"18px !important"
                     }}
                   >
-                  Total: //of ia
+                   Total: {payrollHistoryTotal?.ia ? payrollHistoryTotal?.ia : ""}
+
 
                   </TableCell>
                   <TableCell
@@ -596,7 +662,8 @@ const PayrollHistory = ({ payrollList }) => {
                       fontSize:"18px !important"
                     }}
                   >
-                  Total: //of commission
+                   Total: {payrollHistoryTotal?.commission ? payrollHistoryTotal?.commission : ""}
+
 
                   </TableCell>
                   <TableCell
@@ -607,7 +674,8 @@ const PayrollHistory = ({ payrollList }) => {
                       fontSize:"18px !important"
                     }}
                   >
-                  Total: //of net gross salary
+                   Total: {payrollHistoryTotal?.commission + payrollHistoryTotal?.basicSalary +  payrollHistoryTotal?.ca + payrollHistoryTotal?.ma + payrollHistoryTotal?.ia  }
+
 
                   </TableCell>
                   <TableCell
@@ -618,7 +686,8 @@ const PayrollHistory = ({ payrollList }) => {
                       fontSize:"18px !important"
                     }}
                   >
-                  Total: //of  tax
+                   Total: {payrollHistoryTotal?.tax ? payrollHistoryTotal?.tax : ""}
+
 
                   </TableCell>
 
@@ -630,7 +699,8 @@ const PayrollHistory = ({ payrollList }) => {
                       fontSize:"18px !important"
                     }}
                   >
-                  Total: //of deduction
+                   Total: {payrollHistoryTotal?.deduction ? payrollHistoryTotal?.deduction : ""}
+
 
                   </TableCell>
 
@@ -642,7 +712,8 @@ const PayrollHistory = ({ payrollList }) => {
                     fontSize:"18px !important"
                   }}
                 >
-                Total: // of final payable amount
+                   Total: {payrollHistoryTotal?.grossValue ? payrollHistoryTotal?.grossValue : ""}
+                
                   </TableCell>
                 </TableRow>
             </TableBody>

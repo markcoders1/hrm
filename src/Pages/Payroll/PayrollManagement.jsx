@@ -86,7 +86,7 @@ const PayrollManagement = () => {
       const response = await axiosInstance.get(
         `${apiUrl}/api/admin/getPayrollData`
       );
-      console.log(response);
+      // console.log(response);
       return response.data;
     },
     keepPreviousData: true, 
@@ -140,7 +140,7 @@ const PayrollManagement = () => {
     queryKey: ["payrollList"],
     queryFn: async () => {
       const response = await axiosInstance.get(`${apiUrl}/api/admin/confirmedPayrolls`);
-      console.log(response);
+      // console.log("========================>",response);
       setTotalPayroll(response.data.total)
       return response.data.payrolls;
     },
@@ -162,15 +162,15 @@ const PayrollManagement = () => {
     fetchPayroll()
   },[])
 
-  useEffect(()=>{
-    const fetchPayroll =async () => {
+  // useEffect(()=>{
+  //   const fetchPayroll =async () => {
 
-      const response = await axiosInstance.get(`${apiUrl}/api/admin/payrollhistory`);
-      console.log(response)
-      setPayrollHistoryData(response.data)
-    }
-    fetchPayroll()
-  },[])
+  //     const response = await axiosInstance.get(`${apiUrl}/api/admin/payrollhistory`);
+  //     console.log(response)
+  //     setPayrollHistoryData(response.data)
+  //   }
+  //   fetchPayroll()
+  // },[])
 
   if (payrollLoading) {
     return <SpinnerLoader />;
@@ -347,7 +347,7 @@ const PayrollManagement = () => {
     }}
     >
     <LastPayrollList
-    
+    totalPayroll={totalPayroll}
 payrollList={payrollList}
 />
 

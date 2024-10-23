@@ -30,7 +30,6 @@ import EditIcon from "../../assets/Edit.png";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-
 const LastPayrollList = ({ payrollList, totalPayroll }) => {
   const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
 
@@ -46,105 +45,90 @@ const LastPayrollList = ({ payrollList, totalPayroll }) => {
     return basicSalary + commission + ca + ma + ia - tax - deduction;
   };
 
-  const handleProcess =async () => {
+  const handleProcess = async () => {
     try {
-      const response = await axiosInstance.get(`${apiUrl}/api/admin/processpayroll`);
+      const response = await axiosInstance.get(
+        `${apiUrl}/api/admin/processpayroll`
+      );
       // console.log(response)
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
   return (
     <Box>
       <Box
-      sx={{
-        display:"flex",
-        justifyContent:"space-between",
-        alignItems:"center",
-
-      }}
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
       >
+        <Typography
+          sx={{
+            fontWeight: "600",
+            fontSize: { xl: "40px", xs: "30px" },
+            color: "#010120",
+          }}
+        >
+          Last Payroll List
+        </Typography>
 
-      <Typography
-      sx={{
-        fontWeight:"600",
-        fontSize:{xl:"40px", xs:"30px"},
-        color:"#010120",
-        
-      }}
+        <Typography
+          sx={{
+            fontWeight: "500",
+            fontSize: { xl: "20px", xs: "16px" },
+            color: "#010120",
+          }}
+        >
+          Status: Pending
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mt: "80px",
+        }}
       >
-        Last Payroll List
-      </Typography>
+        <Typography
+          sx={{
+            fontWeight: "500",
+            fontSize: { xl: "20px", xs: "16px" },
+            color: "#010120",
+          }}
+        >
+          Sep / 2024
+        </Typography>
 
-
-      <Typography
-      sx={{
-        fontWeight:"500",
-        fontSize:{xl:"20px", xs:"16px"},
-        color:"#010120",
-        
-      }}
-      >
-      Status: Pending
-      </Typography>
-        </Box>
-        <Box
-      sx={{
-        display:"flex",
-        justifyContent:"space-between",
-        alignItems:"center",
-        mt:"80px"
-
-      }}
-      >
-
-      <Typography
-      sx={{
-        fontWeight:"500",
-        fontSize:{xl:"20px", xs:"16px"},
-        color:"#010120",
-        
-        
-      }}
-      >
-        Sep / 2024
-      </Typography>
-
-
-      <Typography
-            sx={{
-              fontSize:"16px",
-              color:"#010120",
-              fontWeight:"500",
-              ":hover":{
-                backgroundColor:"#303f9f",
-                color:"white",
-                border:"none"
-
-              },
-              borderRadius:"7px",
-              height:"45px",
-              width:"145px",
-              border: "1px solid #010120",
-              boxShadow: "none",
-              display:"flex",
-              justifyContent:"center",
-              alignItems:"center",
-              cursor:"pointer",
-              transition:".1s ease-in",
-
-
-
-              
-
-            }}
-            onClick={handleProcess}
-
-            >
-           Process  
-            </Typography>
-        </Box>
-      <Box sx={{ flexBasis: "100%", mt:"10px" }}>
+        <Typography
+          sx={{
+            fontSize: "16px",
+            color: "#010120",
+            fontWeight: "500",
+            ":hover": {
+              backgroundColor: "#303f9f",
+              color: "white",
+              border: "none",
+            },
+            borderRadius: "7px",
+            height: "45px",
+            width: "145px",
+            border: "1px solid #010120",
+            boxShadow: "none",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            cursor: "pointer",
+            transition: ".1s ease-in",
+          }}
+          onClick={handleProcess}
+        >
+          Process
+        </Typography>
+      </Box>
+      <Box sx={{ flexBasis: "100%", mt: "10px" }}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 350, width: "100%" }}>
             <TableHead>
@@ -492,165 +476,153 @@ const LastPayrollList = ({ payrollList, totalPayroll }) => {
                   </TableCell>
 
                   <TableCell
-                   sx={{
-                    textAlign: "center !important",
-                    paddingLeft: "0px !important",
-                  }}
+                    sx={{
+                      textAlign: "center !important",
+                      paddingLeft: "0px !important",
+                    }}
                   >
                     {calculatePayableAmount(payroll)}
                   </TableCell>
                 </TableRow>
               ))}
               <TableRow
-                 
-                  // onMouseEnter={() => setHoveredRow(index)}
-                  onMouseLeave={() => setHoveredRow(null)}
-                >
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-
-                      paddingLeft: "40px !important",
-                      borderRadius: "8px 0px 0px 8px",
-                    }}
-                  >
-                   
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      color: "#010120",
-                      textAlign: "start !important",
-                      paddingLeft: "20px !important",
-                    }}
-                  >
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
-                    
-                      <Typography
-                        sx={{ ml: "10px", textAlign: "start !important" }}
-                      >
-                       
-
-                      </Typography>
-                    </Box>
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      paddingLeft: "0px !important",
-                    }}
-                  >
-                                       
-
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      paddingLeft: "0px !important",
-                    }}
-                  >
-                
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      paddingLeft: "0px !important",
-                      color:"#157AFF",
-                      fontSize:"18px !important"
-                    }}
-                  >
-                  Total:{totalPayroll}
-
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      paddingLeft: "0px !important",
-                      color:"#157AFF",
-                      fontSize:"18px !important"
-                    }}
-                  >
-                  Total: //of ca
-
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      paddingLeft: "0px !important",
-                      color:"#157AFF",
-                      fontSize:"18px !important"
-                    }}
-                  >
-                  Total: //of ma
-
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      paddingLeft: "0px !important",
-                      color:"#157AFF",
-                      fontSize:"18px !important"
-                    }}
-                  >
-                  Total: //of ia
-
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      paddingLeft: "0px !important",
-                      color:"#157AFF",
-                      fontSize:"18px !important"
-                    }}
-                  >
-                  Total: //of commission
-
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      paddingLeft: "0px !important",
-                      color:"#157AFF",
-                      fontSize:"18px !important"
-                    }}
-                  >
-                  Total: //of net gross salary
-
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      paddingLeft: "0px !important",
-                      color:"#157AFF",
-                      fontSize:"18px !important"
-                    }}
-                  >
-                  Total: //of  tax
-
-                  </TableCell>
-
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      paddingLeft: "0px !important",
-                      color:"#157AFF",
-                      fontSize:"18px !important"
-                    }}
-                  >
-                  Total: //of deduction
-
-                  </TableCell>
-
-                  <TableCell
-                   sx={{
+                // onMouseEnter={() => setHoveredRow(index)}
+                onMouseLeave={() => setHoveredRow(null)}
+              >
+                <TableCell
+                  sx={{
                     textAlign: "center !important",
-                    paddingLeft: "0px !important",
-                    color:"#157AFF",
-                    fontSize:"18px !important"
+
+                    paddingLeft: "40px !important",
+                    borderRadius: "8px 0px 0px 8px",
+                  }}
+                ></TableCell>
+                <TableCell
+                  sx={{
+                    color: "#010120",
+                    textAlign: "start !important",
+                    paddingLeft: "20px !important",
                   }}
                 >
-                Total: // of final payable amount
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Typography
+                      sx={{ ml: "10px", textAlign: "start !important" }}
+                    ></Typography>
+                  </Box>
+                </TableCell>
+                <TableCell
+                  sx={{
+                    textAlign: "center !important",
+                    paddingLeft: "0px !important",
+                  }}
+                ></TableCell>
+                <TableCell
+                  sx={{
+                    textAlign: "center !important",
+                    paddingLeft: "0px !important",
+                  }}
+                ></TableCell>
+                <TableCell
+                  sx={{
+                    textAlign: "center !important",
+                    paddingLeft: "0px !important",
+                    color: "#157AFF",
+                    fontSize: "18px !important",
+                  }}
+                >
+                  Total:{" "}
+                  {totalPayroll?.basicSalary 
+                    ? totalPayroll?.basicSalary 
+                    : "-- --"}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    textAlign: "center !important",
+                    paddingLeft: "0px !important",
+                    color: "#157AFF",
+                    fontSize: "18px !important",
+                  }}
+                >
+                  Total: {totalPayroll?.ca ? totalPayroll?.ca : "-- --"}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    textAlign: "center !important",
+                    paddingLeft: "0px !important",
+                    color: "#157AFF",
+                    fontSize: "18px !important",
+                  }}
+                >
+                  Total: {totalPayroll?.ma ? totalPayroll?.ma : "-- --"}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    textAlign: "center !important",
+                    paddingLeft: "0px !important",
+                    color: "#157AFF",
+                    fontSize: "18px !important",
+                  }}
+                >
+                  Total: {totalPayroll?.ia ? totalPayroll?.ia  : "-- --"}
+
+                </TableCell>
+                <TableCell
+                  sx={{
+                    textAlign: "center !important",
+                    paddingLeft: "0px !important",
+                    color: "#157AFF",
+                    fontSize: "18px !important",
+                  }}
+                  
+                >
+                  Total: {totalPayroll?.commission ? totalPayroll?.commission  : "-- --"}
+
+                </TableCell>
+                <TableCell
+                  sx={{
+                    textAlign: "center !important",
+                    paddingLeft: "0px !important",
+                    color: "#157AFF",
+                    fontSize: "18px !important",
+                  }}
+                >
+                  Total: {(totalPayroll?.basicSalary + totalPayroll?.commission + totalPayroll?.ca + totalPayroll?.ma + totalPayroll?.ia)}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    textAlign: "center !important",
+                    paddingLeft: "0px !important",
+                    color: "#157AFF",
+                    fontSize: "18px !important",
+                  }}
+                >
+             Total: {totalPayroll?.tax ? totalPayroll?.tax  : "-- --"}
+
+                </TableCell>
+
+                <TableCell
+                  sx={{
+                    textAlign: "center !important",
+                    paddingLeft: "0px !important",
+                    color: "#157AFF",
+                    fontSize: "18px !important",
+                  }}
+                >
+             Total: {totalPayroll?.deduction ? totalPayroll?.deduction    : "-- --"}
+
+                </TableCell>
+
+                <TableCell
+                  sx={{
+                    textAlign: "center !important",
+                    paddingLeft: "0px !important",
+                    color: "#157AFF",
+                    fontSize: "18px !important",
+                  }}
+                >
+                  Total: {(totalPayroll?.basicSalary + totalPayroll?.commission + totalPayroll?.ca + totalPayroll?.ma + totalPayroll?.ia) - (totalPayroll?.tax + totalPayroll?.deduction)}
                   </TableCell>
-                </TableRow>
+              </TableRow>
             </TableBody>
           </Table>
         </TableContainer>

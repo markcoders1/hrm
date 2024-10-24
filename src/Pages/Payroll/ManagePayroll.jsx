@@ -21,7 +21,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import SpinnerLoader from "../../components/SpinnerLoader";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import BasicBars from "../../components/BarChat/BarChart";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import tickPng from "../../assets/tick.png";
@@ -56,12 +56,13 @@ const ManagePayroll = () => {
       const initialFixedInputs = {};
       data.forEach((payroll, index) => {
         initialFixedInputs[index] = {
-          commission: payroll.commission || "",
-          tax: payroll.tax || "",
-          deduction: payroll.deduction || "",
+          commission: payroll?.commission || "",
+          tax: payroll?.tax || "",
+          deduction: payroll?.deduction || "",
         };
       });
       setFixedInputs(initialFixedInputs);
+      keepPreviousData : true
 
       return data;
     },
@@ -128,9 +129,9 @@ const ManagePayroll = () => {
     const tax = parseFloat(fixedInput.tax) || 0;
     const deduction = parseFloat(fixedInput.deduction) || 0;
 
-    const salary = basicSal + CA + MA + IA;
+    const salary = basicSal + CA + MA + IA + commission;
     const netSalary = salary + commission;
-    const netGrossSalary = netSalary - tax - deduction;
+    const netGrossSalary = salary - tax - deduction;
 
     return { netSalary, netGrossSalary, salary };
   };
@@ -242,619 +243,625 @@ const ManagePayroll = () => {
   return (
     <Box>
       <Box sx={{ flexBasis: "100%" }}>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 350, width: "100%" }}>
-            <TableHead>
-              <TableRow
-                sx={{
-                  backgroundImage: `linear-gradient(90deg, #E0EBFF 0%, #E0EBFF 100%) !important`,
-                  "&:hover": {
+
+        {
+          payrollList && (
+            <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 350, width: "100%" }}>
+              <TableHead>
+                <TableRow
+                  sx={{
                     backgroundImage: `linear-gradient(90deg, #E0EBFF 0%, #E0EBFF 100%) !important`,
-                  },
-                  padding: " 0px",
-                }}
-              >
-                <TableCell
-                  sx={{
-                    fontWeight: "500",
-                    padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
+                    "&:hover": {
+                      backgroundImage: `linear-gradient(90deg, #E0EBFF 0%, #E0EBFF 100%) !important`,
                     },
-                    textAlign: "center",
-                    borderRadius: "8px 0px 0px 8px",
-                    color: "#010120 !important",
-                    paddingLeft: "40px !important",
-                    minWidth: "100px",
+                    padding: " 0px",
                   }}
                 >
-                  Emp Id
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: "500",
-                    padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "start",
-
-                    color: "#010120 !important",
-                    paddingLeft: "20px !important",
-                    minWidth: "300px",
-                  }}
-                >
-                  Name
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: "500",
-                    padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "center",
-                    color: "#010120  !important",
-
-                    minWidth: "150px",
-                  }}
-                >
-                  Deport
-                </TableCell>{" "}
-                <TableCell
-                  sx={{
-                    fontWeight: "500",
-                    padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "center",
-                    color: "#010120  !important",
-                    minWidth: "200px",
-                  }}
-                >
-                  Designation
-                </TableCell>{" "}
-                <TableCell
-                  sx={{
-                    fontWeight: "500",
-                    padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "center",
-                    color: "#010120  !important",
-                    minWidth: "200px",
-                  }}
-                >
-                  Basic Salary
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: "500",
-                    padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "center",
-                    color: "#010120  !important",
-                    minWidth: "140px",
-                  }}
-                >
-                  C/A
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: "500",
-                    padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "center",
-                    color: "#010120  !important",
-                    minWidth: "140px",
-                  }}
-                >
-                  M/A
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: "500",
-                    padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "center",
-                    color: "#010120  !important",
-                    minWidth: "140px",
-                  }}
-                >
-                  I/A
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: "500",
-                    padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "center",
-                    color: "#010120  !important",
-                    minWidth: "140px",
-                  }}
-                >
-                  Commission
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: "500",
-                    padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "center",
-                    color: "#010120  !important",
-                    minWidth: "140px",
-                  }}
-                >
-                  Net Salary
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: "500",
-                    padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "center",
-                    color: "#010120  !important",
-                    minWidth: "180px",
-                  }}
-                >
-                  Tax
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: "500",
-                    padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "center",
-                    color: "#010120  !important",
-                    minWidth: "180px",
-                  }}
-                >
-                  Dedeuction
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: "500",
-                    padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "center",
-                    color: "#010120  !important",
-                    minWidth: "180px",
-                  }}
-                >
-                  Gross salary
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: "500",
-                    padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "center",
-                    color: "#010120  !important",
-                    borderRadius: "0px 8px 8px 0px",
-                    minWidth: "280px",
-                  }}
-                >
-                  Final Payable Amount
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            {payrollList?.length > 0 ? (
-              <TableBody>
-                {payrollList?.map((payroll, index) => (
-                  <TableRow
-                    key={index}
+                  <TableCell
                     sx={{
-                      backgroundColor:
-                        hoveredRow === index ? "#D1E4FF" : "inherit",
-                      transition: "background-color 0.3s ease",
-                      cursor: "pointer",
+                      fontWeight: "500",
+                      padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center",
+                      borderRadius: "8px 0px 0px 8px",
+                      color: "#010120 !important",
+                      paddingLeft: "40px !important",
+                      minWidth: "100px",
                     }}
-                    onMouseEnter={() => setHoveredRow(index)}
-                    onMouseLeave={() => setHoveredRow(null)}
                   >
-                    <TableCell
+                    Emp Id
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "500",
+                      padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "start",
+  
+                      color: "#010120 !important",
+                      paddingLeft: "20px !important",
+                      minWidth: "300px",
+                    }}
+                  >
+                    Name
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "500",
+                      padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center",
+                      color: "#010120  !important",
+  
+                      minWidth: "150px",
+                    }}
+                  >
+                    Deport
+                  </TableCell>{" "}
+                  <TableCell
+                    sx={{
+                      fontWeight: "500",
+                      padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center",
+                      color: "#010120  !important",
+                      minWidth: "200px",
+                    }}
+                  >
+                    Designation
+                  </TableCell>{" "}
+                  <TableCell
+                    sx={{
+                      fontWeight: "500",
+                      padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center",
+                      color: "#010120  !important",
+                      minWidth: "200px",
+                    }}
+                  >
+                    Basic Salary
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "500",
+                      padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center",
+                      color: "#010120  !important",
+                      minWidth: "140px",
+                    }}
+                  >
+                    C/A
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "500",
+                      padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center",
+                      color: "#010120  !important",
+                      minWidth: "140px",
+                    }}
+                  >
+                    M/A
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "500",
+                      padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center",
+                      color: "#010120  !important",
+                      minWidth: "140px",
+                    }}
+                  >
+                    I/A
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "500",
+                      padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center",
+                      color: "#010120  !important",
+                      minWidth: "140px",
+                    }}
+                  >
+                    Commission
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "500",
+                      padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center",
+                      color: "#010120  !important",
+                      minWidth: "140px",
+                    }}
+                  >
+                    Net Salary
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "500",
+                      padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center",
+                      color: "#010120  !important",
+                      minWidth: "180px",
+                    }}
+                  >
+                    Tax
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "500",
+                      padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center",
+                      color: "#010120  !important",
+                      minWidth: "180px",
+                    }}
+                  >
+                    Dedeuction
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "500",
+                      padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center",
+                      color: "#010120  !important",
+                      minWidth: "180px",
+                    }}
+                  >
+                    Gross salary
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "500",
+                      padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center",
+                      color: "#010120  !important",
+                      borderRadius: "0px 8px 8px 0px",
+                      minWidth: "280px",
+                    }}
+                  >
+                    Final Payable Amount
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              {payrollList?.length > 0 ? (
+                <TableBody>
+                  {payrollList?.map((payroll, index) => (
+                    <TableRow
+                      key={index}
                       sx={{
-                        textAlign: "center !important",
-
-                        paddingLeft: "40px !important",
-                        borderRadius: "8px 0px 0px 8px",
+                        backgroundColor:
+                          hoveredRow === index ? "#D1E4FF" : "inherit",
+                        transition: "background-color 0.3s ease",
+                        cursor: "pointer",
                       }}
+                      onMouseEnter={() => setHoveredRow(index)}
+                      onMouseLeave={() => setHoveredRow(null)}
                     >
-                      {payroll?.companyId ? payroll?.companyId : "-- -- "}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        color: "#010120",
-                        textAlign: "start !important",
-                        paddingLeft: "20px !important",
-                      }}
-                    >
-                      <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <Box sx={{ width: "50px", height: "50px" }}>
-                          <img
-                            src={payroll?.image}
-                            style={{
-                              borderRadius: "50%",
-                              width: "100%",
-                              height: "100%",
-                            }}
-                            alt=""
-                          />
+                      <TableCell
+                        sx={{
+                          textAlign: "center !important",
+  
+                          paddingLeft: "40px !important",
+                          borderRadius: "8px 0px 0px 8px",
+                        }}
+                      >
+                        {payroll?.companyId ? payroll?.companyId : "-- -- "}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          color: "#010120",
+                          textAlign: "start !important",
+                          paddingLeft: "20px !important",
+                        }}
+                      >
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                          <Box sx={{ width: "50px", height: "50px" }}>
+                            <img
+                              src={payroll?.image}
+                              style={{
+                                borderRadius: "50%",
+                                width: "100%",
+                                height: "100%",
+                              }}
+                              alt=""
+                            />
+                          </Box>
+                          <Typography
+                            sx={{ ml: "10px", textAlign: "start !important" }}
+                          >
+                            {payroll?.fullName}
+                          </Typography>
                         </Box>
-                        <Typography
-                          sx={{ ml: "10px", textAlign: "start !important" }}
-                        >
-                          {payroll?.fullName}
-                        </Typography>
-                      </Box>
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        textAlign: "center !important",
-                        paddingLeft: "0px !important",
-                      }}
-                    >
-                      {payroll?.department ? payroll?.department : "-- -- "}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        textAlign: "center !important",
-                        paddingLeft: "0px !important",
-                      }}
-                    >
-                      {payroll?.designation ? payroll?.designation : "-- -- "}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        textAlign: "center !important",
-                        paddingLeft: "0px !important",
-                      }}
-                    >
-                      {editingRow === index ? (
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          textAlign: "center !important",
+                          paddingLeft: "0px !important",
+                        }}
+                      >
+                        {payroll?.department ? payroll?.department : "-- -- "}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          textAlign: "center !important",
+                          paddingLeft: "0px !important",
+                        }}
+                      >
+                        {payroll?.designation ? payroll?.designation : "-- -- "}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          textAlign: "center !important",
+                          paddingLeft: "0px !important",
+                        }}
+                      >
+                        {editingRow === index ? (
+                          <input
+                            type="text"
+                            className="input-payroll"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            onChange={(e) =>
+                              handleInputChange(
+                                e,
+                                index,
+                                "basicSalary",
+                                "allowance"
+                              )
+                            }
+                            value={editableAllowances[index]?.basicSalary || ""}
+                            style={{ width: "100px" }}
+                          />
+                        ) : payroll?.basicSalary ? (
+                          payroll.basicSalary
+                        ) : (
+                          "0"
+                        )}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          textAlign: "center !important",
+                          paddingLeft: "0px !important",
+                        }}
+                      >
+                        {editingRow === index ? (
+                          <input
+                            type="text"
+                            className="input-payroll"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            onChange={(e) =>
+                              handleInputChange(e, index, "CA", "allowance")
+                            }
+                            value={editableAllowances[index]?.CA || ""}
+                            style={{ width: "100px" }}
+                          />
+                        ) : payroll?.commuteAllowance ? (
+                          payroll.commuteAllowance
+                        ) : (
+                          "0"
+                        )}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          textAlign: "center !important",
+                          paddingLeft: "0px !important",
+                        }}
+                      >
+                        {editingRow === index ? (
+                          <input
+                            type="text"
+                            className="input-payroll"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            onChange={(e) =>
+                              handleInputChange(e, index, "MA", "allowance")
+                            }
+                            value={editableAllowances[index]?.MA || ""}
+                            style={{ width: "100px" }}
+                          />
+                        ) : payroll?.mobileAllowance ? (
+                          payroll.mobileAllowance
+                        ) : (
+                          "0"
+                        )}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          textAlign: "center !important",
+                          paddingLeft: "0px !important",
+                        }}
+                      >
+                        {editingRow === index ? (
+                          <input
+                            type="text"
+                            className="input-payroll"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            onChange={(e) =>
+                              handleInputChange(e, index, "IA", "allowance")
+                            }
+                            value={editableAllowances[index]?.IA || ""}
+                            style={{ width: "100px" }}
+                          />
+                        ) : payroll?.internetAllowance ? (
+                          payroll.internetAllowance
+                        ) : (
+                          "0"
+                        )}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          textAlign: "center !important",
+                          paddingLeft: "0px !important",
+                        }}
+                      >
                         <input
                           type="text"
                           className="input-payroll"
                           inputMode="numeric"
                           pattern="[0-9]*"
                           onChange={(e) =>
-                            handleInputChange(
-                              e,
-                              index,
-                              "basicSalary",
-                              "allowance"
-                            )
+                            handleInputChange(e, index, "commission", "fixed")
                           }
-                          value={editableAllowances[index]?.basicSalary || ""}
+                          value={fixedInputs[index]?.commission || ""}
                           style={{ width: "100px" }}
                         />
-                      ) : payroll?.basicSalary ? (
-                        payroll.basicSalary
-                      ) : (
-                        "0"
-                      )}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        textAlign: "center !important",
-                        paddingLeft: "0px !important",
-                      }}
-                    >
-                      {editingRow === index ? (
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          textAlign: "center !important",
+                          paddingLeft: "0px !important",
+                        }}
+                      >
+                        {calculateNetGrossSalary(payroll, index).salary}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          textAlign: "center !important",
+                          paddingLeft: "0px !important",
+                        }}
+                      >
                         <input
                           type="text"
                           className="input-payroll"
                           inputMode="numeric"
                           pattern="[0-9]*"
                           onChange={(e) =>
-                            handleInputChange(e, index, "CA", "allowance")
+                            handleInputChange(e, index, "tax", "fixed")
                           }
-                          value={editableAllowances[index]?.CA || ""}
+                          value={fixedInputs[index]?.tax || ""}
                           style={{ width: "100px" }}
                         />
-                      ) : payroll?.commuteAllowance ? (
-                        payroll.commuteAllowance
-                      ) : (
-                        "0"
-                      )}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        textAlign: "center !important",
-                        paddingLeft: "0px !important",
-                      }}
-                    >
-                      {editingRow === index ? (
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          textAlign: "center !important",
+                          paddingLeft: "0px !important",
+                        }}
+                      >
                         <input
                           type="text"
                           className="input-payroll"
                           inputMode="numeric"
                           pattern="[0-9]*"
                           onChange={(e) =>
-                            handleInputChange(e, index, "MA", "allowance")
+                            handleInputChange(e, index, "deduction", "fixed")
                           }
-                          value={editableAllowances[index]?.MA || ""}
+                          value={fixedInputs[index]?.deduction || ""}
                           style={{ width: "100px" }}
                         />
-                      ) : payroll?.mobileAllowance ? (
-                        payroll.mobileAllowance
-                      ) : (
-                        "0"
-                      )}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        textAlign: "center !important",
-                        paddingLeft: "0px !important",
-                      }}
-                    >
-                      {editingRow === index ? (
-                        <input
-                          type="text"
-                          className="input-payroll"
-                          inputMode="numeric"
-                          pattern="[0-9]*"
-                          onChange={(e) =>
-                            handleInputChange(e, index, "IA", "allowance")
-                          }
-                          value={editableAllowances[index]?.IA || ""}
-                          style={{ width: "100px" }}
-                        />
-                      ) : payroll?.internetAllowance ? (
-                        payroll.internetAllowance
-                      ) : (
-                        "0"
-                      )}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        textAlign: "center !important",
-                        paddingLeft: "0px !important",
-                      }}
-                    >
-                      <input
-                        type="text"
-                        className="input-payroll"
-                        inputMode="numeric"
-                        pattern="[0-9]*"
-                        onChange={(e) =>
-                          handleInputChange(e, index, "commission", "fixed")
-                        }
-                        value={fixedInputs[index]?.commission || ""}
-                        style={{ width: "100px" }}
-                      />
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        textAlign: "center !important",
-                        paddingLeft: "0px !important",
-                      }}
-                    >
-                      {calculateNetGrossSalary(payroll, index).salary}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        textAlign: "center !important",
-                        paddingLeft: "0px !important",
-                      }}
-                    >
-                      <input
-                        type="text"
-                        className="input-payroll"
-                        inputMode="numeric"
-                        pattern="[0-9]*"
-                        onChange={(e) =>
-                          handleInputChange(e, index, "tax", "fixed")
-                        }
-                        value={fixedInputs[index]?.tax || ""}
-                        style={{ width: "100px" }}
-                      />
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        textAlign: "center !important",
-                        paddingLeft: "0px !important",
-                      }}
-                    >
-                      <input
-                        type="text"
-                        className="input-payroll"
-                        inputMode="numeric"
-                        pattern="[0-9]*"
-                        onChange={(e) =>
-                          handleInputChange(e, index, "deduction", "fixed")
-                        }
-                        value={fixedInputs[index]?.deduction || ""}
-                        style={{ width: "100px" }}
-                      />
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        textAlign: "center !important",
-                        paddingLeft: "0px !important",
-                      }}
-                    >
-                      {calculateNetGrossSalary(payroll, index).netGrossSalary}
-                    </TableCell>
-
-                    <TableCell>
-                      {editingRow === index ? (
-                        <Typography
-                          sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            gap: "1.5rem",
-                            alignItems: "center",
-                          }}
-                        >
-                          {/* Save Button */}
-                          <Tooltip title="Save Changes">
-                            <Typography
-                              sx={{
-                                border: "2px solid #31BA96",
-                                width: "35px",
-                                height: "35px",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                borderRadius: "50%",
-                              }}
-                              onClick={(e) => {
-                                handleApprove(index, payroll);
-                                e.stopPropagation();
-                              }}
-                            >
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          textAlign: "center !important",
+                          paddingLeft: "0px !important",
+                        }}
+                      >
+                        {calculateNetGrossSalary(payroll, index).netGrossSalary}
+                      </TableCell>
+  
+                      <TableCell>
+                        {editingRow === index ? (
+                          <Typography
+                            sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                              gap: "1.5rem",
+                              alignItems: "center",
+                            }}
+                          >
+                            {/* Save Button */}
+                            <Tooltip title="Save Changes">
+                              <Typography
+                                sx={{
+                                  border: "2px solid #31BA96",
+                                  width: "35px",
+                                  height: "35px",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  borderRadius: "50%",
+                                }}
+                                onClick={(e) => {
+                                  handleApprove(index, payroll);
+                                  e.stopPropagation();
+                                }}
+                              >
+                                <img
+                                  src={tickSinglePng}
+                                  alt="Save"
+                                  style={{
+                                    width: "12.5px",
+                                    height: "9.6px",
+                                    cursor: "pointer",
+                                  }}
+                                />
+                              </Typography>
+                            </Tooltip>
+  
+                            {/* Cancel Button */}
+                            <Tooltip title="Cancel">
                               <img
-                                src={tickSinglePng}
-                                alt="Save"
+                                src={cancelImage}
+                                alt="Cancel"
                                 style={{
-                                  width: "12.5px",
-                                  height: "9.6px",
+                                  width: "25px",
+                                  height: "25px",
                                   cursor: "pointer",
                                 }}
-                              />
-                            </Typography>
-                          </Tooltip>
-
-                          {/* Cancel Button */}
-                          <Tooltip title="Cancel">
-                            <img
-                              src={cancelImage}
-                              alt="Cancel"
-                              style={{
-                                width: "25px",
-                                height: "25px",
-                                cursor: "pointer",
-                              }}
-                              onClick={(e) => {
-                                setEditingRow(null); // Exit edit mode
-                                setEditableAllowances((prev) => {
-                                  const updated = { ...prev };
-                                  delete updated[index]; // Remove editable allowances for the current row
-                                  return updated;
-                                });
-                                e.stopPropagation();
-                              }}
-                            />
-                          </Tooltip>
-                        </Typography>
-                      ) : (
-                        <Typography
-                          sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            gap: "1.5rem",
-                            alignItems: "center",
-                          }}
-                        >
-                          {/* Approve Button */}
-                          <Tooltip title="Approve Request">
-                            <Typography
-                              onClick={(e) => {
-                                handleApprove(index, payroll);
-                                e.stopPropagation();
-                              }}
-                              sx={{
-                                border: "2px solid #31BA96",
-                                width: "35px",
-                                height: "35px",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                borderRadius: "50%",
-                              }}
-                            >
-                              <img
-                                src={tickSinglePng}
-                                alt="Approve"
-                                style={{
-                                  width: "12.5px",
-                                  height: "9.6px",
-                                  cursor: "pointer",
+                                onClick={(e) => {
+                                  setEditingRow(null); // Exit edit mode
+                                  setEditableAllowances((prev) => {
+                                    const updated = { ...prev };
+                                    delete updated[index]; // Remove editable allowances for the current row
+                                    return updated;
+                                  });
+                                  e.stopPropagation();
                                 }}
                               />
-                            </Typography>
-                          </Tooltip>
-
-                          {/* Edit Button */}
-                          <Tooltip title="Edit Fields">
-                            <img
-                              src={EditIcon}
-                              alt="Edit"
-                              style={{
-                                width: "25px",
-                                height: "25px",
-                                cursor: "pointer",
-                              }}
-                              onClick={(e) => {
-                                // Prevent multiple rows from being edited simultaneously
-                                if (
-                                  editingRow !== null &&
-                                  editingRow !== index
-                                ) {
-                                  toast.warn(
-                                    "Please save or cancel the current edit before editing another row."
-                                  );
-                                  return;
-                                }
-                                setEditingRow(index); // Set the current row as being edited
-                                setEditableAllowances((prev) => ({
-                                  ...prev,
-                                  [index]: {
-                                    CA: payroll.commuteAllowance || "",
-                                    MA: payroll.mobileAllowance || "",
-                                    IA: payroll.internetAllowance || "",
-                                    basicSalary: payroll.basicSalary || "",
-                                  },
-                                }));
-                                e.stopPropagation(); // Prevent triggering other row events
-                              }}
-                            />
-                          </Tooltip>
-                        </Typography>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            ) : (
-              ""
-            )}
-          </Table>
-        </TableContainer>
+                            </Tooltip>
+                          </Typography>
+                        ) : (
+                          <Typography
+                            sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                              gap: "1.5rem",
+                              alignItems: "center",
+                            }}
+                          >
+                            {/* Approve Button */}
+                            <Tooltip title="Approve Request">
+                              <Typography
+                                onClick={(e) => {
+                                  handleApprove(index, payroll);
+                                  e.stopPropagation();
+                                }}
+                                sx={{
+                                  border: "2px solid #31BA96",
+                                  width: "35px",
+                                  height: "35px",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  borderRadius: "50%",
+                                }}
+                              >
+                                <img
+                                  src={tickSinglePng}
+                                  alt="Approve"
+                                  style={{
+                                    width: "12.5px",
+                                    height: "9.6px",
+                                    cursor: "pointer",
+                                  }}
+                                />
+                              </Typography>
+                            </Tooltip>
+  
+                            {/* Edit Button */}
+                            <Tooltip title="Edit Fields">
+                              <img
+                                src={EditIcon}
+                                alt="Edit"
+                                style={{
+                                  width: "25px",
+                                  height: "25px",
+                                  cursor: "pointer",
+                                }}
+                                onClick={(e) => {
+                                  // Prevent multiple rows from being edited simultaneously
+                                  if (
+                                    editingRow !== null &&
+                                    editingRow !== index
+                                  ) {
+                                    toast.warn(
+                                      "Please save or cancel the current edit before editing another row."
+                                    );
+                                    return;
+                                  }
+                                  setEditingRow(index); // Set the current row as being edited
+                                  setEditableAllowances((prev) => ({
+                                    ...prev,
+                                    [index]: {
+                                      CA: payroll.commuteAllowance || "",
+                                      MA: payroll.mobileAllowance || "",
+                                      IA: payroll.internetAllowance || "",
+                                      basicSalary: payroll.basicSalary || "",
+                                    },
+                                  }));
+                                  e.stopPropagation(); // Prevent triggering other row events
+                                }}
+                              />
+                            </Tooltip>
+                          </Typography>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              ) : (
+                ""
+              )}
+            </Table>
+          </TableContainer>
+          )
+        }
+     
       </Box>
     </Box>
   );

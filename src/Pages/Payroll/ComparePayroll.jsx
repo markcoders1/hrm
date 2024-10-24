@@ -10,6 +10,7 @@ import BasicBars from "../../components/BarChat/BarChart";
 import { Box, Tooltip } from "@mui/material";
 import CustomButton from "../../components/CustomButton/CustomButton";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import CompareBars from "../../components/BarChat/compareChart";
 
 const ComparePayroll = () => {
   const { setHeadertext, setParaText } = useOutletContext();
@@ -88,10 +89,11 @@ const ComparePayroll = () => {
           params: { month: month },
         }
       );
+      console.log("response === 1 ==> ",response)
       
       return response;
     },
-    keepPreviousData: true, 
+    // keepPreviousData: true, 
     onError: (error) => {
       console.error(error);
       toast.error("Error fetching payroll graph data.");
@@ -105,21 +107,46 @@ const ComparePayroll = () => {
         const date = new Date(parseInt(selectedYear2), parseInt(selectedMonth2));
         const month = date.getTime();
 
+        console.log("hello world")
+
       const response = await axiosInstance.get(
         `${apiUrl}/api/admin/getPayrollGraph`,
         {
           params: { month: month },
         }
       );
-      
+      console.log("response === 2 ==> ",response)
       return response;
     },
-    keepPreviousData: true, 
+    // keepPreviousData: true, 
     onError: (error) => {
       console.error(error);
       toast.error("Error fetching payroll graph data.");
     },
   });
+
+  const fetchGraph2 = async () => {
+    const date = new Date(parseInt(selectedYear2), parseInt(selectedMonth2));
+    const month = date.getTime();
+
+    try {
+      const response = await axiosInstance({
+        url : `${apiUrl}/api/admin/getPayrollGraph`,
+        method : "get",
+        params : {
+          month : month
+        },
+      });
+      console.log("============================>  2",response)
+      
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(()=>{
+    fetchGraph2()
+  },[selectedYear2,selectedMonth2])
 
   
   useEffect(() => {
@@ -279,13 +306,13 @@ const ComparePayroll = () => {
             }}
           >
             {graphData1 ? (
-              <BasicBars
+              <CompareBars
                 tax={graphData1.data.tax}
                 salary={graphData1.data.salary}
-                commission={graphData1.data.commission}
+                commission={graphData1.data.comission}
               />
             ) : (
-              <BasicBars
+              <CompareBars
               tax={"0"}
               salary={"0"}
               commission={"0"}
@@ -304,13 +331,13 @@ const ComparePayroll = () => {
             }}
           >
             {graphData2 ? (
-              <BasicBars
+              <CompareBars
                 tax={graphData2.data.tax}
                 salary={graphData2.data.salary}
-                commission={graphData2.data.commission}
+                commission={graphData2.data.comission}
               />
             ) : (
-              <BasicBars
+              <CompareBars
               
               tax={"5"}
               salary={"0"}

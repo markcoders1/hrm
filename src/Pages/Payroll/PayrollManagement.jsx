@@ -17,8 +17,8 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import axiosInstance from "../../auth/axiosInstance";
 import CustomSelectForType from "../../components/CustomSelect/CustomSelect";
 import CustomInputLabel from "../../components/CustomInputField/CustomInputLabel";
-  import { toast } from "react-toastify";
-  import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import SpinnerLoader from "../../components/SpinnerLoader";
 import { useQuery } from "@tanstack/react-query";
@@ -32,7 +32,7 @@ const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 const PayrollManagement = () => {
   const { setHeadertext, setParaText } = useOutletContext();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedMonth, setSelectedMonth] = useState(
     new Date().getMonth().toString()
@@ -40,17 +40,16 @@ const PayrollManagement = () => {
   const [selectedYear, setSelectedYear] = useState(
     new Date().getFullYear().toString()
   ); // Default to current year
-  const [selectedPayrollType, setSelectedPayrollType] = useState("none")
+  const [selectedPayrollType, setSelectedPayrollType] = useState("none");
   const [totalPayroll, setTotalPayroll] = useState();
 
-  const [payrollListData , setPayrollListData] = useState([])
-  const [payrollHistoryData , setPayrollHistoryData] = useState([])
+  const [payrollListData, setPayrollListData] = useState([]);
+  const [payrollHistoryData, setPayrollHistoryData] = useState([]);
 
   const handlePayrollChange = (event) => {
     setSelectedPayrollType(event.target.value);
   };
-  
-  
+
   const handleMonthChange = (event) => {
     setSelectedMonth(event.target.value);
   };
@@ -71,16 +70,13 @@ const PayrollManagement = () => {
 
   const payrollType = [
     { label: "Payroll Type", value: "none" },
-
     { label: "Tax", value: "tax" },
     { label: "Salary", value: "salary" },
-    { label: "Comission", value: "commission" },
-    
+    { label: "comission", value: "comission" }, // Fixed typo here
   ];
 
-
   // Use React Query to fetch payroll data with caching
-  const { data: payrollData, isLoading: payrollLoading, } = useQuery({
+  const { data: payrollData, isLoading: payrollLoading } = useQuery({
     queryKey: ["payrollData"],
     queryFn: async () => {
       const response = await axiosInstance.get(
@@ -89,8 +85,7 @@ const PayrollManagement = () => {
       // console.log(response);
       return response.data;
     },
-    keepPreviousData: true, 
-    
+    keepPreviousData: true,
 
     onError: (error) => {
       console.error(error);
@@ -109,7 +104,7 @@ const PayrollManagement = () => {
   };
 
   // React Query to fetch graph data
-  const { data: graphData, isLoading: graphLoading   } = useQuery({
+  const { data: graphData, isLoading: graphLoading } = useQuery({
     queryKey: ["payrollGraph", selectedMonth, selectedYear],
     queryFn: async () => {
       const date = new Date(parseInt(selectedYear), parseInt(selectedMonth));
@@ -121,10 +116,11 @@ const PayrollManagement = () => {
           params: { month: month },
         }
       );
-      
+      // console.log("====================>>>>>>>>>>>>>>", response);
+
       return response;
     },
-    keepPreviousData: true, 
+    keepPreviousData: true,
     onError: (error) => {
       console.error(error);
       toast.error("Error fetching payroll graph data.");
@@ -134,14 +130,15 @@ const PayrollManagement = () => {
   useEffect(() => {
     setHeadertext("Payroll");
     setParaText(" ");
-
   }, [setHeadertext, setParaText]);
   const { data: payrollList, isLoading: listLoading } = useQuery({
     queryKey: ["payrollList"],
     queryFn: async () => {
-      const response = await axiosInstance.get(`${apiUrl}/api/admin/confirmedPayrolls`);
-      // console.log("========================>",response);
-      setTotalPayroll(response.data.total)
+      const response = await axiosInstance.get(
+        `${apiUrl}/api/admin/confirmedPayrolls`
+      );
+      console.log("========================>",response);
+      setTotalPayroll(response.data.total);
       return response.data.payrolls;
     },
     keepPreviousData: true,
@@ -152,15 +149,16 @@ const PayrollManagement = () => {
     },
   });
 
-  useEffect(()=>{
-    const fetchPayroll =async () => {
-
-      const response = await axiosInstance.get(`${apiUrl}/api/admin/confirmedPayrolls`);
-      console.log(response)
-      setPayrollListData(response.data.payrolls)
-    }
-    fetchPayroll()
-  },[])
+  useEffect(() => {
+    const fetchPayroll = async () => {
+      const response = await axiosInstance.get(
+        `${apiUrl}/api/admin/confirmedPayrolls`
+      );
+      // console.log(response);
+      setPayrollListData(response.data.payrolls);
+    };
+    fetchPayroll();
+  }, []);
 
   // useEffect(()=>{
   //   const fetchPayroll =async () => {
@@ -172,116 +170,136 @@ const PayrollManagement = () => {
   //   fetchPayroll()
   // },[])
 
+  // Function to get filtered graph data based on selected payroll type
+  const getFilteredGraphData = () => {
+    if (!graphData || !graphData.data) return { labels: [], data: [] };
+    const { tax, salary, comission } = graphData.data;
+
+    if (selectedPayrollType === "none") {
+      return {
+        labels: ["comission", "Tax", "Salary"],
+        data: [comission, tax, salary],
+      };
+    } else {
+      const valueMap = {
+        comission,
+        tax,
+        salary,
+      };
+      const labelCapitalized =
+        selectedPayrollType.charAt(0).toUpperCase() +
+        selectedPayrollType.slice(1);
+      return {
+        labels: [labelCapitalized],
+        data: [valueMap[selectedPayrollType] || 0],
+      };
+    }
+  };
+
+  const { labels, data } = getFilteredGraphData();
+
   if (payrollLoading) {
     return <SpinnerLoader />;
-  } 
-
+  }
 
   return (
     <Box>
-    <Box>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
+      <Box>
         <Box
           sx={{
             display: "flex",
-            gap: "1.5rem",
+            justifyContent: "space-between",
           }}
         >
           <Box
             sx={{
-              fontWeight: "500",
-              color: "#010120",
-              fontSize: "22px",
+              display: "flex",
+              gap: "1.5rem",
             }}
           >
-            <CustomSelectForType
-              label="Month"
-              value={ selectedMonth}
-              handleChange={handleMonthChange}
-              options={months}
-              height={"46px"}
-              width="220px"
-            />
+            <Box
+              sx={{
+                fontWeight: "500",
+                color: "#010120",
+                fontSize: "22px",
+              }}
+            >
+              <CustomSelectForType
+                label="Month"
+                value={selectedMonth}
+                handleChange={handleMonthChange}
+                options={months}
+                height={"46px"}
+                width="220px"
+              />
+            </Box>
+            <Box
+              sx={{
+                fontWeight: "500",
+                color: "#010120",
+                fontSize: "22px",
+              }}
+            >
+              <CustomSelectForType
+                label="Year"
+                value={selectedYear}
+                handleChange={handleYearChange}
+                options={years}
+                height={"46px"}
+                width="220px"
+              />
+            </Box>
           </Box>
+
           <Box
             sx={{
-              fontWeight: "500",
-              color: "#010120",
-              fontSize: "22px",
+              display: "flex",
+              gap: "1.5rem",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            <CustomSelectForType
-              label="Year"
-              value={selectedYear}
-              handleChange={handleYearChange}
-              options={years}
-              height={"46px"}
-              width="220px"
-            />
+            <Box>
+              {/* Payroll Type Filter */}
+              <CustomSelectForType
+                label="Payroll Type"
+                value={selectedPayrollType}
+                handleChange={handlePayrollChange}
+                options={payrollType}
+                height={"46px"}
+                width="220px"
+              />
+            </Box>
+
+            <Box>
+              <Tooltip title="Manage Payroll">
+                <CustomButton
+                  ButtonText="Manage Payroll"
+                  fontSize="16px"
+                  color="white"
+                  fontWeight="500"
+                  fullWidth={false}
+                  variant="contained"
+                  padding="8px 0px"
+                  width={"170px"}
+                  background="#157AFF"
+                  hoverBg="#303f9f"
+                  hovercolor="white"
+                  borderRadius="7px"
+                  buttonStyle={{ mb: "17px", height: "45px" }}
+                  onClick={() =>
+                    navigate("/dashboard/payroll-management/manage-payroll")
+                  }
+                />
+              </Tooltip>
+            </Box>
           </Box>
         </Box>
-
-        <Box
-         sx={{
-          display: "flex",
-          gap: "1.5rem",
-          alignItems:"center",
-          justifyContent:"center"
-        }}
-        >
-          <Box>
-          <CustomSelectForType
-            label="Payroll Type"
-            value={selectedPayrollType ? selectedPayrollType : ""}
-            handleChange={handlePayrollChange}
-            options={payrollType}
-            height={"46px"}
-            width="220px"
-          />
-
-          </Box>
-
-          <Box>
-
-           <Tooltip title="Manage Payroll">
-              <CustomButton
-
-              ButtonText="Manage Payroll"
-              fontSize="16px"
-              color="white"
-              fontWeight="500"
-              fullWidth={false}
-              variant="contained"
-              padding="8px 0px"
-           width={"170px"}
-              background="#157AFF"
-              hoverBg="#303f9f"
-              hovercolor="white"
-        
-              borderRadius="7px"
-              buttonStyle={{ mb:"17px", height: "45px" }}
-
-              onClick={()=> navigate("/dashboard/payroll-management/manage-payroll")}
-            />
-          </Tooltip>
-          </Box>
-        </Box>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          gap: "2rem",
-          mt: "30px",
-        }}
-      >
         <Box
           sx={{
-            flexBasis: "50%",
+            display: "flex",
+            gap: "2rem",
+            mt: "30px",
           }}
         >
           <Box
@@ -289,82 +307,81 @@ const PayrollManagement = () => {
               flexBasis: "50%",
             }}
           >
-            {graphData ? (
-              <BasicBars
-                tax={graphData.data.tax}
-                salary={graphData.data.salary}
-                commission={graphData.data.commission}
-              />
-            ) : (
-              <BasicBars
-              
-              tax={""}
-              salary={""}
-              commission={""}
-            />
-            )}
+            <Box
+              sx={{
+                flexBasis: "50%",
+              }}
+            >
+              {graphData ? (
+                <BasicBars
+                labels={labels}
+                data={data}
+                />
+              ) : (
+                <BasicBars tax={""} salary={""} commission={""} />
+              )}
+            </Box>
           </Box>
-        </Box>
-        <Box
-          sx={{
-            flexBasis: "50%",
-
-            backgroundColor: "#E0EBFF",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "start",
-            flexDirection: "column",
-            p: "25px 50px",
-            borderRadius: "10px",
-            fontWeight: "600 !important",
-          }}
-        >
           <Box
             sx={{
+              flexBasis: "50%",
+
+              backgroundColor: "#E0EBFF",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "start",
+              flexDirection: "column",
+              p: "25px 50px",
+              borderRadius: "10px",
               fontWeight: "600 !important",
-              fontSize: { xl: "40px", xs: "30px" },
             }}
           >
-            Total Payroll: {payrollData?.totalSalary}
-          </Box>
-          <Box sx={{ fontWeight: "600", fontSize: { xl: "40px", xs: "30px" } }}>
-            Current Employees: {payrollData?.currentEmployees}
-          </Box>
-          <Box sx={{ fontWeight: "600", fontSize: { xl: "40px", xs: "30px" } }}>
-            Last Payroll: {payrollData?.lastPayroll}
-          </Box>
-          <Box sx={{ fontWeight: "600", fontSize: { xl: "40px", xs: "30px" } }}>
-            Difference: {payrollData?.difference}
+            <Box
+              sx={{
+                fontWeight: "600 !important",
+                fontSize: { xl: "40px", xs: "30px" },
+              }}
+            >
+              Total Payroll: {payrollData?.totalSalary}
+            </Box>
+            <Box
+              sx={{ fontWeight: "600", fontSize: { xl: "40px", xs: "30px" } }}
+            >
+              Current Employees: {payrollData?.currentEmployees}
+            </Box>
+            <Box
+              sx={{ fontWeight: "600", fontSize: { xl: "40px", xs: "30px" } }}
+            >
+              Last Payroll: {payrollData?.lastPayroll}
+            </Box>
+            <Box
+              sx={{ fontWeight: "600", fontSize: { xl: "40px", xs: "30px" } }}
+            >
+              Difference: {payrollData?.difference}
+            </Box>
           </Box>
         </Box>
       </Box>
-    </Box>
 
-    {/* Last Payroll List */}
-    <Box
-    sx={{
-      mt:"100px"
-    }}
-    >
-    <LastPayrollList
-    totalPayroll={totalPayroll}
-payrollList={payrollList}
-/>
+      {/* Last Payroll List */}
+      <Box
+        sx={{
+          mt: "100px",
+        }}
+      >
+        <LastPayrollList
+          totalPayroll={totalPayroll}
+          payrollList={payrollList}
+        />
+      </Box>
 
-    </Box>
-
-    <Box
-    sx={{
-      mt:"120px"
-    }}
-    >
-    <PayrollHistory
-    
-payrollList={payrollList}
-
-/>
-
-    </Box>
+      <Box
+        sx={{
+          mt: "120px",
+        }}
+      >
+        <PayrollHistory payrollList={payrollList} />
+      </Box>
     </Box>
   );
 };

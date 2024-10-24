@@ -31,7 +31,7 @@ const DefaultLayout = () => {
     })
     setNotificationCount(response?.data?.notifications)
     dispatch(setCount(notificationCount))
-    console.log(formDirty)
+    // console.log(formDirty)
  
   }
  useEffect(()=>{
@@ -41,7 +41,7 @@ const DefaultLayout = () => {
   
 
   useEffect(() => {
-    console.log(count)
+    // console.log(count)  
   }, []);
 
 

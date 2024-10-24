@@ -113,8 +113,8 @@ const AppSidebar = () => {
         const res = await axiosInstance.get(`${apiUrl}/api/isAdmin`);
         setIsAdmin(res.data.isAdmin);
         setPageloading(false);
-        console.log("=================================> dirty form", formDirty);
-        console.log(user);
+        // console.log("=================================> dirty form", formDirty);
+        // console.log(user);
       } catch (error) {
         console.error(error);
         setPageloading(false);
@@ -343,7 +343,7 @@ const AppSidebar = () => {
                     alt=""
                     style={{ width: "27.02px", height: "16.75px" }}
                   />{" "}
-                  &nbsp; Leave Management
+                  &nbsp; Leaves Management
                 </CustomNavLink>
               </CNavItem>
               <CNavItem>

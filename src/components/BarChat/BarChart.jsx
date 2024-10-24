@@ -2,16 +2,15 @@ import * as React from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
 
 export default function BasicBars({
-    width = "700",
+    width = 700,
     height = 300,
-    tax = 0,
-    salary = 0,
-    commission = 0
+    labels = ['Commission', 'Tax', 'Salary'],
+    data = [0, 0, 0]
 }) {
   return (
     <BarChart
-      xAxis={[{ scaleType: 'band', data: ['Commission', 'Tax', 'Salary'] }]}
-      series={[{ data: [commission, tax, salary] }]}
+      xAxis={[{ scaleType: 'band', data: labels }]}
+      series={[{ data: data }]}
       width={width}
       height={height}
     />

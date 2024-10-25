@@ -31,23 +31,35 @@ import EditIcon from "../../assets/Edit.png";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const PayrollHistory = ({ payrollList }) => {
-  const [loading , setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
   const navigate = useNavigate();
   const [payrollHistoryData, setPayrollHistoryData] = useState([]);
   const [payrollHistoryTotal, setPayrollHistoryTotal] = useState();
-  
+
   const [selectedMonth, setSelectedMonth] = useState(
     new Date().getMonth().toString()
-  ); // Default to current month
+  ); 
   const [selectedYear, setSelectedYear] = useState(
     new Date().getFullYear().toString()
   ); // Default to current year
 
+  const [selectedMonth2, setSelectedMonth2] = useState(
+    new Date().getMonth().toString()
+  ); // Default to current month
+  const [selectedYear2, setSelectedYear2] = useState(
+    new Date().getFullYear().toString()
+  ); // Default to current year
+
+
   const handleMonthChange = (event) => {
     setSelectedMonth(event.target.value);
   };
+  const handleMonthChange2 = (event) => {
+    setSelectedMonth2(event.target.value);
+  };
   const months = [
+    { label: "Select Start Month", value: "none" },
     { label: "January", value: "0" },
     { label: "February", value: "1" },
     { label: "March", value: "2" },
@@ -72,19 +84,26 @@ const PayrollHistory = ({ payrollList }) => {
     setSelectedYear(event.target.value);
   };
 
+  const handleYearChange2 = (event) => {
+    setSelectedYear2(event.target.value);
+  };
   useEffect(() => {
     const fetchPayroll = async () => {
       const date = new Date(parseInt(selectedYear), parseInt(selectedMonth));
       const month = date.getTime();
 
+      const date2 = new Date(parseInt(selectedYear2), parseInt(selectedMonth2));
+      const month2 = date2.getTime();
+
       try {
-        
         const response = await axiosInstance({
           url: `${apiUrl}/api/admin/payrollhistory`,
           method: "get",
-          // params : {
-          //   month : month
-          // }
+          params : {
+            month : month ? month : "",
+            to : month2 ? month2 : "",
+
+          }
         });
         console.log(response);
         setPayrollHistoryData(response?.data?.payrolls);
@@ -94,7 +113,7 @@ const PayrollHistory = ({ payrollList }) => {
       }
     };
     fetchPayroll();
-  }, []);
+  }, [selectedMonth, selectedMonth2, selectedYear, selectedYear2]);
 
   const calculatePayableAmount = (payroll) => {
     const basicSalary = payroll?.basicSalary || 0;
@@ -131,26 +150,22 @@ const PayrollHistory = ({ payrollList }) => {
   const csvData = "header1,header2\nrow1col1,row1col2"; // Replace with your CSV formatted text from backend
 
   const exportFile = async () => {
-    setLoading(true)
+    setLoading(true);
 
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await axiosInstance({
         url: `${apiUrl}/api/admin/exportconfirmedPayrolls`,
         method: "get",
-       
       });
-      setLoading(false)
+      setLoading(false);
       console.log(response);
-      downloadCSV(response.data)
-     
+      downloadCSV(response.data);
     } catch (error) {
       console.log("=========================> error at ", error);
-      setLoading(false)
-
+      setLoading(false);
     } finally {
-      setLoading(false)
-
+      setLoading(false);
     }
   };
 
@@ -207,7 +222,7 @@ const PayrollHistory = ({ payrollList }) => {
                 color: "#010120",
               }}
             >
-              month and year
+         
             </Typography>
 
             <Box
@@ -246,7 +261,7 @@ const PayrollHistory = ({ payrollList }) => {
               <Box>
                 <Tooltip title="Download CSV">
                   <CustomButton
-                  loading={loading}
+                    loading={loading}
                     ButtonText="Export"
                     fontSize="16px"
                     color="white"
@@ -263,6 +278,93 @@ const PayrollHistory = ({ payrollList }) => {
                     onClick={() => exportFile()}
                   />
                 </Tooltip>
+              </Box>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              mt: "80px",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                gap: "1.5rem",
+              }}
+            >
+              <Box
+                sx={{
+                  fontWeight: "500",
+                  color: "#010120",
+                  fontSize: "22px",
+                }}
+              >
+                <CustomSelectForType
+                  label="Month"
+                  value={selectedMonth}
+                  handleChange={handleMonthChange}
+                  options={months}
+                  height={"46px"}
+                  width="180px"
+                />
+              </Box>
+              <Box
+                sx={{
+                  fontWeight: "500",
+                  color: "#010120",
+                  fontSize: "22px",
+                }}
+              >
+                <CustomSelectForType
+                  label="Year"
+                  value={selectedYear}
+                  handleChange={handleYearChange}
+                  options={years}
+                  height={"46px"}
+                  width="180px"
+                />
+              </Box>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                gap: "1.5rem",
+              }}
+            >
+              <Box
+                sx={{
+                  fontWeight: "500",
+                  color: "#010120",
+                  fontSize: "22px",
+                }}
+              >
+                <CustomSelectForType
+                  label="Month"
+                  value={selectedMonth2}
+                  handleChange={handleMonthChange2}
+                  options={months}
+                  height={"46px"}
+                  width="180px"
+                />
+              </Box>
+              <Box
+                sx={{
+                  fontWeight: "500",
+                  color: "#010120",
+                  fontSize: "22px",
+                }}
+              >
+                <CustomSelectForType
+                  label="Year"
+                  value={selectedYear2}
+                  handleChange={handleYearChange2}
+                  options={years}
+                  height={"46px"}
+                  width="180px"
+                />
               </Box>
             </Box>
           </Box>

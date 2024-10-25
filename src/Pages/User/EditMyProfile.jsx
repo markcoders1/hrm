@@ -49,8 +49,8 @@ const EditMyProfile = () => {
   };
 
   return (
-    <Box className="sheet-container-admin" sx={{ p: { sm: "0px 30px", xs: "0px" } }} >
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <Box className="sheet-container-admin" sx={{ p: { sm: "0px 0px", xs: "0px" } }} >
+      <form onSubmit={handleSubmit(onSubmit)} style={{padding:"0px"}} >
         <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', mb: 4, flexDirection: { md: "row", xs: "column" } }}>
           <Controller
             name="phoneNumber"

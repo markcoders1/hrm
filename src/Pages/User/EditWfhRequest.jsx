@@ -69,8 +69,8 @@ const EditWFHRequest = () => {
     };
 
     return (
-        <Box className="sheet-container-admin">
-            <form onSubmit={handleSubmit(onSubmit)}>
+        <Box className="sheet-container-admin" sx={{padding:"0px"}} >
+            <form onSubmit={handleSubmit(onSubmit)}  style={{padding:"0px"}} >
                 <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', mb: 4 }}>
                     <Controller
                         name="date"

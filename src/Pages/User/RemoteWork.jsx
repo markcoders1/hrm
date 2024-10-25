@@ -124,7 +124,7 @@ const RemoteWork = () => {
           <Tooltip title="Request New WFH">
             <CustomButton
               ButtonText="Request For New WFH"
-              fontSize="12px"
+              fontSize="16px"
               color="white"
               fontWeight="500"
               fullWidth={false}
@@ -134,8 +134,9 @@ const RemoteWork = () => {
               background="#157AFF"
               hoverBg="#303f9f"
               hovercolor="white"
-              width={"189px"}
+              width={"219px"}
               borderRadius="7px"
+              height={"45px"}
               onClick={() => navigate("/dashboard/remote-work/new-wfh-request")}
             />
           </Tooltip>
@@ -306,6 +307,10 @@ const RemoteWork = () => {
                     <Box sx={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
                       <Tooltip
                         title={isActionDisabled(remote.overallStatus) ? "Could not edit" : "Click to Edit"}
+                        onClick={(event) =>
+                          !isActionDisabled(remote.overallStatus) &&
+                          handleEditClick(event, remote._id)
+                        }
                       >
                        <Typography
                           sx={{
@@ -332,16 +337,18 @@ const RemoteWork = () => {
                               width: "24px",
                               height: "24px",
                             }}
-                            onClick={(event) =>
-                              !isActionDisabled(remote.overallStatus) &&
-                              handleEditClick(event, remote._id)
-                            }
+                          
                           />
                           </Typography>
                       
                       </Tooltip>
                       <Tooltip
                         title={isActionDisabled(remote.overallStatus) ? "Could not Delete" : "Click to Delete"}
+                        onClick={(event) =>
+                          !isActionDisabled(remote.overallStatus) &&
+                          handleDeleteClick(event, remote._id)
+                          
+                        }
                       >
                        <Typography
                           sx={{
@@ -368,11 +375,7 @@ const RemoteWork = () => {
                               width: "24px",
                               height: "24px",
                             }}
-                            onClick={(event) =>
-                              !isActionDisabled(remote.overallStatus) &&
-                              handleDeleteClick(event, remote._id)
-                              
-                            }
+                          
                           />
                        </Typography>
                       </Tooltip>

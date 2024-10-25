@@ -11,6 +11,7 @@ import CustomCheckbox from "../components/CustomCheckbox/CustomCheckbox";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import FileUpload from "../components/FileUpload/FileUpload";
+import SpinnerLoader from "../components/SpinnerLoader";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -18,6 +19,7 @@ const UserInfo = () => {
   const { setHeadertext } = useOutletContext();
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
+  const [loadingUpdate , setLoadingUpdate] =  useState(false)
   const [hods, setHods] = useState([]);
   const [teamLeads, setTeamLeads] = useState([]);
   const [departments, setDepartments] = useState([]);
@@ -236,7 +238,10 @@ const UserInfo = () => {
 
     // console.log(formData)
     console.log(id);
+    setLoadingUpdate(true)
     try {
+      setLoadingUpdate(true)
+
       const response = await axiosInstance({
         url: `${apiUrl}/api/admin/update-any-profile`,
         method: "post",
@@ -250,12 +255,15 @@ const UserInfo = () => {
         },
         headers: { "Content-Type": "multipart/form-data" },
       });
+      setLoadingUpdate(false)
+
       toast.success(response.data.message, { position: "top-center" });
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message[0].message, {
         position: "top-center",
       });
+      setLoadingUpdate(false)
     }
   };
 
@@ -373,13 +381,16 @@ const UserInfo = () => {
       className="form-container-register"
       sx={{
         flexDirection: "column !important",
+        padding:"0px !important",
+   
+
       }}
     >
       <Box
         sx={{
           border: "1px dashed rgba(197, 197, 197, 0.6)",
           width: { lg: "517px", xs: "100%" },
-          p: { xs: "1rem 1rem", sm: "1rem 2rem" },
+          p: { xs: "1rem 1rem", sm: "1rem 1rem" },
           borderRadius: "7px",
           position: { lg: "absolute", xs: "static" },
           right: "35px",
@@ -431,11 +442,11 @@ const UserInfo = () => {
           />
         </Typography>
       </Box>
-      <Box className="form-register" sx={{ mt: "40px" }}>
-        <form onSubmit={onSubmit}>
+      <Box className="form-register" sx={{ mt: "40px", padding:"0px !important" }}>
+        <form onSubmit={onSubmit} style={{ padding:"0px"}} >
           {loading ? (
             <Box className="loaderContainer">
-              <Loader />
+              <SpinnerLoader />
             </Box>
           ) : (
             <>
@@ -1029,6 +1040,7 @@ const UserInfo = () => {
                   width={"144px"}
                   borderRadius="7px"
                   height="45px"
+                  loading={loadingUpdate}
                 />
               </Box>
             </>

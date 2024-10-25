@@ -91,7 +91,7 @@ const AppHeader = (props) => {
           </Typography>
         </CContainer>
         <CContainer className="d-flex" fluid>
-          <Typography sx={{ color: "#878787", fontWeight: "400", fontSize: "17px" }}>
+          <Typography sx={{ color: "#878787", fontWeight: "400", fontSize: "17px", padding:"0px 10px" }}>
             {paraText}
           </Typography>
         </CContainer>

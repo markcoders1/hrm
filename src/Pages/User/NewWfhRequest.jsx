@@ -53,8 +53,8 @@ const NewWFHRequest = () => {
     };
 
     return (
-        <Box className="sheet-container-admin">
-            <form onSubmit={handleSubmit(onSubmit)}>
+        <Box className="sheet-container-admin" sx={{p:"0px"}} >
+            <form onSubmit={handleSubmit(onSubmit)} style={{padding:"0px"}} >
                 <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', mb: 4 }}>
                     <Controller
                         name="date"

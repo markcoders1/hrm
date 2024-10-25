@@ -22,6 +22,7 @@ import CustomInputLabel from "../components/CustomInputField/CustomInputLabel";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import SpinnerLoader from "../components/SpinnerLoader";
+import CustomButton from "../components/CustomButton/CustomButton";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -34,6 +35,7 @@ const Attendance = () => {
   const [pdfLoading, setPdfLoading] = useState(false);
   const [month, setMonth] = useState(new Date().getMonth().toString()); // Default to current month
   const [year, setYear] = useState(new Date().getFullYear().toString());
+  const [downloadpdf, setDownloadpdf] = useState(false)
 
   useEffect(() => {
     (async function () {
@@ -89,6 +91,7 @@ const Attendance = () => {
           date: date,
         },
       });
+      console.log(response)
 
       const transformedData = response.data.attendances.map((item) => ({
         ...item,
@@ -146,7 +149,7 @@ const Attendance = () => {
       window.URL.revokeObjectURL(url);
 
       if (response) {
-        toast.success("PDF Downloaded Sucessfully");
+        toast.success("PDF Downloaded Sucessfully", { position: "top-center" });
       }
     } catch (error) {
       console.log(error);
@@ -224,25 +227,32 @@ const Attendance = () => {
           className="generate"
           sx={{ mt: 3, display: "flex", justifyContent: "end" }}
         >
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={downloadPdf}
-            disabled={pdfLoading}
-            sx={{
-              backgroundColor: "#157AFF",
-              "&:hover": {
-                backgroundColor: "#303f9f",
-              },
-            }}
-          >
-            {pdfLoading ? <LoaderW /> : "Generate PDF"}
-          </Button>
+            <CustomButton
+                  ButtonText="Download PDF"
+                  fontSize="16px"
+                  color="white"
+                  fontWeight="500"
+                  fullWidth={false}
+                  variant="contained"
+                  padding="8px 0px"
+                  width={"154px"}
+                  height="45px"
+                  background="#157AFF"
+                  hoverBg="#303f9f"
+                  hovercolor="white"
+                  borderRadius="7px"
+                  buttonStyle={{ mb: "17px", height: "45px" }}
+                  loading={pdfLoading}
+                  onClick={() =>
+                    downloadPdf()
+                  }
+                />
+         
         </Box>
 
         {loading ? (
           <Box className="loaderContainer">
-            <Loader />
+            <SpinnerLoader />
           </Box>
         ) : (
           <TableContainer component={Paper} className="MuiTableContainer-root">
@@ -254,13 +264,13 @@ const Attendance = () => {
                     backgroundImage: `linear-gradient(90deg, #E0EBFF 0%, #E0EBFF 100%) !important`,
                     padding: "0px",
                   }}
-                  start
+                  
                 >
                   <TableCell
                     className="MuiTableCell-root-head"
                     sx={{
                       fontWeight: "500",
-                      padding: "12px 0px",
+                      padding: "12px 10px",
                       fontSize: {
                         xl: "21px !important",
                         md: "14px !important ",
@@ -279,7 +289,7 @@ const Attendance = () => {
                     className="MuiTableCell-root-head"
                     sx={{
                       fontWeight: "500",
-                      padding: "12px 0px",
+                      padding: "12px 15px",
                       fontSize: {
                         xl: "21px !important",
                         md: "14px !important ",
@@ -347,7 +357,7 @@ const Attendance = () => {
                     className="MuiTableCell-root-head"
                     sx={{
                       fontWeight: "500",
-                      padding: "12px 0px",
+                      padding: "12px 10px",
                       borderRadius: "0px 8px 8px 0px",
 
                       fontSize: {
@@ -372,11 +382,12 @@ const Attendance = () => {
                         borderRadius: "8px 0px 0px 8px",
                         color: "#010120",
                         textAlign: "center !important",
+                        pl:"00px !important"
                        
                       }}
                       className="MuiTableCell-root"
                     >
-                      005 {/* Use actual employee ID if available */}
+                      {item?.companyId}
                     </TableCell>
                     <TableCell
                       sx={{

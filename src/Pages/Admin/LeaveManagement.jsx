@@ -459,7 +459,7 @@ const LeaveManagement = () => {
                   textAlign: "center !important",
 
                   color: "#010120",
-                  minWidth: "100px",
+                  minWidth: "140px",
                 }}
               >
                 Type
@@ -591,7 +591,7 @@ const LeaveManagement = () => {
                   className="MuiTableCell-root"
                   sx={{
                     borderRadius: "8px 0px 0px 8px",
-                    color: "white",
+                    color: "#010120",
                     textAlign: "center !important",
                   }}
                 >
@@ -600,7 +600,7 @@ const LeaveManagement = () => {
                 <TableCell
                   className="MuiTableCell-root"
                   sx={{
-                    color: "white",
+                    color: "#010120",
                     textAlign: "start !important",
                   }}
                 >
@@ -621,6 +621,7 @@ const LeaveManagement = () => {
                   sx={{
                     color: "#99999C",
                     textAlign: "center !important",
+                    pl:"10px !important"
                   }}
                 >
                   {row?.annualLeaves - row?.leavesTaken
@@ -632,6 +633,7 @@ const LeaveManagement = () => {
                   sx={{
                     color: "black",
                     textAlign: "center !important",
+                    pl:"15px !important"
                   }}
                 >
                   {row?.leaveType}
@@ -641,6 +643,8 @@ const LeaveManagement = () => {
                   sx={{
                     color: "#31BA96",
                     textAlign: "center !important",
+                    pl:"20px !important"
+
                   }}
                 >
                   {formatDate(row?.startDate)}
@@ -650,6 +654,8 @@ const LeaveManagement = () => {
                   sx={{
                     color: "#31BA96",
                     textAlign: "center !important",
+                    pl:"20px !important"
+
                   }}
                 >
                   {formatDate(row?.endDate)}
@@ -658,7 +664,7 @@ const LeaveManagement = () => {
                   className="MuiTableCell-root"
                   sx={{
                     color: "black",
-
+                    pl:"15px !important",
                     textAlign: "center !important",
                   }}
                 >
@@ -668,7 +674,7 @@ const LeaveManagement = () => {
                   className="MuiTableCell-root"
                   sx={{
                     color:
-                      row.statusTL === "accepted"
+                      row.statusTL === "approved"
                         ? "#31BA96 !important"
                         : row.statusTL === "pending"
                         ? "#010120 !important"
@@ -682,8 +688,8 @@ const LeaveManagement = () => {
                   className="MuiTableCell-root"
                   sx={{
                     color:
-                      row.statusHOD === "accepted"
-                        ? "#31BA96 !important "
+                      row.statusHOD === "approved"
+                        ? "#31BA96 !important"
                         : row.statusHOD === "pending"
                         ? "#010120 !important"
                         : "red !important",

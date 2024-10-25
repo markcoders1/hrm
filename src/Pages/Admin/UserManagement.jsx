@@ -140,7 +140,7 @@ const EmployeeData = () => {
         hovercolor="darkgreen"
         type="button"
         width="113px"
-        hoverBorder="#010120"
+        hoverBorder=" 1px solid white !important"
       />
     );
   };

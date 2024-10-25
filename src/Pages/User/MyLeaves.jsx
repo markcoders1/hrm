@@ -469,6 +469,10 @@ const MyLeaves = () => {
                             ? "Could not edit"
                             : "Click to Edit"
                         }
+                        onClick={(event) =>
+                          !isActionDisabled(leave.overallStatus) &&
+                          handleEditClick(event, leave._id)
+                        }
                       >
                         <Typography
                           sx={{
@@ -497,10 +501,7 @@ const MyLeaves = () => {
                                 ? "not-allowed"
                                 : "pointer",
                             }}
-                            onClick={(event) =>
-                              !isActionDisabled(leave.overallStatus) &&
-                              handleEditClick(event, leave._id)
-                            }
+                          
                           />
                         </Typography>
                       </Tooltip>
@@ -509,6 +510,10 @@ const MyLeaves = () => {
                           isActionDisabled(leave.overallStatus)
                             ? "Could not Delete"
                             : "Click to Delete"
+                        }
+                        onClick={(event) =>
+                          !isActionDisabled(leave.overallStatus) &&
+                          handleDeleteClick(event, leave._id)
                         }
                       >
                          <Typography
@@ -540,10 +545,7 @@ const MyLeaves = () => {
                             width: "25px",
                             height: "25px",
                           }}
-                          onClick={(event) =>
-                            !isActionDisabled(leave.overallStatus) &&
-                            handleDeleteClick(event, leave._id)
-                          }
+                       
                         />
                         </Typography>
                       </Tooltip>

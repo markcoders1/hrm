@@ -116,7 +116,7 @@ const EditMyLeave = () => {
   };
 
   return (
-    <Box className="sheet-container-admin">
+    <Box className="sheet-container-admin" sx={{p:"0px"}} >
       <Box sx={{ display: 'flex', justifyContent: 'start', gap: "4rem", mb: 4 }}>
         <Typography sx={{ fontWeight: "600", fontSize: "24px", color: "#010120" }}>
           Total: {leaveData?.annualLeaves || "--"}
@@ -129,7 +129,7 @@ const EditMyLeave = () => {
         </Typography>
       </Box>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} style={{padding:"0px"}} >
         <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', mb: 4 }}>
           <Controller
             name="startDate"

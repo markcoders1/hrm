@@ -99,7 +99,7 @@ const EditMyProfile = () => {
                   label="Address"
                   id="address"
                   error={errors.address?.message}
-                  multiline={true}
+                  
                   {...field}
                   height={{ md: "64px", xs: "120px" }}
                 />

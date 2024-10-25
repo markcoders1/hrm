@@ -515,7 +515,7 @@ const filteredWFHData = allWfh.filter((row) => {
                 </TableCell>
 
                 {
-                  user === "HR" ? "" : (
+                  user === "HR" ? null : !row.showEntry ? (<TableCell></TableCell>) : (
                     <TableCell
                     className="MuiTableCell-root"
                     sx={{

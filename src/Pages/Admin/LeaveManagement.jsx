@@ -44,7 +44,7 @@ const LeaveManagement = () => {
   const [selectedYear, setSelectedYear] = useState(
     new Date().getFullYear().toString()
   ); // Default to current year
-  const [payrollType, setPayrollType] = useState("Payroll Type"); 
+  const [payrollType, setPayrollType] = useState("Payroll Type");
 
   const getUnixTimestampForMonthYear = (month, year) => {
     const date = new Date(year, month, 1);
@@ -221,11 +221,11 @@ const LeaveManagement = () => {
   ];
 
   // Generate years starting from 2024
-    const currentYear = new Date().getFullYear();
-    const years = Array.from({ length: currentYear - 2024 + 1 }, (v, i) => ({
-      label: (2024 + i).toString(),
-      value: (2024 + i).toString(),
-    }));
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: currentYear - 2024 + 1 }, (v, i) => ({
+    label: (2024 + i).toString(),
+    value: (2024 + i).toString(),
+  }));
 
   if (loading) {
     return (
@@ -236,9 +236,12 @@ const LeaveManagement = () => {
   }
 
   return (
-    <Box className="sheet-container-admin" sx={{
-      padding:"0px 0px 40px 0px"
-      }} >
+    <Box
+      className="sheet-container-admin"
+      sx={{
+        padding: "0px 0px 40px 0px",
+      }}
+    >
       <Box
         sx={{
           width: { lg: "500px", xs: "100%" },
@@ -257,8 +260,8 @@ const LeaveManagement = () => {
       >
         <Box sx={{ flexBasis: { lg: "300px", xs: "60%" } }}>
           <CustomInputLabel
-            height={{xs:"36px"}}
-            paddingInput={{xs:" 8px 10px"}}
+            height={{ xs: "36px" }}
+            paddingInput={{ xs: " 8px 10px" }}
             fontSize={"20px"}
             showSearchIcon={true}
             placeholder={"Search User"}
@@ -302,7 +305,6 @@ const LeaveManagement = () => {
             gap: 6,
             flexDirection: { xs: "column", md: "row" },
             flexBasis: { md: "", xs: "100%", display: "none" },
-         
           }}
         >
           <Box sx={{ display: "flex", gap: ".4rem", alignItems: "center" }}>
@@ -372,7 +374,6 @@ const LeaveManagement = () => {
               handleChange={handleYearChange}
               options={years}
               height={"46px"}
-
             />
           </FormControl>
         </Box>
@@ -621,7 +622,7 @@ const LeaveManagement = () => {
                   sx={{
                     color: "#99999C",
                     textAlign: "center !important",
-                    pl:"10px !important"
+                    pl: "10px !important",
                   }}
                 >
                   {row?.annualLeaves - row?.leavesTaken
@@ -633,7 +634,7 @@ const LeaveManagement = () => {
                   sx={{
                     color: "black",
                     textAlign: "center !important",
-                    pl:"15px !important"
+                    pl: "15px !important",
                   }}
                 >
                   {row?.leaveType}
@@ -643,8 +644,7 @@ const LeaveManagement = () => {
                   sx={{
                     color: "#31BA96",
                     textAlign: "center !important",
-                    pl:"20px !important"
-
+                    pl: "20px !important",
                   }}
                 >
                   {formatDate(row?.startDate)}
@@ -654,8 +654,7 @@ const LeaveManagement = () => {
                   sx={{
                     color: "#31BA96",
                     textAlign: "center !important",
-                    pl:"20px !important"
-
+                    pl: "20px !important",
                   }}
                 >
                   {formatDate(row?.endDate)}
@@ -664,7 +663,7 @@ const LeaveManagement = () => {
                   className="MuiTableCell-root"
                   sx={{
                     color: "black",
-                    pl:"15px !important",
+                    pl: "15px !important",
                     textAlign: "center !important",
                   }}
                 >
@@ -699,8 +698,8 @@ const LeaveManagement = () => {
                   {row?.statusHOD}
                 </TableCell>
 
-                {user === "HR" ? (
-                  ""
+                {user === "HR" ? null : !row.showEntry ? (
+                  <TableCell></TableCell>
                 ) : (
                   <TableCell
                     className="MuiTableCell-root"
@@ -744,8 +743,7 @@ const LeaveManagement = () => {
                           }}
                           onClick={(e) => {
                             validateReject(row._id);
-                            e.stopPropagation(); 
-                            
+                            e.stopPropagation(); // Prevent the row click event from firing
                           }}
                         />
                       </Tooltip>

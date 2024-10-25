@@ -36,10 +36,11 @@ const PayrollHistory = ({ payrollList }) => {
   const navigate = useNavigate();
   const [payrollHistoryData, setPayrollHistoryData] = useState([]);
   const [payrollHistoryTotal, setPayrollHistoryTotal] = useState();
+  const [departments, setDepartments] = useState([]);
 
   const [selectedMonth, setSelectedMonth] = useState(
     new Date().getMonth().toString()
-  ); 
+  );
   const [selectedYear, setSelectedYear] = useState(
     new Date().getFullYear().toString()
   ); // Default to current year
@@ -51,12 +52,17 @@ const PayrollHistory = ({ payrollList }) => {
     new Date().getFullYear().toString()
   ); // Default to current year
 
-
   const handleMonthChange = (event) => {
     setSelectedMonth(event.target.value);
   };
   const handleMonthChange2 = (event) => {
     setSelectedMonth2(event.target.value);
+  };
+
+  const [selectedDepartment, setSelectedDepartment] = useState("newTest"); 
+
+  const handleDepartmentChange = (event) => {
+    setSelectedDepartment(event.target.value);
   };
   const months = [
     { label: "Select Start Month", value: "none" },
@@ -73,6 +79,16 @@ const PayrollHistory = ({ payrollList }) => {
     { label: "November", value: "10" },
     { label: "December", value: "11" },
   ];
+  const departmentsStatic = [
+    { label: "newTest", value: "newTest" },
+    { label: "Web & Apps", value:"Web & Apps" },
+    { label: "Sales", value: "Sales" },
+    { label: "Creatives", value: "Creatives" },
+    { label: "Development", value: "Development"},
+    { label: "HR & Admin", value: "HR & Admin" },
+  
+  ];
+  
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: currentYear - 2024 + 1 }, (v, i) => ({
@@ -99,11 +115,10 @@ const PayrollHistory = ({ payrollList }) => {
         const response = await axiosInstance({
           url: `${apiUrl}/api/admin/payrollhistory`,
           method: "get",
-          params : {
-            month : month ? month : "",
-            to : month2 ? month2 : "",
-
-          }
+          params: {
+            month: month ? month : "",
+            to: month2 ? month2 : "",
+          },
         });
         console.log(response);
         setPayrollHistoryData(response?.data?.payrolls);
@@ -168,6 +183,31 @@ const PayrollHistory = ({ payrollList }) => {
       setLoading(false);
     }
   };
+  console.log("=================================================+>",departments);
+
+
+  const getDepartments = async () => {
+    try {
+      const response = await axiosInstance({
+        url: `${apiUrl}/api/admin/getdepartments`,
+        method: "get",
+      });
+      console.log(response);
+      setDepartments
+      const tempval = response.data 
+      let depart = tempval[Object.keys(tempval)[0]]
+      console.log("tempval",tempval[Object.keys(tempval)[0]])
+      setDepartments(depart)
+    } catch (error) {
+      console.log("=========================> error at ", error);
+    }
+  };
+
+  useEffect(() => {
+    getDepartments();
+    console.log(departments);
+  }, []);
+  console.log(departments);
 
   return (
     <>
@@ -197,11 +237,13 @@ const PayrollHistory = ({ payrollList }) => {
                 fontSize: "22px",
               }}
             >
+              {/* here want to  render departments instead of month give just modification of it  */}
+
               <CustomSelectForType
-                label="Month"
-                value={selectedMonth}
-                handleChange={handleMonthChange}
-                options={months}
+                label="Department"
+                value={selectedDepartment} // Assuming you have a selectedDepartment state
+                handleChange={handleDepartmentChange} // Department change handler
+                options={departmentsStatic}
                 height={"46px"}
                 width="220px"
               />
@@ -221,9 +263,7 @@ const PayrollHistory = ({ payrollList }) => {
                 fontSize: { xl: "20px", xs: "16px" },
                 color: "#010120",
               }}
-            >
-         
-            </Typography>
+            ></Typography>
 
             <Box
               sx={{

@@ -156,7 +156,7 @@ const EmployeeData = () => {
         sx={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "center", 
           border: "none",
           borderRadius: "7px",
           fontSize: "14px",

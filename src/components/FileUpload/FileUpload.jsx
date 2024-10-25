@@ -32,7 +32,7 @@ const FileUpload = ({
     if (existingFile && !previewImage) {
       // Use the existing file URL if no new file is selected
       setPreviewImage(existingFile);
-      setSelectedFileName(existingFile.split('/').pop()); // Set the file name from the URL
+      setSelectedFileName(existingFile.split("/").pop()); // Set the file name from the URL
     }
   }, [existingFile, previewImage]);
 
@@ -77,7 +77,7 @@ const FileUpload = ({
             borderRadius: "8px",
             flexDirection: "column",
             width: "100%",
-            overflow:"hidden",
+            overflow: "hidden",
             ...labeStyling,
           }}
         >
@@ -97,7 +97,7 @@ const FileUpload = ({
                   width: "100%",
                   height: "100%",
                   borderRadius: "12px",
-                  objectFit:"cover"
+                  objectFit: "cover",
                 }}
               />
             ) : (

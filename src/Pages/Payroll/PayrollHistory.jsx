@@ -59,7 +59,7 @@ const PayrollHistory = ({ payrollList }) => {
     setSelectedMonth2(event.target.value);
   };
 
-  const [selectedDepartment, setSelectedDepartment] = useState("newTest"); 
+  const [selectedDepartment, setSelectedDepartment] = useState("all"); 
 
   const handleDepartmentChange = (event) => {
     setSelectedDepartment(event.target.value);
@@ -118,6 +118,7 @@ const PayrollHistory = ({ payrollList }) => {
           params: {
             month: month ? month : "",
             to: month2 ? month2 : "",
+            department : selectedDepartment,
           },
         });
         console.log(response);
@@ -128,7 +129,7 @@ const PayrollHistory = ({ payrollList }) => {
       }
     };
     fetchPayroll();
-  }, [selectedMonth, selectedMonth2, selectedYear, selectedYear2]);
+  }, [selectedMonth, selectedMonth2, selectedYear, selectedYear2, selectedDepartment]);
 
   const calculatePayableAmount = (payroll) => {
     const basicSalary = payroll?.basicSalary || 0;
@@ -243,7 +244,7 @@ const PayrollHistory = ({ payrollList }) => {
                 label="Department"
                 value={selectedDepartment} // Assuming you have a selectedDepartment state
                 handleChange={handleDepartmentChange} // Department change handler
-                options={departmentsStatic}
+                options={departments}
                 height={"46px"}
                 width="220px"
               />

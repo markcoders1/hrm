@@ -40,14 +40,42 @@ const UserDetailsStatic = () => {
     return `${hours}:${formattedMinutes} ${ampm}`;
   }
 
+  // function calculateShiftDuration(fromUnix, toUnix) {
+  //   const diffInSeconds = toUnix - fromUnix; // Calculate the difference in seconds
+  //   const diffInMinutes = Math.floor(diffInSeconds / 60); // Convert total seconds to minutes
+  //   const hours = Math.floor(diffInMinutes / 60); // Get the number of full hours
+  //   const minutes = diffInMinutes % 60; // Get the remaining minutes
+  //   return `${hours} hours and ${minutes} minutes`;
+  // }
   function calculateShiftDuration(fromUnix, toUnix) {
-    const diffInSeconds = toUnix - fromUnix; // Calculate the difference in seconds
-    const diffInMinutes = Math.floor(diffInSeconds / 60); // Convert total seconds to minutes
-    const hours = Math.floor(diffInMinutes / 60); // Get the number of full hours
-    const minutes = diffInMinutes % 60; // Get the remaining minutes
-    return `${hours} hours and ${minutes} minutes`;
+    // Ensure that the Unix timestamps are numbers
+    if (typeof fromUnix !== 'number' || typeof toUnix !== 'number') {
+      throw new Error('Both fromUnix and toUnix must be numbers representing Unix timestamps in seconds.');
+    }
+  
+    let adjustedToUnix = toUnix;
+  
+    // Check if toUnix is earlier than fromUnix
+    if (toUnix < fromUnix) {
+      // Assume the shift crosses midnight and add 24 hours (in seconds) to toUnix
+      adjustedToUnix += 24 * 3600;
+    }
+  
+    const diffInSeconds = adjustedToUnix - fromUnix;
+  
+    // Prevent negative durations (in case adjustedToUnix is still less than fromUnix)
+    const positiveDiffInSeconds = Math.max(diffInSeconds, 0);
+  
+    const totalMinutes = Math.floor(positiveDiffInSeconds / 60); // Total minutes
+    const hours = Math.floor(totalMinutes / 60); // Full hours
+    const minutes = totalMinutes % 60; // Remaining minutes
+  
+    // Handle singular and plural forms
+    const hoursLabel = hours === 1 ? 'hour' : 'hours';
+    const minutesLabel = minutes === 1 ? 'minute' : 'minutes';
+  
+    return `${hours} ${hoursLabel} ${minutes} ${minutesLabel}`;
   }
-
   function calculateYearsAndMonthsFromUnix(joiningUnix) {
     const today = new Date(); // Current date
     const joiningDate = new Date(joiningUnix); // Convert Unix timestamp to Date

@@ -371,6 +371,8 @@ const UserInfo = () => {
     setShiftDuration(calculateShiftDuration(shiftFrom, shiftTo));
   };
 
+  
+
   useEffect(() => {
     handleShiftTimingChange();
     console.log(shiftDuration);

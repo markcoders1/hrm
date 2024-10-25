@@ -164,7 +164,9 @@ const Attendance = () => {
   }
 
   return (
-    <Box className="sheet-container-admin">
+    <Box className="sheet-container-admin" sx={{
+      padding:"0px 0px 40px 0px"
+      }} >
       <Box className="progress-mini-container">
         <Box>
           <Box

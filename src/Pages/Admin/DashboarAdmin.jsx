@@ -34,6 +34,7 @@ const DashboardAdmin = () => {
   const [fetchAttendanceDate, setAttendanceData] = useState([]);
   const [scrolling, setScrolling] = useState(false); 
   const [employeeActiveCoount , setEmployeeActiveCount] = useState(0);
+  const [dateToday, setDateToday] = useState(Math.floor(new Date().getTime()));
 
   const [lengthOfEmplyee  , setLengthOfEmployee] = useState(null);
 
@@ -41,7 +42,7 @@ const DashboardAdmin = () => {
     setHeadertext("Dashboard");
     setParaText(" ");
     fetchAnnouncementsData();
-    fetchTodatAttendanceData();
+    fetchTodatAttendanceData(dateToday);
   }, []);
 
   const fetchAnnouncementsData = async () => {
@@ -96,12 +97,13 @@ const DashboardAdmin = () => {
   };
 
   const fetchTodatAttendanceData = async (dateTimestamp) => {
+    console.log(dateTimestamp)
     try {
       const response = await axiosInstance({
         url: `${apiUrl}/api/admin/getToday`,
         method: "get",
         params: {
-          date: dateTimestamp, // Pass the selected date as a Unix timestamp
+          date: dateTimestamp, 
         },
       });
       

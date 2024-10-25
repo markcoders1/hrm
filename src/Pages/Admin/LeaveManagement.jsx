@@ -236,12 +236,14 @@ const LeaveManagement = () => {
   }
 
   return (
-    <Box className="sheet-container-admin">
+    <Box className="sheet-container-admin" sx={{
+      padding:"0px 0px 40px 0px"
+      }} >
       <Box
         sx={{
           width: { lg: "500px", xs: "100%" },
           position: { lg: "fixed", xs: "static" },
-          right: "50px",
+          right: "40px",
           top: "40px",
           zIndex: "100000 ",
           display: "flex",

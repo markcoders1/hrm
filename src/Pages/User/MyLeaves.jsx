@@ -158,7 +158,9 @@ const MyLeaves = () => {
     }
 
   return (
-    <Box className="sheet-container-admin">
+    <Box className="sheet-container-admin" sx={{
+      padding:"0px 0px 40px 0px"
+      }} >
       <Box
         sx={{
           display: "flex",

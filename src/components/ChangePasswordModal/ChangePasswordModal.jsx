@@ -9,6 +9,7 @@ import SnackAlert from "../SnackAlert/SnackAlert";
 import axiosInstance from "../../auth/axiosInstance";
 import CustomInputLabel from "../CustomInputField/CustomInputLabel";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -34,7 +35,7 @@ const ChangePasswordModal = ({ open = false, handleClose = () => {} }) => {
     transform: "translate(-50%, -50%)",
     width: {
       xs: "90%",
-      md: "600px",
+      md: "474px",
     },
     bgcolor: "background.paper",
     boxShadow: 24,
@@ -68,25 +69,19 @@ const ChangePasswordModal = ({ open = false, handleClose = () => {} }) => {
           newPassword: data.newPassword,
         },
       });
-      console.log(response)
+      console.log(response);
       setLoading(false);
       if (response) {
-        setSnackAlertData({
-          open: true,
-          message: response?.data?.message,
-          severity: "success",
-        });
+        toast.success(response?.data?.message)
+       
         if (response?.code > 200) {
-          setSnackAlertData({
-            open: true,
-            message: response?.message,
-            severity: "error",
-          });
+        toast.success(response?.data?.message)
+
         }
       }
       reset();
     } catch (error) {
-      console.log(error)
+      console.log(error);
       setLoading(false);
       setSnackAlertData({
         open: true,
@@ -110,13 +105,32 @@ const ChangePasswordModal = ({ open = false, handleClose = () => {} }) => {
             timeout: 500,
           },
         }}
+        
+        sx={{  border:"none !important", outline:"none"}}
       >
         <Fade in={open}>
           <Box sx={style}>
-            <Typography variant="h6" component="h2">
+            <Typography
+              variant="h6"
+              component="h2"
+              sx={{
+                mt: "20px",
+                color: "#010120",
+                textAlign: "center",
+                fontWeight: "600",
+                fontSize: "26px",
+              }}
+            >
               Change Password
             </Typography>
-            <Box sx={{ mt: "20px", display:"flex", flexDirection:"column", gap:"20px" }}>
+            <Box
+              sx={{
+                mt: "20px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "20px",
+              }}
+            >
               <Controller
                 name="oldPassword"
                 control={control}
@@ -129,7 +143,7 @@ const ChangePasswordModal = ({ open = false, handleClose = () => {} }) => {
                     label="Old Password"
                     type="password"
                     {...field}
-                    id = "pass"
+                    id="pass"
                   />
                 )}
               />
@@ -146,8 +160,7 @@ const ChangePasswordModal = ({ open = false, handleClose = () => {} }) => {
                     showPasswordToggle={true}
                     type="password"
                     {...field}
-                    id = "newPass"
-
+                    id="newPass"
                   />
                 )}
               />
@@ -164,38 +177,31 @@ const ChangePasswordModal = ({ open = false, handleClose = () => {} }) => {
                     error={errors.confirmPassword?.message}
                     type="password"
                     {...field}
-                    id = "conPass"
-
+                    id="conPass"
                   />
                 )}
               />
 
-              <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+              <Box sx={{ display: "flex", justifyContent: "center", }}>
                 <CustomButton
-                  loading={loading}
-                  // border="2px solid #1A0049"
-                  borderRadius="7px"
+                  ButtonText={loading ? "Deleting..." : "Confirm"}
                   background="#157AFF"
                   hoverBg="white"
-                  hovercolor="#1A0049"
-                  buttonTextStyle={{}}
-                  buttonStyle={{
-                    padding: {
-                      xs: "20px 40px",
-                    },
-                  }}
-                  ButtonText="Change Password"
-                  //  buttonStyle={{ fontSize: { sm: "18px", xs: "15px" } }}
-
-                  fontSize="18px"
+                  hovercolor="#010120"
+                  fontSize="16px"
                   color="white"
                   fontWeight="500"
-                  fullWidth={false}
-                  variant="contained"
-                  padding="10px 20px"
+                  borderRadius="7px"
                   onClick={handleSubmit(resetPassword)}
+                  loading={loading}
+                  fullWidth={false}
+                  height="45px"
+                  width={"140px"}
+                  hoverBorder="1px solid #010120"
+                  border="1px solid #157AFF"
+                  
                 />
-                
+               
               </Box>
             </Box>
           </Box>

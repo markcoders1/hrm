@@ -588,7 +588,7 @@ const AppSidebar = () => {
             setLogoutModalOpen(false);
           }
         }}
-        requestText={"Are you sure you want to LogOut"}
+        requestText={"Are you sure you want to Log Out"}
         requestHeading={"Log Out Confirmation"}
       />
     </>

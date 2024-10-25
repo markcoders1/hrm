@@ -10,7 +10,12 @@ export default function BasicBars({
   return (
     <BarChart
       xAxis={[{ scaleType: 'band', data: labels }]}
-      series={[{ data: data }]}
+      series={[
+        { 
+          data: data,
+          color: ['#b3d1f7', '#99c1f1', '#80b2eb']  // Light blue shades
+        }
+      ]}
       width={width}
       height={height}
     />

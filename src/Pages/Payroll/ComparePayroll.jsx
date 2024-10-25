@@ -68,12 +68,29 @@ const ComparePayroll = () => {
 
     { label: "Tax", value: "tax" },
     { label: "Salary", value: "salary" },
-    { label: "Comission", value: "commission" },
+    { label: "Commission", value: "comission" },
     
   ];
   const handlePayrollChange = (event) => {
     setSelectedPayrollType(event.target.value);
   };
+
+    // Filtering data for the selected payroll type
+    const filterData = (data) => {
+      if (!data) return [0, 0, 0]; // Default to [0, 0, 0] if data is unavailable
+  
+      const { tax = 0, salary = 0, comission = 0 } = data.data;
+      switch (selectedPayrollType) {
+        case "tax":
+          return [0, tax, 0];
+        case "salary":
+          return [0, 0, salary];
+        case "comission":
+          return [comission, 0, 0];
+        default:
+          return [comission, tax, salary];
+      }
+    };
   
 
  // React Query to fetch graph data for 1st graph
@@ -181,8 +198,8 @@ const ComparePayroll = () => {
 
           </Box>
 
-          <Box>
-            {/* //designation array will be render here */}
+          {/* <Box>
+            //designation array will be render here
           <CustomSelectForType
             label="Designation"
             value={selectedPayrollType ? selectedPayrollType : ""}
@@ -191,7 +208,7 @@ const ComparePayroll = () => {
             height={"46px"}
             width="220px"
           />
-          </Box>
+          </Box> */}
         </Box>
       <Box
         sx={{
@@ -307,9 +324,7 @@ const ComparePayroll = () => {
           >
             {graphData1 ? (
               <CompareBars
-                tax={graphData1.data.tax}
-                salary={graphData1.data.salary}
-                commission={graphData1.data.comission}
+              data={filterData(graphData1)}
               />
             ) : (
               <CompareBars
@@ -332,9 +347,7 @@ const ComparePayroll = () => {
           >
             {graphData2 ? (
               <CompareBars
-                tax={graphData2.data.tax}
-                salary={graphData2.data.salary}
-                commission={graphData2.data.comission}
+              data={filterData(graphData2)} 
               />
             ) : (
               <CompareBars

@@ -199,13 +199,8 @@ const PayrollHistory = ({ payrollList }) => {
                 cursor:"pointer",
                 transition:".1s ease-in",
   
-  
-  
-                
-  
               }}
               onClick={()=> navigate('/dashboard/payroll-management/compare-payroll')}
-  
               >
              Compare
               </Typography>

@@ -30,8 +30,9 @@ import EditIcon from "../../assets/Edit.png";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-const LastPayrollList = ({ payrollList, totalPayroll }) => {
+const LastPayrollList = ({ payrollList, totalPayroll, setPayrollList, setTotalPayroll }) => {
   const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
+  const [loading,setLoading] = useState(false);
 
   const calculatePayableAmount = (payroll) => {
     const basicSalary = payroll?.basicSalary || 0;
@@ -46,15 +47,31 @@ const LastPayrollList = ({ payrollList, totalPayroll }) => {
   };
 
   const handleProcess = async () => {
+    setLoading(true)
     try {
       const response = await axiosInstance.get(
         `${apiUrl}/api/admin/processpayroll`
       );
-      // console.log("last Payroll ",response)
+      console.log("last Payroll ",response)
+      toast("Payroll Process Successfully") 
+      setPayrollList([])
+      setTotalPayroll({})
+    setLoading(false)
+
     } catch (error) {
       console.log(error);
+    setLoading(false)
+
+    } finally {
+    setLoading(false)
+
     }
   };
+  function getFormattedYearMonth() {
+    const today = new Date();
+    const options = { month: 'short', year: 'numeric' };
+    return today.toLocaleDateString('en-US', options).replace(' ', '/');
+  }
   return (
     <>
     {
@@ -103,34 +120,35 @@ const LastPayrollList = ({ payrollList, totalPayroll }) => {
               color: "#010120",
             }}
           >
-            Sep / 2024
+           {getFormattedYearMonth()}
           </Typography>
-  
-          <Typography
-            sx={{
-              fontSize: "16px",
-              color: "#010120",
-              fontWeight: "500",
-              ":hover": {
-                backgroundColor: "#303f9f",
-                color: "white",
-                border: "none",
-              },
-              borderRadius: "7px",
-              height: "45px",
-              width: "145px",
-              border: "1px solid #010120",
-              boxShadow: "none",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              cursor: "pointer",
-              transition: ".1s ease-in",
-            }}
-            onClick={handleProcess}
-          >
-            Process
-          </Typography>
+
+          <CustomButton
+                  loading={loading}
+                  border= "1px solid #010120"
+
+                  borderRadius="7px"
+                  background="white"
+                  hoverBg="#157AFF"
+                  
+                  buttonTextStyle={{}}
+                  buttonStyle={{
+                  height:"45px",
+                  width:"145px"
+                  }}
+                  ButtonText="Process"
+                  //  buttonStyle={{ fontSize: { sm: "18px", xs: "15px" } }}
+                  hoverBorder="none"
+                  fontSize="16px"
+                  color="#010120"
+                  fontWeight="500"
+                  fullWidth={false}
+                  variant="contained"
+                  padding="10px 20px"
+                  loaderColor=" #010120"
+                  onClick={handleProcess}
+                  hovercolor="white"
+                />
         </Box>
         <Box sx={{ flexBasis: "100%", mt: "20px" }}>
           <TableContainer component={Paper}>

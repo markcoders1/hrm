@@ -44,7 +44,7 @@ const PayrollManagement = () => {
   const [totalPayroll, setTotalPayroll] = useState();
 
   const [payrollListData, setPayrollListData] = useState([]);
-  const [payrollHistoryData, setPayrollHistoryData] = useState([]);
+  const [payrollLastData, setPayrollLastData] = useState([]);
 
   const handlePayrollChange = (event) => {
     setSelectedPayrollType(event.target.value);
@@ -139,6 +139,7 @@ const PayrollManagement = () => {
       );
       console.log("========================>",response);
       setTotalPayroll(response.data.total);
+      setPayrollLastData(response.data.payrolls)
       return response.data.payrolls;
     },
     keepPreviousData: true,
@@ -371,7 +372,9 @@ const PayrollManagement = () => {
       >
         <LastPayrollList
           totalPayroll={totalPayroll}
-          payrollList={payrollList}
+          payrollList={payrollLastData}
+          setPayrollList={setPayrollLastData}
+          setTotalPayroll={setTotalPayroll}
         />
       </Box>
 

@@ -22,7 +22,8 @@ const CustomButton = ({
     loading = false,
     hoverBorder = "",
     height = "",
-    extraText
+    extraText,
+    loaderColor = ""
 }) => {
     return (
         <Button
@@ -53,7 +54,7 @@ const CustomButton = ({
             }}
             
         >
-            {loading ? <LoaderW color="white" /> : ButtonText}
+            {loading ? <LoaderW color={loaderColor ? loaderColor : "white"} /> : ButtonText}
             {extraText?<h4>{extraText}</h4>:null}
         </Button>
     );

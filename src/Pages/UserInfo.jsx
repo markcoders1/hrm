@@ -19,7 +19,7 @@ const UserInfo = () => {
   const { setHeadertext } = useOutletContext();
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
-  const [loadingUpdate , setLoadingUpdate] =  useState(false)
+  const [loadingUpdate, setLoadingUpdate] = useState(false);
   const [hods, setHods] = useState([]);
   const [teamLeads, setTeamLeads] = useState([]);
   const [departments, setDepartments] = useState([]);
@@ -27,6 +27,7 @@ const UserInfo = () => {
   const [selectedDays, setSelectedDays] = useState([]);
   const [image, setImage] = useState();
   const [shiftDuration, setShiftDuration] = useState("");
+  const [duration, setDuration] = useState("");
 
   const { watch } = useForm();
 
@@ -58,7 +59,7 @@ const UserInfo = () => {
     locationType: "",
     onProbation: "",
     employmentType: "",
-    documents : {
+    documents: {
       CNICFront: "",
       CNICBack: "",
       EducationalCert: "",
@@ -66,7 +67,7 @@ const UserInfo = () => {
       Payslip: "",
       photograph: "",
       resume: "",
-    }
+    },
   });
 
   const daysOfWeek = [
@@ -91,14 +92,38 @@ const UserInfo = () => {
         const dataAllEmployee = response.data.user;
         setImage(dataAllEmployee.image);
         setUserActive(dataAllEmployee.active);
-        const totalShiftDuration = calculateShiftDuration(
-          dataAllEmployee.shiftTimingFrom,
-          dataAllEmployee.shiftTimingTo
-        );
+        // const totalShiftDuration = calculateShiftDuration(
+        //   dataAllEmployee.shiftTimingFrom,
+        //   dataAllEmployee.shiftTimingTo
+        // );
+        // Convert Unix timestamps to "HH:MM" format
+        const shiftFrom = dataAllEmployee.shiftTimingFrom
+          ? unixToTimeInput(dataAllEmployee.shiftTimingFrom)
+          : "";
+        const shiftTo = dataAllEmployee.shiftTimingTo
+          ? unixToTimeInput(dataAllEmployee.shiftTimingTo)
+          : "";
 
-        const joiningDuration = calculateDurationFromJoiningDate(
-          dataAllEmployee.joiningDate
-        );
+        // Calculate and set shift duration
+
+        const totalShiftDuration = calculateShiftDuration(shiftFrom, shiftTo);
+        setShiftDuration(totalShiftDuration);
+
+        // Format the joining date to "YYYY-MM-DD" for calculation
+        const formattedJoiningDate = dataAllEmployee.joiningDate
+          ? new Date(dataAllEmployee.joiningDate).toLocaleDateString("en-CA")
+          : "";
+
+        // Calculate and set duration based on joining date
+        const calculatedDuration = formattedJoiningDate
+          ? calculateDurationFromJoiningDate(formattedJoiningDate)
+          : "";
+
+        const duration = dataAllEmployee.joiningDate
+          ? calculateDurationFromJoiningDate(
+              new Date(dataAllEmployee.joiningDate).toLocaleDateString("en-CA")
+            )
+          : "";
 
         setFormData({
           fullName: dataAllEmployee.fullName || "",
@@ -111,21 +136,15 @@ const UserInfo = () => {
             ? new Date(dataAllEmployee.DOB).toLocaleDateString("en-CA")
             : "",
           companyId: dataAllEmployee.companyId || "",
-          shiftTimingFrom: dataAllEmployee.shiftTimingFrom
-            ? unixToTimeInput(dataAllEmployee.shiftTimingFrom)
-            : "",
-          shiftTimingTo: dataAllEmployee.shiftTimingTo
-            ? unixToTimeInput(dataAllEmployee.shiftTimingTo)
-            : "",
+          shiftTimingFrom: shiftFrom,
+          shiftTimingTo: shiftTo,
           department: dataAllEmployee.department || "",
           teamLeadID: dataAllEmployee.teamLeadID || "",
           designation: dataAllEmployee.designation || "",
           workDays: dataAllEmployee.workDays || [],
           HODID: dataAllEmployee.HODID || "",
 
-          joiningDate: dataAllEmployee.joiningDate
-            ? new Date(dataAllEmployee.joiningDate).toLocaleDateString("en-CA")
-            : "",
+          joiningDate: formattedJoiningDate,
 
           role: dataAllEmployee.role || "",
           annualLeaves: dataAllEmployee.annualLeaves || "",
@@ -141,17 +160,19 @@ const UserInfo = () => {
           BAT: dataAllEmployee.BAT || "",
 
           // documents
-          documents : {
-
+          documents: {
             CNICFront: dataAllEmployee?.documents?.CNICFront || "",
             CNICBack: dataAllEmployee?.documents?.CNICBack || "",
             EducationalCert: dataAllEmployee?.documents?.EducationalCert || "",
-            EmploymentLetter: dataAllEmployee?.documents?.EmploymentLetter || "",
+            EmploymentLetter:
+              dataAllEmployee?.documents?.EmploymentLetter || "",
             Payslip: dataAllEmployee?.documents?.Payslip || "",
             photograph: dataAllEmployee?.documents?.photograph || "",
             resume: dataAllEmployee?.documents?.resume || "",
-          }
+          },
         });
+
+        setDuration(calculatedDuration);
 
         console.log(response);
 
@@ -165,11 +186,26 @@ const UserInfo = () => {
 
         setLoading(false);
       } catch (error) {
+        setLoading(false);
         console.error(error);
       }
     };
     getSpecificUser();
   }, [id]);
+
+  useEffect(() => {
+    const calculateAndSetDuration = () => {
+      const { joiningDate } = formData;
+      if (joiningDate) {
+        const duration = calculateDurationFromJoiningDate(joiningDate);
+        setDuration(duration);
+      } else {
+        setDuration("");
+      }
+    };
+
+    calculateAndSetDuration();
+  }, [formData.joiningDate]);
 
   const fetchPreDataToShow = async () => {
     try {
@@ -198,21 +234,75 @@ const UserInfo = () => {
     });
   };
 
-  const calculateShiftDuration = (from, to) => {
-    const fromDate = new Date(from * 1000);
-    const toDate = new Date(to * 1000);
-    const durationInMs = toDate - fromDate;
+  // const calculateShiftDuration = (from, to) => {
+  //   const fromDate = new Date(from * 1000);
+  //   const toDate = new Date(to * 1000);
+  //   const durationInMs = toDate - fromDate;
 
-    const durationInHours = durationInMs / (1000 * 60 * 60);
-    return durationInHours.toFixed(2) + " hours";
+  //   const durationInHours = durationInMs / (1000 * 60 * 60);
+  //   return durationInHours.toFixed(2) + " hours";
+  // };
+
+  const calculateShiftDuration = (fromTime, toTime) => {
+    if (!fromTime || !toTime) return "";
+
+    const [fromHours, fromMinutes] = fromTime.split(":").map(Number);
+    const [toHours, toMinutes] = toTime.split(":").map(Number);
+
+    const fromDate = new Date();
+    fromDate.setHours(fromHours, fromMinutes, 0, 0);
+
+    const toDate = new Date();
+    toDate.setHours(toHours, toMinutes, 0, 0);
+
+    if (toDate < fromDate) {
+      // Shift crosses midnight
+      toDate.setDate(toDate.getDate() + 1);
+    }
+
+    const durationInMs = toDate - fromDate;
+    const totalMinutes = Math.floor(durationInMs / (1000 * 60));
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+
+    const hoursLabel = hours === 1 ? "hour" : "hours";
+    const minutesLabel = minutes === 1 ? "minute" : "minutes";
+
+    return `${hours} ${hoursLabel} ${minutes} ${minutesLabel}`;
   };
 
-  const calculateDurationFromJoiningDate = (joiningDate) => {
-    const joinDate = new Date(joiningDate * 1000);
-    const now = new Date();
-    const durationInMs = now - joinDate;
-    const durationInDays = durationInMs / (1000 * 60 * 60 * 24);
-    return durationInDays.toFixed(0) + " days";
+  const calculateDurationFromJoiningDate = (joiningDateStr) => {
+    if (!joiningDateStr) return "";
+
+    const joiningDate = new Date(joiningDateStr);
+    const today = new Date();
+
+    let years = today.getFullYear() - joiningDate.getFullYear();
+    let months = today.getMonth() - joiningDate.getMonth();
+
+    // If the current month is before the joining month, subtract one year and adjust months
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+
+    // If the current day is before the joining day, subtract one month
+    if (today.getDate() < joiningDate.getDate()) {
+      months--;
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+    }
+
+    // Ensure non-negative values
+    years = Math.max(years, 0);
+    months = Math.max(months, 0);
+
+    const yearsLabel = years === 1 ? "year" : "years";
+    const monthsLabel = months === 1 ? "month" : "months";
+
+    return `${years} ${yearsLabel} ${months} ${monthsLabel}`;
   };
 
   const handleChange = (e) => {
@@ -238,9 +328,9 @@ const UserInfo = () => {
 
     // console.log(formData)
     console.log(id);
-    setLoadingUpdate(true)
+    setLoadingUpdate(true);
     try {
-      setLoadingUpdate(true)
+      setLoadingUpdate(true);
 
       const response = await axiosInstance({
         url: `${apiUrl}/api/admin/update-any-profile`,
@@ -250,12 +340,12 @@ const UserInfo = () => {
           shiftTimingFrom: shiftTimeFromUnix,
           shiftTimingTo: shiftTimeToUnix,
           joiningDate: +joiningDate,
-          DOB: DOB.toString(),  
+          DOB: DOB.toString(),
           id: id,
         },
         headers: { "Content-Type": "multipart/form-data" },
       });
-      setLoadingUpdate(false)
+      setLoadingUpdate(false);
 
       toast.success(response.data.message, { position: "top-center" });
     } catch (error) {
@@ -263,7 +353,7 @@ const UserInfo = () => {
       toast.error(error.response.data.message[0].message, {
         position: "top-center",
       });
-      setLoadingUpdate(false)
+      setLoadingUpdate(false);
     }
   };
 
@@ -365,27 +455,28 @@ const UserInfo = () => {
   //   }`;
   // };
 
+  // const handleShiftTimingChange = () => {
+  //   const shiftFrom = watch("shiftTimingFrom");
+  //   const shiftTo = watch("shiftTimingTo");
+  //   setShiftDuration(calculateShiftDuration(shiftFrom, shiftTo));
+  // };
   const handleShiftTimingChange = () => {
-    const shiftFrom = watch("shiftTimingFrom");
-    const shiftTo = watch("shiftTimingTo");
-    setShiftDuration(calculateShiftDuration(shiftFrom, shiftTo));
+    const { shiftTimingFrom, shiftTimingTo } = formData;
+    const duration = calculateShiftDuration(shiftTimingFrom, shiftTimingTo);
+    setShiftDuration(duration);
   };
-
-  
 
   useEffect(() => {
     handleShiftTimingChange();
     console.log(shiftDuration);
-  }, [watch("shiftTimingFrom"), watch("shiftTimingTo")]);
+  }, [formData.shiftTimingFrom, formData.shiftTimingTo]);
 
   return (
     <Box
       className="form-container-register"
       sx={{
         flexDirection: "column !important",
-        padding:"0px !important",
-   
-
+        padding: "0px !important",
       }}
     >
       <Box
@@ -401,7 +492,6 @@ const UserInfo = () => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          
         }}
       >
         <Box sx={{ display: "flex", gap: "1.5rem", alignItems: "center" }}>
@@ -444,8 +534,11 @@ const UserInfo = () => {
           />
         </Typography>
       </Box>
-      <Box className="form-register" sx={{ mt: "40px", padding:"0px !important" }}>
-        <form onSubmit={onSubmit} style={{ padding:"0px"}} >
+      <Box
+        className="form-register"
+        sx={{ mt: "40px", padding: "0px !important" }}
+      >
+        <form onSubmit={onSubmit} style={{ padding: "0px" }}>
           {loading ? (
             <Box className="loaderContainer">
               <SpinnerLoader />
@@ -724,9 +817,8 @@ const UserInfo = () => {
                     label="Total Shift Duration*"
                     name="totalShiftDuration"
                     value={shiftDuration}
-                    // onChange={handleChange}
                     border={false}
-                    disabled={false}
+                    disabled={true} // Make it disabled since it's a calculated field
                   />
                   <CustomInputLabel
                     label="Joining Date*"
@@ -738,10 +830,9 @@ const UserInfo = () => {
                   <CustomInputLabel
                     label="Duration*"
                     name="duration"
-                    value={formData.duration}
-                    // onChange={handleChange}
+                    value={duration} // Use the separate duration state
                     border={false}
-                    disabled={false}
+                    disabled={true} // Disable the input since it's a calculated field
                   />
                 </Box>
 
@@ -911,26 +1002,23 @@ const UserInfo = () => {
                 }}
               >
                 <Typography
-              sx={{
-                color:"#010120",
-                fontWeight:"600",
-                fontSize: {xl:"40px", xs:"30px"},
-            
-  
-              }}
-              >
-                Documents
-              </Typography>
+                  sx={{
+                    color: "#010120",
+                    fontWeight: "600",
+                    fontSize: { xl: "40px", xs: "30px" },
+                  }}
+                >
+                  Documents
+                </Typography>
                 <Box
-                    sx={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "row",
-                      gap: "3rem",
-                    
-                    }}
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "row",
+                    gap: "3rem",
+                  }}
                 >
                   <FileUpload
                     label="Front CNIC"
@@ -949,15 +1037,14 @@ const UserInfo = () => {
                 </Box>
 
                 <Box
-                    sx={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "row",
-                      gap: "3rem",
-                    
-                    }}
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "row",
+                    gap: "3rem",
+                  }}
                 >
                   <FileUpload
                     label="Education Certificate"
@@ -983,7 +1070,6 @@ const UserInfo = () => {
                     alignItems: "center",
                     flexDirection: "row",
                     gap: "3rem",
-                  
                   }}
                 >
                   <FileUpload
@@ -1003,15 +1089,14 @@ const UserInfo = () => {
                 </Box>
 
                 <Box
-                    sx={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "row",
-                      gap: "3rem",
-                    
-                    }}
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "row",
+                    gap: "3rem",
+                  }}
                 >
                   <FileUpload
                     label="Resume"
@@ -1020,7 +1105,7 @@ const UserInfo = () => {
                     setFormData={setFormData}
                     existingFile={formData?.documents?.resume}
                     BoxStyling={{
-                      flexBasis:"100%"
+                      flexBasis: "100%",
                     }}
                   />
                 </Box>

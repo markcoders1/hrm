@@ -35,8 +35,12 @@ const AnnouncementBox = ({
       // Call the callback passed from the parent to update the list of announcements
       onDelete(id);
       toast.success(response.data.message);
+      setLogoutModalOpen(false)
+
     } catch (error) {
       console.error("Error deleting announcement:", error);
+      setLogoutModalOpen(false)
+
     }
   };
 

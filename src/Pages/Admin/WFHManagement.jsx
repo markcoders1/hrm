@@ -16,7 +16,7 @@ import "../../PagesCss/Employee.css";
 import { useNavigate, useOutletContext } from "react-router-dom";
 // import CustomSelectForType from "../../components/CustomSelect/CustomSelect";
 import CustomSelectForType from "../../components/CustomSelect/CustomSelect";
-import tickPng from "../../assets/tick.png";
+import tickPng from "../../assets/tickSingle.png";
 import cancelPng from "../../assets/cancel.png";
 import Tooltip from "@mui/material/Tooltip";
 import Pagination from "@mui/material/Pagination";
@@ -535,8 +535,8 @@ const filteredWFHData = allWfh.filter((row) => {
                           src={tickPng}
                           alt="Approve"
                           style={{
-                            width: "34px",
-                            height: "34px",
+                            width: "14px",
+                            height: "10px",
                             cursor: "pointer",
                           }}
                           onClick={(e) => {

@@ -785,7 +785,7 @@ const ManagePayroll = () => {
                             }}
                           >
                             {/* Approve Button */}
-                            <Tooltip title="Approve Request">
+                            <Tooltip title="Create Payroll">
                               <Typography
                                 onClick={(e) => {
                                   handleApprove(index, payroll);
@@ -814,7 +814,7 @@ const ManagePayroll = () => {
                             </Tooltip>
   
                             {/* Edit Button */}
-                            <Tooltip title="Edit Fields">
+                            <Tooltip title="Edit Payroll">
                               <img
                                 src={EditIcon}
                                 alt="Edit"

@@ -21,7 +21,7 @@ import editIconWhite from "../../assets/editIconWhite.png";
 import CustomInputLabel from "../../components/CustomInputField/CustomInputLabel";
 import CheckInOutModal from "../../components/CheckInEditModal/CheckInEditModal";
 import SpinnerLoader from "../../components/SpinnerLoader";
-
+import DeleteConfirmationModal from "../../components/DeleteConfirmModal/DeleteConfirmModal";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -34,8 +34,10 @@ const EmployeeAttendance = () => {
   const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
   const [modalOpen, setModalOpen] = useState(false); // Modal state
   const [selectedCheckId, setSelectedCheckId] = useState("");
-  const [employeeActiveCoount , setEmployeeActiveCount] = useState(0);
-
+  const [employeeActiveCoount, setEmployeeActiveCount] = useState(0);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
 
   // const applyTimezoneOffset = (timestamp) => {
   //   const date = new Date(timestamp);
@@ -43,13 +45,40 @@ const EmployeeAttendance = () => {
   //   return timestamp - timezoneOffset;
   // };
 
+  const handleDeleteConfirmed = async (id) => {
+    setLoadingDelete(true);
+    
+    console.log(id);
+    try {
+      const response = await axiosInstance({
+        url: `${apiUrl}/api/admin/deleteAttendance`,
+        method: "delete",
+        params: {
+          id: id,
+        },
+      });
+      console.log("Delete response:", response.data);
+      toast.success("Check In Deleted Sucessfully", { position: "top-center" });
+
+      // Fetch the updated leave data
+      fetchEmployeeData();
+
+      // Close the modal and reset
+      setLoadingDelete(false);
+      setDeleteModalOpen(false);
+    } catch (error) {
+      console.error("Error deleting leave:", error);
+      setLoadingDelete(false);
+      toast.success("Leave Delete Could Not be Proceed Now");
+    }
+  };
+
   useEffect(() => {
     const fetchEmployeeData = async (dateTimestamp) => {
-      console.log(dateTimestamp)
+      console.log(dateTimestamp);
       setHeadertext("Attendance Management");
-      setParaText(" ")
+      setParaText(" ");
       try {
-        
         const response = await axiosInstance({
           url: `${apiUrl}/api/admin/getToday`,
           method: "get",
@@ -60,7 +89,7 @@ const EmployeeAttendance = () => {
         console.log("get today -----------------------===", response);
         const dataAllEmployee = response.data.users;
         setAllEmployee(dataAllEmployee);
-        setEmployeeActiveCount(dataAllEmployee.length)
+        setEmployeeActiveCount(dataAllEmployee.length);
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -69,6 +98,10 @@ const EmployeeAttendance = () => {
     fetchEmployeeData(selectedDate);
   }, [setHeadertext, selectedDate, setSelectedDate]); // Re-fetch data when the selected date changes
 
+  const handleModalClose = () => {
+    setDeleteModalOpen(false);
+    setItemToDelete(null);
+  };
 
   const handleDateChange = (e) => {
     const newDateTimestamp = new Date(e.target.value).getTime();
@@ -96,13 +129,13 @@ const EmployeeAttendance = () => {
 
             transition: "background-color 0.3s ease",
             "&:hover": {
-              backgroundColor: "rgba(255, 255, 255, 0.2)", 
+              backgroundColor: "rgba(255, 255, 255, 0.2)",
             },
           }}
           onClick={(e) => {
             e.stopPropagation();
-           handleOpenModal(rowData.checkId)
-           console.log(rowData)
+            handleOpenModal(rowData.checkId);
+            console.log(rowData);
           }}
         >
           <img src={isHovered ? editIconWhite : editIcon} alt="edit" />{" "}
@@ -122,6 +155,8 @@ const EmployeeAttendance = () => {
           }}
           onClick={(e) => {
             e.stopPropagation();
+            console.log(rowData.checkId)
+            handleDeleteConfirmed(rowData.checkId);
             alert("Delete clicked for " + rowData.fullName);
           }}
         >
@@ -135,8 +170,6 @@ const EmployeeAttendance = () => {
     navigate(`/dashboard/attendance-management/viewAttendance/${id}`);
   };
 
-
-  
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     return `${(date.getMonth() + 1).toString().padStart(2, "0")}-${date
@@ -157,12 +190,12 @@ const EmployeeAttendance = () => {
   const handleOpenModal = (checkId) => {
     setSelectedCheckId(checkId); // Pass the checkId to modal
     setModalOpen(true);
-    console.log(checkId)
+    console.log(checkId);
   };
 
   const handleCloseModal = () => {
     setModalOpen(false);
-    setSelectedCheckId(null)
+    setSelectedCheckId(null);
   };
 
   if (loading) {
@@ -174,9 +207,12 @@ const EmployeeAttendance = () => {
   }
 
   return (
-    <Box className="sheet-container-admin" sx={{
-    padding:"0px 0px 40px 0px"
-    }}>
+    <Box
+      className="sheet-container-admin"
+      sx={{
+        padding: "0px 0px 40px 0px",
+      }}
+    >
       <Box
         sx={{
           width: { lg: "220px", xs: "100%" },
@@ -187,8 +223,8 @@ const EmployeeAttendance = () => {
         }}
       >
         <CustomInputLabel
-          height={{xs:"36px"}}
-          paddingInput={{xs:" 8px 10px"}}
+          height={{ xs: "36px" }}
+          paddingInput={{ xs: " 8px 10px" }}
           fontSize={"20px"}
           showSearchIcon={false}
           placeholder={"Search User"}
@@ -199,264 +235,265 @@ const EmployeeAttendance = () => {
         />
       </Box>
       <Box>
-       
-          <>
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Typography
-                sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
-              >
-                {`Active Users (${employeeActiveCoount})`}
-              </Typography>
-              <Typography
-                sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
-              >
-                {`${(new Date(selectedDate).getMonth() + 1)
-                  .toString()
-                  .padStart(2, "0")}-${new Date(selectedDate)
-                  .getDate()
-                  .toString()
-                  .padStart(2, "0")}-${new Date(
-                  selectedDate
-                ).getFullYear()}`}
-              </Typography>
-            </Box>
-            <TableContainer component={Paper} className="MuiTableContainer-root">
-              <Table className="data-table">
-                <TableHead className="MuiTableHead-root">
-                  <TableRow
-                    className="header-row"
-                    sx={{
+        <>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography
+              sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
+            >
+              {`Active Users (${employeeActiveCoount})`}
+            </Typography>
+            <Typography
+              sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
+            >
+              {`${(new Date(selectedDate).getMonth() + 1)
+                .toString()
+                .padStart(2, "0")}-${new Date(selectedDate)
+                .getDate()
+                .toString()
+                .padStart(2, "0")}-${new Date(selectedDate).getFullYear()}`}
+            </Typography>
+          </Box>
+          <TableContainer component={Paper} className="MuiTableContainer-root">
+            <Table className="data-table">
+              <TableHead className="MuiTableHead-root">
+                <TableRow
+                  className="header-row"
+                  sx={{
+                    backgroundImage: `linear-gradient(90deg, #E0EBFF 0%, #E0EBFF 100%) !important`,
+                    "&:hover": {
                       backgroundImage: `linear-gradient(90deg, #E0EBFF 0%, #E0EBFF 100%) !important`,
-                      "&:hover": {
-                        backgroundImage: `linear-gradient(90deg, #E0EBFF 0%, #E0EBFF 100%) !important`,
+                    },
+                    padding: "0px",
+                  }}
+                >
+                  <TableCell
+                    className="MuiTableCell-root-head"
+                    sx={{
+                      fontWeight: "500",
+                      padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
                       },
-                      padding: "0px",
+                      textAlign: "center !important",
+                      borderRadius: "8px 0px 0px 8px",
+                      color: "#010120",
+                      minWidth: "120px",
+                    }}
+                  >
+                    Emp Id
+                  </TableCell>
+                  <TableCell
+                    className="MuiTableCell-root-head"
+                    sx={{
+                      fontWeight: "500",
+                      padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "start !important",
+                      color: "#010120",
+                      pl: "40px !important",
+                    }}
+                  >
+                    Name
+                  </TableCell>
+                  <TableCell
+                    className="MuiTableCell-root-head"
+                    sx={{
+                      fontWeight: "500",
+                      padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center !important",
+
+                      color: "#010120",
+
+                      minWidth: "250px",
+                    }}
+                  >
+                    Checked-In Date
+                  </TableCell>
+                  <TableCell
+                    className="MuiTableCell-root-head"
+                    sx={{
+                      fontWeight: "500",
+                      padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center !important",
+
+                      color: "#010120",
+
+                      minWidth: "150px",
+                    }}
+                  >
+                    Check-In
+                  </TableCell>
+                  <TableCell
+                    className="MuiTableCell-root-head"
+                    sx={{
+                      fontWeight: "500",
+                      padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center !important",
+
+                      color: "#010120",
+
+                      minWidth: "250px",
+                    }}
+                  >
+                    Check-Out
+                  </TableCell>
+                  <TableCell
+                    className="MuiTableCell-root-head"
+                    sx={{
+                      fontWeight: "500",
+                      padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center !important",
+
+                      paddingLeft: "10px !important",
+                      borderRadius: "0px 8px 8px 0px",
+                      color: "#010120",
+                    }}
+                  >
+                    Actions
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody className="MuiTableBody-root">
+                {allEmployee.map((employee, index) => (
+                  <TableRow
+                    key={index}
+                    className="MuiTableRow-root"
+                    onMouseEnter={() => setHoveredRow(index)}
+                    onMouseLeave={() => setHoveredRow(null)}
+                    onClick={() =>
+                      handleNavigateToSeeAttendance(employee.userId)
+                    }
+                    sx={{
+                      backgroundColor:
+                        hoveredRow === index ? "#D1E4FF" : "inherit",
+                      transition: "background-color 0.3s ease",
+                      cursor: "pointer",
                     }}
                   >
                     <TableCell
-                      className="MuiTableCell-root-head"
                       sx={{
-                        fontWeight: "500",
-                        padding: "12px 0px",
-                        fontSize: {
-                          sm: "21px",
-                          xs: "16px",
-                        },
-                        textAlign: "center !important",
                         borderRadius: "8px 0px 0px 8px",
                         color: "#010120",
-                  minWidth: "120px",
-
-                        
+                        textAlign: "center !important",
                       }}
+                      className="MuiTableCell-root"
                     >
-                      Emp Id
+                      {employee.employeeId}
                     </TableCell>
                     <TableCell
-                      className="MuiTableCell-root-head"
                       sx={{
-                        fontWeight: "500",
-                        padding: "12px 0px",
-                        fontSize: {
-                          sm: "21px",
-                          xs: "16px",
-                        },
+                        color: "#010120",
                         textAlign: "start !important",
-                        color: "#010120",
-                        pl:"40px !important"
+                        pl: "40px !important",
                       }}
+                      className="MuiTableCell-root"
                     >
-                      Name
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "start",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Typography>
+                          <img
+                            src={employee.image}
+                            style={{
+                              width: "38px",
+                              height: "38px",
+                              backgroundColor: "red",
+                              borderRadius: "50%",
+                            }}
+                            alt=""
+                          />
+                        </Typography>
+                        <Typography sx={{ ml: "10px" }}>
+                          {employee.fullName}
+                        </Typography>
+                      </Box>
                     </TableCell>
                     <TableCell
-                      className="MuiTableCell-root-head"
                       sx={{
-                        fontWeight: "500",
-                        padding: "12px 0px",
-                        fontSize: {
-                          sm: "21px",
-                          xs: "16px",
-                        },
                         textAlign: "center !important",
-
-                        color: "#010120",
-                       
-                  minWidth: "250px",
-
+                        paddingLeft: "0px !important",
+                        color: "#99999C !important",
                       }}
+                      className="MuiTableCell-root"
                     >
-                      Checked-In Date
+                      {employee.checkIn ? formatDate(employee.checkIn) : "N/A"}
                     </TableCell>
                     <TableCell
-                      className="MuiTableCell-root-head"
                       sx={{
-                        fontWeight: "500",
-                        padding: "12px 0px",
-                        fontSize: {
-                          sm: "21px",
-                          xs: "16px",
-                        },
                         textAlign: "center !important",
-
-                        color: "#010120",
-                        
-                  minWidth: "150px",
-
+                        paddingLeft: "0px !important",
                       }}
+                      className="MuiTableCell-root"
                     >
-                      Check-In
+                      {employee.checkIn
+                        ? formatTime(employee.checkIn)
+                        : "-- : --"}
                     </TableCell>
                     <TableCell
-                      className="MuiTableCell-root-head"
                       sx={{
-                        fontWeight: "500",
-                        padding: "12px 0px",
-                        fontSize: {
-                          sm: "21px",
-                          xs: "16px",
-                        },
                         textAlign: "center !important",
-
-                        color: "#010120",
-                          
-                  minWidth: "250px",
-
+                        paddingLeft: "0px !important",
                       }}
+                      className="MuiTableCell-root"
                     >
-                      Check-Out
+                      {employee.checkOut
+                        ? formatTime(employee.checkOut)
+                        : "-- : --"}
                     </TableCell>
                     <TableCell
-                      className="MuiTableCell-root-head"
                       sx={{
-                        fontWeight: "500",
-                        padding: "12px 0px",
-                        fontSize: {
-                          sm: "21px",
-                          xs: "16px",
-                        },
                         textAlign: "center !important",
 
                         paddingLeft: "10px !important",
                         borderRadius: "0px 8px 8px 0px",
-                        color: "#010120",
                       }}
+                      className="MuiTableCell-root"
                     >
-                      Actions
+                      {buttonForDeleteEdit(employee, hoveredRow === index)}
                     </TableCell>
                   </TableRow>
-                </TableHead>
-                <TableBody className="MuiTableBody-root">
-                  {allEmployee.map((employee, index) => (
-                    <TableRow
-                      key={index}
-                      className="MuiTableRow-root"
-                      onMouseEnter={() => setHoveredRow(index)}
-                      onMouseLeave={() => setHoveredRow(null)}
-                      onClick={() => handleNavigateToSeeAttendance(employee.userId)}
-                      sx={{
-                        backgroundColor:
-                          hoveredRow === index ? "#D1E4FF" : "inherit",
-                        transition: "background-color 0.3s ease",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <TableCell
-                        sx={{
-                          borderRadius: "8px 0px 0px 8px",
-                          color: "#010120",
-                          textAlign: "center !important",
-
-                        }}
-                        className="MuiTableCell-root"
-                      >
-                        {employee.employeeId}
-                      </TableCell>
-                      <TableCell
-                        sx={{ color: "#010120", textAlign: "start !important", pl:"40px !important"}}
-                        className="MuiTableCell-root"
-                      >
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "start",
-                            alignItems: "center",
-                            
-                          }}
-                        >
-                          <Typography>
-                            <img
-                              src={employee.image}
-                              style={{
-                                width: "38px",
-                                height: "38px",
-                                backgroundColor: "red",
-                                borderRadius: "50%",
-                              }}
-                              alt=""
-                            />
-                          </Typography>
-                          <Typography sx={{ ml: "10px" }}>
-                            {employee.fullName}
-                          </Typography>
-                        </Box>
-                      </TableCell>
-                      <TableCell
-                        sx={{
-                          textAlign: "center !important",
-                          paddingLeft: "0px !important",
-                          color: "#99999C !important",
-                        }}
-                        className="MuiTableCell-root"
-                      >
-                        {employee.checkIn
-                          ? formatDate(employee.checkIn)
-                          : "N/A"}
-                      </TableCell>
-                      <TableCell
-                        sx={{
-                          textAlign: "center !important",
-                          paddingLeft: "0px !important",
-                        }}
-                        className="MuiTableCell-root"
-                      >
-                        {employee.checkIn
-                          ? formatTime(employee.checkIn)
-                          : "-- : --"}
-                      </TableCell>
-                      <TableCell
-                        sx={{
-                          textAlign: "center !important",
-                          paddingLeft: "0px !important",
-                        }}
-                        className="MuiTableCell-root"
-                      >
-                        {employee.checkOut
-                          ? formatTime(employee.checkOut)
-                          : "-- : --"}
-                      </TableCell>
-                      <TableCell
-                        sx={{
-                          textAlign: "center !important",
-
-                          paddingLeft: "10px !important",
-                          borderRadius: "0px 8px 8px 0px",
-                        }}
-                        className="MuiTableCell-root"
-                      >
-                        {buttonForDeleteEdit(employee, hoveredRow === index)}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </>
-       
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
       </Box>
       <CheckInOutModal
         open={modalOpen}
         handleClose={handleCloseModal}
         checkId={selectedCheckId} // Pass the checkId to the modal
+      />
+      <DeleteConfirmationModal
+        open={deleteModalOpen}
+        handleClose={handleModalClose}
+        loading={loadingDelete}
+        onConfirm={handleDeleteConfirmed}
+        requestText={"Are you sure you want to Delete this User Check In"}
+        requestHeading={"checkIn Deletion"}
       />
     </Box>
   );

@@ -7,9 +7,9 @@ import { toast } from "react-toastify";
 import { CButton, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle } from "@coreui/react";
 import MainHeader from "../components/MainHeader";
 import { Box, Typography } from "@mui/material";
-import layoutImage from "../assets/VectorLayout.png"
-import belowlayoutImage from "../assets/Vector 3.png"
-import hresqueLogo from '../assets/hresquelogo.png'
+import layoutImage from "../assets/bgLayout.webp"
+import belowlayoutImage from "../assets/bgBottom.webp"
+import hresqueLogo from '../assets/hresquelogo.png';
 const SingleLayout = () => {
     // const [refreshToken, setRefreshToken] = useState(null);
     const [accessToken, setAccessToken] = useState(null);

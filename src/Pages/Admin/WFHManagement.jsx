@@ -26,6 +26,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axiosInstance from "../../auth/axiosInstance";
 import CustomInputLabel from "../../components/CustomInputField/CustomInputLabel";
 import { useSelector } from "react-redux";
+import DeleteConfirmationModal from "../../components/DeleteConfirmModal/DeleteConfirmModal";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -44,6 +45,11 @@ const WFHManagement = () => {
   const [statusFilter, setStatusFilter] = useState("pending");
   const [searchTerm, setSearchTerm] = useState("");
   const user = useSelector((state) => state.user.user.role);
+  const [logoutModalOpenAccept, setLogoutModalOpenAccept] = useState(false);
+  const [logoutModalOpenReject, setLogoutModalOpenReject] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
+
 
 
   const months = [
@@ -91,6 +97,7 @@ const WFHManagement = () => {
         { params: { date: date ? date : null } }
       );
       console.log(response)
+      
 
       setAllWfh(response?.data?.WFHrequests);
       setTotalPages(response?.data?.totalPages);
@@ -113,6 +120,7 @@ const WFHManagement = () => {
       });
       console.log(response);
       toast.success("WFH Validate SucessFully", { position: "top-center" });
+      setLogoutModalOpenAccept(false)
       fetchAllWFH();
     } catch (error) {
       console.error("Error fetching leave data:", error);
@@ -136,6 +144,8 @@ const WFHManagement = () => {
       });
       console.log(response);
       toast.success("WFH Validate SucessFully", { position: "top-center" });
+      setLogoutModalOpenReject(false)
+
       fetchAllWFH();
     } catch (error) {
       console.error("Error fetching leave data:", error);
@@ -531,6 +541,24 @@ const filteredWFHData = allWfh.filter((row) => {
                       }}
                     >
                       <Tooltip title="Approved Request">
+                        <Typography
+                        sx={{
+                          border: "2px solid #31BA96",
+                          width: "35px",
+                          height: "35px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderRadius: "50%",
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent the row click event from firing
+                          console.log("Approved action");
+                          // validateAccepted(row._id);
+                          setSelectedId(row._id)
+                          setLogoutModalOpenAccept(true)
+                        }}
+                        >
                         <img
                           src={tickPng}
                           alt="Approve"
@@ -539,12 +567,9 @@ const filteredWFHData = allWfh.filter((row) => {
                             height: "10px",
                             cursor: "pointer",
                           }}
-                          onClick={(e) => {
-                            e.stopPropagation(); // Prevent the row click event from firing
-                            console.log("Approved action");
-                            validateAccepted(row._id);
-                          }}
                         />
+                        </Typography>
+                       
                       </Tooltip>
   
                       <Tooltip title="Reject Request">
@@ -559,7 +584,10 @@ const filteredWFHData = allWfh.filter((row) => {
                           onClick={(e) => {
                             e.stopPropagation(); // Prevent the row click event from firing
                             console.log("Rejected action");
-                            validateRejected(row._id);
+                            // validateRejected(row._id);
+                          setSelectedId(row._id)
+
+                            setLogoutModalOpenReject(true)
                           }}
                         />
                       </Tooltip>
@@ -573,6 +601,22 @@ const filteredWFHData = allWfh.filter((row) => {
           </TableBody>
         </Table>
       </TableContainer>
+      <DeleteConfirmationModal
+        open={logoutModalOpenReject}
+        handleClose={() => setLogoutModalOpenReject(false)}
+        // loading={loadingLogout}
+        onConfirm={() => validateRejected(selectedId)}
+        requestText={"Are you sure you want to Reject this WFH Request"}
+        requestHeading={"WFH Confirmation"}
+      />
+        <DeleteConfirmationModal
+        open={logoutModalOpenAccept}
+        handleClose={() => setLogoutModalOpenAccept(false)}
+        // loading={loadingLogout}
+        onConfirm={() => validateAccepted(selectedId)}
+        requestText={"Are you sure you want to Accept This Wfh Request"}
+        requestHeading={"WFH Confirmation"}
+      />
     </Box>
   );
 };

@@ -23,6 +23,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import SpinnerLoader from "../../components/SpinnerLoader";
+import DeleteConfirmationModal from "../../components/DeleteConfirmModal/DeleteConfirmModal";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -45,6 +46,10 @@ const LeaveManagement = () => {
     new Date().getFullYear().toString()
   ); // Default to current year
   const [payrollType, setPayrollType] = useState("Payroll Type");
+
+  const [leaveModalOpenAccept, setLeaveModalOpenAccept] = useState(false);
+const [leaveModalOpenReject, setLeaveModalOpenReject] = useState(false);
+const [selectedLeaveId, setSelectedLeaveId] = useState(null);
 
   const getUnixTimestampForMonthYear = (month, year) => {
     const date = new Date(year, month, 1);
@@ -70,6 +75,7 @@ const LeaveManagement = () => {
         { params: { date: date } }
       );
       console.log(response.data);
+      
       setLeaveData(response.data.leaves);
       setLoading(false);
     } catch (error) {
@@ -122,13 +128,15 @@ const LeaveManagement = () => {
       );
       console.log(response);
       toast.success("Leave Validate SucessFully", { position: "top-center" });
-
+      setLeaveModalOpenAccept(false);
       fetchAllLeaves(); // Refresh data after updating status
     } catch (error) {
       console.error("Error approving leave request:", error);
       toast.error("Leave Validate Could not proceed", {
         position: "top-center",
       });
+      setLeaveModalOpenAccept(false);
+
     }
   };
 
@@ -145,11 +153,15 @@ const LeaveManagement = () => {
       );
       fetchAllLeaves(); // Refresh data after updating status
       toast.success("Leave Validate SucessFully", { position: "top-center" });
+      setLeaveModalOpenReject(false);
+
     } catch (error) {
       console.error("Error rejecting leave request:", error);
       toast.error("Leave Validate Could not proceed", {
         position: "top-center",
       });
+      setLeaveModalOpenAccept(false);
+
     }
   };
 
@@ -725,7 +737,8 @@ const LeaveManagement = () => {
                             cursor: "pointer",
                           }}
                           onClick={(e) => {
-                            validateAccept(row._id);
+                            setSelectedLeaveId(row._id); // Set the selected leave ID
+                            setLeaveModalOpenAccept(true);
                             e.stopPropagation(); // Prevent the row click event from firing
                             console.log("Approved action");
                           }}
@@ -742,7 +755,8 @@ const LeaveManagement = () => {
                             cursor: "pointer",
                           }}
                           onClick={(e) => {
-                            validateReject(row._id);
+                            setSelectedLeaveId(row._id); // Set the selected leave ID
+                            setLeaveModalOpenReject(true);
                             e.stopPropagation(); // Prevent the row click event from firing
                           }}
                         />
@@ -755,6 +769,20 @@ const LeaveManagement = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <DeleteConfirmationModal
+  open={leaveModalOpenAccept}
+  handleClose={() => setLeaveModalOpenAccept(false)}
+  onConfirm={() => validateAccept(selectedLeaveId)}
+  requestText={"Are you sure you want to approve this leave request?"}
+  requestHeading={"Leave Approval Confirmation"}
+/>
+<DeleteConfirmationModal
+  open={leaveModalOpenReject}
+  handleClose={() => setLeaveModalOpenReject(false)}
+  onConfirm={() => validateReject(selectedLeaveId)}
+  requestText={"Are you sure you want to reject this leave request?"}
+  requestHeading={"Leave Rejection Confirmation"}
+/>
     </Box>
   );
 };

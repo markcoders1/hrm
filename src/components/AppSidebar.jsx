@@ -255,7 +255,7 @@ const AppSidebar = () => {
             ""
           )}
 
-          {user === "HOD"? (
+          {user === "HOD" ? (
             <>
               <CNavItem>
                 <CustomNavLink to="/dashboard/admin" className="nav-link" end>
@@ -365,7 +365,7 @@ const AppSidebar = () => {
             ""
           )}
 
-          {user === "HOD"? (
+          {user === "HOD" ? (
             <>
               <CNavItem>
                 <CustomNavLink
@@ -398,12 +398,11 @@ const AppSidebar = () => {
                   &nbsp; Payroll Management
                 </CustomNavLink>
               </CNavItem>
-              
             </>
           ) : (
             ""
           )}
-           {user === "HR" ? (
+          {user === "HR" ? (
             <>
               <CNavItem>
                 <CustomNavLink
@@ -434,27 +433,61 @@ const AppSidebar = () => {
                   &nbsp; Attendance Management
                 </CustomNavLink>
               </CNavItem>
+              <CNavItem>
+                <CustomNavLink
+                  to="/dashboard/payslip-management"
+                  end
+                  className="nav-link"
+                >
+                  &nbsp;&nbsp;
+                  <img
+                    src={profileIcon}
+                    alt=""
+                    style={{ width: "17.97px", height: "23.09" }}
+                  />{" "}
+                  &nbsp; Payslip Management
+                </CustomNavLink>
+              </CNavItem>
             </>
           ) : (
             ""
           )}
 
           {user === "HOD" ? (
-            <CNavItem>
-              <CustomNavLink
-                to="/dashboard/hod-profile"
-                end
-                className="nav-link"
-              >
-                &nbsp;&nbsp;
-                <img
-                  src={profileIcon}
-                  alt=""
-                  style={{ width: "17.97px", height: "23.09" }}
-                />{" "}
-                &nbsp; My Profile
-              </CustomNavLink>
-            </CNavItem>
+            <>
+             <CNavItem>
+                <CustomNavLink
+                  to="/dashboard/payslip-management"
+                  end
+                  className="nav-link"
+                >
+                  &nbsp;&nbsp;
+                  <img
+                    src={profileIcon}
+                    alt=""
+                    style={{ width: "17.97px", height: "23.09" }}
+                  />{" "}
+                  &nbsp; Payslip Management
+                </CustomNavLink>
+              </CNavItem>
+              <CNavItem>
+                <CustomNavLink
+                  to="/dashboard/hod-profile"
+                  end
+                  className="nav-link"
+                >
+                  &nbsp;&nbsp;
+                  <img
+                    src={profileIcon}
+                    alt=""
+                    style={{ width: "17.97px", height: "23.09" }}
+                  />{" "}
+                  &nbsp; My Profile
+                </CustomNavLink>
+              </CNavItem>
+
+             
+            </>
           ) : (
             ""
           )}

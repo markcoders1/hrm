@@ -11,6 +11,7 @@ import {
   Tabs,
   Tab,
   Paper,
+  Typography,
 } from "@mui/material";
 import { styled } from "@mui/system";
 import axiosInstance from "../../auth/axiosInstance";
@@ -451,7 +452,29 @@ const EmployeeData = () => {
                       }}
                       className="MuiTableCell-root"
                     >
-                      {employee?.fullName}
+                        <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "start",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Typography>
+                          <img
+                            src={employee?.image}
+                            style={{
+                              width: "38px",
+                              height: "38px",
+                              backgroundColor: "red",
+                              borderRadius: "50%",
+                            }}
+                            alt=""
+                          />
+                        </Typography>
+                        <Typography sx={{ ml: "10px",  }}>
+                          {employee?.fullName}
+                        </Typography>
+                      </Box>
                     </TableCell>
                     <TableCell
                       sx={{

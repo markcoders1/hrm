@@ -49,6 +49,7 @@ import ComparePayroll from './Pages/Payroll/ComparePayroll.jsx';
 // import LastPayrollList from './Pages/Payroll/LastPayrollList.jsx';
 import AddEmployementType from './Pages/Settings/AddEmployementType.jsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import PayslipManagement from './Pages/Admin/Paysilpmanagement.jsx';
 
 import store from './store.js';
 import HodProfile from './Pages/HodProfile.jsx';
@@ -105,6 +106,10 @@ function App() {
             <Route path='payroll-management' element={<ProtectedAdmin><PayrollManagement /></ProtectedAdmin>} />
             <Route path='payroll-management/manage-payroll' element={<ProtectedAdmin><ManagePayroll /></ProtectedAdmin>} />
             <Route path='payroll-management/compare-payroll' element={<ProtectedAdmin><ComparePayroll /></ProtectedAdmin>} />
+
+            {/* PAYSLIP MANAGEMENT */}
+            <Route path='payslip-management' element={<ProtectedAdmin><PayslipManagement /></ProtectedAdmin>} />
+            
 
 
             {/* settings pages */}

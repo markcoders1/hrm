@@ -25,26 +25,50 @@ import DeleteConfirmationModal from "../../components/DeleteConfirmModal/DeleteC
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-const EmployeeAttendance = () => {
+const PayslipManagement = () => {
   const navigate = useNavigate();
   const { setHeadertext, setParaText } = useOutletContext();
   const [allEmployee, setAllEmployee] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedDate, setSelectedDate] = useState(new Date().getTime()); // Initialize with current date as Unix timestamp
+  
   const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
-  const [modalOpen, setModalOpen] = useState(false); // Modal state
-  const [selectedCheckId, setSelectedCheckId] = useState("");
-  const [employeeActiveCoount, setEmployeeActiveCount] = useState(0);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [loadingDelete, setLoadingDelete] = useState(false);
-  const [itemToDelete, setItemToDelete] = useState(null);
 
-  // const applyTimezoneOffset = (timestamp) => {
-  //   const date = new Date(timestamp);
-  //   const timezoneOffset = date.getTimezoneOffset() * 60000; // Get timezone offset in milliseconds
-  //   return timestamp - timezoneOffset;
-  // };
 
+  const [selectedMonth, setSelectedMonth] = useState(
+    new Date().getMonth().toString()
+  ); // Default to current month
+  const [selectedYear, setSelectedYear] = useState(
+    new Date().getFullYear().toString()
+  ); // Default to current year
+ 
+ 
+
+  useEffect(()=>{
+    setHeadertext("PaySlip Management");
+    setParaText(" ");
+  },[])
+
+  const months = [
+    { label: "January", value: "0" },
+    { label: "February", value: "1" },
+    { label: "March", value: "2" },
+    { label: "April", value: "3" },
+    { label: "May", value: "4" },
+    { label: "June", value: "5" },
+    { label: "July", value: "6" },
+    { label: "August", value: "7" },
+    { label: "September", value: "8" },
+    { label: "October", value: "9" },
+    { label: "November", value: "10" },
+    { label: "December", value: "11" },
+  ];
+
+  // Generate years starting from 2024
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: currentYear - 2024 + 1 }, (v, i) => ({
+    label: (2024 + i).toString(),
+    value: (2024 + i).toString(),
+  }));
   const handleDeleteConfirmed = async (id) => {
     setLoadingDelete(true);
     
@@ -60,10 +84,9 @@ const EmployeeAttendance = () => {
       console.log("Delete response:", response.data);
       toast.success("Check In Deleted Sucessfully", { position: "top-center" });
 
-      // Fetch the updated leave data
+   
       fetchEmployeeData();
 
-      // Close the modal and reset
       setLoadingDelete(false);
       setDeleteModalOpen(false);
     } catch (error) {
@@ -76,15 +99,15 @@ const EmployeeAttendance = () => {
   useEffect(() => {
     const fetchEmployeeData = async (dateTimestamp) => {
       console.log(dateTimestamp);
-      setHeadertext("Attendance Management");
+      setHeadertext("PaySlip Management");
       setParaText(" ");
       try {
         const response = await axiosInstance({
           url: `${apiUrl}/api/admin/getToday`,
           method: "get",
-          params: {
-            date: dateTimestamp, // Directly pass the selected date
-          },
+        //   params: {
+        //     date: dateTimestamp, // Directly pass the selected date
+        //   },
         });
         console.log("get today -----------------------===", response);
         const dataAllEmployee = response.data.users;
@@ -95,8 +118,8 @@ const EmployeeAttendance = () => {
         console.error(error);
       }
     };
-    fetchEmployeeData(selectedDate);
-  }, [setHeadertext, selectedDate, setSelectedDate]); // Re-fetch data when the selected date changes
+    fetchEmployeeData();
+  }, []); // Re-fetch data when the selected date changes
 
   const handleModalClose = () => {
     setDeleteModalOpen(false);
@@ -245,12 +268,7 @@ const EmployeeAttendance = () => {
             <Typography
               sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
             >
-              {`${(new Date(selectedDate).getMonth() + 1)
-                .toString()
-                .padStart(2, "0")}-${new Date(selectedDate)
-                .getDate()
-                .toString()
-                .padStart(2, "0")}-${new Date(selectedDate).getFullYear()}`}
+             
             </Typography>
           </Box>
           <TableContainer component={Paper} className="MuiTableContainer-root">
@@ -413,7 +431,6 @@ const EmployeeAttendance = () => {
                           display: "flex",
                           justifyContent: "start",
                           alignItems: "center",
-                          minWidth:"270px"
                         }}
                       >
                         <Typography>
@@ -428,7 +445,7 @@ const EmployeeAttendance = () => {
                             alt=""
                           />
                         </Typography>
-                        <Typography sx={{ ml: "10px",  }}>
+                        <Typography sx={{ ml: "10px" }}>
                           {employee.fullName}
                         </Typography>
                       </Box>
@@ -500,4 +517,4 @@ const EmployeeAttendance = () => {
   );
 };
 
-export default EmployeeAttendance;
+export default PayslipManagement;

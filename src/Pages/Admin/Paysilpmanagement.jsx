@@ -32,6 +32,7 @@ const PayslipManagement = () => {
   const { setHeadertext, setParaText } = useOutletContext();
   const [allEmployee, setAllEmployee] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [allPayslips, setAllPayslips] = useState([])
   const [selectedMonth, setSelectedMonth] = useState(
     new Date().getMonth().toString()
   ); // Default to current month
@@ -220,23 +221,25 @@ const PayslipManagement = () => {
   const fetchAllPayslip = async () => {
     const date = getUnixTimestampForMonthYear(selectedMonth, selectedYear);
     console.log(date);
-    // try {
+    try {
       
-    //   const response = await axiosInstance.get(
-    //     `${apiUrl}/api/admin/getallpayslips`,
-    //     { params: { date: date } }
-    //   );
-    //   console.log(response.data);
+      const response = await axiosInstance.get(
+        `${apiUrl}/api/admin/payslips`,
+        { params: { month: date } }
+      );
+      console.log(response.data);
+      setAllPayslips(response.data.payslips)
       
     
-    // } catch (error) {
-    //   console.error("Error fetching Payslips data:", error);
+    } catch (error) {
+      console.error("Error fetching Payslips data:", error);
     
-    // }
+    }
   };
  useEffect(()=>{
   const date = getUnixTimestampForMonthYear(selectedMonth, selectedYear);
     console.log(date);
+    fetchAllPayslip()
  },[])
   const downloadPdf = async () => {
     try {

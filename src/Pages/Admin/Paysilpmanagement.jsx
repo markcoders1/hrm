@@ -248,17 +248,17 @@ const PayslipManagement = () => {
   const viewPdf = async () => {
     try {
       const response = await axiosInstance({
-        url: `${apiUrl}/api/getattendancepdf`, // Adjust the endpoint as needed
+        url: `${apiUrl}/api/getattendancepdf`, 
         method: "get",
-        responseType: "blob", // Important for handling binary data
+        responseType: "blob", 
       });
 
-      // Create a URL for the PDF blob
+     
       const fileURL = window.URL.createObjectURL(
         new Blob([response.data], { type: "application/pdf" })
       );
 
-      // Open the PDF in a new tab
+     
       window.open(fileURL, "_blank");
     } catch (error) {
       console.error("Error viewing PDF:", error);

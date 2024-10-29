@@ -10,18 +10,20 @@ import {
   Box,
   Paper,
   Typography,
+  Tooltip
 } from "@mui/material";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import { Loader } from "../../components/Loaders";
 import axiosInstance from "../../auth/axiosInstance";
 import "../../PagesCss/Employee.css";
-import deleteIcon from "../../assets/deleteIcon.png";
-import editIcon from "../../assets/EditIcon.png";
+import downloadIcon from "../../assets/download.png";
+import eyeIcon from "../../assets/eye.png";
 import editIconWhite from "../../assets/editIconWhite.png";
 import CustomInputLabel from "../../components/CustomInputField/CustomInputLabel";
 import CheckInOutModal from "../../components/CheckInEditModal/CheckInEditModal";
 import SpinnerLoader from "../../components/SpinnerLoader";
 import DeleteConfirmationModal from "../../components/DeleteConfirmModal/DeleteConfirmModal";
+import CustomSelectForType from "../../components/CustomSelect/CustomSelect";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -30,23 +32,12 @@ const PayslipManagement = () => {
   const { setHeadertext, setParaText } = useOutletContext();
   const [allEmployee, setAllEmployee] = useState([]);
   const [loading, setLoading] = useState(true);
-  
-  const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
-
-
   const [selectedMonth, setSelectedMonth] = useState(
     new Date().getMonth().toString()
   ); // Default to current month
   const [selectedYear, setSelectedYear] = useState(
     new Date().getFullYear().toString()
   ); // Default to current year
- 
- 
-
-  useEffect(()=>{
-    setHeadertext("PaySlip Management");
-    setParaText(" ");
-  },[])
 
   const months = [
     { label: "January", value: "0" },
@@ -69,9 +60,66 @@ const PayslipManagement = () => {
     label: (2024 + i).toString(),
     value: (2024 + i).toString(),
   }));
+
+  const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
+
+  // States related to modals
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedCheckId, setSelectedCheckId] = useState(null);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+
+  useEffect(() => {
+    setHeadertext("PaySlip Management");
+    setParaText(" ");
+  }, [setHeadertext, setParaText]);
+
+  // Mock data since API is not working
+  useEffect(() => {
+    const mockData = [
+      {
+        employeeId: "E001",
+        fullName: "John Doe",
+        department: "Finance",
+        designation: "Accountant",
+        image: "https://via.placeholder.com/38",
+      },
+      {
+        employeeId: "E002",
+        fullName: "Jane Smith",
+        department: "Human Resources",
+        designation: "HR Manager",
+        image: "https://via.placeholder.com/38",
+      },
+      {
+        employeeId: "E003",
+        fullName: "Michael Brown",
+        department: "IT",
+        designation: "Software Engineer",
+        image: "https://via.placeholder.com/38",
+      },
+      {
+        employeeId: "E004",
+        fullName: "Emily Davis",
+        department: "Marketing",
+        designation: "Marketing Specialist",
+        image: "https://via.placeholder.com/38",
+      },
+      {
+        employeeId: "E005",
+        fullName: "William Johnson",
+        department: "Sales",
+        designation: "Sales Executive",
+        image: "https://via.placeholder.com/38",
+      },
+    ];
+    setAllEmployee(mockData);
+    setLoading(false);
+  }, []);
+
   const handleDeleteConfirmed = async (id) => {
     setLoadingDelete(true);
-    
+
     console.log(id);
     try {
       const response = await axiosInstance({
@@ -82,62 +130,32 @@ const PayslipManagement = () => {
         },
       });
       console.log("Delete response:", response.data);
-      toast.success("Check In Deleted Sucessfully", { position: "top-center" });
+      toast.success("Check In Deleted Successfully", { position: "top-center" });
 
-   
-      fetchEmployeeData();
+      // Replace this with actual data fetching if API works
+      // fetchEmployeeData();
 
       setLoadingDelete(false);
       setDeleteModalOpen(false);
     } catch (error) {
       console.error("Error deleting leave:", error);
       setLoadingDelete(false);
-      toast.success("Leave Delete Could Not be Proceed Now");
+      toast.error("Leave Delete Could Not be Proceeded", { position: "top-center" });
     }
   };
 
-  useEffect(() => {
-    const fetchEmployeeData = async (dateTimestamp) => {
-      console.log(dateTimestamp);
-      setHeadertext("PaySlip Management");
-      setParaText(" ");
-      try {
-        const response = await axiosInstance({
-          url: `${apiUrl}/api/admin/getToday`,
-          method: "get",
-        //   params: {
-        //     date: dateTimestamp, // Directly pass the selected date
-        //   },
-        });
-        console.log("get today -----------------------===", response);
-        const dataAllEmployee = response.data.users;
-        setAllEmployee(dataAllEmployee);
-        setEmployeeActiveCount(dataAllEmployee.length);
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchEmployeeData();
-  }, []); // Re-fetch data when the selected date changes
-
   const handleModalClose = () => {
     setDeleteModalOpen(false);
-    setItemToDelete(null);
+    setSelectedCheckId(null);
   };
 
-  const handleDateChange = (e) => {
-    const newDateTimestamp = new Date(e.target.value).getTime();
-    setSelectedDate(newDateTimestamp);
-    console.log(newDateTimestamp);
-  };
   const buttonForDeleteEdit = (rowData, isHovered) => {
     return (
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
-          gap: "1rem",
+          gap: "0.6rem",
           justifyContent: "center",
         }}
       >
@@ -149,7 +167,6 @@ const PayslipManagement = () => {
             justifyContent: "center",
             alignItems: "center",
             borderRadius: "50%",
-
             transition: "background-color 0.3s ease",
             "&:hover": {
               backgroundColor: "rgba(255, 255, 255, 0.2)",
@@ -157,11 +174,11 @@ const PayslipManagement = () => {
           }}
           onClick={(e) => {
             e.stopPropagation();
-            handleOpenModal(rowData.checkId);
-            console.log(rowData);
+            // Placeholder for edit functionality
+            console.log("Edit clicked for", rowData.fullName);
           }}
         >
-          <img src={isHovered ? editIconWhite : editIcon} alt="edit" />{" "}
+          <img src={isHovered ? eyeIcon : eyeIcon} style={{width:"26.78px", height:"16.07px"}} alt="view" />
         </Typography>
         <Typography
           sx={{
@@ -173,52 +190,30 @@ const PayslipManagement = () => {
             borderRadius: "50%",
             transition: "background-color 0.3s ease",
             "&:hover": {
-              backgroundColor: "rgba(255, 255, 255, 0.2)", // White color with 0.3 opacity
+              backgroundColor: "rgba(255, 255, 255, 0.2)",
             },
           }}
           onClick={(e) => {
             e.stopPropagation();
-            console.log(rowData.checkId)
-            handleDeleteConfirmed(rowData.checkId);
-            alert("Delete clicked for " + rowData.fullName);
+            setSelectedCheckId(rowData.employeeId);
+            setDeleteModalOpen(true);
+            console.log("Delete clicked for", rowData.fullName);
           }}
         >
-          <img src={deleteIcon} alt="delete" />
+          <img src={downloadIcon} style={{width:"21.92px", height:"21.92px"}} alt="download" />
         </Typography>
       </Box>
     );
   };
+  const handleMonthChange = (event) => {
+    setSelectedMonth(event.target.value);
+  };
+  const handleYearChange = (event) => {
+    setSelectedYear(event.target.value);
+  };
 
   const handleNavigateToSeeAttendance = (id) => {
     navigate(`/dashboard/attendance-management/viewAttendance/${id}`);
-  };
-
-  const formatDate = (timestamp) => {
-    const date = new Date(timestamp);
-    return `${(date.getMonth() + 1).toString().padStart(2, "0")}-${date
-      .getDate()
-      .toString()
-      .padStart(2, "0")}-${date.getFullYear()}`;
-  };
-
-  const formatTime = (timestamp) => {
-    const date = new Date(timestamp);
-    let hours = date.getHours();
-    const minutes = date.getMinutes().toString().padStart(2, "0");
-    const ampm = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12 || 12; // Convert 0 to 12
-    return `${hours}:${minutes} ${ampm}`;
-  };
-
-  const handleOpenModal = (checkId) => {
-    setSelectedCheckId(checkId); // Pass the checkId to modal
-    setModalOpen(true);
-    console.log(checkId);
-  };
-
-  const handleCloseModal = () => {
-    setModalOpen(false);
-    setSelectedCheckId(null);
   };
 
   if (loading) {
@@ -241,21 +236,55 @@ const PayslipManagement = () => {
           width: { lg: "220px", xs: "100%" },
           position: { lg: "fixed", xs: "static" },
           right: "55px",
-          top: "40px",
+          top: "50px",
           zIndex: "100000 ",
         }}
       >
-        <CustomInputLabel
-          height={{ xs: "36px" }}
-          paddingInput={{ xs: " 8px 10px" }}
-          fontSize={"20px"}
-          showSearchIcon={false}
-          placeholder={"Search User"}
-          type={"date"}
-          value={new Date(selectedDate).toISOString().split("T")[0]} // Display the selected date in the input
-          onChange={handleDateChange} // Handle date change
-          fullWidth={false}
-        />
+       <Box
+          sx={{
+            display: "flex",
+            gap: 2,
+            alignItems: "center",
+            justifyContent: "end",
+
+            width: "100%",
+          }}
+        >
+        <Box
+        sx={{
+          flexBasis: { lg: "400px", xs: "60%" }
+        }}
+        >
+
+            <CustomSelectForType
+              label="Month"
+              value={selectedMonth}
+              handleChange={handleMonthChange}
+              options={months}
+              height={{xl:"56px", xs:"46"}}
+              width={{md:"200px", xs:""}}
+
+              
+              />
+        
+              </Box>
+              <Box
+        sx={{
+          flexBasis: { lg: "100%", xs: "60%" },
+          
+        }}
+        >
+            <CustomSelectForType
+              label="Year"
+              value={selectedYear}
+              handleChange={handleYearChange}
+              options={years}
+              height={{xl:"56px", xs:"46"}}
+              width={{md:"200px", xs:""}}
+
+            />
+          </Box>
+        </Box>
       </Box>
       <Box>
         <>
@@ -263,12 +292,12 @@ const PayslipManagement = () => {
             <Typography
               sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
             >
-              {`Active Users (${employeeActiveCoount})`}
+              Sep / 2024
             </Typography>
             <Typography
               sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
             >
-             
+              {/* Placeholder for additional actions */}
             </Typography>
           </Box>
           <TableContainer component={Paper} className="MuiTableContainer-root">
@@ -293,13 +322,14 @@ const PayslipManagement = () => {
                         sm: "21px",
                         xs: "16px",
                       },
-                      textAlign: "center !important",
+                      textAlign: "start !important",
                       borderRadius: "8px 0px 0px 8px",
                       color: "#010120",
-                      minWidth: "120px",
+                      minWidth: "80px",
+                    
                     }}
                   >
-                    Emp Id
+                   &nbsp;&nbsp; Emp ID
                   </TableCell>
                   <TableCell
                     className="MuiTableCell-root-head"
@@ -315,7 +345,7 @@ const PayslipManagement = () => {
                       pl: "40px !important",
                     }}
                   >
-                    Name
+                    Full Name
                   </TableCell>
                   <TableCell
                     className="MuiTableCell-root-head"
@@ -327,31 +357,11 @@ const PayslipManagement = () => {
                         xs: "16px",
                       },
                       textAlign: "center !important",
-
                       color: "#010120",
-
-                      minWidth: "250px",
-                    }}
-                  >
-                    Checked-In Date
-                  </TableCell>
-                  <TableCell
-                    className="MuiTableCell-root-head"
-                    sx={{
-                      fontWeight: "500",
-                      padding: "12px 0px",
-                      fontSize: {
-                        sm: "21px",
-                        xs: "16px",
-                      },
-                      textAlign: "center !important",
-
-                      color: "#010120",
-
                       minWidth: "150px",
                     }}
                   >
-                    Check-In
+                    Department
                   </TableCell>
                   <TableCell
                     className="MuiTableCell-root-head"
@@ -363,13 +373,11 @@ const PayslipManagement = () => {
                         xs: "16px",
                       },
                       textAlign: "center !important",
-
                       color: "#010120",
-
-                      minWidth: "250px",
+                      minWidth: "150px",
                     }}
                   >
-                    Check-Out
+                    Designation
                   </TableCell>
                   <TableCell
                     className="MuiTableCell-root-head"
@@ -381,7 +389,6 @@ const PayslipManagement = () => {
                         xs: "16px",
                       },
                       textAlign: "center !important",
-
                       paddingLeft: "10px !important",
                       borderRadius: "0px 8px 8px 0px",
                       color: "#010120",
@@ -394,12 +401,12 @@ const PayslipManagement = () => {
               <TableBody className="MuiTableBody-root">
                 {allEmployee.map((employee, index) => (
                   <TableRow
-                    key={index}
+                    key={employee.employeeId}
                     className="MuiTableRow-root"
                     onMouseEnter={() => setHoveredRow(index)}
                     onMouseLeave={() => setHoveredRow(null)}
                     onClick={() =>
-                      handleNavigateToSeeAttendance(employee.userId)
+                      handleNavigateToSeeAttendance(employee.employeeId)
                     }
                     sx={{
                       backgroundColor:
@@ -412,11 +419,11 @@ const PayslipManagement = () => {
                       sx={{
                         borderRadius: "8px 0px 0px 8px",
                         color: "#010120",
-                        textAlign: "center !important",
+                        textAlign: "start !important",
                       }}
                       className="MuiTableCell-root"
                     >
-                      {employee.employeeId}
+                     &nbsp;&nbsp; {employee.employeeId}
                     </TableCell>
                     <TableCell
                       sx={{
@@ -439,10 +446,9 @@ const PayslipManagement = () => {
                             style={{
                               width: "38px",
                               height: "38px",
-                              backgroundColor: "red",
                               borderRadius: "50%",
                             }}
-                            alt=""
+                            alt={employee.fullName}
                           />
                         </Typography>
                         <Typography sx={{ ml: "10px" }}>
@@ -453,39 +459,24 @@ const PayslipManagement = () => {
                     <TableCell
                       sx={{
                         textAlign: "center !important",
-                        paddingLeft: "0px !important",
-                        color: "#99999C !important",
+                        color: "#010120",
                       }}
                       className="MuiTableCell-root"
                     >
-                      {employee.checkIn ? formatDate(employee.checkIn) : "N/A"}
+                      {employee.department}
                     </TableCell>
                     <TableCell
                       sx={{
                         textAlign: "center !important",
-                        paddingLeft: "0px !important",
+                        color: "#010120",
                       }}
                       className="MuiTableCell-root"
                     >
-                      {employee.checkIn
-                        ? formatTime(employee.checkIn)
-                        : "-- : --"}
+                      {employee.designation}
                     </TableCell>
                     <TableCell
                       sx={{
                         textAlign: "center !important",
-                        paddingLeft: "0px !important",
-                      }}
-                      className="MuiTableCell-root"
-                    >
-                      {employee.checkOut
-                        ? formatTime(employee.checkOut)
-                        : "-- : --"}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        textAlign: "center !important",
-
                         paddingLeft: "10px !important",
                         borderRadius: "0px 8px 8px 0px",
                       }}
@@ -502,16 +493,16 @@ const PayslipManagement = () => {
       </Box>
       <CheckInOutModal
         open={modalOpen}
-        handleClose={handleCloseModal}
+        handleClose={() => setModalOpen(false)}
         checkId={selectedCheckId} // Pass the checkId to the modal
       />
       <DeleteConfirmationModal
         open={deleteModalOpen}
         handleClose={handleModalClose}
         loading={loadingDelete}
-        onConfirm={handleDeleteConfirmed}
-        requestText={"Are you sure you want to Delete this User Check In"}
-        requestHeading={"checkIn Deletion"}
+        onConfirm={() => handleDeleteConfirmed(selectedCheckId)}
+        requestText={"Are you sure you want to delete this employee?"}
+        requestHeading={"Employee Deletion"}
       />
     </Box>
   );

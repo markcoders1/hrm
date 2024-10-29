@@ -194,14 +194,14 @@ const [selectedLeaveId, setSelectedLeaveId] = useState(null);
   const handleMonthChange = (event) => {
     setSelectedMonth(event.target.value);
   };
+  const handleYearChange = (event) => {
+    setSelectedYear(event.target.value);
+  };
 
   const handlePayrollTypeChange = (event) => {
     setSelectedMonth(event.target.value);
   };
 
-  const handleYearChange = (event) => {
-    setSelectedYear(event.target.value);
-  };
 
   const payrollTYPE = [
     { label: "Commission", value: "0" },

@@ -53,7 +53,18 @@ const PayslipManagement = () => {
     { label: "November", value: "10" },
     { label: "December", value: "11" },
   ];
-
+  const getFormattedUtcDateString = (year, month) => {
+    // JavaScript months are 0-based. Ensure month is a number.
+    const numericMonth = parseInt(month, 10);
+    
+    // Create a Date object for the first day of the selected month and year in UTC
+    const date = new Date(Date.UTC(year, numericMonth, 1, 0, 0, 0, 0));
+  
+    // Convert to ISO string and replace 'Z' with '+00:00' to match desired format
+    const utcDateString = date.toISOString().replace("Z", "+00:00");
+  
+    return utcDateString; // e.g., "2024-10-01T00:00:00.000+00:00"
+  };
   // Generate years starting from 2024
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: currentYear - 2024 + 1 }, (v, i) => ({
@@ -209,9 +220,7 @@ const PayslipManagement = () => {
     setSelectedYear(event.target.value);
   };
 
-  const handleNavigateToSeeAttendance = (id) => {
-    navigate(`/dashboard/attendance-management/viewAttendance/${id}`);
-  };
+ 
   const downloadPdf = async () => {
     try {
    
@@ -455,9 +464,7 @@ const PayslipManagement = () => {
                     className="MuiTableRow-root"
                     onMouseEnter={() => setHoveredRow(index)}
                     onMouseLeave={() => setHoveredRow(null)}
-                    onClick={() =>
-                      handleNavigateToSeeAttendance(employee.employeeId)
-                    }
+                 
                     sx={{
                       backgroundColor:
                         hoveredRow === index ? "#D1E4FF" : "inherit",
@@ -546,14 +553,7 @@ const PayslipManagement = () => {
         handleClose={() => setModalOpen(false)}
         checkId={selectedCheckId} // Pass the checkId to the modal
       />
-      <DeleteConfirmationModal
-        open={deleteModalOpen}
-        handleClose={handleModalClose}
-        loading={loadingDelete}
-        onConfirm={() => handleDeleteConfirmed(selectedCheckId)}
-        requestText={"Are you sure you want to delete this employee?"}
-        requestHeading={"Employee Deletion"}
-      />
+     
     </Box>
   );
 };

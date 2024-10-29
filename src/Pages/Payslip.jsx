@@ -209,9 +209,6 @@ const PayslipManagement = () => {
     setSelectedYear(event.target.value);
   };
 
-  const handleNavigateToSeeAttendance = (id) => {
-    navigate(`/dashboard/attendance-management/viewAttendance/${id}`);
-  };
   const downloadPdf = async () => {
     try {
    
@@ -401,9 +398,7 @@ const PayslipManagement = () => {
                     className="MuiTableRow-root"
                     onMouseEnter={() => setHoveredRow(index)}
                     onMouseLeave={() => setHoveredRow(null)}
-                    onClick={() =>
-                      handleNavigateToSeeAttendance(employee.employeeId)
-                    }
+                    
                     sx={{
                       backgroundColor:
                         hoveredRow === index ? "#D1E4FF" : "inherit",

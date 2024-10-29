@@ -4,8 +4,8 @@ import { BarChart } from '@mui/x-charts/BarChart';
 export default function BasicBars({
     width = 700,
     height = 300,
-    labels = ['Commission', 'Tax', 'Salary'],
-    data = [0, 0, 0]
+    labels = ['Week1', 'Week2', 'Week3', 'Week4'],
+    data = [30, 4000, 1000, 50000],
 }) {
   return (
     <BarChart

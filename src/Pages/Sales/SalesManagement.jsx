@@ -2,6 +2,7 @@
 import BasicBars from "../../components/BarChat/BarChart";
 import axiosInstance from "../../auth/axiosInstance";
 import "../../PagesCss/Employee.css";
+
 import { useNavigate, useOutletContext } from "react-router-dom";
 
 import React, { useEffect, useState } from "react";
@@ -21,6 +22,9 @@ import {
 import SpinnerLoader from "../../components/SpinnerLoader";
 import { useQuery } from "@tanstack/react-query";
 import CustomButton from "../../components/CustomButton/CustomButton";
+import CustomSelectForType from "../../components/CustomSelect/CustomSelect";
+import BasicBarsForSales from "../../components/BarChat/BarChart";
+
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -28,6 +32,8 @@ const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const SalesManagement = () => {
   const { setHeadertext, setParaText } = useOutletContext();
+  const navigate = useNavigate();
+
 
     const [selectedMonth, setSelectedMonth] = useState(
         new Date().getMonth().toString()
@@ -67,10 +73,74 @@ const SalesManagement = () => {
   useEffect(()=>{
     setHeadertext("Sales");
     setParaText("");
+    const date = new Date(parseInt(selectedYear), parseInt(selectedMonth));
+    const month = date.getTime();
+    console.log(month)
   },[])
 
+
   return (
-    <Box>SalesManagement</Box>
+    <Box>
+         <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              gap: "1.5rem",
+            }}
+          >
+            <Box
+              sx={{
+                fontWeight: "500",
+                color: "#010120",
+                fontSize: "22px",
+              }}
+            >
+              <CustomSelectForType
+                label="Month"
+                value={selectedMonth}
+                handleChange={handleMonthChange}
+                options={months}
+                height={"46px"}
+                width="220px"
+              />
+            </Box>
+            <Box
+              sx={{
+                fontWeight: "500",
+                color: "#010120",
+                fontSize: "22px",
+              }}
+            >
+              <CustomSelectForType
+                label="Year"
+                value={selectedYear}
+                handleChange={handleYearChange}
+                options={years}
+                height={"46px"}
+                width="220px"
+              />
+            </Box>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              gap: "1.5rem",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+          </Box>
+        </Box>
+        <Box>
+            <BasicBarsForSales />
+        </Box>
+    </Box>
   )
 }
 

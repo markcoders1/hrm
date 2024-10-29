@@ -12,22 +12,23 @@ import {
   Typography,
   Tooltip
 } from "@mui/material";
-import CustomButton from "../../components/CustomButton/CustomButton";
-import { Loader } from "../../components/Loaders";
-import axiosInstance from "../../auth/axiosInstance";
-import "../../PagesCss/Employee.css";
-import downloadIcon from "../../assets/download.png";
-import eyeIcon from "../../assets/eye.png";
-import editIconWhite from "../../assets/editIconWhite.png";
-import CustomInputLabel from "../../components/CustomInputField/CustomInputLabel";
-import CheckInOutModal from "../../components/CheckInEditModal/CheckInEditModal";
-import SpinnerLoader from "../../components/SpinnerLoader";
-import DeleteConfirmationModal from "../../components/DeleteConfirmModal/DeleteConfirmModal";
-import CustomSelectForType from "../../components/CustomSelect/CustomSelect";
+// import CustomButton from "../components/CustomButton/CustomButton";
+import { Loader } from "../components/Loaders";
+
+import axiosInstance from "../auth/axiosInstance";
+import "../PagesCss/Employee.css";
+import downloadIcon from "../assets/download.png";
+import eyeIcon from "../assets/eye.png";
+import editIconWhite from "../assets/editIconWhite.png";
+import CustomInputLabel from "../components/CustomInputField/CustomInputLabel";
+import CheckInOutModal from "../components/CheckInEditModal/CheckInEditModal";
+import SpinnerLoader from "../components/SpinnerLoader";
+import DeleteConfirmationModal from "../components/DeleteConfirmModal/DeleteConfirmModal";
+import CustomSelectForType from "../components/CustomSelect/CustomSelect";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-const PayslipManagement = () => {
+const Payslips = () => {
   const navigate = useNavigate();
   const { setHeadertext, setParaText } = useOutletContext();
   const [allEmployee, setAllEmployee] = useState([]);
@@ -508,4 +509,4 @@ const PayslipManagement = () => {
   );
 };
 
-export default PayslipManagement;
+export default Payslips;

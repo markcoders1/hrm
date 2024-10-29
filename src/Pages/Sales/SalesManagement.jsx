@@ -137,8 +137,63 @@ const SalesManagement = () => {
           >
           </Box>
         </Box>
-        <Box>
-            <BasicBarsForSales />
+        <Box
+        sx={{
+          display:"flex",
+          gap: "2rem",
+          mt: "30px",
+        }}
+        >
+          <Box
+            sx={{
+              flexBasis: "50%",
+             
+            }}
+          >
+            <BasicBarsForSales
+           
+            />
+
+          </Box>
+          <Box>
+          <Box
+            sx={{
+              flexBasis: "50%",
+
+              backgroundColor: "#E0EBFF",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "start",
+              flexDirection: "column",
+              p: "25px 50px",
+              borderRadius: "10px",
+              fontWeight: "600 !important",
+              height:"100%",
+              gap:"30px"
+
+            }}
+          >
+            <Box
+              sx={{
+                fontWeight: "600 !important",
+                fontSize: { xl: "40px", xs: "25px" },
+              }}
+            >
+              Total Sales: 100,000
+            </Box>
+            <Box
+              sx={{ fontWeight: "600", fontSize: { xl: "40px", xs: "25px" } }}
+            >
+         Total Outstanding Amount: 90,000
+            </Box>
+            <Box
+              sx={{ fontWeight: "600", fontSize: { xl: "40px", xs: "25px" } }}
+            >
+              Number of Sales: 40
+            </Box>
+          
+          </Box>
+          </Box>
         </Box>
     </Box>
   )

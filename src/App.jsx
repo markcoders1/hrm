@@ -56,6 +56,7 @@ import HodProfile from './Pages/HodProfile.jsx';
 import AddLeaveType from './Pages/Settings/AddNewLeaveType.jsx';
 import AddLocationtype from './Pages/Settings/AddLocationType.jsx';
 import SalesManagement from './Pages/Sales/SalesManagement.jsx';
+import TransferToPakBank from './Pages/Sales/TransferPakBank.jsx';
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 const queryClient = new QueryClient();
@@ -114,6 +115,8 @@ function App() {
 
             {/* Sales Management */}
             <Route path='sales-management' element={<ProtectedAdmin><SalesManagement /></ProtectedAdmin>} />
+            <Route path='sales-management/transfer-to-bank' element={<ProtectedAdmin><TransferToPakBank /></ProtectedAdmin>} />
+
 
             
 

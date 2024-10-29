@@ -36,7 +36,7 @@ const LeaveManagement = () => {
   const navigate = useNavigate();
   const [leaveData, setLeaveData] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [statusFilter, setStatusFilter] = useState("pending");
 
   const [searchTerm, setSearchTerm] = useState(""); // State for search term
   const [selectedMonth, setSelectedMonth] = useState(

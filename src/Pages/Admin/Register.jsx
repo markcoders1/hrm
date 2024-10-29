@@ -29,7 +29,7 @@ const Register = () => {
   const [isFormDirty, setIsFormDirty] = useState(false);
   const [companyIDValue, setCompanyIDValue] = useState("");
   const [netSalary, setNetSalary] = useState(0);
-  const [documentShow , setDocumentShow] =useState(false)
+  const [documentShow, setDocumentShow] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -51,7 +51,6 @@ const Register = () => {
     lastPayroll: null,
     photo: null,
     resume: null,
-  
   });
 
   const handleSubmitChange = async () => {
@@ -184,15 +183,14 @@ const Register = () => {
           locationType: data.locationType,
           onProbation: data.onProbation,
           employmentType: data.employmentType,
-          CNICFront : formData.frontCnic,
+          CNICFront: formData.frontCnic,
           CNICBack: formData.backCnic,
 
-          EducationalCert : formData.lastEducation,
+          EducationalCert: formData.lastEducation,
           EmploymentLetter: formData.lastEmployer,
-          Payslip : formData.lastPayroll,
+          Payslip: formData.lastPayroll,
           resume: formData.resume,
           photograph: formData.photo,
-
         },
       });
       console.log(res);
@@ -220,7 +218,7 @@ const Register = () => {
       setTeamLeads(response.data.TL);
       setHods(response.data.HOD);
       setDepartments(response.data.departments);
-      setCompanyIDValue(response.data.companyID);
+      setCompanyIDValue(response?.data?.companyID);
       console.log(response.data.companyID);
     } catch (error) {
       console.log(error);
@@ -360,7 +358,10 @@ const Register = () => {
   return (
     <Box className="form-container-register">
       <Box className="form-register">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          style={{ padding: "0px !important" }}
+        >
           <Box
             sx={{
               boxShadow: "0px 0px 13px rgba(101, 101, 101, 0.25)", // Converted from Figma
@@ -451,7 +452,15 @@ const Register = () => {
               </Typography>
             </Box>
 
-            <Box sx={{ mb: "20px", display: "flex", gap: "20px" }}>
+            <Box
+              sx={{
+                mb: "20px",
+                display: "flex",
+                gap: "20px",
+
+                flexDirection: { md: "row", xs: "column" },
+              }}
+            >
               <Typography
                 sx={{
                   display: "flex",
@@ -492,7 +501,7 @@ const Register = () => {
                   rules={{ required: "Emergency Number is required" }}
                   render={({ field }) => (
                     <CustomInputLabel
-                      label="Emergency Number*"
+                      label="Emergency Contact Number*"
                       height={{ xl: "64px", md: "45px" }}
                       paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
                       error={errors.emergencyNumber?.message}
@@ -727,7 +736,11 @@ const Register = () => {
                   render={({ field }) => (
                     <CustomSelectForRole
                       label="Line Manager"
-                      height={{ xl: "76px !important", md: "58px !important" }}
+                      height={{
+                        xl: "76px !important",
+                        md: "58px !important",
+                        xs: "52px",
+                      }}
                       options={teamLeads.map((tl) => ({
                         value: tl.id,
                         label: tl.fullName,
@@ -1318,27 +1331,23 @@ const Register = () => {
               </Typography>
             </Box>
           </Box>
-          {
-            documentShow ? (
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "start",
-                  flexDirection: "column",
-                  gap: "5rem",
-                  mt:"100px"
-    
-                }}
+          {documentShow ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "start",
+                flexDirection: "column",
+                gap: "5rem",
+                mt: "100px",
+              }}
             >
               <Typography
-              sx={{
-                color:"#010120",
-                fontWeight:"600",
-                fontSize: {xl:"40px", xs:"30px"},
-            
-  
-              }}
+                sx={{
+                  color: "#010120",
+                  fontWeight: "600",
+                  fontSize: { xl: "40px", xs: "30px" },
+                }}
               >
                 Documents
               </Typography>
@@ -1350,7 +1359,6 @@ const Register = () => {
                   alignItems: "center",
                   flexDirection: "row",
                   gap: "3rem",
-                
                 }}
               >
                 <FileUpload
@@ -1428,25 +1436,22 @@ const Register = () => {
                   formData={formData}
                   setFormData={setFormData}
                   BoxStyling={{
-                    flexBasis:"100%"
+                    flexBasis: "100%",
                   }}
                 />
-              
               </Box>
-  
-                {/* 
+
+              {/* 
                  lastEducation: null,
       lastEmployer: null,
       lastPayroll: null,
       photo: null,
       resume: null,
                 */}
-             
             </Box>
-            ) : ""
-          }
-
-         
+          ) : (
+            ""
+          )}
 
           <Box
             sx={{
@@ -1457,38 +1462,31 @@ const Register = () => {
             }}
           >
             <Typography
-            sx={{
-              fontSize:"16px",
-              color:"#010120",
-              fontWeight:"500",
-              ":hover":{
-                backgroundColor:"#303f9f",
-                color:"white",
-                border:"none"
-
-              },
-              borderRadius:"7px",
-              height:"45px",
-              width:"195px",
-              border: "1px solid #010120",
-              boxShadow: "none",
-              display:"flex",
-              justifyContent:"center",
-              alignItems:"center",
-              cursor:"pointer",
-              transition:".1s ease-in",
-
-
-
-              
-
-            }}
-            onClick={()=> setDocumentShow(true)}
-
+              sx={{
+                fontSize: "16px",
+                color: "#010120",
+                fontWeight: "500",
+                ":hover": {
+                  backgroundColor: "#303f9f",
+                  color: "white",
+                  border: "none",
+                },
+                borderRadius: "7px",
+                height: "45px",
+                width: "195px",
+                border: "1px solid #010120",
+                boxShadow: "none",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+                transition: ".1s ease-in",
+              }}
+              onClick={() => setDocumentShow(true)}
             >
-            Add Documents +
+              Add Documents +
             </Typography>
-          
+
             <CustomButton
               ButtonText="Add User +"
               fontSize="16px"

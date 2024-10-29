@@ -78,7 +78,7 @@ const AppHeader = (props) => {
               dispatch(set({ sidebarShow: !sidebarShow }))
               console.log(sidebarShow)
             }}  // Dispatch the set action with payload
-            style={{ marginInlineStart: '-14px' }}
+            style={{ marginInlineStart: '-2px' }}
           >
             <CIcon icon={cilMenu} size="lg" />
           </CHeaderToggler>

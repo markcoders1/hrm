@@ -53,7 +53,7 @@ const CustomInputLabel = forwardRef(({
           mb: 2,
           width: '100%',
           position: "relative",
-          padding: "5px 15px",
+          padding: {md:"5px 15px", xs:"0px"},
           boxShadow: boxShadow ? "0px 8px 26px -4px rgba(0, 0, 0, 0.15)" : "",
           '&:hover': {
             borderColor: '#BDBDBD',

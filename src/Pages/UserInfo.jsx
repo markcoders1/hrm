@@ -28,6 +28,7 @@ const UserInfo = () => {
   const [image, setImage] = useState();
   const [shiftDuration, setShiftDuration] = useState("");
   const [duration, setDuration] = useState("");
+  const [userImage , setUserImage] = useState(null)
 
   const { watch } = useForm();
 
@@ -103,7 +104,7 @@ const UserInfo = () => {
         const shiftTo = dataAllEmployee.shiftTimingTo
           ? unixToTimeInput(dataAllEmployee.shiftTimingTo)
           : "";
-
+          setUserImage(dataAllEmployee.image)
         // Calculate and set shift duration
 
         const totalShiftDuration = calculateShiftDuration(shiftFrom, shiftTo);
@@ -496,7 +497,7 @@ const UserInfo = () => {
       >
         <Box sx={{ display: "flex", gap: "1.5rem", alignItems: "center" }}>
           <img
-            src={image}
+            src={userImage}
             style={{ width: "64px", height: "64px", borderRadius: "50%" }}
             alt=""
           />

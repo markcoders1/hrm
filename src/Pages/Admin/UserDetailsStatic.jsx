@@ -6,6 +6,7 @@ import "../../PagesCss/UserDetailsStatic.css";
 import { Loader, LoaderW } from "../../components/Loaders";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import FileUpload from "../../components/FileUpload/FileUpload";
+import FileDisplay from "../../components/FileDisplay/FileDisplay";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -49,31 +50,33 @@ const UserDetailsStatic = () => {
   // }
   function calculateShiftDuration(fromUnix, toUnix) {
     // Ensure that the Unix timestamps are numbers
-    if (typeof fromUnix !== 'number' || typeof toUnix !== 'number') {
-      throw new Error('Both fromUnix and toUnix must be numbers representing Unix timestamps in seconds.');
+    if (typeof fromUnix !== "number" || typeof toUnix !== "number") {
+      throw new Error(
+        "Both fromUnix and toUnix must be numbers representing Unix timestamps in seconds."
+      );
     }
-  
+
     let adjustedToUnix = toUnix;
-  
+
     // Check if toUnix is earlier than fromUnix
     if (toUnix < fromUnix) {
       // Assume the shift crosses midnight and add 24 hours (in seconds) to toUnix
       adjustedToUnix += 24 * 3600;
     }
-  
+
     const diffInSeconds = adjustedToUnix - fromUnix;
-  
+
     // Prevent negative durations (in case adjustedToUnix is still less than fromUnix)
     const positiveDiffInSeconds = Math.max(diffInSeconds, 0);
-  
+
     const totalMinutes = Math.floor(positiveDiffInSeconds / 60); // Total minutes
     const hours = Math.floor(totalMinutes / 60); // Full hours
     const minutes = totalMinutes % 60; // Remaining minutes
-  
+
     // Handle singular and plural forms
-    const hoursLabel = hours === 1 ? 'hour' : 'hours';
-    const minutesLabel = minutes === 1 ? 'minute' : 'minutes';
-  
+    const hoursLabel = hours === 1 ? "hour" : "hours";
+    const minutesLabel = minutes === 1 ? "minute" : "minutes";
+
     return `${hours} ${hoursLabel} ${minutes} ${minutesLabel}`;
   }
   function calculateYearsAndMonthsFromUnix(joiningUnix) {
@@ -142,9 +145,63 @@ const UserDetailsStatic = () => {
     // Combine them into the desired format
     return `${month}-${day}-${year}`;
   }
+  const formatName = (fullName) => {
+    const name = fullName.toLowerCase().includes("muhammad")
+      ? fullName.replace(/wildcard|muhammad/i, "M.")
+      : fullName;
+    return name;
+  };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: "2rem", mb:"50px" }}>
+    <Box
+      sx={{ display: "flex", flexDirection: "column", gap: "2rem", mb: "50px" }}
+    >
+        <Box
+        sx={{
+          border: "1px dashed rgba(197, 197, 197, 0.6)",
+          width: { lg: "517px", xs: "100%" },
+          p: { xs: "1rem 1rem", sm: "1rem 1rem" },
+          borderRadius: "7px",
+          position: { lg: "absolute", xs: "static" },
+          right: "35px",
+          top: "20px",
+          zIndex: "1000000000 !important",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Box sx={{ display: "flex", gap: "1.5rem", alignItems: "center" }}>
+          <img
+            src={userData?.image}
+            style={{ width: "64px", height: "64px", borderRadius: "50%" }}
+            alt=""
+          />
+          <Typography sx={{ color: "#010120", fontSize: "24px" }}>
+            {formatName(userData?.fullName)}
+          </Typography>
+        </Box>
+        <Typography>
+          <CustomButton
+          
+            ButtonText = {userData?.active ? "Activated" : "Deactivated"}
+            fontSize="14px"
+            color="rgba(49, 186, 150, 1)"
+            fontWeight="500"
+            fullWidth={false}
+            variant="contained"
+            background="transparent"
+            hoverBg="#157AFF"
+            border="1px solid rgba(49, 186, 150, 1)"
+            hoverBorder="none"
+            hovercolor="white"
+            width={"124px"}
+            borderRadius="7px"
+            height="38px"
+            // onClick={ToggleUserStatus}
+          />
+        </Typography>
+      </Box>
       <Box
         sx={{
           border: "1px dashed rgba(197, 197, 197, 0.6)",
@@ -154,7 +211,7 @@ const UserDetailsStatic = () => {
           position: { lg: "absolute", xs: "static" },
           right: "35px",
           top: "10px",
-          zIndex: "1000000",
+          zIndex: "1000",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -167,7 +224,7 @@ const UserDetailsStatic = () => {
             alt=""
           />
           <Typography sx={{ color: "#010120", fontSize: "24px" }}>
-            {userData.fullName}
+            {userData?.fullName}
           </Typography>
         </Box>
         <Typography>
@@ -209,7 +266,7 @@ const UserDetailsStatic = () => {
               Full Name
             </Typography>
             <Typography variant="body1" className="user-details-value">
-              {userData.fullName}
+              {userData?.fullName}
             </Typography>
           </Box>
           <Box className="user-details-item" sx={{ flexBasis: "33%" }}>
@@ -588,17 +645,15 @@ const UserDetailsStatic = () => {
             gap: "3rem",
           }}
         >
-          <FileUpload
+          <FileDisplay
             label="CNIC Front"
-            existingFile={userData?.documents?.CNICFront}
-            labeStyling={{border:"none"}}
+            fileUrl={userData?.documents?.CNICFront}
+            labeStyling={{ border: "none" }}
           />
-          <FileUpload
-                       label="CNIC Back"
-            labeStyling={{border:"none"}}
-
-
-            existingFile={userData?.documents?.CNICBack}
+          <FileDisplay
+            label="CNIC Back"
+            labeStyling={{ border: "none" }}
+            fileUrl={userData?.documents?.CNICBack}
           />
         </Box>
         <Box
@@ -609,24 +664,20 @@ const UserDetailsStatic = () => {
             alignItems: "center",
             flexDirection: "row",
             gap: "3rem",
-            zIndex:"10000"
-            
             
           }}
-          onClick={(e)=> e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
         >
-          <FileUpload
+          <FileDisplay
             label="Last Educational (Certificate/Marksheet)"
-            existingFile={userData?.documents?.EducationalCert}
-            labeStyling={{border:"none"}}
-          disabled={true}
-
+            fileUrl={userData?.documents?.EducationalCert}
+            labeStyling={{ border: "none" }}
+            disabled={true}
           />
-          <FileUpload
+          <FileDisplay
             label="Last Employer (Employment Letter or Experience)"
-            existingFile={userData?.documents?.EmploymentLetter}
-            labeStyling={{border:"none"}}
-
+            fileUrl={userData?.documents?.EmploymentLetter}
+            labeStyling={{ border: "none" }}
           />
         </Box>
         <Box
@@ -637,19 +688,18 @@ const UserDetailsStatic = () => {
             alignItems: "center",
             flexDirection: "row",
             gap: "3rem",
+            zIndex:"00"
           }}
         >
-          <FileUpload
+          <FileDisplay
             label="Last Employer Pay slip"
-            existingFile={userData?.documents?.Payslip}
-            labeStyling={{border:"none"}}
-
+            fileUrl={userData?.documents?.Payslip} // Pass the URL for viewing
+            labelStyling={{ border: "none" }}
           />
-          <FileUpload
+          <FileDisplay
             label="Photograph-Passport Size (No Selfies)"
-            labeStyling={{border:"none"}}
-
-            existingFile={userData?.documents?.photograph}
+            fileUrl={userData?.documents?.photograph} // Pass the URL for viewing
+            labelStyling={{ border: "none" }}
           />
         </Box>
       </Box>

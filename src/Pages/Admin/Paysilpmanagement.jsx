@@ -174,8 +174,7 @@ const PayslipManagement = () => {
           }}
           onClick={(e) => {
             e.stopPropagation();
-            // Placeholder for edit functionality
-            console.log("Edit clicked for", rowData.fullName);
+            viewPdf()
           }}
         >
           <img src={isHovered ? eyeIcon : eyeIcon} style={{width:"26.78px", height:"16.07px"}} alt="view" />
@@ -195,9 +194,7 @@ const PayslipManagement = () => {
           }}
           onClick={(e) => {
             e.stopPropagation();
-            setSelectedCheckId(rowData.employeeId);
-            setDeleteModalOpen(true);
-            console.log("Delete clicked for", rowData.fullName);
+             downloadPdf()
           }}
         >
           <img src={downloadIcon} style={{width:"21.92px", height:"21.92px"}} alt="download" />
@@ -214,6 +211,59 @@ const PayslipManagement = () => {
 
   const handleNavigateToSeeAttendance = (id) => {
     navigate(`/dashboard/attendance-management/viewAttendance/${id}`);
+  };
+  const downloadPdf = async () => {
+    try {
+   
+      const response = await axiosInstance({
+        url: `${apiUrl}/api/getattendancepdf`,
+        method: "get",
+        responseType: "blob",
+      });
+
+      const contentDisposition = response.headers["content-disposition"];
+      const filename = contentDisposition
+        ? contentDisposition.split("filename=")[1]
+        : "download.pdf";
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+
+      if (response) {
+        toast.success("PDF Downloaded Sucessfully", { position: "top-center" });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // setPdfLoading(false);
+    }
+  };
+
+  const viewPdf = async () => {
+    try {
+      const response = await axiosInstance({
+        url: `${apiUrl}/api/getattendancepdf`, // Adjust the endpoint as needed
+        method: "get",
+        responseType: "blob", // Important for handling binary data
+      });
+
+      // Create a URL for the PDF blob
+      const fileURL = window.URL.createObjectURL(
+        new Blob([response.data], { type: "application/pdf" })
+      );
+
+      // Open the PDF in a new tab
+      window.open(fileURL, "_blank");
+    } catch (error) {
+      console.error("Error viewing PDF:", error);
+      toast.error("Unable to view PDF at this time.", { position: "top-center" });
+    }
   };
 
   if (loading) {

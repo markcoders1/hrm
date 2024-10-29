@@ -55,6 +55,7 @@ import store from './store.js';
 import HodProfile from './Pages/HodProfile.jsx';
 import AddLeaveType from './Pages/Settings/AddNewLeaveType.jsx';
 import AddLocationtype from './Pages/Settings/AddLocationType.jsx';
+import SalesManagement from './Pages/Sales/SalesManagement.jsx';
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 const queryClient = new QueryClient();
@@ -111,8 +112,10 @@ function App() {
             <Route path='payslip-management' element={<ProtectedAdmin><PayslipManagement /></ProtectedAdmin>} />
             <Route path='payslip' element={<ProtectedRoute><Payslips /></ProtectedRoute>} />
 
-            
+            {/* Sales Management */}
+            <Route path='sales-management' element={<ProtectedAdmin><SalesManagement /></ProtectedAdmin>} />
 
+            
 
             {/* settings pages */}
             <Route path='settings/add-employement-type' element={<ProtectedAdmin><AddEmployementType /></ProtectedAdmin>} />

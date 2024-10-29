@@ -12,8 +12,7 @@ import {
   Typography,
   Tooltip
 } from "@mui/material";
-// import CustomButton from "../components/CustomButton/CustomButton";
-import { Loader } from "../components/Loaders";
+
 
 import axiosInstance from "../auth/axiosInstance";
 import "../PagesCss/Employee.css";
@@ -28,7 +27,7 @@ import CustomSelectForType from "../components/CustomSelect/CustomSelect";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-const Payslips = () => {
+const PayslipManagement = () => {
   const navigate = useNavigate();
   const { setHeadertext, setParaText } = useOutletContext();
   const [allEmployee, setAllEmployee] = useState([]);
@@ -71,7 +70,7 @@ const Payslips = () => {
   const [loadingDelete, setLoadingDelete] = useState(false);
 
   useEffect(() => {
-    setHeadertext("PaySlip Management");
+    setHeadertext("PaySlip");
     setParaText(" ");
   }, [setHeadertext, setParaText]);
 
@@ -175,8 +174,7 @@ const Payslips = () => {
           }}
           onClick={(e) => {
             e.stopPropagation();
-            // Placeholder for edit functionality
-            console.log("Edit clicked for", rowData.fullName);
+            viewPdf()
           }}
         >
           <img src={isHovered ? eyeIcon : eyeIcon} style={{width:"26.78px", height:"16.07px"}} alt="view" />
@@ -196,9 +194,7 @@ const Payslips = () => {
           }}
           onClick={(e) => {
             e.stopPropagation();
-            setSelectedCheckId(rowData.employeeId);
-            setDeleteModalOpen(true);
-            console.log("Delete clicked for", rowData.fullName);
+             downloadPdf()
           }}
         >
           <img src={downloadIcon} style={{width:"21.92px", height:"21.92px"}} alt="download" />
@@ -216,6 +212,59 @@ const Payslips = () => {
   const handleNavigateToSeeAttendance = (id) => {
     navigate(`/dashboard/attendance-management/viewAttendance/${id}`);
   };
+  const downloadPdf = async () => {
+    try {
+   
+      const response = await axiosInstance({
+        url: `${apiUrl}/api/getattendancepdf`,
+        method: "get",
+        responseType: "blob",
+      });
+
+      const contentDisposition = response.headers["content-disposition"];
+      const filename = contentDisposition
+        ? contentDisposition.split("filename=")[1]
+        : "download.pdf";
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+
+      if (response) {
+        toast.success("PDF Downloaded Sucessfully", { position: "top-center" });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // setPdfLoading(false);
+    }
+  };
+
+  const viewPdf = async () => {
+    try {
+      const response = await axiosInstance({
+        url: `${apiUrl}/api/getattendancepdf`, // Adjust the endpoint as needed
+        method: "get",
+        responseType: "blob", // Important for handling binary data
+      });
+
+      // Create a URL for the PDF blob
+      const fileURL = window.URL.createObjectURL(
+        new Blob([response.data], { type: "application/pdf" })
+      );
+
+      // Open the PDF in a new tab
+      window.open(fileURL, "_blank");
+    } catch (error) {
+      console.error("Error viewing PDF:", error);
+      toast.error("Unable to view PDF at this time.", { position: "top-center" });
+    }
+  };
 
   if (loading) {
     return (
@@ -232,61 +281,7 @@ const Payslips = () => {
         padding: "0px 0px 40px 0px",
       }}
     >
-      <Box
-        sx={{
-          width: { lg: "220px", xs: "100%" },
-          position: { lg: "fixed", xs: "static" },
-          right: "55px",
-          top: "50px",
-          zIndex: "100000 ",
-        }}
-      >
-       <Box
-          sx={{
-            display: "flex",
-            gap: 2,
-            alignItems: "center",
-            justifyContent: "end",
-
-            width: "100%",
-          }}
-        >
-        <Box
-        sx={{
-          flexBasis: { lg: "400px", xs: "60%" }
-        }}
-        >
-
-            <CustomSelectForType
-              label="Month"
-              value={selectedMonth}
-              handleChange={handleMonthChange}
-              options={months}
-              height={{xl:"56px", xs:"46"}}
-              width={{md:"200px", xs:""}}
-
-              
-              />
-        
-              </Box>
-              <Box
-        sx={{
-          flexBasis: { lg: "100%", xs: "60%" },
-          
-        }}
-        >
-            <CustomSelectForType
-              label="Year"
-              value={selectedYear}
-              handleChange={handleYearChange}
-              options={years}
-              height={{xl:"56px", xs:"46"}}
-              width={{md:"200px", xs:""}}
-
-            />
-          </Box>
-        </Box>
-      </Box>
+     
       <Box>
         <>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -509,4 +504,4 @@ const Payslips = () => {
   );
 };
 
-export default Payslips;
+export default PayslipManagement;

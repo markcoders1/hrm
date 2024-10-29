@@ -120,10 +120,6 @@ function App() {
             <Route path='settings/add-location-type' element={<ProtectedAdmin>< AddLocationtype/></ProtectedAdmin>} />
 
 
-
-
-
-
           </Route>
         </Routes>
       </Suspense>

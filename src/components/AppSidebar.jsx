@@ -433,7 +433,7 @@ const AppSidebar = () => {
                   &nbsp; Attendance Management
                 </CustomNavLink>
               </CNavItem>
-              {/* <CNavItem>
+              <CNavItem>
                 <CustomNavLink
                   to="/dashboard/payslip-management"
                   end
@@ -447,7 +447,7 @@ const AppSidebar = () => {
                   />{" "}
                   &nbsp; Payslip Management
                 </CustomNavLink>
-              </CNavItem> */}
+              </CNavItem>
             </>
           ) : (
             ""
@@ -455,7 +455,7 @@ const AppSidebar = () => {
 
           {user === "HOD" ? (
             <>
-             {/* <CNavItem>
+             <CNavItem>
                 <CustomNavLink
                   to="/dashboard/payslip-management"
                   end
@@ -469,8 +469,8 @@ const AppSidebar = () => {
                   />{" "}
                   &nbsp; Payslip Management
                 </CustomNavLink>
-              </CNavItem> */}
-              {/* <CNavItem>
+              </CNavItem>
+              <CNavItem>
                 <CustomNavLink
                   to="/dashboard/sales-management"
                   end
@@ -484,7 +484,7 @@ const AppSidebar = () => {
                   />{" "}
                   &nbsp; Sales Management
                 </CustomNavLink>
-              </CNavItem> */}
+              </CNavItem>
               <CNavItem>
                 <CustomNavLink
                   to="/dashboard/hod-profile"
@@ -509,7 +509,7 @@ const AppSidebar = () => {
           <>
             {user == "user" || user == "TL" || user == "HR" ? (
               <>
-                {/* <CNavItem>
+                <CNavItem>
                 <CustomNavLink
                   to="/dashboard/payslip"
                   end
@@ -523,7 +523,7 @@ const AppSidebar = () => {
                   />{" "}
                   &nbsp; Payslip
                 </CustomNavLink>
-              </CNavItem> */}
+              </CNavItem>
               <CNavItem>
                 <CustomNavLink to="/dashboard/profile" end className="nav-link">
                   &nbsp;&nbsp;

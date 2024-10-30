@@ -24,7 +24,7 @@ import { useQuery } from "@tanstack/react-query";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomSelectForType from "../../components/CustomSelect/CustomSelect";
 import BasicBarsForSales from "../../components/BarChat/BarChart";
-
+import AddSales from "./AddSale";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -194,6 +194,9 @@ const SalesManagement = () => {
           
           </Box>
           </Box>
+        </Box>
+        <Box>
+          <AddSales />
         </Box>
     </Box>
   )

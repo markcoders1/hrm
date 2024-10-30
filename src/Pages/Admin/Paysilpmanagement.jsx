@@ -75,7 +75,7 @@ const PayslipManagement = () => {
     setParaText(" ");
   }, [setHeadertext, setParaText]);
 
-  // Mock data since API is not working
+  
   useEffect(() => {
     const mockData = [
       {
@@ -227,8 +227,8 @@ const PayslipManagement = () => {
         `${apiUrl}/api/admin/payslips`,
         { params: { month: date } }
       );
-      console.log(response.data);
-      setAllPayslips(response.data.payslips)
+      console.log(response);
+      // setAllPayslips(response.data.payslips)
       
     
     } catch (error) {
@@ -240,7 +240,7 @@ const PayslipManagement = () => {
   const date = getUnixTimestampForMonthYear(selectedMonth, selectedYear);
     console.log(date);
     fetchAllPayslip()
- },[])
+ },[selectedMonth, selectedYear])
   const downloadPdf = async () => {
     try {
    

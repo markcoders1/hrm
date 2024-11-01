@@ -459,3 +459,7 @@ html, body {
   -ms-overflow-style: none !important; 
   scrollbar-width: none !important; 
 }
+
+.MuiChartsLegend-root{
+  display: none !important;
+}

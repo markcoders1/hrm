@@ -58,6 +58,8 @@ import AddLocationtype from './Pages/Settings/AddLocationType.jsx';
 import SalesManagement from './Pages/Sales/SalesManagement.jsx';
 import TransferToPakBank from './Pages/Sales/TransferPakBank.jsx';
 
+import FinanceManagement from './Pages/Finance/FinanceManagement.jsx';
+
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 const queryClient = new QueryClient();
 
@@ -116,6 +118,9 @@ function App() {
             {/* Sales Management */}
             <Route path='sales-management' element={<ProtectedAdmin><SalesManagement /></ProtectedAdmin>} />
             <Route path='sales-management/transfer-to-bank' element={<ProtectedAdmin><TransferToPakBank /></ProtectedAdmin>} />
+
+            {/* Finance Management */}
+            <Route path='finance-management' element={<ProtectedAdmin><FinanceManagement /></ProtectedAdmin>} />
 
 
             

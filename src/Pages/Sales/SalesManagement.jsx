@@ -2,6 +2,7 @@
 import BasicBars from "../../components/BarChat/BarChart";
 import axiosInstance from "../../auth/axiosInstance";
 import "../../PagesCss/Employee.css";
+import SalesEnteries from "./SalesEnteries";
 
 import { useNavigate, useOutletContext } from "react-router-dom";
 
@@ -25,6 +26,7 @@ import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomSelectForType from "../../components/CustomSelect/CustomSelect";
 import BasicBarsForSales from "../../components/BarChat/BarChart";
 import AddSales from "./AddSale";
+import BankTransaction from "./BankTransactions";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -32,6 +34,7 @@ const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const SalesManagement = () => {
   const { setHeadertext, setParaText } = useOutletContext();
+  const [addSale, setAddSale] = useState(false)
   const navigate = useNavigate();
 
 
@@ -195,8 +198,32 @@ const SalesManagement = () => {
           </Box>
           </Box>
         </Box>
-        <Box>
-          <AddSales />
+        {
+          addSale ? (
+            <Box>
+            <AddSales />
+          </Box>
+          ) : null
+        }
+       
+        <Box
+        sx={{
+          marginTop:"100px"
+        }}
+        >
+          <SalesEnteries
+          
+          setAddSaleToShow={setAddSale}/>
+        </Box>
+
+        <Box
+        sx={{
+          marginTop:"100px"
+        }}
+        >
+          <BankTransaction />
+          
+          
         </Box>
     </Box>
   )

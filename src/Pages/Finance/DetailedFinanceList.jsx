@@ -430,7 +430,7 @@ const DetailedFinanceList = ({setAddToShow}) => {
 
                     }}
                   >
-                    Billed to
+                    Date
                   </TableCell>
                   <TableCell
                     className="MuiTableCell-root-head"
@@ -443,27 +443,12 @@ const DetailedFinanceList = ({setAddToShow}) => {
                       },
                       textAlign: "center !important",
                       color: "#010120",
-                      minWidth: "250px",
+                      minWidth: "550px",
                     }}
                   >
-                     Project Title
+                     Description
                   </TableCell>
-                  <TableCell
-                    className="MuiTableCell-root-head"
-                    sx={{
-                      fontWeight: "500",
-                      padding: "12px 0px",
-                      fontSize: {
-                        sm: "21px",
-                        xs: "16px",
-                      },
-                      textAlign: "center !important",
-                      color: "#010120",
-                      minWidth: "200px",
-                    }}
-                  >
-                     Salesperson
-                  </TableCell>
+                 
                   <TableCell
                     className="MuiTableCell-root-head"
                     sx={{
@@ -480,6 +465,7 @@ const DetailedFinanceList = ({setAddToShow}) => {
                   >
                      Category
                   </TableCell>
+                
                   <TableCell
                     className="MuiTableCell-root-head"
                     sx={{
@@ -494,120 +480,10 @@ const DetailedFinanceList = ({setAddToShow}) => {
                       minWidth: "200px",
                     }}
                   >
-                     Invoice Amount
+                     Amount
                   </TableCell>
-                  <TableCell
-                    className="MuiTableCell-root-head"
-                    sx={{
-                      fontWeight: "500",
-                      padding: "12px 0px",
-                      fontSize: {
-                        sm: "21px",
-                        xs: "16px",
-                      },
-                      textAlign: "center !important",
-                      color: "#010120",
-                      minWidth: "200px",
-                    }}
-                  >
-                     Invoice Status
-                  </TableCell>
-                  <TableCell
-                    className="MuiTableCell-root-head"
-                    sx={{
-                      fontWeight: "500",
-                      padding: "12px 0px",
-                      fontSize: {
-                        sm: "21px",
-                        xs: "16px",
-                      },
-                      textAlign: "center !important",
-                      color: "#010120",
-                      minWidth: "200px",
-                    }}
-                  >
-                       Invoice Sent Date
-                  </TableCell>
-                  <TableCell
-                    className="MuiTableCell-root-head"
-                    sx={{
-                      fontWeight: "500",
-                      padding: "12px 0px",
-                      fontSize: {
-                        sm: "21px",
-                        xs: "16px",
-                      },
-                      textAlign: "center !important",
-                      color: "#010120",
-                      minWidth: "200px",
-                    }}
-                  >
-                     Amount Paid
-                  </TableCell>
-                  <TableCell
-                    className="MuiTableCell-root-head"
-                    sx={{
-                      fontWeight: "500",
-                      padding: "12px 0px",
-                      fontSize: {
-                        sm: "21px",
-                        xs: "16px",
-                      },
-                      textAlign: "center !important",
-                      color: "#010120",
-                      minWidth: "200px",
-                    }}
-                  >
-                      Paid Date
-                  </TableCell>
-                  <TableCell
-                    className="MuiTableCell-root-head"
-                    sx={{
-                      fontWeight: "500",
-                      padding: "12px 0px",
-                      fontSize: {
-                        sm: "21px",
-                        xs: "16px",
-                      },
-                      textAlign: "center !important",
-                      color: "#010120",
-                      minWidth: "300px",
-                    }}
-                  >
-                     Outstanding Amount
-                  </TableCell>
-                  <TableCell
-                    className="MuiTableCell-root-head"
-                    sx={{
-                      fontWeight: "500",
-                      padding: "12px 0px",
-                      fontSize: {
-                        sm: "21px",
-                        xs: "16px",
-                      },
-                      textAlign: "center !important",
-                      color: "#010120",
-                      minWidth: "200px",
-                    }}
-                  >
-                      Merchant
-                  </TableCell>
-                  <TableCell
-                    className="MuiTableCell-root-head"
-                    sx={{
-                      fontWeight: "500",
-                      padding: "12px 0px",
-                      fontSize: {
-                        sm: "21px",
-                        xs: "16px",
-                      },
-                      textAlign: "center !important",
-                      color: "#010120",
-                      minWidth: "200px",
-                    }}
-                  >
-                     Amount Received
-                  </TableCell>
+                 
+                  
                   <TableCell
                     className="MuiTableCell-root-head"
                     sx={{
@@ -622,7 +498,7 @@ const DetailedFinanceList = ({setAddToShow}) => {
                       minWidth: "250px",
                     }}
                   >
-                Refund/ Deduction
+                Balance
                   </TableCell>
                   <TableCell
                     className="MuiTableCell-root-head"
@@ -668,37 +544,7 @@ const DetailedFinanceList = ({setAddToShow}) => {
                     >
                       {employee.employeeId}
                     </TableCell>
-                    <TableCell
-                      sx={{
-                        color: "#010120",
-                        textAlign: "start !important",
-                        pl: "40px !important",
-                      }}
-                      className="MuiTableCell-root"
-                    >
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "start",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Typography>
-                          <img
-                            src={employee.image}
-                            style={{
-                              width: "38px",
-                              height: "38px",
-                              borderRadius: "50%",
-                            }}
-                            alt={employee.fullName}
-                          />
-                        </Typography>
-                        <Typography sx={{ ml: "10px" }}>
-                          {employee.fullName}
-                        </Typography>
-                      </Box>
-                    </TableCell>
+                  
                     <TableCell
                       sx={{
                         textAlign: "center !important",
@@ -708,24 +554,8 @@ const DetailedFinanceList = ({setAddToShow}) => {
                     >
                       {employee.department}
                     </TableCell>
-                    <TableCell
-                      sx={{
-                        textAlign: "center !important",
-                        color: "#010120",
-                      }}
-                      className="MuiTableCell-root"
-                    >
-                      {employee.designation}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        textAlign: "center !important",
-                        color: "#010120",
-                      }}
-                      className="MuiTableCell-root"
-                    >
-                      {employee.department}
-                    </TableCell>
+                   
+                   
                     <TableCell
                       sx={{
                         textAlign: "center !important",
@@ -751,49 +581,7 @@ const DetailedFinanceList = ({setAddToShow}) => {
                       className="MuiTableCell-root"
                     >
                       {employee.designation}
-                    </TableCell>   <TableCell
-                      sx={{
-                        textAlign: "center !important",
-                        color: "#010120",
-                      }}
-                      className="MuiTableCell-root"
-                    >
-                      {employee.department}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        textAlign: "center !important",
-                        color: "#010120",
-                      }}
-                      className="MuiTableCell-root"
-                    >
-                      {employee.designation}
-                    </TableCell>   <TableCell
-                      sx={{
-                        textAlign: "center !important",
-                        color: "#010120",
-                      }}
-                      className="MuiTableCell-root"
-                    >
-                      {employee.department}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        textAlign: "center !important",
-                        color: "#010120",
-                      }}
-                      className="MuiTableCell-root"
-                    >
-                      {employee.designation}
-                    </TableCell>   <TableCell
-                      sx={{
-                        textAlign: "center !important",
-                        color: "#010120",
-                      }}
-                      className="MuiTableCell-root"
-                    >
-                      {employee.department}
-                    </TableCell>
+                    </TableCell> 
                     <TableCell
                       sx={{
                         textAlign: "center !important",

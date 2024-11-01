@@ -487,6 +487,21 @@ const AppSidebar = () => {
               </CNavItem>
               <CNavItem>
                 <CustomNavLink
+                  to="/dashboard/finance-management"
+                  end
+                  className="nav-link"
+                >
+                  &nbsp;&nbsp;
+                  <img
+                    src={profileIcon}
+                    alt=""
+                    style={{ width: "17.97px", height: "23.09" }}
+                  />{" "}
+                  &nbsp; Sales Management
+                </CustomNavLink>
+              </CNavItem>
+              <CNavItem>
+                <CustomNavLink
                   to="/dashboard/hod-profile"
                   end
                   className="nav-link"

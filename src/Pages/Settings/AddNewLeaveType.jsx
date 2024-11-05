@@ -75,7 +75,8 @@ const AddLeaveType = () => {
                   id="date"
                   error={errors.date?.message}
                   {...field}
-                  height="64px"
+                  height={{ xl: "64px", md: "45px" }}
+                  paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
                 />
               </Box>
             )}
@@ -94,6 +95,8 @@ const AddLeaveType = () => {
               error={errors.description?.message}
               {...field}
               height="200px"
+              paddingInput="7px 5px"
+
             />
           )}
         />

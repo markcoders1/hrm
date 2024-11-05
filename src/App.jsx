@@ -57,6 +57,9 @@ import AddLeaveType from './Pages/Settings/AddNewLeaveType.jsx';
 import AddLocationtype from './Pages/Settings/AddLocationType.jsx';
 import SalesManagement from './Pages/Sales/SalesManagement.jsx';
 import TransferToPakBank from './Pages/Sales/TransferPakBank.jsx';
+import AddNewRole from './Pages/Settings/AddNewRole.jsx';
+import AddNewModule from './Pages/Settings/AddNewModule.jsx';
+import AddNewBank from './Pages/Settings/AddNewBank.jsx';
 
 import FinanceManagement from './Pages/Finance/FinanceManagement.jsx';
 
@@ -129,6 +132,12 @@ function App() {
             <Route path='settings/add-employement-type' element={<ProtectedAdmin><AddEmployementType /></ProtectedAdmin>} />
             <Route path='settings/add-leave-type' element={<ProtectedAdmin><AddLeaveType /></ProtectedAdmin>} />
             <Route path='settings/add-location-type' element={<ProtectedAdmin>< AddLocationtype/></ProtectedAdmin>} />
+            <Route path='settings/add-new-role' element={<ProtectedAdmin>< AddNewRole/></ProtectedAdmin>} />
+            <Route path='settings/add-new-module' element={<ProtectedAdmin><AddNewModule/></ProtectedAdmin>} />
+            <Route path='settings/add-new-bank' element={<ProtectedAdmin><AddNewBank/></ProtectedAdmin>} />
+
+
+
 
 
           </Route>

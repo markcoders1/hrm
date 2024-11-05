@@ -27,10 +27,6 @@ const AddEmployementType = () => {
   const onSubmit = async (data) => {
     const dateTimestamp = new Date(data.date).getTime();
 
-    const formData = {
-      ...data,
-      date: dateTimestamp,
-    };
 
     console.log("Form Data with Unix Timestamp:", formData);
 
@@ -38,10 +34,7 @@ const AddEmployementType = () => {
       const response = await axiosInstance({
         url: `${apiUrl}/api/wfh`,
         method: "post",
-        data: {
-          date: formData.date,
-          comment: formData.description,
-        },
+        data: data,
       });
 
       console.log(response.data);
@@ -49,7 +42,7 @@ const AddEmployementType = () => {
       reset();
       navigate(-1);
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      console.error("Error posting user data:", error);
       toast.error(error.response.data.message);
     }
   };
@@ -75,7 +68,8 @@ const AddEmployementType = () => {
                   id="date"
                   error={errors.date?.message}
                   {...field}
-                  height="64px"
+                  height={{ xl: "64px", md: "45px" }}
+                  paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
                 />
               </Box>
             )}
@@ -94,6 +88,8 @@ const AddEmployementType = () => {
               error={errors.description?.message}
               {...field}
               height="200px"
+              paddingInput="7px 5px"
+
             />
           )}
         />

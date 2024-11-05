@@ -64,7 +64,7 @@ const CustomInputLabel = forwardRef(({
         <Typography
           variant="caption"
           sx={{
-            fontSize: "14px",
+            fontSize: {xl:"14px", xs:"11px"},
             color: "#9E9E9E",
             position: 'absolute',
             top: '0px',
@@ -102,7 +102,7 @@ const CustomInputLabel = forwardRef(({
               color:color, // Ensures the text color in the input field is white
               padding:paddingInput ? paddingInput :"7px 5px",
            
-             
+
               
               '&:-webkit-autofill': {
                 // WebkitBoxShadow: '0 0 0 1000px #010115 inset !important', // Ensure background color of the autofill

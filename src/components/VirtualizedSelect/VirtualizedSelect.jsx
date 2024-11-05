@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Box, FormControl, InputLabel, MenuItem, Select, Typography, TextField } from '@mui/material';
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+  TextField
+} from '@mui/material';
 import { FixedSizeList as List } from 'react-window';
 
 const VirtualizedSelect = ({
@@ -11,7 +19,7 @@ const VirtualizedSelect = ({
   boxShadow = "0px 8px 26px -4px rgba(0, 0, 0, 0.1)",
   width = "100%",
   height,
-  border="1px solid #E0E0E0",
+  border = "1px solid #E0E0E0",
   focusBorder = true
 }) => {
   const [selectedValue, setSelectedValue] = useState(value);
@@ -26,7 +34,9 @@ const VirtualizedSelect = ({
   useEffect(() => {
     // Filter options based on search query
     setFilteredOptions(
-      options.filter(option => option.label.toLowerCase().includes(searchQuery.toLowerCase()))
+      options.filter(option =>
+        option.label.toLowerCase().includes(searchQuery.toLowerCase())
+      )
     );
   }, [searchQuery, options]);
 
@@ -34,6 +44,7 @@ const VirtualizedSelect = ({
     setSelectedValue(selectedValue);
     handleChange(selectedValue);
     setOpen(false); // Close the dropdown after selection
+    setSearchQuery(""); // Reset search query after selection
   };
 
   const Row = ({ index, style }) => {
@@ -65,6 +76,7 @@ const VirtualizedSelect = ({
           "& .MuiOutlinedInput-root": {
             borderRadius: "8px",
             border: border,
+            boxShadow: boxShadow,
           },
           "& .MuiOutlinedInput-notchedOutline": {
             borderColor: focusBorder ? "black" : "transparent",
@@ -81,13 +93,14 @@ const VirtualizedSelect = ({
         <InputLabel
           sx={{
             position: 'absolute',
-            top: '',
+            top: '0%',
             left: "10px",
             transform: 'translateY(-50%)',
             backgroundColor: 'white',
             padding: '0px 10px',
             fontSize: "14px",
             color: "#9E9E9E",
+            pointerEvents: 'none', // Prevents label from capturing pointer events
           }}
           id={`select-${label}-label`}
         >
@@ -139,7 +152,9 @@ const VirtualizedSelect = ({
             autoFocus: false,
           }}
           renderValue={(selected) => {
-            return selected ? options.find(option => option.value === selected)?.label : "Select";
+            return selected
+              ? options.find(option => option.value === selected)?.label
+              : "Select";
           }}
         >
           {/* Search Field */}
@@ -150,6 +165,9 @@ const VirtualizedSelect = ({
               fullWidth
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onMouseDown={(e) => e.stopPropagation()} // Prevent dropdown from closing on mouse down
+              onClick={(e) => e.stopPropagation()}     // Prevent dropdown from closing on click
+              onKeyDown={(e) => e.stopPropagation()}  // Prevent dropdown from closing on key down
             />
           </Box>
 
@@ -169,13 +187,15 @@ const VirtualizedSelect = ({
         </Select>
       </FormControl>
       {error && (
-        <Typography sx={{
-          p: "10px",
-          color: "#F44336",
-          mt: "8px",
-          wordBreak: "break-word",
-          fontWeight: "500"
-        }}>
+        <Typography
+          sx={{
+            p: "10px",
+            color: "#F44336",
+            mt: "8px",
+            wordBreak: "break-word",
+            fontWeight: "500"
+          }}
+        >
           {error}
         </Typography>
       )}

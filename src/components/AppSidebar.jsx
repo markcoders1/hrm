@@ -515,6 +515,21 @@ const AppSidebar = () => {
                   &nbsp; My Profile
                 </CustomNavLink>
               </CNavItem>
+              <CNavItem>
+                <CustomNavLink
+                  to="/dashboard/settings"
+                  end
+                  className="nav-link"
+                >
+                  &nbsp;&nbsp;
+                  <img
+                    src={profileIcon}
+                    alt=""
+                    style={{ width: "17.97px", height: "23.09" }}
+                  />{" "}
+                  &nbsp; Settings
+                </CustomNavLink>
+              </CNavItem>
 
              
             </>

@@ -6,12 +6,13 @@ import counterReducer from './Redux/NotificationCount.js';
 import storage from "redux-persist/lib/storage";
 import persistReducer from "redux-persist/es/persistReducer";
 import { persistStore } from "redux-persist";
+import settingsReducer from './Redux/settingSlice.js';
 
 // Persist configuration
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['user', 'counter'] // Correctly whitelist 'counter'
+  whitelist: ['user', 'counter']  
 };
 
 // Combine reducers
@@ -19,7 +20,9 @@ const reducer = combineReducers({
   user: userReducer, 
   sidebar: sidebarReducer,
   form: formReducer,
-  counter: counterReducer // Use 'counter' as the key here
+  counter: counterReducer, // Use 'counter' as the key here
+  settings: settingsReducer,
+
 });
 
 // Apply persistence

@@ -13,6 +13,7 @@ import { set } from '../sidebarSlice'  // Import your slice's set action
 import { useLocation } from 'react-router-dom'  // Import useLocation for accessing the current path
 import { useParams } from 'react-router-dom'
 import EditIcon from '../assets/Edit.png'
+import SettingTabs from './SettingTabs/SettingTabs'
 
 import ChangeProfileImageModal from "../components/ChangeProfileImageModal/ChangeProfileImageModal";
 import CustomButton from "../components//CustomButton/CustomButton";
@@ -65,93 +66,103 @@ const AppHeader = (props) => {
 
   return (
     <CHeader position="sticky" className="mb-0 p-0 px-4 py-5" style={{ border: "none" }} ref={headerRef}>
-      <div>
-        <CContainer fluid>
+   {
+    location.pathname === "/dashboard/settings" ? (
+      <SettingTabs />
+    ) : (
+      <>
+         <div>
+          <CContainer fluid>
+            <Box
+            sx={{
+              display:{lg:"none", xs:"block"}
+            }}
+            >
+  
+            <CHeaderToggler
+              onClick={() => {
+                dispatch(set({ sidebarShow: !sidebarShow }))
+                console.log(sidebarShow)
+              }}  // Dispatch the set action with payload
+              style={{ marginInlineStart: '-2px' }}
+            >
+              <CIcon icon={cilMenu} size="lg" />
+            </CHeaderToggler>
+            </Box>
+  
+          </CContainer>
+          <CContainer className="d-flex" fluid>
+            <Typography sx={{ color: "#010120", fontWeight: "600", fontSize: {xl:"40px", xs:"30px", padding:"0px 8px"} }}>
+              {headertext}
+            </Typography>
+          </CContainer>
+          <CContainer className="d-flex" fluid>
+            <Typography sx={{ color: "#878787", fontWeight: "400", fontSize: "17px", padding:"0px 10px" }}>
+              {paraText}
+            </Typography>
+          </CContainer>
+        </div>
+      
+        {shouldRenderBox && (
           <Box
           sx={{
-            display:{lg:"none", xs:"block"}
+            
+            position:"relative"
           }}
           >
-
-          <CHeaderToggler
-            onClick={() => {
-              dispatch(set({ sidebarShow: !sidebarShow }))
-              console.log(sidebarShow)
-            }}  // Dispatch the set action with payload
-            style={{ marginInlineStart: '-2px' }}
-          >
-            <CIcon icon={cilMenu} size="lg" />
-          </CHeaderToggler>
-          </Box>
-
-        </CContainer>
-        <CContainer className="d-flex" fluid>
-          <Typography sx={{ color: "#010120", fontWeight: "600", fontSize: {xl:"40px", xs:"30px", padding:"0px 8px"} }}>
-            {headertext}
-          </Typography>
-        </CContainer>
-        <CContainer className="d-flex" fluid>
-          <Typography sx={{ color: "#878787", fontWeight: "400", fontSize: "17px", padding:"0px 10px" }}>
-            {paraText}
-          </Typography>
-        </CContainer>
-      </div>
-
-      {/* Conditionally render the Box based on the current route */}
-      {shouldRenderBox && (
-        <Box
-        sx={{
-          
-          position:"relative"
-        }}
-        >
-        <Box
-          sx={{
-           width:{xs:"51px", xl: "81px"},
-           height:{xs:"51px", xl: "81px"},
-           borderRadius:"50%",
-           objectFit:"cover",
-           mr:"20px",
-           mt:"10px",
-          }}
-          component="img"
-          src={user.user.image}
-        >
-        </Box>
-        {
-          location.pathname.includes("/dashboard/profile") && (
           <Box
-          sx={{
-            height:"25px",
-            width:"25px",
-            position:"absolute",
-           borderRadius:"50%",
-
-            bottom:"-10px",
-            left: "50%", // This centers the left edge horizontally
-            transform: "translateX(-50%)", 
-            backgroundColor:"rgba(21, 122, 255, 1)",
-            display:"flex",
-            justifyContent:"center",
-            alignItems:"center",
-            cursor:"pointer",
-            ":hover":{
-            backgroundColor:"rgba(21, 122, 255, .8)",
-              transition:".2s ease-in"
-            }
-          }}
-          
+            sx={{
+             width:{xs:"51px", xl: "81px"},
+             height:{xs:"51px", xl: "81px"},
+             borderRadius:"50%",
+             objectFit:"cover",
+             mr:"20px",
+             mt:"10px",
+            }}
+            component="img"
+            src={user.user.image}
           >
-              <img src={EditIcon} onClick={handleOpen} style={{width:"11.54px", height:"11.54px"}} alt="" />
           </Box>
+          {
+            location.pathname.includes("/dashboard/profile") && (
+            <Box
+            sx={{
+              height:"25px",
+              width:"25px",
+              position:"absolute",
+             borderRadius:"50%",
+  
+              bottom:"-10px",
+              left: "50%", // This centers the left edge horizontally
+              transform: "translateX(-50%)", 
+              backgroundColor:"rgba(21, 122, 255, 1)",
+              display:"flex",
+              justifyContent:"center",
+              alignItems:"center",
+              cursor:"pointer",
+              ":hover":{
+              backgroundColor:"rgba(21, 122, 255, .8)",
+                transition:".2s ease-in"
+              }
+            }}
+            
+            >
+                <img src={EditIcon} onClick={handleOpen} style={{width:"11.54px", height:"11.54px"}} alt="" />
+            </Box>
+  
+            )
+          }   
+           <ChangeProfileImageModal open={open} handleClose={handleClose} />
+  
+          </Box>
+        
 
-          )
-        }   
-         <ChangeProfileImageModal open={open} handleClose={handleClose} />
-
-        </Box>
-
-)}
+        )}
+      </>
+    )
+   }
+       
+    
     </CHeader>
   )
 }

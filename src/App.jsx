@@ -63,6 +63,7 @@ import AddNewBank from './Pages/Settings/AddNewBank.jsx';
 import AddNewCategory from './Pages/Settings/AddNewCategory.jsx';
 
 import FinanceManagement from './Pages/Finance/FinanceManagement.jsx';
+import Settings from './Pages/Settings/Settings.jsx';
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 const queryClient = new QueryClient();
@@ -130,6 +131,8 @@ function App() {
             
 
             {/* settings pages */}
+            <Route path='settings' element={<ProtectedAdmin><Settings /></ProtectedAdmin>} />
+
             <Route path='settings/add-employement-type' element={<ProtectedAdmin><AddEmployementType /></ProtectedAdmin>} />
             <Route path='settings/add-leave-type' element={<ProtectedAdmin><AddLeaveType /></ProtectedAdmin>} />
             <Route path='settings/add-location-type' element={<ProtectedAdmin>< AddLocationtype/></ProtectedAdmin>} />

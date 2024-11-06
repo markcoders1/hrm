@@ -60,6 +60,7 @@ import TransferToPakBank from './Pages/Sales/TransferPakBank.jsx';
 import AddNewRole from './Pages/Settings/AddNewRole.jsx';
 import AddNewModule from './Pages/Settings/AddNewModule.jsx';
 import AddNewBank from './Pages/Settings/AddNewBank.jsx';
+import AddNewCategory from './Pages/Settings/AddNewCategory.jsx';
 
 import FinanceManagement from './Pages/Finance/FinanceManagement.jsx';
 
@@ -135,6 +136,8 @@ function App() {
             <Route path='settings/add-new-role' element={<ProtectedAdmin>< AddNewRole/></ProtectedAdmin>} />
             <Route path='settings/add-new-module' element={<ProtectedAdmin><AddNewModule/></ProtectedAdmin>} />
             <Route path='settings/add-new-bank' element={<ProtectedAdmin><AddNewBank/></ProtectedAdmin>} />
+            <Route path='settings/add-new-category' element={<ProtectedAdmin><AddNewCategory/></ProtectedAdmin>} />
+
 
 
 

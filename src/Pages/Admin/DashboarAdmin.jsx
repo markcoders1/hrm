@@ -225,20 +225,26 @@ const DashboardAdmin = () => {
                 border: "none",
                 mt: "-14px",
                 maxHeight: "75vh", // Limit height to make the table scrollable
-                overflowY: "auto", // Enable vertical scroll
+                overflowY: "scroll", // Enable vertical scroll with smooth scrolling
                 "&::-webkit-scrollbar": {
-                  width: scrolling ? "8px" : "0px", // Keep width constant
-                  opacity: scrolling ? "1" : "0", // Control opacity instead of width
-                  transition: "opacity 0.3s ease", // Smooth transition for opacity
+                  width: "0px", // Set width to 0 to hide the scrollbar
                 },
                 "&::-webkit-scrollbar-track": {
                   background: "#f0f0f0",
                 },
                 "&::-webkit-scrollbar-thumb": {
                   background: "#bdbdbd",
-                  borderRadius: "8px",
+                  borderRadius: "0px",
                 },
+                "&:hover::-webkit-scrollbar": {
+                  width: "0px", // Show scrollbar width on hover
+                },
+                "&:hover::-webkit-scrollbar-thumb": {
+                  background: "#bdbdbd", // Optional: change thumb color on hover
+                },
+                transition: "scroll 0.3s ease", // Smooth scrolling effect
               }}
+            
 
             >
               <Table sx={{ minWidth: 350, width:"100%"}}>
@@ -399,7 +405,7 @@ const DashboardAdmin = () => {
               display: "flex",
               flexDirection: "column",
               gap: "1rem",
-              height: "75vh",
+              height: "55vh",
               overflowX: "hidden",
               padding: "20px 15px 20px 0px",
               "&::-webkit-scrollbar": {

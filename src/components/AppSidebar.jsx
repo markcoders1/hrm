@@ -515,7 +515,7 @@ const AppSidebar = () => {
                   &nbsp; My Profile
                 </CustomNavLink>
               </CNavItem>
-              <CNavItem>
+              {/* <CNavItem>
                 <CustomNavLink
                   to="/dashboard/settings"
                   end
@@ -529,7 +529,7 @@ const AppSidebar = () => {
                   />{" "}
                   &nbsp; Settings
                 </CustomNavLink>
-              </CNavItem>
+              </CNavItem> */}
 
              
             </>

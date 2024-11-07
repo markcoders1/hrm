@@ -19,7 +19,7 @@ const SettingTabs = () => {
   ];
 
   return (
-    <div style={{ display: 'flex', gap: '10px', justifyContent:"space-between", width:"100%"}}>
+    <div style={{ display: 'flex',justifyContent:"start", width:"100%", flexWrap:"wrap", gap:"10px"}}>
       {tabs.map((tab) => (
         <Tooltip key={tab.value} title={tab.label}>
           <CustomButton
@@ -29,12 +29,14 @@ const SettingTabs = () => {
             fontWeight="500"
             fullWidth={false}
             variant="contained"
-            padding="10px 13px"
+            padding="10px 23px"
             type="button"
             background={activeTab === tab.value ? '#157AFF' : 'white'}
             hoverBg="#303f9f"
             hovercolor="white"
-            width={"300px"}
+            buttonStyle={{
+              minWidth:"170px !important"
+            }}
             borderRadius="7px"
             onClick={() => dispatch(setActiveTab(tab.value))}
           />

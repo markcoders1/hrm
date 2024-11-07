@@ -219,18 +219,18 @@ const EmployeeAttendance = () => {
           position: { lg: "fixed", xs: "static" },
           right: "55px",
           top: "40px",
-          zIndex: "100000 ",
+          zIndex:{lg: "100000 ", xs:"0"},
         }}
       >
         <CustomInputLabel
-          height={{ xs: "36px" }}
-          paddingInput={{ xs: " 8px 10px" }}
+          height={{ xs: "46px" }}
+          paddingInput={{ xs: " 13px 10px" }}
           fontSize={"20px"}
           showSearchIcon={false}
           placeholder={"Search User"}
           type={"date"}
-          value={new Date(selectedDate).toISOString().split("T")[0]} // Display the selected date in the input
-          onChange={handleDateChange} // Handle date change
+          value={new Date(selectedDate).toISOString().split("T")[0]} 
+          onChange={handleDateChange} 
           fullWidth={false}
         />
       </Box>

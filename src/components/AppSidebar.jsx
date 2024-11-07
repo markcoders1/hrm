@@ -515,7 +515,7 @@ const AppSidebar = () => {
                   &nbsp; My Profile
                 </CustomNavLink>
               </CNavItem>
-              {/* <CNavItem>
+              <CNavItem>
                 <CustomNavLink
                   to="/dashboard/settings"
                   end
@@ -529,7 +529,7 @@ const AppSidebar = () => {
                   />{" "}
                   &nbsp; Settings
                 </CustomNavLink>
-              </CNavItem> */}
+              </CNavItem>
 
              
             </>
@@ -623,7 +623,7 @@ const AppSidebar = () => {
                   style={{ width: "20.5px", height: "20.5px" }}
                   src={logoutIcon}
                 />{" "}
-                <Typography sx={{ fontSize: "22px !important" }}>
+                <Typography sx={{ fontSize: "16px !important" }}>
                   Log Out
                 </Typography>
               </div>

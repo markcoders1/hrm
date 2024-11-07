@@ -1,8 +1,12 @@
 import React from 'react'
+import SettingsHeading from '../../components/Heading/SettingsHeading'
+import { Box } from 'lucide-react'
 
 const GeneralSettings = () => {
   return (
-    <div>GeneralSettings</div>
+    <Box>
+      <SettingsHeading />
+    </Box>
   )
 }
 

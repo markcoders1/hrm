@@ -101,7 +101,7 @@ const Login = () => {
                 <Box>
                     <Typography sx={{
                         fontWeight: "600",
-                        fontSize: "45px",
+                        fontSize: {sm:"45px", xs:"35px"},
                         color: "#FFFFFF"
                     }}>Sign in</Typography>
                     <Typography sx={{

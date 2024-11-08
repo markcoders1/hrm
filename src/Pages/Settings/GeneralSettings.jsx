@@ -106,12 +106,34 @@ const GeneralSettings = () => {
     { label: "UTC+14:00", value: "Etc/GMT-14" },
   ];
 
-  const times = Array.from({ length: 24 * 2 }, (_, i) => {
-    const hour = Math.floor(i / 2);
-    const minute = i % 2 === 0 ? "00" : "30";
-    const label = `${hour.toString().padStart(2, "0")}:${minute}`;
-    return { label, value: label };
-  });
+  const times = [
+  
+    { label: "1AM", value: "1AM" },
+    { label: "2AM", value: "2AM" },
+    { label: "3AM", value: "3AM" },
+    { label: "4AM", value: "4AM" },
+    { label: "5AM", value: "5AM" },
+    { label: "6AM", value: "6AM" },
+    { label: "7AM", value: "7AM" },
+    { label: "8AM", value: "8AM" },
+    { label: "9AM", value: "9AM" },
+    { label: "10AM", value: "10AM" },
+    { label: "11AM", value: "11AM" },
+    { label: "12AM", value: "12AM" },
+
+    { label: "12PM", value: "12PM" },
+    { label: "1PM", value: "1PM" },
+    { label: "2PM", value: "2PM" },
+    { label: "3PM", value: "3PM" },
+    { label: "4PM", value: "4PM" },
+    { label: "5PM", value: "5PM" },
+    { label: "6PM", value: "6PM" },
+    { label: "7PM", value: "7PM" },
+    { label: "8PM", value: "8PM" },
+    { label: "9PM", value: "9PM" },
+    { label: "10PM", value: "10PM" },
+    { label: "11PM", value: "11PM" },
+  ]
 
   const daysOfWeek = [
     { label: "Monday", value: "Monday" },
@@ -473,21 +495,37 @@ const GeneralSettings = () => {
           </Box>
 
           {/* Currency Setting */}
-          <SettingsHeading Heading="Currency Setting" />
           <Box
-            sx={{
+             sx={{
               display: "flex",
               alignItems: "center",
               gap: "10px",
+              justifyContent:"space-between"
             }}
           >
-            <Typography>Default Currency</Typography>
-            <input
+
+          <SettingsHeading Heading="Currency Setting" />
+          <Box
+           sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",}}
+          >
+               <input
               type="checkbox"
               checked={isDefaultCurrency}
               onChange={(e) => setIsDefaultCurrency(e.target.checked)}
             />
+            <Typography>Default Currency</Typography>
+         
           </Box>
+          </Box>
+<Box
+sx={{
+  mt:"30px"
+}}
+>
+
           <Controller
             name="currency"
             control={controlTimeZone}
@@ -504,6 +542,7 @@ const GeneralSettings = () => {
               />
             )}
           />
+</Box>
 
           {/* Submit Button */}
           <Box sx={{ mt: 4, display: "flex", justifyContent: "end" }}>

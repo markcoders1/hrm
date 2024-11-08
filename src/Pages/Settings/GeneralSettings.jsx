@@ -14,6 +14,7 @@ import { CheckBox } from "@mui/icons-material";
 import VirtualizedSelect from "../../components/VirtualizedSelect/VirtualizedSelect";
 import axios from "axios";
 
+
 const GeneralSettings = () => {
   const navigate = useNavigate();
 

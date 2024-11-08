@@ -4,7 +4,8 @@ import React from 'react'
 const SettingsHeading = ({
   Heading = "",
   characterText = "",
-  count = ""
+  count = "",
+  fontSize,
 }) => {
   return (
     <Box
@@ -17,6 +18,7 @@ const SettingsHeading = ({
         fontSize: "40px",
         fontWeight: "600",
         lineHeight: "33px",
+      
         
       }}>
         {Heading}

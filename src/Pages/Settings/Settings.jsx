@@ -16,11 +16,12 @@ const Settings = () => {
   useEffect(() => {
     setHeadertext("");
     setParaText("");
-  }, []);
+    console.log(activeTab)
+  }, [activeTab]);
 
   const renderTabContent = () => {
     switch (activeTab) {
-      case 'GeneralSettings':
+      case 'GeneralSetting':
         return <GeneralSettings />;
       case 'WorkSpace':
         return <WorkSpace />;

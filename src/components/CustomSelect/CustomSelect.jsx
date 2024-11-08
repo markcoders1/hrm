@@ -11,7 +11,8 @@ const CustomSelectForType = ({
   width = "100%", 
   height, 
   border = "1px solid #E0E0E0", 
-  focusBorder = true 
+  focusBorder = true ,
+  
 }) => {
   
   useEffect(() => {
@@ -45,7 +46,8 @@ const CustomSelectForType = ({
           },
           "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
             borderColor: focusBorder ? "black" : "transparent",
-          }
+          },
+   
         }}
         variant="outlined"
       >

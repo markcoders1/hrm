@@ -436,7 +436,8 @@ html, body {
   }
 
   .sidebar-open .custom-sidebar {
-    transform: translateX(0);
+    transform: translateX(-100);
+   
   }
 
   .sidebar-closed .outlet-box {

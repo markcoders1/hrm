@@ -11,11 +11,12 @@ const SettingTabs = () => {
   const activeTab = useSelector((state) => state.settings.activeTab);
 
   const tabs = [
-    { label: 'General Settings', value: 'GeneralSettings' },
+    { label: 'General Settings', value: 'GeneralSetting' },
     { label: 'Workplace Organization', value: 'WorkSpace' },
     { label: 'Roles & Modules', value: 'Roles' },
     { label: 'Finance', value: 'Finance' },
     { label: 'Tax', value: 'Tax' },
+    
   ];
 
   return (

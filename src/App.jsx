@@ -64,6 +64,7 @@ import AddNewCategory from './Pages/Settings/AddNewCategory.jsx';
 
 import FinanceManagement from './Pages/Finance/FinanceManagement.jsx';
 import Settings from './Pages/Settings/Settings.jsx';
+import AddTaxSlab from './Pages/Settings/AddTaxSlab.jsx';
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 const queryClient = new QueryClient();
@@ -140,6 +141,8 @@ function App() {
             <Route path='settings/add-new-module' element={<ProtectedAdmin><AddNewModule/></ProtectedAdmin>} />
             <Route path='settings/add-new-bank' element={<ProtectedAdmin><AddNewBank/></ProtectedAdmin>} />
             <Route path='settings/add-new-category' element={<ProtectedAdmin><AddNewCategory/></ProtectedAdmin>} />
+            <Route path='settings/add-new-tax-slab' element={<ProtectedAdmin><AddTaxSlab/></ProtectedAdmin>} />
+            
 
 
 

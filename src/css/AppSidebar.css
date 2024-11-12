@@ -42,7 +42,7 @@
 
 .img-thumbnail-container {
   text-align: center;
-  margin: 10px auto;
+  margin:10px auto;
 }
 
 .navItem {
@@ -63,3 +63,4 @@
   -ms-overflow-style: none !important; /* For Internet Explorer and Edge */
   scrollbar-width: none !important; /* For Firefox */
 }
+

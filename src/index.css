@@ -56,6 +56,7 @@ body {
   background-color: #010115 !important;
   position: fixed !important;
   width: 300px !important;
+ 
 }
 .hide-sidebar {
   transform: translateX(-100px);

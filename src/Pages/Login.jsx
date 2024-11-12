@@ -21,12 +21,18 @@ const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const userState = useSelector(state => state.user)
+    const userRole = useSelector(state => state.user.user.role);
+    
     useEffect(() => {
         const refreshToken = localStorage.getItem("refreshToken");
         if (refreshToken) {
             sessionStorage.setItem("refreshToken", refreshToken);
-            navigate("/dashboard")
+            if (userRole == "HOD"){
+                navigate("dashboard/admin")
+            } else {
+
+                navigate("/dashboard")
+            }
         }
     }, []);
     const {

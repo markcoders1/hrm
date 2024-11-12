@@ -24,6 +24,7 @@ import CheckInOutModal from "../../components/CheckInEditModal/CheckInEditModal"
 import SpinnerLoader from "../../components/SpinnerLoader";
 import DeleteConfirmationModal from "../../components/DeleteConfirmModal/DeleteConfirmModal";
 import CustomSelectForType from "../../components/CustomSelect/CustomSelect";
+import { toast } from "react-toastify";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -69,6 +70,7 @@ const PayslipManagement = () => {
   const [selectedCheckId, setSelectedCheckId] = useState(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [loadingDelete, setLoadingDelete] = useState(false);
+  const [payslipsData, setPayslipsData] = useState([]);
 
   useEffect(() => {
     setHeadertext("PaySlip Management");
@@ -195,7 +197,7 @@ const PayslipManagement = () => {
           }}
           onClick={(e) => {
             e.stopPropagation();
-             downloadPdf()
+             downloadPdf(rowData)
           }}
         >
           <img src={downloadIcon} style={{width:"21.92px", height:"21.92px"}} alt="download" />
@@ -228,7 +230,8 @@ const PayslipManagement = () => {
         { params: { month: date } }
       );
       console.log(response);
-      // setAllPayslips(response.data.payslips)
+      setPayslipsData(response.data.payrolls);
+      
       
     
     } catch (error) {
@@ -236,18 +239,30 @@ const PayslipManagement = () => {
     
     }
   };
+  const [currentMonth, setCurrentMonth] = useState();
  useEffect(()=>{
   const date = getUnixTimestampForMonthYear(selectedMonth, selectedYear);
     console.log(date);
+    setCurrentMonth(date)
+
     fetchAllPayslip()
  },[selectedMonth, selectedYear])
-  const downloadPdf = async () => {
+  const downloadPdf = async (rowData) => {
+
+    console.log(rowData?.userId?._id);
+    console.log(currentMonth);
+
     try {
    
       const response = await axiosInstance({
-        url: `${apiUrl}/api/getattendancepdf`,
+        url: `${apiUrl}/api/admin/payslipPDF`,
         method: "get",
         responseType: "blob",
+        params:{
+          _id : rowData?.userId?._id,
+ 
+          month: currentMonth
+        }
       });
 
       const contentDisposition = response.headers["content-disposition"];
@@ -478,9 +493,9 @@ const PayslipManagement = () => {
                 </TableRow>
               </TableHead>
               <TableBody className="MuiTableBody-root">
-                {allEmployee.map((employee, index) => (
+                {payslipsData.map((payslip, index) => (
                   <TableRow
-                    key={employee.employeeId}
+                    key={payslip?.userId?.companyId}
                     className="MuiTableRow-root"
                     onMouseEnter={() => setHoveredRow(index)}
                     onMouseLeave={() => setHoveredRow(null)}
@@ -500,7 +515,7 @@ const PayslipManagement = () => {
                       }}
                       className="MuiTableCell-root"
                     >
-                     &nbsp;&nbsp; {employee.employeeId}
+                     &nbsp;&nbsp; {payslip.userId?.companyId}
                     </TableCell>
                     <TableCell
                       sx={{
@@ -519,17 +534,17 @@ const PayslipManagement = () => {
                       >
                         <Typography>
                           <img
-                            src={employee.image}
+                            src={payslip?.userId?.image}
                             style={{
                               width: "38px",
                               height: "38px",
                               borderRadius: "50%",
                             }}
-                            alt={employee.fullName}
+                            alt={payslip.fullName}
                           />
                         </Typography>
                         <Typography sx={{ ml: "10px" }}>
-                          {employee.fullName}
+                          {payslip?.userId?.fullName}
                         </Typography>
                       </Box>
                     </TableCell>
@@ -540,7 +555,7 @@ const PayslipManagement = () => {
                       }}
                       className="MuiTableCell-root"
                     >
-                      {employee.department}
+                      {payslip?.userId?.department}
                     </TableCell>
                     <TableCell
                       sx={{
@@ -549,7 +564,7 @@ const PayslipManagement = () => {
                       }}
                       className="MuiTableCell-root"
                     >
-                      {employee.designation}
+                      {payslip?.userId?.designation}
                     </TableCell>
                     <TableCell
                       sx={{
@@ -559,7 +574,7 @@ const PayslipManagement = () => {
                       }}
                       className="MuiTableCell-root"
                     >
-                      {buttonForDeleteEdit(employee, hoveredRow === index)}
+                      {buttonForDeleteEdit(payslip, hoveredRow === index)}
                     </TableCell>
                   </TableRow>
                 ))}

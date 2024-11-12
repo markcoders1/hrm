@@ -82,7 +82,8 @@ const AnnouncementBox = ({
           height: "100%",
           p: "15px 20px",
           overflowY: "auto",
-          fontSize: "14px",
+          fontSize: {sm:"14px", xs:"12px"},
+
         }}
       >
         {announcementContent}
@@ -93,7 +94,7 @@ const AnnouncementBox = ({
             color: "rgba(255, 255, 255, 1)",
             fontWeight: "500",
             fontFamily: "poppins",
-            fontSize: "14px",
+            fontSize: {sm:"14px", xs:"11px"},
           }}
         >
           {formatToCustomDate(announcementDate)} &nbsp; &nbsp;{" "}

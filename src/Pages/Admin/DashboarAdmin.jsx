@@ -201,7 +201,7 @@ const DashboardAdmin = () => {
       <Box
         sx={{
           display: "flex",
-          gap: "3rem",
+          gap: "2rem",
           justifyContent: "space-between",
           flexDirection: {
             md: "row",
@@ -247,7 +247,7 @@ const DashboardAdmin = () => {
             
 
             >
-              <Table sx={{ minWidth: 350, width:"100%"}}>
+              <Table sx={{  width:"100%"}}>
                 <TableHead>
                   <TableRow
                     sx={{

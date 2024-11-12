@@ -176,7 +176,9 @@ console.log(date)
    
     <Box
       className="sheet-container-admin"
-     
+      sx={{
+        padding:"10px 0px 40px 0px"
+        }}
     >
      
 

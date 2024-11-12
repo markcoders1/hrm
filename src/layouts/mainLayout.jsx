@@ -60,7 +60,7 @@ const SingleLayout = () => {
                     md: "400px"
                 },
                 position: "relative",  
-                 minHeight:"900px",
+                 minHeight:{md:"900px", xs:"none"},
                  zIndex:"2000"
             }}
         >

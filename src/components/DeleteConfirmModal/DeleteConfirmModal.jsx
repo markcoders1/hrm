@@ -13,7 +13,7 @@ const DeleteConfirmationModal = ({ open, handleClose, onConfirm, loading , reque
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: "474px",
+          maxWidth: "474px",
           maxHeight:"431px",
           height:"100%",
           bgcolor: "background.paper",
@@ -22,6 +22,9 @@ const DeleteConfirmationModal = ({ open, handleClose, onConfirm, loading , reque
           p: 4,
           py:6,
           border:"none !important",
+          width:"100%",
+         
+         
           
         }}
       >

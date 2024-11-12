@@ -272,8 +272,9 @@ const [selectedLeaveId, setSelectedLeaveId] = useState(null);
       >
         <Box sx={{ flexBasis: { lg: "300px", xs: "60%" } }}>
           <CustomInputLabel
-            height={{ xs: "36px" }}
-            paddingInput={{ xs: " 8px 10px" }}
+            height={{ md: "46px", xs:"46px" }}
+            paddingInput={{  xs: "12px 10px" }}
+
             fontSize={"20px"}
             showSearchIcon={true}
             placeholder={"Search User"}

@@ -186,7 +186,7 @@ const AddTaxSlab = () => {
                                     error={errors.taxCol1?.message}
                                     {...field}
                                     height={{ xl: "64px", md: "45px" }}
-                                    paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                                    paddingInput={{ xl: "15px 10px", md: "10px 8px" }}
                                 />
                             </Box>
                         )}

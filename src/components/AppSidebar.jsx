@@ -497,7 +497,7 @@ const AppSidebar = () => {
                     alt=""
                     style={{ width: "17.97px", height: "23.09" }}
                   />{" "}
-                  &nbsp; Sales Management
+                  &nbsp; Finance Management
                 </CustomNavLink>
               </CNavItem>
               <CNavItem>

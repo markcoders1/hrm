@@ -214,6 +214,7 @@ const UserInfo = () => {
         url: `${apiUrl}/api/admin/getRegisterDetails`,
         method: "get",
       });
+      console.log(response)
       setTeamLeads(response.data.TL);
       setHods(response.data.HOD);
       setDepartments(response.data.departments);
@@ -678,8 +679,8 @@ const UserInfo = () => {
                     name="department"
                     height={"66px"}
                     options={departments.map((depart) => ({
-                      value: depart,
-                      label: depart,
+                      value: depart.value,
+                      label: depart.label,
                     }))}
                     value={formData.department}
                     handleChange={(selectedValue) =>
@@ -793,6 +794,9 @@ const UserInfo = () => {
                           ?.fullName || ""
                       }
                     />
+                    {
+                     console.log(formData?.HODID) 
+                    }
                   </Box>
                 </Box>
               </Box>
@@ -850,9 +854,9 @@ const UserInfo = () => {
                     height={"66px"}
                     name="role"
                     options={[
-                      { value: "admin", label: "Admin" },
+                      { value: "HOD", label: "HOD" },
                       { value: "user", label: "User" },
-                      { value: "hr", label: "HR" },
+                      { value: "HR", label: "HR" },
                     ]}
                     value={formData.role}
                     handleChange={(selectedValue) =>
@@ -893,7 +897,7 @@ const UserInfo = () => {
                       { value: "remote", label: "Remote" },
                       { value: "hybrid", label: "Hybrid" },
                     ]}
-                    value={formData.locationType}
+                    value={formData?.locationType}
                     handleChange={(selectedValue) =>
                       setFormData((prev) => ({
                         ...prev,
@@ -906,10 +910,10 @@ const UserInfo = () => {
                     height={"66px"}
                     name="onProbation"
                     options={[
-                      { value: "yes", label: "Yes" },
-                      { value: "no", label: "No" },
+                      { value: true, label: "True" },
+                      { value: false, label: "False" },
                     ]}
-                    value={formData.onProbation}
+                    value={formData?.onProbation}
                     handleChange={(selectedValue) =>
                       setFormData((prev) => ({
                         ...prev,
@@ -926,7 +930,7 @@ const UserInfo = () => {
                       { value: "fullTime", label: "Full Time" },
                       { value: "remote", label: "Remote" },
                     ]}
-                    value={formData.employmentType}
+                    value={formData?.employmentType}
                     handleChange={(selectedValue) =>
                       setFormData((prev) => ({
                         ...prev,

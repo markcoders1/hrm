@@ -99,7 +99,7 @@ const AppSidebar = () => {
   const formDirty = useSelector((state) => state.form.isFormDirty);
   const count = useSelector((state) => state.counter.count);
 
-  const [isAdmin, setIsAdmin] = useState(false);
+ 
   const [logoutVisible, setLogoutVisible] = useState(false);
   const [logoutAllVisible, setLogoutAllVisible] = useState(false);
   const [pageloading, setPageloading] = useState(true);
@@ -107,21 +107,7 @@ const AppSidebar = () => {
   const [loadingLogout, setLoadingLogout] = useState(false);
 
   const user = useSelector((state) => state.user.user.role);
-  useEffect(() => {
-    const checkIsAdmin = async () => {
-      try {
-        const res = await axiosInstance.get(`${apiUrl}/api/isAdmin`);
-        setIsAdmin(res.data.isAdmin);
-        setPageloading(false);
-        // console.log("=================================> dirty form", formDirty);
-        // console.log(user);
-      } catch (error) {
-        console.error(error);
-        setPageloading(false);
-      }
-    };
-    checkIsAdmin();
-  }, [apiUrl]);
+
 
   const handleLogout = () => {
     axiosInstance({

@@ -219,13 +219,19 @@ const filteredWFHData = allWfh.filter((row) => {
           top: "40px",
           zIndex: {md:"100000 ", xs:"0"},
           display: "flex",
-          gap: "1rem",
+          gap: {sm:"1rem", xs:"0rem"},
+        
+          flexDirection: {
+            sm: "row",
+            xs: "column",
+          },
         }}
       >
         <Box sx={{ flexBasis: { lg: "320px", xs: "60%" } }}>
           <CustomInputLabel
-           height={{xs:"36px"}}
-           paddingInput={{xs:" 8px 10px"}}
+                      height={{xs:"46px", md:"36px"}}
+                      paddingInput={{md:"7px 10px", xs:"11px 10px"}}
+
             fontSize={"20px"}
             showSearchIcon={true}
             placeholder={"Search User"}

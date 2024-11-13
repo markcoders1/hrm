@@ -262,7 +262,7 @@ const [selectedLeaveId, setSelectedLeaveId] = useState(null);
           top: "40px",
           zIndex: {md:"100000 ", xs:"0"},
           display: "flex",
-          gap: "1rem",
+          gap: {sm:"1rem", xs:"0rem"},
           // border:"2px solid red",
           flexDirection: {
             sm: "row",
@@ -272,13 +272,13 @@ const [selectedLeaveId, setSelectedLeaveId] = useState(null);
       >
         <Box sx={{ flexBasis: { lg: "300px", xs: "60%" } }}>
           <CustomInputLabel
-            height={{ md: "46px", xs:"46px" }}
-            paddingInput={{  xs: "12px 10px" }}
+             height={{xs:"46px", md:"36px"}}
+            paddingInput={{md:"7px 10px", xs:"11px 10px"}}
 
             fontSize={"20px"}
             showSearchIcon={true}
             placeholder={"Search User"}
-            value={searchTerm}
+            value={searchTerm}  
             onChange={(e) => setSearchTerm(e.target.value)} // Update the search term state
           />
         </Box>

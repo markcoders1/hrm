@@ -170,7 +170,7 @@ const AppSidebar = () => {
         onVisibleChange={(visible) => {
           dispatch(set({ sidebarShow: visible }));
         }}
-        style={{ position: "relative", border: "1px solid red !important" }}
+        style={{ position: "relative",}}
       >
         <CSidebarHeader>
           <div className="img-thumbnail-container">

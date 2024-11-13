@@ -57,7 +57,7 @@ const [selectedLeaveId, setSelectedLeaveId] = useState(null);
   };
 
   useEffect(() => {
-    setHeadertext("Leave Management");
+    setHeadertext("Leaves Management");
     setParaText("Manage Employees Leaves Requests");
   }, [setHeadertext, setParaText]);
 

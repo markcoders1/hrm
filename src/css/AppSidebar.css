@@ -8,6 +8,8 @@
   height: 63px; /* Height adjustment */
   justify-content: flex-start;
   padding-left: 10px;
+  border: 2px solid red !important;
+
 }
 
 .nav-link:hover {
@@ -18,6 +20,7 @@
   color: rgb(255, 255, 255) !important;
   display: flex;
   align-items: center;
+  border: 2px solid red !important;
 }
 
 .active-nav-link {
@@ -28,16 +31,22 @@
   background-color: white;
   border-radius: 12px;
   transition: .3s ease-in all;
+  border: 2px solid red !important;
+
   
 }
 
 .active-nav-link .MuiTypography-root {
   color: blue !important;
+  border: 2px solid red !important;
+
   
 }
 
 .nav-link .CIcon {
   margin-right: 10px; /* Adjust icon margin */
+  border: 2px solid red !important;
+
 }
 
 .img-thumbnail-container {
@@ -47,11 +56,12 @@
 
 .navItem {
   height: 63px; /* Height for each tab */
+  border: 2px solid red !important;
+  
+
 }
 
-/* .d-none.d-lg-flex { */
-  /* justify-content: start !important; */
-}
+
 
 
 .custom-sidebar::-webkit-scrollbar {

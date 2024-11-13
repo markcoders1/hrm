@@ -67,6 +67,7 @@ const AppHeader = (props) => {
   return (
     
     <CHeader position="sticky" className="c-header mb-0 p-0 px-1 py-5" style={{ border: "none" }} ref={headerRef}>
+      
    {
     location.pathname === "/dashboard/settings" ? (
       <SettingTabs />
@@ -87,7 +88,7 @@ const AppHeader = (props) => {
               }}  // Dispatch the set action with payload
               style={{ marginInlineStart: '-2px' }}
             >
-              <CIcon icon={cilMenu} size="lg" />
+              <CIcon icon={cilMenu} size="xl  " />
             </CHeaderToggler>
             </Box>
   

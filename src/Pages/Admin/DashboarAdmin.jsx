@@ -255,6 +255,8 @@ const DashboardAdmin = () => {
                       "&:hover": {
                         backgroundImage: `linear-gradient(90deg, #E0EBFF 0%, #E0EBFF 100%) !important`,
                       },
+                      position:"sticky",
+                      top:"10px",
                       padding: "0px",
                     }}
                   >

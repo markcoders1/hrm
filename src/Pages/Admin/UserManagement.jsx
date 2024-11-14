@@ -278,7 +278,7 @@ const EmployeeData = () => {
           mb: "20px",
           padding: "0px 0px",
           flexDirection: {
-            md: "row",
+            sm: "row",
             xs: "column",
           },
           flexWrap: "wrap",

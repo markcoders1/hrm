@@ -29,24 +29,16 @@ body {
   color: white;
 }
 
-@font-face {
-  font-family: 'MyCustomFont';
-  src: url('./assets/clash-display/ClashDisplayBold.otf') format('otf'),
-       url('./assets/clash-display/ClashDisplayMedium.otf') format('otf'),
-       url('./assets/clash-display/ClashDisplayRegular.otf') format('otf');
-  font-weight: normal;
-  font-style: normal;
-}
-
 .layout-container {
   display: flex;
   height: 100vh;
   width: 100%;
   transition: all 0.5s ease;
+  position: relative; /* Ensure the sidebar overlays correctly */
 }
 
 .custom-sidebar {
-  width: 300px !important;
+  width: 300px;
   background-color: #010115 !important;
   position: fixed;
   height: 100vh;
@@ -54,9 +46,13 @@ body {
   left: 0;
   z-index: 1000;
   overflow-y: auto;
-  transition: transform 0.3s ease;
+  transition: transform 0.9s ease;
+  transform: translateX(0%); /* Hidden by default on mobile */
+ 
+}
 
-
+.custom-sidebar.sidebar-open {
+  transform: translateX(0); /* Slide in sidebar on mobile */
 }
 
 .custom-sidebar::-webkit-scrollbar {
@@ -86,7 +82,6 @@ body {
   font-size: 15px !important;
   font-weight: 500;
   transition: background-color 0.3s ease-in;
-  /* border: 2px solid red !important; */
 }
 
 .nav-link:hover {
@@ -96,12 +91,10 @@ body {
 }
 
 .outlet-box {
-  /* margin-left: 300px; */
   width: calc(100% - 300px);
-  /* padding: 20px; */
   overflow-x: hidden;
   position: relative;
-  transition: margin-left 0.3s ease, width 0.3s ease;
+  transition: margin-left 0.9s ease, width 0.9s ease;
   width: 100%;
 }
 
@@ -127,15 +120,12 @@ body {
 }
 
 .nav-top {
- margin-top: 20px;
+  margin-top: 20px;
   padding: 0px 17px !important;
-  
-
 }
 
 .nav-top::-webkit-scrollbar {
-  display: none !important; /* For Chrome, Safari, and Opera */
-  
+  display: none !important;
 }
 
 .img-thumbnail-container {
@@ -200,6 +190,7 @@ body {
   .custom-sidebar {
     width: 100%;
     transform: translateX(-100%);
+    position: fixed !important; 
   }
 
   .sidebar-open .custom-sidebar {
@@ -242,4 +233,3 @@ select:-webkit-autofill:focus {
 .MuiChartsLegend-root {
   display: none !important;
 }
-

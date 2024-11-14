@@ -27,6 +27,8 @@ import CustomButton from "../../components/CustomButton/CustomButton";
 import LastPayrollList from "./LastPayrollList";
 import PayrollHistory from "./PayrollHistory";
 
+
+
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const PayrollManagement = () => {
@@ -210,20 +212,22 @@ const PayrollManagement = () => {
           sx={{
             display: "flex",
             justifyContent: "space-between",
+            gap:"1rem", 
+            flexWrap:"wrap",
+        
+
           }}
         >
           <Box
             sx={{
               display: "flex",
-              gap: "1.5rem",
+              gap: "1rem",
+              flexBasis:{md:"48%", xs:"100%"},
+
             }}
           >
             <Box
-              sx={{
-                fontWeight: "500",
-                color: "#010120",
-                fontSize: "22px",
-              }}
+              sx={{ width: { md: "200px", xs: "100%" }}}
             >
               <CustomSelectForType
                 label="Month"
@@ -231,15 +235,12 @@ const PayrollManagement = () => {
                 handleChange={handleMonthChange}
                 options={months}
                 height={"46px"}
-                width="220px"
+                width="100%"
               />
             </Box>
             <Box
-              sx={{
-                fontWeight: "500",
-                color: "#010120",
-                fontSize: "22px",
-              }}
+                          sx={{ width: { md: "200px", xs: "100%" }}}
+
             >
               <CustomSelectForType
                 label="Year"
@@ -247,7 +248,8 @@ const PayrollManagement = () => {
                 handleChange={handleYearChange}
                 options={years}
                 height={"46px"}
-                width="220px"
+                width="100%"
+
               />
             </Box>
           </Box>
@@ -255,12 +257,17 @@ const PayrollManagement = () => {
           <Box
             sx={{
               display: "flex",
-              gap: "1.5rem",
+              gap: "1rem",
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "end",
+              flexBasis:{md:"50%", xs:"100%"}
+
             }}
           >
-            <Box>
+            <Box
+          sx={{ width: { md: "200px", xs: "100%" }}}
+            
+            >
               {/* Payroll Type Filter */}
               <CustomSelectForType
                 label="Payroll Type"
@@ -268,11 +275,14 @@ const PayrollManagement = () => {
                 handleChange={handlePayrollChange}
                 options={payrollType}
                 height={"46px"}
-                width="220px"
+                width="100%"
               />
             </Box>
 
-            <Box>
+            <Box
+       sx={{ width: { md: "170px", xs: "100%" }}}
+            
+            >
               <Tooltip title="Manage Payroll">
                 <CustomButton
                   ButtonText="Manage Payroll"
@@ -282,7 +292,7 @@ const PayrollManagement = () => {
                   fullWidth={false}
                   variant="contained"
                   padding="8px 0px"
-                  width={"170px"}
+                  width={"100%"}
                   background="#157AFF"
                   hoverBg="#303f9f"
                   hovercolor="white"
@@ -301,6 +311,10 @@ const PayrollManagement = () => {
             display: "flex",
             gap: "2rem",
             mt: "30px",
+            flexDirection:{
+              lg:"row",
+              xs:"column-reverse"
+            }
           }}
         >
           <Box
@@ -319,7 +333,7 @@ const PayrollManagement = () => {
                 data={data}
                 />
               ) : (
-                <BasicBars tax={""} salary={""} commission={""} />
+                <BasicBars data={[0, 0, 0]} />
               )}
             </Box>
           </Box>
@@ -368,6 +382,7 @@ const PayrollManagement = () => {
       <Box
         sx={{
           mt: "100px",
+          
         }}
       >
         <LastPayrollList

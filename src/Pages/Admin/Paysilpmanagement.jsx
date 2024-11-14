@@ -329,7 +329,7 @@ const PayslipManagement = () => {
         sx={{
           width: { lg: "220px", xs: "100%" },
           position: { lg: "fixed", xs: "static" },
-          right: "55px",
+          right: "45px",
           top: "50px",
           zIndex: "100000 ",
         }}

@@ -218,7 +218,12 @@ const PayrollHistory = ({ payrollList }) => {
             sx={{
               display: "flex",
               justifyContent: "space-between",
-              alignItems: "center",
+              alignItems: "",
+             gap:"3rem",
+              flexDirection:{
+                md:"row",
+                xs:"column"
+              }
             }}
           >
             <Typography
@@ -233,20 +238,22 @@ const PayrollHistory = ({ payrollList }) => {
 
             <Box
               sx={{
-                fontWeight: "500",
-                color: "#010120",
-                fontSize: "22px",
-              }}
-            >
-              {/* here want to  render departments instead of month give just modification of it  */}
-
+         
+              width:{
+                md:"220px",
+                xs:"100%"
+              },
+        
+             
+           
+              }}>
               <CustomSelectForType
                 label="Department"
                 value={selectedDepartment} // Assuming you have a selectedDepartment state
                 handleChange={handleDepartmentChange} // Department change handler
                 options={departments}
                 height={"46px"}
-                width="220px"
+                width="100%"
               />
             </Box>
           </Box>
@@ -328,20 +335,20 @@ const PayrollHistory = ({ payrollList }) => {
               justifyContent: "space-between",
               alignItems: "center",
               mt: "80px",
+              gap:"1rem", 
+              flexWrap:"wrap",
             }}
           >
             <Box
               sx={{
                 display: "flex",
-                gap: "1.5rem",
+                gap: "1rem",
+                flexBasis:{md:"48%", xs:"100%"},
               }}
             >
               <Box
-                sx={{
-                  fontWeight: "500",
-                  color: "#010120",
-                  fontSize: "22px",
-                }}
+               sx={{ width: { md: "180px", xs: "100%" }}}
+
               >
                 <CustomSelectForType
                   label="Month"
@@ -349,15 +356,13 @@ const PayrollHistory = ({ payrollList }) => {
                   handleChange={handleMonthChange}
                   options={months}
                   height={"46px"}
-                  width="180px"
+                  width="100%"
+
                 />
               </Box>
               <Box
-                sx={{
-                  fontWeight: "500",
-                  color: "#010120",
-                  fontSize: "22px",
-                }}
+               sx={{ width: { md: "180px", xs: "100%" }}}
+
               >
                 <CustomSelectForType
                   label="Year"
@@ -365,22 +370,23 @@ const PayrollHistory = ({ payrollList }) => {
                   handleChange={handleYearChange}
                   options={years}
                   height={"46px"}
-                  width="180px"
+                  width="100%"
+
                 />
               </Box>
             </Box>
             <Box
               sx={{
                 display: "flex",
-                gap: "1.5rem",
+                gap: "1rem",
+                flexBasis:{md:"50%", xs:"100%"},
+                // border:"2px solid red",
+                justifyContent:"end"
               }}
             >
               <Box
-                sx={{
-                  fontWeight: "500",
-                  color: "#010120",
-                  fontSize: "22px",
-                }}
+                             sx={{ width: { md: "180px", xs: "100%" }}}
+
               >
                 <CustomSelectForType
                   label="Month"
@@ -388,15 +394,13 @@ const PayrollHistory = ({ payrollList }) => {
                   handleChange={handleMonthChange2}
                   options={months}
                   height={"46px"}
-                  width="180px"
+                  width="100%"
+
                 />
               </Box>
               <Box
-                sx={{
-                  fontWeight: "500",
-                  color: "#010120",
-                  fontSize: "22px",
-                }}
+                            sx={{ width: { md: "180px", xs: "100%" }}}
+
               >
                 <CustomSelectForType
                   label="Year"
@@ -404,7 +408,8 @@ const PayrollHistory = ({ payrollList }) => {
                   handleChange={handleYearChange2}
                   options={years}
                   height={"46px"}
-                  width="180px"
+                  width="100%"
+
                 />
               </Box>
             </Box>

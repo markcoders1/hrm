@@ -165,7 +165,13 @@ body {
   margin-left: 10px;
   margin-bottom: 10px;
 }
-
+.outlet-body{
+   padding: 0.5rem 3rem 0.5rem 3rem;
+}
+.c-header{
+  padding: 3rem 2rem 1rem 2rem !important ;
+  
+}
 /* Media Queries for Responsiveness */
 @media only screen and (max-width: 998px) {
   .custom-sidebar {
@@ -212,6 +218,9 @@ body {
   .small-screen {
     background-color: red;
   }
+  .outlet-body{
+    padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+ }
 }
 
 /* Autofill Styling */

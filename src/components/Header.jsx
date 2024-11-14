@@ -63,10 +63,10 @@ const AppHeader = (props) => {
         headerRef.current.classList.toggle('shadow-sm', document.documentElement.scrollTop > 0)
     })
   }, [])
-
+  // px-4 py-5
   return (
     
-    <CHeader position="sticky" className="c-header mb-0 p-0 px-1 py-5" style={{ border: "none" }} ref={headerRef}>
+    <CHeader position="sticky" className="c-header  " style={{ border: "none" }} ref={headerRef}>
       
    {
     location.pathname === "/dashboard/settings" ? (

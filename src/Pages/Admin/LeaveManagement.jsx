@@ -258,7 +258,7 @@ const [selectedLeaveId, setSelectedLeaveId] = useState(null);
         sx={{
           width: { lg: "500px", xs: "100%" },
           position: { lg: "fixed", xs: "static" },
-          right: "40px",
+          right: "45px",
           top: "40px",
           zIndex: {md:"100000 ", xs:"0"},
           display: "flex",
@@ -363,7 +363,6 @@ const [selectedLeaveId, setSelectedLeaveId] = useState(null);
             gap: 2,
             alignItems: "center",
             justifyContent: "end",
-
             width: "100%",
           }}
         >

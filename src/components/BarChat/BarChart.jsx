@@ -14,10 +14,14 @@ export default function BasicBars({
   useEffect(() => {
     
     const handleResize = () => {
-      setDimensions({
-        width: window.innerWidth * 0.4, // Adjust as needed
-        height: window.innerHeight * 0.5, 
-      });
+
+      if (window.innerWidth < 1200){
+        setDimensions({
+          width: window.innerWidth * .9, 
+          height: window.innerHeight * 0.4, 
+        });
+      }
+  
     };
 
     // Add event listener
@@ -28,7 +32,7 @@ export default function BasicBars({
 
     // Remove event listener on cleanup
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [window.innerWidth]);
 
   return (
     <div style={{ width: '100%', height: '100%' }}>

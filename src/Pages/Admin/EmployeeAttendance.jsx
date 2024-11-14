@@ -217,7 +217,7 @@ const EmployeeAttendance = () => {
         sx={{
           width: { lg: "220px", xs: "100%" },
           position: { lg: "fixed", xs: "static" },
-          right: "55px",
+          right: "65px",
           top: "40px",
           zIndex:{lg: "100000 ", xs:"0"},
         }}

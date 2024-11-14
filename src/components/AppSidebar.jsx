@@ -441,7 +441,7 @@ const AppSidebar = () => {
 
           {user === "HOD" ? (
             <>
-             <CNavItem>
+             {/* <CNavItem>
                 <CustomNavLink
                   to="/dashboard/payslip-management"
                   end
@@ -485,7 +485,7 @@ const AppSidebar = () => {
                   />{" "}
                   &nbsp; Finance Management
                 </CustomNavLink>
-              </CNavItem>
+              </CNavItem> */}
               <CNavItem>
                 <CustomNavLink
                   to="/dashboard/hod-profile"

@@ -440,7 +440,7 @@ const AppSidebar = () => {
           )}
 
           {user === "HOD" ? (
-            <>
+            <>  
              <CNavItem>
                 <CustomNavLink
                   to="/dashboard/payslip-management"

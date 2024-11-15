@@ -47,6 +47,7 @@ const AddSales = () => {
     platform: "",
     amountReceived: "",
     refundAmount: "",
+    totalAmount: ""
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false); // Optional: To handle loading state

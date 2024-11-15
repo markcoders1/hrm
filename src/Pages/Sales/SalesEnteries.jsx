@@ -40,20 +40,6 @@ const SalesEnteries = ({setAddSaleToShow}) => {
     new Date().getFullYear().toString()
   ); // Default to current year
 
-  const months = [
-    { label: "January", value: "0" },
-    { label: "February", value: "1" },
-    { label: "March", value: "2" },
-    { label: "April", value: "3" },
-    { label: "May", value: "4" },
-    { label: "June", value: "5" },
-    { label: "July", value: "6" },
-    { label: "August", value: "7" },
-    { label: "September", value: "8" },
-    { label: "October", value: "9" },
-    { label: "November", value: "10" },
-    { label: "December", value: "11" },
-  ];
 
   // Generate years starting from 2024
   const currentYear = new Date().getFullYear();
@@ -176,15 +162,26 @@ const SalesEnteries = ({setAddSaleToShow}) => {
   const handleMonthChange = (event) => {
     setSelectedMonth(event.target.value);
   };
-  const handleYearChange = (event) => {
-    setSelectedYear(event.target.value);
-  };
-
+  const months = [
+    { label: "January", value: "0" },
+    { label: "February", value: "1" },
+    { label: "March", value: "2" },
+    { label: "April", value: "3" },
+    { label: "May", value: "4" },
+    { label: "June", value: "5" },
+    { label: "July", value: "6" },
+    { label: "August", value: "7" },
+    { label: "September", value: "8" },
+    { label: "October", value: "9" },
+    { label: "November", value: "10" },
+    { label: "December", value: "11" },
+  ];
 
   const getUnixTimestampForMonthYear = (month, year) => {
     const date = new Date(year, month, 1);
     return date.getTime();
   };
+
 
   
 
@@ -318,15 +315,85 @@ const SalesEnteries = ({setAddSaleToShow}) => {
           
           </Box>
 
-          <Box sx={{ display: "flex", justifyContent: "space-between", flexDirection:"row", gap:"0.3rem", mt:"20px" }}>
-          <Typography
-              sx={{ fontWeight: "600", fontSize:{xl:"20px", xs:"30px"}, color: "#010120" }}
+          <Box sx={{ display: "flex", justifyContent: "space-between", flexDirection:"row", gap:"0.3rem", mt:"20px",flexWrap:"wrap" }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: "1rem",
+            }}
+          >
+            <Box
+              sx={{
+                fontWeight: "500",
+                color: "#010120",
+                fontSize: "22px",
+              }}
             >
-         Select Boxs
-            </Typography>
+             <CustomInputLabel
+             height={{xs:"46px", md:"36px"}}
+            paddingInput={{md:"7px 10px", xs:"11px 10px"}}
+
+            fontSize={"20px"}
+            showSearchIcon={true}
+            placeholder={"Search User"}
+            // value={searchTerm}  
+            // onChange={(e) => setSearchTerm(e.target.value)} // Update the search term state
+          />
+            </Box>
+            <Box
+              sx={{
+                fontWeight: "500",
+                color: "#010120",
+                fontSize: "22px",
+              }}
+            >
+              <CustomSelectForType
+                label="Month"
+                value={selectedMonth}
+                handleChange={handleMonthChange}
+                options={months}
+                height={"46px"}
+                width="200px"
+              />
+
+            </Box>
+ <Box
+              sx={{
+                fontWeight: "500",
+                color: "#010120",
+                fontSize: "22px",
+              }}
+            >
+              <CustomSelectForType
+                label="Month"
+                value={selectedMonth}
+                handleChange={handleMonthChange}
+                options={months}
+                height={"46px"}
+                width="200px"
+              />
+            </Box>
+            <Box
+              sx={{
+                fontWeight: "500",
+                color: "#010120",
+                fontSize: "22px",
+              }}
+            >
+              <CustomSelectForType
+                label="Month"
+                value={selectedMonth}
+                handleChange={handleMonthChange}
+                options={months}
+                height={"46px"}
+                width="200px"
+              />
+            </Box>
+            
+          </Box>
             <Box
             sx={{
-                display:"flex", gap:"20px"
+                display:"flex", gap:"1rem"
             }}
             >
 

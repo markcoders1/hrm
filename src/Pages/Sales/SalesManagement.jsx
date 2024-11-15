@@ -145,6 +145,10 @@ const SalesManagement = () => {
           display:"flex",
           gap: "2rem",
           mt: "30px",
+          flexDirection:{
+            xs:"column-reverse",
+            lg:"row"
+          }
         }}
         >
           <Box

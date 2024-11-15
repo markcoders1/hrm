@@ -321,13 +321,29 @@ const BankTransaction = ({setAddSaleToShow}) => {
       </Box>
       <Box>
         <>
-          <Box sx={{ display: "flex", justifyContent: "space-between", flexDirection:"column", gap:"0.3rem" }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between", flexDirection:"row", gap:"0.3rem" }}>
           <Typography
               sx={{ fontWeight: "600", fontSize:{xl:"40px", xs:"30px"}, color: "#010120" }}
             >
             Bank Transactions
             </Typography>
-           
+            <Box
+              sx={{
+                fontWeight: "500",
+                color: "#010120",
+                fontSize: "22px",
+              }}
+            >
+              <CustomSelectForType
+                label="Station"
+                value={selectedMonth}
+                handleChange={handleMonthChange}
+                options={months}
+                height={"46px"}
+                width="200px"
+              />
+
+            </Box>
           
           </Box>
 

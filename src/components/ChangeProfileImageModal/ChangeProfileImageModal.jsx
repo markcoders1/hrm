@@ -19,8 +19,9 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: {
     xs: "90%",
-    md: "400px",
+    md: "470px",
   },
+
   bgcolor: "background.paper",
   boxShadow: 24,
   outline: "none",
@@ -98,32 +99,49 @@ const ChangeProfileImageModal = ({ open, handleClose }) => {
     >
       <Fade in={open}>
         <Box sx={style}>
-          <Typography variant="h6" component="h2" sx={{ textAlign: "center" }}>
-            Change Profile Image
-          </Typography>
-
-          {/* Image Preview */}
-          <Box sx={{ mt: 3, textAlign: "center" }}>
+        <Box sx={{ mt: 1, textAlign: "center", display:"flex", alignItems:"center", justifyContent:"center",  }}>
             <Box
               component="img"
               src={imagePreview}
               alt="Profile Preview"
               sx={{
-                width: "150px",
-                height: "150px",
+                width: "120px",
+                height: "120px",
                 borderRadius: "50%",
                 objectFit: "cover",
                 border: "2px solid #ccc",
               }}
             />
           </Box>
+          <Typography  sx={{ textAlign: "center",mt:"24px", fontWeight:"600", fontSize:"26px", color:"#010120", fontFamily:"poppins" }}>
+            Change Profile Image
+          </Typography>
+          <Typography  sx={{ textAlign: "center", fontWeight:"500", fontSize:"22px", color:"#99999C", fontFamily:"poppins",  }}>
+            Are you sure you want to change Profile Picture
+          </Typography>
+
+      
 
           {/* Image Upload Button */}
           <Box sx={{ mt: 3, display: "flex", justifyContent: "center", gap: 2 }}>
             <CustomButton
               ButtonText={selectedImage ? "Change Image" : "Select Image"}
-              variant={selectedImage ? "outlined" : "contained"}
-              component="span"
+             
+              background="#157AFF"
+              hoverBg="white"
+              hovercolor="#010120"
+              fontSize="16px"
+              color="white"
+              fontWeight="500"
+              borderRadius="7px"
+              // onClick={onConfirm}
+              // loading={loading}
+              fullWidth={false}
+              height="45px"
+              width={"170px"}
+              
+              hoverBorder="1px solid #010120"
+              border="1px solid #157AFF"
               onClick={handleSelectImageClick} // Trigger file input click
             />
 
@@ -138,9 +156,24 @@ const ChangeProfileImageModal = ({ open, handleClose }) => {
             {/* Save Button (Only if an image is selected) */}
             {selectedImage && (
               <CustomButton
-                ButtonText="Save"
+              ButtonText={"Submit"}
+            background="#157AFF"
+            hoverBg="white"
+            hovercolor="#010120"
+            fontSize="16px"
+            color="white"
+            fontWeight="500"
+            borderRadius="7px"
+            // onClick={onConfirm}
+            // loading={loading}
+            fullWidth={false}
+            height="45px"
+            width={"140px"}
+            
+            hoverBorder="1px solid #010120"
+            border="1px solid #157AFF"
                 onClick={handleSaveImage}
-                variant="contained"
+              
               />
             )}
           </Box>

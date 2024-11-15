@@ -26,6 +26,7 @@ const CustomSelectForType = ({
     <Box sx={{ mb: 2, width: '100%' }}>
       <FormControl
         sx={{
+          // border: border ?  "1px solid #E0E0E0" : "",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -39,7 +40,8 @@ const CustomSelectForType = ({
             border: border,
           },
           "& .MuiOutlinedInput-notchedOutline": {
-            borderColor: focusBorder ? "black" : "transparent",
+            // borderColor: focusBorder ? "black" : "transparent",
+            border:"transparent" 
           },
           "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
             borderColor: focusBorder ? "black" : "transparent",

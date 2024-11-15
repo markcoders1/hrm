@@ -168,7 +168,7 @@ const MyLeaves = () => {
           gap: { sm: "4rem", xs: "0.2rem" },
           mb: 4,
           position: { lg: "fixed", xs: "static" },
-          right: "60px",
+          right: "50px",
           top: "40px",
           zIndex: "100000 ",
         }}

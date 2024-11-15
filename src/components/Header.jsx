@@ -52,6 +52,7 @@ const AppHeader = (props) => {
     `/dashboard/remote-work/wfh-detail/${id}`,
     `/dashboard/my-leaves/my-leave-detail/${id}`,
     `/dashboard/my-leaves/edit-leave/${id}`,
+    `/dashboard/remote-work`
   ]
 
 
@@ -114,12 +115,12 @@ const AppHeader = (props) => {
           >
           <Box
             sx={{
-             width:{xs:"51px", xl: "81px"},
-             height:{xs:"51px", xl: "81px"},
+             width:{xs:"45px", xl: "81px"},
+             height:{xs:"45px", xl: "81px"},
              borderRadius:"50%",
              objectFit:"cover",
              mr:"20px",
-             mt:"10px",
+           
             }}
             component="img"
             src={user.user.image}

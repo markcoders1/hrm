@@ -119,7 +119,7 @@ const AddSales = () => {
   };
   return (
     <Box>
-      <Box sx={{ flexBasis: "100%", padding: "20px" }}>
+      <Box sx={{ flexBasis: "100%",mt:"30px"}}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 1000 }} aria-label="add sales table">
             <TableHead>
@@ -535,24 +535,38 @@ const AddSales = () => {
                     borderRadius: "0px 8px 8px 0px",
                 }}
                 >
-                  <Tooltip title="Submit Sales Data">
-                    <Button
-                      type="button"
-                      onClick={handleActionSubmit}
-                      className="action-button"
-                      variant="contained"
-                      color="primary"
-                      disabled={isSubmitting}
-                      style={{ 
-                        display: "flex", 
-                        alignItems: "center", 
-                        justifyContent: "center",
-                        padding: "8px 16px",
-                      }}
-                    >
-                      {isSubmitting ? "Submitting..." : "Submit"}
-                    </Button>
-                  </Tooltip>
+                   <Typography
+              sx={{ fontWeight: "500", fontSize: "22px", color: "#010120" }}
+            >
+            <Tooltip title="Add Sales">   
+                  <CustomButton
+                  loading={loading}
+                  border= "1px solid #010120"
+
+                  borderRadius="7px"
+                  background="white"
+                  hoverBg="#157AFF"
+                  
+                  buttonTextStyle={{}}
+                  buttonStyle={{
+                  height:"45px",
+                  width:"145px"
+                  }}
+                  ButtonText="Add Sales"
+                onClick={handleActionSubmit}
+                  hoverBorder="none"
+                  fontSize="16px"
+                  color="#010120"
+                  fontWeight="500"
+                  fullWidth={false}
+                  variant="contained"
+                  padding="10px 20px"
+                  loaderColor=" #010120"
+                
+                  hovercolor="white"
+                />
+                </Tooltip>
+            </Typography>
                 </TableCell>
               </TableRow>
             </TableBody>

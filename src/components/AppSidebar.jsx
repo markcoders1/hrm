@@ -54,6 +54,11 @@ import wfhManaIcon from "../assets/icons/wfhManagement.png";
 import notificationIcon from "../assets/icons/notification.png";
 import { logout } from "../Redux/userSlice";
 
+import payrollIcon from "../assets/icons/payroll.png";
+import salesIcon from "../assets/icons/sales.png";
+import financeIcon from "../assets/icons/finance.png";
+import settingsIcon from "../assets/icons/settings.png";
+
 // import icons for User
 
 import myAttendanceIcon from "../assets/icons/myAttendance.png";
@@ -369,7 +374,7 @@ const AppSidebar = () => {
                 </CustomNavLink>
               </CNavItem>
 
-              <CNavItem>
+              {/* <CNavItem>
                 <CustomNavLink
                   to="/dashboard/payroll-management"
                   className="nav-link"
@@ -377,13 +382,13 @@ const AppSidebar = () => {
                 >
                   &nbsp;&nbsp;
                   <img
-                    src={userManaIcon}
+                    src={payrollIcon}
                     alt=""
                     style={{ width: "22.8px", height: "27.88px" }}
                   />{" "}
                   &nbsp; Payroll Management
                 </CustomNavLink>
-              </CNavItem>
+              </CNavItem> */}
             </>
           ) : (
             ""
@@ -419,7 +424,7 @@ const AppSidebar = () => {
                   &nbsp; Attendance Management
                 </CustomNavLink>
               </CNavItem>
-              <CNavItem>
+              {/* <CNavItem>
                 <CustomNavLink
                   to="/dashboard/payslip-management"
                   end
@@ -433,7 +438,7 @@ const AppSidebar = () => {
                   />{" "}
                   &nbsp; Payslip Management
                 </CustomNavLink>
-              </CNavItem>
+              </CNavItem> */}
             </>
           ) : (
             ""
@@ -441,7 +446,7 @@ const AppSidebar = () => {
 
           {user === "HOD" ? (
             <>  
-             <CNavItem>
+             {/* <CNavItem>
                 <CustomNavLink
                   to="/dashboard/payslip-management"
                   end
@@ -455,8 +460,8 @@ const AppSidebar = () => {
                   />{" "}
                   &nbsp; Payslip Management
                 </CustomNavLink>
-              </CNavItem>
-              <CNavItem>
+              </CNavItem> */}
+              {/* <CNavItem>
                 <CustomNavLink
                   to="/dashboard/sales-management"
                   end
@@ -464,14 +469,14 @@ const AppSidebar = () => {
                 >
                   &nbsp;&nbsp;
                   <img
-                    src={profileIcon}
+                    src={salesIcon}
                     alt=""
                     style={{ width: "17.97px", height: "23.09" }}
                   />{" "}
                   &nbsp; Sales Management
                 </CustomNavLink>
-              </CNavItem>
-              <CNavItem>
+              </CNavItem> */}
+              {/* <CNavItem>
                 <CustomNavLink
                   to="/dashboard/finance-management"
                   end
@@ -479,13 +484,13 @@ const AppSidebar = () => {
                 >
                   &nbsp;&nbsp;
                   <img
-                    src={profileIcon}
+                    src={financeIcon}
                     alt=""
                     style={{ width: "17.97px", height: "23.09" }}
                   />{" "}
                   &nbsp; Finance Management
                 </CustomNavLink>
-              </CNavItem>
+              </CNavItem> */}
               <CNavItem>
                 <CustomNavLink
                   to="/dashboard/hod-profile"
@@ -509,9 +514,9 @@ const AppSidebar = () => {
                 >
                   &nbsp;&nbsp;
                   <img
-                    src={profileIcon}
+                    src={settingsIcon}
                     alt=""
-                    style={{ width: "17.97px", height: "23.09" }}
+                    style={{ width: "24.97px", height: "25.09px" }}
                   />{" "}
                   &nbsp; Settings
                 </CustomNavLink>

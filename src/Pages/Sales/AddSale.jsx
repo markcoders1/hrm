@@ -10,6 +10,7 @@ import {
   Paper,
   Button,
   Tooltip,
+  Typography
 } from "@mui/material";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -21,6 +22,7 @@ import cancelImage from "../../assets/ban.png";
 import axios from "axios"; // Ensure axios is installed via npm/yarn
 import axiosInstance from "../../auth/axiosInstance";
 import CustomSelectForType from "../../components/CustomSelect/CustomSelect";
+import CustomButton from "../../components/CustomButton/CustomButton";
 
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL || "https://your-api-url.com"; // Replace with your actual API URL
@@ -30,6 +32,7 @@ const AddSales = () => {
   const navigate = useNavigate();
   const [selectSalesPerson, setSelectSalesPerson] = useState("all"); 
   const [departments, setDepartments] = useState([]);
+  const [loading, setLoading] = useState(false);
 
 
   

@@ -395,7 +395,7 @@ const Register = () => {
                       label="Full Name*"
                       error={errors.fullName?.message}
                       height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                      paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
                       {...field}
                     />
                   )}
@@ -419,7 +419,8 @@ const Register = () => {
                       label="Phone Number*"
                       error={errors.phone?.message}
                       height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                      paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
+
                       {...field}
                     />
                   )}
@@ -443,7 +444,8 @@ const Register = () => {
                       label="Email*"
                       type="email"
                       height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                      paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
+
                       error={errors.email?.message}
                       {...field}
                     />
@@ -480,7 +482,8 @@ const Register = () => {
                       fullWidth
                       error={errors.address?.message}
                       height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                      paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
+
                       {...field}
                     />
                   )}
@@ -503,7 +506,8 @@ const Register = () => {
                     <CustomInputLabel
                       label="Emergency Contact Number*"
                       height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                      paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
+
                       error={errors.emergencyNumber?.message}
                       {...field}
                     />
@@ -538,7 +542,8 @@ const Register = () => {
                       label="CNIC*"
                       error={errors.CNIC?.message}
                       height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                      paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
+
                       {...field}
                     />
                   )}
@@ -563,7 +568,8 @@ const Register = () => {
                       type="date"
                       error={errors.DOB?.message}
                       height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                      paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
+
                       {...field}
                     />
                   )}
@@ -589,7 +595,8 @@ const Register = () => {
                       label="Employee ID*"
                       error={errors.companyId?.message}
                       height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                      paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
+
                       {...field}
                     />
                   )}
@@ -625,7 +632,8 @@ const Register = () => {
                       {...field}
                       showPasswordToggle={true}
                       height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                      paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
+
                       type={"password"}
                     />
                   )}
@@ -650,7 +658,8 @@ const Register = () => {
                       type="time"
                       error={errors.shiftTimingFrom?.message}
                       height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                      paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
+
                       {...field}
                     />
                   )}
@@ -675,7 +684,8 @@ const Register = () => {
                       type="time"
                       error={errors.shiftTimingTo?.message}
                       height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                      paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
+
                       {...field}
                     />
                   )}
@@ -770,7 +780,8 @@ const Register = () => {
                       label="Designation*"
                       error={errors.designation?.message}
                       height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                      paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
+
                       {...field}
                     />
                   )}
@@ -914,7 +925,8 @@ const Register = () => {
                       label="Joining Date*"
                       type="date"
                       height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                      paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
+
                       error={errors.joiningDate?.message}
                       {...field}
                     />
@@ -934,7 +946,8 @@ const Register = () => {
                   type="text"
                   value={joiningDuration}
                   height={{ xl: "64px", md: "45px" }}
-                  paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                  paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
+
                   border={false}
                   readOnly
                   disabled
@@ -998,7 +1011,8 @@ const Register = () => {
                       label="Annual Leaves*"
                       error={errors.annualLeaves?.message}
                       height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                      paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
+
                       {...field}
                       type={"number"}
                     />
@@ -1022,7 +1036,8 @@ const Register = () => {
                       label="Basic Salary"
                       error={errors.basicSalary?.message}
                       height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                      paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
+
                       {...field}
                       type={"number"}
                     />
@@ -1057,7 +1072,8 @@ const Register = () => {
                       label="Convenience Allowance*"
                       error={errors.commuteAllowance?.message}
                       height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                      paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
+
                       {...field}
                       type={"number"}
                     />
@@ -1082,7 +1098,8 @@ const Register = () => {
                       label="Internet Allowance*"
                       error={errors.internetAllowance?.message}
                       height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                      paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
+
                       {...field}
                       type={"number"}
                     />
@@ -1107,7 +1124,8 @@ const Register = () => {
                       label="Mobile allowance"
                       error={errors.mobileAllowance?.message}
                       height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                      paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
+
                       {...field}
                       type={"number"}
                     />
@@ -1142,7 +1160,8 @@ const Register = () => {
                       type="text"
                       value={netSalary}
                       height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                      paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
+
                       // {...field}
                       readOnly
                       disabled={true}
@@ -1169,7 +1188,8 @@ const Register = () => {
                       label="Bank Name*"
                       error={errors.bank?.message}
                       height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                      paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
+
                       {...field}
                     />
                   )}
@@ -1194,7 +1214,8 @@ const Register = () => {
                       error={errors.BAN?.message}
                       {...field}
                       height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                      paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
+
                     />
                   )}
                 />
@@ -1228,7 +1249,8 @@ const Register = () => {
                       error={errors.BAT?.message}
                       {...field}
                       height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                      paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
+
                     />
                   )}
                 />

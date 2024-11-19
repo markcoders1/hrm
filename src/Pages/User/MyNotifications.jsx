@@ -58,7 +58,7 @@ const MyNotifications = () => {
   
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: "1.5rem", p: "20px 0px" }} >
-      <Box sx={{ width: { lg: "380px", xs: "100%" }, position: { lg: "fixed", xs: "static" }, right: "60px", top: "40px", zIndex: "100000 " }} >
+      <Box sx={{ width: { lg: "380px", xs: "100%" }, position: { lg: "fixed", xs: "static" }, right: "60px", top: "50px", zIndex: "100000 " }} >
         <CustomInputLabel
          height={{ xl: "44px", md: "45px" }}
          paddingInput={{ xl: "12px 10px", md: "13px 8px" }}

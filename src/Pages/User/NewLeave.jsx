@@ -104,16 +104,26 @@ try {
   };
 
   return (
-    <Box className="sheet-container-admin">
-      <Box sx={{ display: 'flex', justifyContent: 'start',gap:"4rem",  mb: 4 }}>
+    <Box className="sheet-container-admin"
+    sx={{
+      p:"0px"
+    }}
+    >
+      <Box sx={{ display: 'flex', justifyContent: 'start',gap:{sm:"4rem", xs:"2rem"},  mb: 4, flexWrap:"wrap" }}>
         <Typography sx={{fontWeight:"600", fontSize:"24px", color:"#010120"}} >Total: {leaveDetails?.annualLeaves}</Typography>
         <Typography sx={{fontWeight:"600", fontSize:"24px", color:"#010120"}} >Availed: {leaveDetails?.leavesTaken}</Typography>
         <Typography sx={{fontWeight:"600", fontSize:"24px", color:"#010120"}} >Remaining:  {leaveDetails?.annualLeaves - leaveDetails?.leavesTaken? leaveDetails?.annualLeaves - leaveDetails?.leavesTaken : "--"}</Typography>
 
       </Box>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', mb: 4 }}>
+      <form onSubmit={handleSubmit(onSubmit)} style={{
+        padding:"0px",
+        margin:"0px"
+      }} >
+        <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap',flexDirection:{
+          sm:"row",
+          xs:"column"
+        }}}>
           <Controller
             name="fromDate"
             control={control}
@@ -127,7 +137,11 @@ try {
                   id="fromDate"
                   error={errors.fromDate?.message}
                   {...field}
-                  height="64px"
+                  height="54px"
+                  paddingInput={{
+
+                  }}
+                  
                 />
                
               </Box>
@@ -147,7 +161,10 @@ try {
                   id="toDate"
                   error={errors.toDate?.message}
                   {...field}
-                  height="64px"
+                  height="54px"
+                  paddingInput={{
+
+                  }}
                 />
             
               </Box>
@@ -176,6 +193,7 @@ try {
               handleChange={field.onChange}
               error={errors.leaveType?.message}
               height="64px"
+              
             />
           )}
         />
@@ -193,6 +211,7 @@ try {
               error={errors.comment?.message}
               {...field}
               height="200px"
+              // paddingInput=""
             />
           )}
         />

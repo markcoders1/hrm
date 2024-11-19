@@ -12,6 +12,8 @@ const CustomSelectForType = ({
   height, 
   border = "1px solid #E0E0E0", 
   focusBorder = true ,
+  paddingInput="0px 17px",
+
   
 }) => {
   
@@ -34,6 +36,7 @@ const CustomSelectForType = ({
           width: width,
           height: height,
           position: "relative",
+        
           backgroundColor: "transparent",
           "& .MuiOutlinedInput-root": {
             borderRadius: "8px",
@@ -49,6 +52,7 @@ const CustomSelectForType = ({
           "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
             borderColor: focusBorder ? "black" : "transparent",
           },
+        
    
         }}
         variant="outlined"
@@ -79,7 +83,7 @@ const CustomSelectForType = ({
             height: height,
             color: value ? "black" : "#424242",
             "& .MuiSelect-select": {
-              padding: "10px 12px",
+                padding: paddingInput,
             },
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: "transparent",

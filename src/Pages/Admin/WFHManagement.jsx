@@ -216,7 +216,7 @@ const filteredWFHData = allWfh.filter((row) => {
           width: { lg: "480px", xs: "100%" },
           position: { lg: "fixed", xs: "static" },
           right: "47px",
-          top: "40px",
+          top: "50px",
           zIndex: {md:"100000 ", xs:"0"},
           display: "flex",
           gap: {sm:"1rem", xs:"0rem"},

@@ -178,7 +178,7 @@ const Attendance = () => {
               gap: 2,
               position: { lg: "fixed", xs: "static" },
               right: "65px",
-              top: "45px",
+              top: "55px",
               zIndex: "100000",
             }}
           >

@@ -95,7 +95,7 @@ const AppHeader = (props) => {
   
           </CContainer>
           <CContainer className="d-flex" fluid>
-            <Typography sx={{ color: "#010120", fontWeight: "600", fontSize: {xl:"40px", xs:"30px", padding:"0px 8px"} }}>
+            <Typography sx={{ color: "#010120", fontWeight: "600", fontSize: {sm:"40px", xs:"23px", padding:"0px 8px"} }}>
               {headertext}
             </Typography>
           </CContainer>
@@ -109,7 +109,6 @@ const AppHeader = (props) => {
         {shouldRenderBox && (
           <Box
           sx={{
-            
             position:"relative"
           }}
           >
@@ -119,7 +118,8 @@ const AppHeader = (props) => {
              height:{xs:"45px", xl: "81px"},
              borderRadius:"50%",
              objectFit:"cover",
-             mr:"20px",
+             mr:"2px",
+      
            
             }}
             component="img"

@@ -259,7 +259,7 @@ const [selectedLeaveId, setSelectedLeaveId] = useState(null);
           width: { lg: "500px", xs: "100%" },
           position: { lg: "fixed", xs: "static" },
           right: "45px",
-          top: "40px",
+          top: "50px",
           zIndex: {md:"100000 ", xs:"0"},
           display: "flex",
           gap: {sm:"1rem", xs:"0rem"},

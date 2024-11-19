@@ -55,7 +55,7 @@ const NewWFHRequest = () => {
     return (
         <Box className="sheet-container-admin" sx={{p:"0px"}} >
             <form onSubmit={handleSubmit(onSubmit)} style={{padding:"0px"}} >
-                <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', mb: 4 }}>
+                <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap',mb:1 }}>
                     <Controller
                         name="date"
                         control={control}
@@ -69,7 +69,8 @@ const NewWFHRequest = () => {
                                     id="date"
                                     error={errors.date?.message}
                                     {...field}
-                                    height="64px"
+                                    height="54px"
+                                    paddingInput={{}}
                                 />
                              
                             </Box>
@@ -90,6 +91,7 @@ const NewWFHRequest = () => {
                             error={errors.description?.message}
                             {...field}
                             height="200px"
+                            paddingInput={{}}
                         />
                     )}
                 />

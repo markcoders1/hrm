@@ -100,11 +100,9 @@ const CheckInOutModal = ({ open = false, handleClose = () => {}, checkId }) => {
     } catch (error) {
       console.log(error);
       setLoading(false);
-      setSnackAlertData({
-        open: true,
-        message: error.toString(),
-        severity: "error",
-      });
+      toast.error(error?.response?.data?.message[0].message, {position:"top-center"})
+ 
+    
     }
   };
 
@@ -160,21 +158,29 @@ const CheckInOutModal = ({ open = false, handleClose = () => {}, checkId }) => {
               />
 
               <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
-                <CustomButton
-                  loading={loading}
-                  borderRadius="7px"
-                  background="#157AFF"
-                  hoverBg="white"
-                  hovercolor="#1A0049"
-                  ButtonText="Submit"
-                  fontSize="18px"
-                  color="white"
-                  fontWeight="500"
-                  fullWidth={false}
-                  variant="contained"
-                  padding="10px 20px"
-                  onClick={handleSubmit(handleCheckInOutSubmit)}
-                />
+          
+
+<CustomButton
+              ButtonText={"Submit"}
+            background="#157AFF"
+            hoverBg="white"
+            hovercolor="#010120"
+            fontSize="16px"
+            color="white"
+            fontWeight="500"
+            borderRadius="7px"
+            // onClick={onConfirm}
+            // loading={loading}
+            fullWidth={false}
+            height="45px"
+            width={"140px"}
+            
+            hoverBorder="1px solid #010120"
+            border="1px solid #157AFF"
+            onClick={handleSubmit(handleCheckInOutSubmit)}
+
+              
+              />
               </Box>
             </Box>
           </Box>

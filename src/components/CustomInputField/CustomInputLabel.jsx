@@ -29,7 +29,7 @@ const CustomInputLabel = forwardRef(({
   width = "",
   disabled= false,
   defaultValue= "",
-  paddingInput="21px 10px",
+  paddingInput="1px 5px",
 }, ref) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -53,7 +53,7 @@ const CustomInputLabel = forwardRef(({
           mb: 2,
           width: '100%',
           position: "relative",
-          padding: {md:"5px 15px", xs:"0px"},
+          padding: {md:"5px 8px", xs:"0px"},
           boxShadow: boxShadow ? "0px 8px 26px -4px rgba(0, 0, 0, 0.15)" : "",
           '&:hover': {
             borderColor: '#BDBDBD',
@@ -91,7 +91,7 @@ const CustomInputLabel = forwardRef(({
               
             },
             '& .MuiInputBase-input': {
-              padding: "5px 12px",
+              padding: "0px 0px",
               fontSize: fontSize,
               color: color,
               height: "100%",
@@ -100,7 +100,7 @@ const CustomInputLabel = forwardRef(({
             
             '& .MuiInputBase-input': {
               color:color, // Ensures the text color in the input field is white
-              padding:paddingInput ? paddingInput :"7px 5px",
+              padding:paddingInput ? paddingInput :"0px 0px",
            
 
               

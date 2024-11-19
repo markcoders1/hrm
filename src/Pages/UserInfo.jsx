@@ -571,18 +571,24 @@ const UserInfo = () => {
                     name="fullName"
                     value={formData.fullName}
                     onChange={handleChange}
+                    height={{ xl: "64px !important", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px !important", md: "13px 8px !important" }}
                   />
                   <CustomInputLabel
                     label="Phone Number*"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
+                    height={{ xl: "64px", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
                   />
                   <CustomInputLabel
                     label="Email*"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
+                    height={{ xl: "64px !important", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px !important", md: "13px 8px !important" }}
                   />
                 </Box>
 
@@ -599,12 +605,16 @@ const UserInfo = () => {
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
+                    height={{ xl: "64px !important", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px !important", md: "13px 8px !important" }}
                   />
                   <CustomInputLabel
                     label="Emergency Number*"
                     name="emergencyContactNumber"
                     value={formData.emergencyContactNumber}
                     onChange={handleChange}
+                    height={{ xl: "64px !important", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px !important", md: "13px 8px !important" }}
                   />
                 </Box>
 
@@ -621,6 +631,8 @@ const UserInfo = () => {
                     name="CNIC"
                     value={formData.CNIC}
                     onChange={handleChange}
+                    height={{ xl: "64px !important", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px !important", md: "13px 8px !important" }}
                   />
                   <CustomInputLabel
                     label="Date Of Birth*"
@@ -628,12 +640,16 @@ const UserInfo = () => {
                     value={formData.DOB}
                     onChange={handleChange}
                     type="date"
+                    height={{ xl: "64px !important", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px !important", md: "13px 8px !important" }}
                   />
                   <CustomInputLabel
                     label="Company Id*"
                     name="companyId"
                     value={formData.companyId}
                     onChange={handleChange}
+                    height={{ xl: "64px !important", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px !important", md: "13px 8px !important" }}
                   />
                 </Box>
 
@@ -649,6 +665,8 @@ const UserInfo = () => {
                     label="Password"
                     onChange={handleChange}
                     disabled={true}
+                    height={{ xl: "64px !important", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px !important", md: "13px 8px !important" }}
                   />
 
                   <CustomInputLabel
@@ -657,6 +675,8 @@ const UserInfo = () => {
                     value={formData.shiftTimingFrom}
                     onChange={handleChange}
                     type="time"
+                    height={{ xl: "64px !important", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px !important", md: "13px 8px !important" }}
                   />
                   <CustomInputLabel
                     label="Shift Timing To"
@@ -664,6 +684,8 @@ const UserInfo = () => {
                     value={formData.shiftTimingTo}
                     onChange={handleChange}
                     type="time"
+                    height={{ xl: "64px !important", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px !important", md: "13px 8px !important" }}
                   />
                 </Box>
 
@@ -677,7 +699,8 @@ const UserInfo = () => {
                   <CustomSelectForRole
                     label="Department"
                     name="department"
-                    height={"66px"}
+                    height={{ xl: "76px !important", md: "58px !important" }}
+
                     options={departments.map((depart) => ({
                       value: depart.value,
                       label: depart.label,
@@ -698,7 +721,8 @@ const UserInfo = () => {
                       value: tl.id,
                       label: tl.fullName,
                     }))}
-                    height={"66px"}
+                    height={{ xl: "76px !important", md: "58px !important" }}
+
                     value={formData.teamLeadID}
                     handleChange={(selectedValue) =>
                       setFormData((prev) => ({
@@ -712,6 +736,8 @@ const UserInfo = () => {
                     name="designation"
                     value={formData.designation}
                     onChange={handleChange}
+                    height={{ xl: "64px !important", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px !important", md: "13px 8px !important" }}
                   />
                 </Box>
 
@@ -776,7 +802,8 @@ const UserInfo = () => {
                   >
                     <CustomSelectForRole
                       label="HOD*"
-                      height={"66px"}
+                      height={{ xl: "76px !important", md: "58px !important" }}
+
                       name="HODID"
                       options={hods.map((hod) => ({
                         value: hod.id,
@@ -824,6 +851,8 @@ const UserInfo = () => {
                     value={shiftDuration}
                     border={false}
                     disabled={true} // Make it disabled since it's a calculated field
+                    height={{ xl: "64px !important", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px !important", md: "13px 8px !important" }}
                   />
                   <CustomInputLabel
                     label="Joining Date*"
@@ -831,6 +860,8 @@ const UserInfo = () => {
                     type="date"
                     value={formData.joiningDate}
                     onChange={handleChange}
+                    height={{ xl: "64px !important", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px !important", md: "13px 8px !important" }}
                   />
                   <CustomInputLabel
                     label="Duration*"
@@ -838,6 +869,8 @@ const UserInfo = () => {
                     value={duration} // Use the separate duration state
                     border={false}
                     disabled={true} // Disable the input since it's a calculated field
+                    height={{ xl: "64px !important", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px !important", md: "13px 8px !important" }}
                   />
                 </Box>
 
@@ -851,7 +884,8 @@ const UserInfo = () => {
                 >
                   <CustomSelectForRole
                     label="User Role"
-                    height={"66px"}
+                    height={{ xl: "76px !important", md: "58px !important" }}
+
                     name="role"
                     options={[
                       { value: "HOD", label: "HOD" },
@@ -871,12 +905,16 @@ const UserInfo = () => {
                     name="annualLeaves"
                     value={formData.annualLeaves}
                     onChange={handleChange}
+                    height={{ xl: "64px !important", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px !important", md: "13px 8px !important" }}
                   />
                   <CustomInputLabel
                     label="Net Salary*"
                     name="basicSalary"
                     value={formData.basicSalary}
                     onChange={handleChange}
+                    height={{ xl: "64px !important", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px !important", md: "13px 8px !important" }}
                   />
                 </Box>
 
@@ -890,7 +928,8 @@ const UserInfo = () => {
                 >
                   <CustomSelectForRole
                     label="Location Type"
-                    height={"66px"}
+                    height={{ xl: "76px !important", md: "58px !important" }}
+
                     name="locationType"
                     options={[
                       { value: "onsite", label: "On-Site" },
@@ -907,7 +946,8 @@ const UserInfo = () => {
                   />
                   <CustomSelectForRole
                     label="On Probation"
-                    height={"66px"}
+                    height={{ xl: "76px !important", md: "58px !important" }}
+
                     name="onProbation"
                     options={[
                       { value: true, label: "True" },
@@ -923,7 +963,8 @@ const UserInfo = () => {
                   />
                   <CustomSelectForRole
                     label="Employment Type"
-                    height={"66px"}
+                    height={{ xl: "76px !important", md: "58px !important" }}
+
                     name="employmentType"
                     options={[
                       { value: "partTime", label: "Part Time" },
@@ -953,18 +994,24 @@ const UserInfo = () => {
                     name="commuteAllowance"
                     value={formData.commuteAllowance}
                     onChange={handleChange}
+                    height={{ xl: "64px !important", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px !important", md: "13px 8px !important" }}
                   />
                   <CustomInputLabel
                     label="Internet Allowance*"
                     name="internetAllowance"
                     value={formData.internetAllowance}
                     onChange={handleChange}
+                    height={{ xl: "64px !important", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px !important", md: "13px 8px !important" }}
                   />
                   <CustomInputLabel
                     label="Mobile Allowance*"
                     name="mobileAllowance"
                     value={formData.mobileAllowance}
                     onChange={handleChange}
+                    height={{ xl: "64px !important", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px !important", md: "13px 8px !important" }}
                   />
                 </Box>
 
@@ -981,18 +1028,24 @@ const UserInfo = () => {
                     name="bank"
                     value={formData.bank}
                     onChange={handleChange}
+                    height={{ xl: "64px !important", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px !important", md: "13px 8px !important" }}
                   />
                   <CustomInputLabel
                     label="Bank Account Number*"
                     name="BAN"
                     value={formData.BAN}
                     onChange={handleChange}
+                    height={{ xl: "64px !important", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px !important", md: "13px 8px !important" }}
                   />
                   <CustomInputLabel
                     label="Bank Account Title*"
                     name="BAT"
                     value={formData.BAT}
                     onChange={handleChange}
+                    height={{ xl: "64px !important", md: "45px" }}
+                    paddingInput={{ xl: "21px 4px !important", md: "13px 8px !important" }}
                   />
                 </Box>
               </Box>
@@ -1031,6 +1084,7 @@ const UserInfo = () => {
                     formData={formData}
                     setFormData={setFormData}
                     existingFile={formData?.documents?.CNICFront}
+                    
                   />
                   <FileUpload
                     label="Back CNIC"

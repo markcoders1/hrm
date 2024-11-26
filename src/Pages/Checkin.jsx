@@ -67,7 +67,7 @@ const Check = () => {
   const [graphData, setGraphData] = useState([]);
   const dispatch = useDispatch();
   const role = useSelector((state)=> state.user.user.role)
-  console.log(role)
+  // console.log(role)
 
   useEffect(() => {}, []);
   useEffect(() => {

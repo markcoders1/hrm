@@ -58,10 +58,7 @@ const Login = () => {
                 name: response?.data?.name,
                 accessToken: response?.data?.accessToken,
                 refreshToken: response?.data?.refreshToken,
-                email: response?.data?.email,
-                userId: response?.data?._id,
-                role: response?.data?.role
-
+                permissions : response?.data?.permissions   
             };
 
             dispatch(login(userData));
@@ -75,13 +72,15 @@ const Login = () => {
             setAccessToken(response.data.accessToken);
             if (rememberMe) {
                 localStorage.setItem("refreshToken", response.data.refreshToken);
+                userData.refreshToken = response.data.refreshToken;
             }
-            if (response.data.role === "user" || response.data.role === "TL" || response.data.role === "HR" ) {
-                navigate("/dashboard")
+            navigate("dashboard");
+            // if (response.data.role === "user" || response.data.role === "TL" || response.data.role === "HR" ) {
+            //     navigate("/dashboard")
 
-            } else if (response.data.role === "HOD") {
-                navigate("/dashboard/admin");
-            }
+            // } else if (response.data.role === "HOD") {
+            //     navigate("/dashboard/admin");
+            // }
             toast.success("User Logged In Successfully", {
                 position: "top-center",
             });

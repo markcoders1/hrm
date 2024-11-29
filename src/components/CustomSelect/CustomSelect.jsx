@@ -18,11 +18,11 @@ const CustomSelectForType = ({
 }) => {
   
   useEffect(() => {
-    // Sync selected value with parent whenever `value` changes
-    if (!value) {
-      handleChange(""); // Ensure the value is passed correctly to parent
+    if (value === undefined || value === null) {
+      handleChange(""); // Ensure the value is passed correctly to the parent
     }
   }, [value, handleChange]);
+
 
   return (
     <Box sx={{ mb: 2, width: '100%' }}>

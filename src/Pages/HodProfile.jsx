@@ -37,7 +37,7 @@ const HodProfile = () => {
   setParaText(" ");
   
 
-  // Use React Query v5 to fetch data
+
   const { data: yourData, isPending } = useQuery({
     queryKey: ["userProfile", id],
     queryFn: () => fetchUserProfile(id),

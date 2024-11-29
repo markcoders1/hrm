@@ -203,6 +203,8 @@ const Attendance = () => {
                   { value: "10", label: "November" },
                   { value: "11", label: "December" },
                 ]}
+            height={"46px"}
+
               />
             </FormControl>
 
@@ -219,6 +221,8 @@ const Attendance = () => {
                   { value: "2024", label: "2024" },
                   { value: "2025", label: "2025" },
                 ]}
+            height={"46px"}
+
               />
             </FormControl>
           </Box>

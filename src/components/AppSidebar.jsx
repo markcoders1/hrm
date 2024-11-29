@@ -114,7 +114,7 @@ const AppSidebar = () => {
   const user = useSelector((state) => state.user.user.permissions);
   const permissions = useSelector((state) => state?.user?.user?.permissions);
 
-  console.log(permissions);
+ 
 
 
   const handleLogout = () => {
@@ -755,6 +755,7 @@ const AppSidebar = () => {
         requestHeading={"Log Out Confirmation"}
       />
     </>
+
   );
 };
 

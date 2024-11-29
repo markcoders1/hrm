@@ -13,16 +13,40 @@ import CustomSelectForType from "../../components/CustomSelect/CustomSelect";
 import { CheckBox } from "@mui/icons-material";
 import VirtualizedSelect from "../../components/VirtualizedSelect/VirtualizedSelect";
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import SpinnerLoader from "../../components/SpinnerLoader";
 
 
 const GeneralSettings = () => {
   const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    name: '',
+    address: '',
+    logo: '',
+    phone: '',
+    website: '',
+    about: '',
+    primaryCurrency: '',
+    secondaryCurrency: '',
+    timezone: '',
+    weekStart: 0,
+    weekEnd: 0,
+    dayStart: 0,
+  })
 
   const {
     control: controlCompanyInfo,
     handleSubmit: handleSubmitCompanyInfo,
     formState: { errors: errorsCompanyInfo },
     reset: resetCompanyInfo,
+  } = useForm();
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
   } = useForm();
 
   const {
@@ -36,11 +60,12 @@ const GeneralSettings = () => {
   const [isDefaultCurrency, setIsDefaultCurrency] = useState(false);
 
   useEffect(() => {
+    fetchCompanyData()
     // Fetch countries and currencies from the Rest Countries API
     axios
       .get("https://restcountries.com/v3.1/all")
       .then((response) => {
-        // Extract unique currencies
+
         const currencyOptions = [];
         response.data.forEach((country) => {
           if (country.currencies) {
@@ -66,49 +91,77 @@ const GeneralSettings = () => {
       );
   }, []);
 
+  const fetchCompanyData = async () => {
+    const response = await axiosInstance.get(`${apiUrl}/api/admin/settings/general`, {
+
+    });
+    console.log(response)
+    const data = response.data.data;
+
+    setFormData({
+      name: data?.name || '',
+      address: data?.address || '',
+      logo: data?.logo || '',
+      phone: data?.phone || '',
+      website: data?.website || '',
+      about: data?.about || '',
+      primaryCurrency: data?.primaryCurrency || '',
+      secondaryCurrency: data?.secondaryCurrency || '',
+      timezone: data?.timezone || '',
+      weekStart: data?.weekStart || '',
+      weekEnd: data?.weekEnd || '',
+      dayStart: data?.dayStart || '',
+    });
+
+
+
+  };
+
+
   const timeZones = [
-    { label: "UTC−12:00", value: "Etc/GMT+12" },
-    { label: "UTC−11:00", value: "Etc/GMT+11" },
-    { label: "UTC−10:00", value: "Etc/GMT+10" },
-    { label: "UTC−09:30", value: "Pacific/Marquesas" },
-    { label: "UTC−09:00", value: "Etc/GMT+9" },
-    { label: "UTC−08:00", value: "Etc/GMT+8" },
-    { label: "UTC−07:00", value: "Etc/GMT+7" },
-    { label: "UTC−06:00", value: "Etc/GMT+6" },
-    { label: "UTC−05:00", value: "Etc/GMT+5" },
-    { label: "UTC−04:00", value: "Etc/GMT+4" },
-    { label: "UTC−03:30", value: "America/St_Johns" },
-    { label: "UTC−03:00", value: "Etc/GMT+3" },
-    { label: "UTC−02:00", value: "Etc/GMT+2" },
-    { label: "UTC−01:00", value: "Etc/GMT+1" },
-    { label: "UTC±00:00", value: "Etc/GMT" },
-    { label: "UTC+01:00", value: "Etc/GMT-1" },
-    { label: "UTC+02:00", value: "Etc/GMT-2" },
-    { label: "UTC+03:00", value: "Etc/GMT-3" },
-    { label: "UTC+03:30", value: "Asia/Tehran" },
-    { label: "UTC+04:00", value: "Etc/GMT-4" },
-    { label: "UTC+04:30", value: "Asia/Kabul" },
-    { label: "UTC+05:00", value: "Etc/GMT-5" },
-    { label: "UTC+05:30", value: "Asia/Kolkata" },
-    { label: "UTC+05:45", value: "Asia/Kathmandu" },
-    { label: "UTC+06:00", value: "Etc/GMT-6" },
-    { label: "UTC+06:30", value: "Asia/Yangon" },
-    { label: "UTC+07:00", value: "Etc/GMT-7" },
-    { label: "UTC+08:00", value: "Etc/GMT-8" },
-    { label: "UTC+08:45", value: "Australia/Eucla" },
-    { label: "UTC+09:00", value: "Etc/GMT-9" },
-    { label: "UTC+09:30", value: "Australia/Adelaide" },
-    { label: "UTC+10:00", value: "Etc/GMT-10" },
-    { label: "UTC+10:30", value: "Australia/Lord_Howe" },
-    { label: "UTC+11:00", value: "Etc/GMT-11" },
-    { label: "UTC+12:00", value: "Etc/GMT-12" },
-    { label: "UTC+12:45", value: "Pacific/Chatham" },
-    { label: "UTC+13:00", value: "Etc/GMT-13" },
-    { label: "UTC+14:00", value: "Etc/GMT-14" },
+    { label: "UTC-12:00", value: -690 },
+    { label: "UTC-11:00", value: -660 },
+    { label: "UTC-10:00", value: -630 },
+    { label: "UTC-09:30", value: -600 },
+    { label: "UTC-09:00", value: -570 },
+    { label: "UTC-08:00", value: -540 },
+    { label: "UTC-07:00", value: -510 },
+    { label: "UTC-06:00", value: -480 },
+    { label: "UTC-05:00", value: -450 },
+    { label: "UTC-04:00", value: -420 },
+    { label: "UTC-03:30", value: -390 },
+    { label: "UTC-03:00", value: -360 },
+    { label: "UTC-01:00", value: -330 },
+    { label: "UTC-02:00", value: -300 },
+    { label: "UTC+00:00", value: -270 },
+    { label: "UTC+01:00", value: -240 },
+    { label: "UTC+02:00", value: -210 },
+    { label: "UTC+03:00", value: -180 },
+    { label: "UTC+03:30", value: -150 },
+    { label: "UTC+04:00", value: -120 },
+    { label: "UTC+04:30", value: -90 },
+    { label: "UTC+05:00", value: -60 },
+    { label: "UTC+05:30", value: -30 },
+    { label: "UTC+05:45", value: 0 },
+    { label: "UTC+06:00", value: 30 },
+    { label: "UTC+06:30", value: 60 },
+    { label: "UTC+07:00", value: 90 },
+    { label: "UTC+08:00", value: 120 },
+    { label: "UTC+08:45", value: 150 },
+    { label: "UTC+09:00", value: 180 },
+    { label: "UTC+09:30", value: 210 },
+    { label: "UTC+10:00", value: 240 },
+    { label: "UTC+10:30", value: 270 },
+    { label: "UTC+11:00", value: 300 },
+    { label: "UTC+12:00", value: 330 },
+    { label: "UTC+12:45", value: 360 },
+    { label: "UTC+13:00", value: 390 },
+    { label: "UTC+14:00", value: 420 },
   ];
 
+
   const times = [
-  
+
     { label: "1AM", value: "1AM" },
     { label: "2AM", value: "2AM" },
     { label: "3AM", value: "3AM" },
@@ -137,13 +190,13 @@ const GeneralSettings = () => {
   ]
 
   const daysOfWeek = [
-    { label: "Monday", value: "Monday" },
-    { label: "Tuesday", value: "Tuesday" },
-    { label: "Wednesday", value: "Wednesday" },
-    { label: "Thursday", value: "Thursday" },
-    { label: "Friday", value: "Friday" },
-    { label: "Saturday", value: "Saturday" },
-    { label: "Sunday", value: "Sunday" },
+    { label: "Monday", value: "0" },
+    { label: "Tuesday", value: "1" },
+    { label: "Wednesday", value: "2" },
+    { label: "Thursday", value: "3" },
+    { label: "Friday", value: "4" },
+    { label: "Saturday", value: "5" },
+    { label: "Sunday", value: "6" },
   ];
 
   const onSubmitCompanyInfo = (data) => {
@@ -158,6 +211,11 @@ const GeneralSettings = () => {
     resetTimeZone();
   };
 
+
+  const onSubmit = (data) => {
+    console.log(formData)
+  }
+
   return (
     <Box
       sx={{
@@ -165,32 +223,42 @@ const GeneralSettings = () => {
         flexDirection: "column",
       }}
     >
-      {/* Company Information Form */}
-      <Box
-        sx={{
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        style={{
+          padding: "0px",
           display: "flex",
           flexDirection: "column",
-          gap: { xl: "3rem", xs: "2rem" },
+          gap: "10px",
         }}
       >
-        <SettingsHeading Heading="General Settings" />
-        <SettingsHeading Heading="Company Information" />
-      </Box>
-
-      <Box
-        sx={{
-          mt: "50px",
-        }}
-      >
-        <form
-          onSubmit={handleSubmitCompanyInfo(onSubmitCompanyInfo)}
-          style={{
-            padding: "0px",
+        {/* Company Information Form */}
+        <Box
+          sx={{
             display: "flex",
             flexDirection: "column",
-            gap: "10px",
+
           }}
         >
+          <SettingsHeading Heading="General Settings" />
+          <Typography
+            sx={{
+              fontWeight: "500",
+              fontSize: "30px",
+              color: "#010120",
+              mt: "35px"
+            }}
+          >
+            Company's Information
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            mt: "50px",
+          }}
+        >
+
           <Box
             sx={{
               display: "flex",
@@ -198,59 +266,29 @@ const GeneralSettings = () => {
               flexDirection: { lg: "row", xs: "column" },
             }}
           >
-            <Controller
-              name="companyName"
-              control={controlCompanyInfo}
-              defaultValue=""
-              rules={{ required: "Company Name is required" }}
-              render={({ field }) => (
-                <Box sx={{ position: "relative", flex: "1 1 100%" }}>
-                  <CustomInputLabel
-                    label="Company Name"
-                    id="companyName"
-                    error={errorsCompanyInfo.companyName?.message}
-                    {...field}
-                    height={{ xl: "64px", md: "45px" }}
-                    paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
-                  />
-                </Box>
-              )}
+            <CustomInputLabel
+              label="Company Name"
+              id="name"
+              value={formData?.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              height={{ xl: "64px", md: "45px" }}
+              paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
             />
-            <Controller
-              name="companyPhone"
-              control={controlCompanyInfo}
-              defaultValue=""
-              rules={{ required: "Company Phone is required" }}
-              render={({ field }) => (
-                <Box sx={{ position: "relative", flex: "1 1 100%" }}>
-                  <CustomInputLabel
-                    label="Company Phone Number"
-                    id="companyPhone"
-                    error={errorsCompanyInfo.companyPhone?.message}
-                    {...field}
-                    height={{ xl: "64px", md: "45px" }}
-                    paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
-                  />
-                </Box>
-              )}
+            <CustomInputLabel
+              label="Company's Phone Number"
+              id="phone"
+              value={formData?.phone}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              height={{ xl: "64px", md: "45px" }}
+              paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
             />
-            <Controller
-              name="companyWebsite"
-              control={controlCompanyInfo}
-              defaultValue=""
-              rules={{ required: "Company Website is required" }}
-              render={({ field }) => (
-                <Box sx={{ position: "relative", flex: "1 1 100%" }}>
-                  <CustomInputLabel
-                    label="Company Website"
-                    id="companyWebsite"
-                    error={errorsCompanyInfo.companyWebsite?.message}
-                    {...field}
-                    height={{ xl: "64px", md: "45px" }}
-                    paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
-                  />
-                </Box>
-              )}
+            <CustomInputLabel
+              label="Company's Website"
+              id="website"
+              value={formData?.website}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              height={{ xl: "64px", md: "45px" }}
+              paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
             />
           </Box>
 
@@ -266,150 +304,95 @@ const GeneralSettings = () => {
                 flexBasis: "32.7%",
               }}
             >
-              <Controller
-                name="companyLogo"
-                control={controlCompanyInfo}
-                defaultValue=""
-                rules={{ required: "Company Logo is required" }}
-                render={({ field }) => (
-                  <Box sx={{ position: "relative", flex: "1 1 100%" }}>
-                    <CustomInputLabel
-                      type="file"
-                      label="Company Logo"
-                      id="companyLogo"
-                      error={errorsCompanyInfo.companyLogo?.message}
-                      {...field}
-                      height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
-                    />
-                  </Box>
-                )}
-              />
+
+              <Box sx={{ position: "relative", flex: "1 1 100%" }}>
+                <CustomInputLabel
+                  type="file"
+                  label="Company's Logo"
+                  id="companyLogo"
+                  height={{ xl: "64px", md: "45px" }}
+                  paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                />
+              </Box>
+
             </Box>
             <Box
               sx={{
                 flexBasis: "67%",
               }}
             >
-              <Controller
-                name="companyAddress"
-                control={controlCompanyInfo}
-                defaultValue=""
-                rules={{ required: "Company Address is required" }}
-                render={({ field }) => (
-                  <Box sx={{ position: "relative", flex: "1 1 100%" }}>
-                    <CustomInputLabel
-                      label="Company Address"
-                      id="companyAddress"
-                      error={errorsCompanyInfo.companyAddress?.message}
-                      {...field}
-                      height={{ xl: "64px", md: "45px" }}
-                      paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
-                    />
-                  </Box>
-                )}
+              <CustomInputLabel
+                label="Company's Address"
+                id="address"
+                value={formData?.address}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                height={{ xl: "64px", md: "45px" }}
+                paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+
+
               />
             </Box>
           </Box>
 
           <Box>
-            <Controller
-              name="aboutCompany"
-              control={controlCompanyInfo}
-              defaultValue=""
-              rules={{ required: "About is required" }}
-              render={({ field }) => (
-                <CustomInputLabel
-                  label="About Company"
-                  multiline
-                  error={errorsCompanyInfo.aboutCompany?.message}
-                  {...field}
-                  height="200px"
-                  paddingInput="7px 5px"
-                />
-              )}
+            <CustomInputLabel
+              label="About Company"
+              id="about"
+              value={formData?.about}
+              onChange={(e) => setFormData({ ...formData, about: e.target.value })}
+              multiline
+              height="200px"
+              paddingInput="7px 5px"
             />
+
           </Box>
 
-          <Box sx={{ mt: 4, display: "flex", justifyContent: "end" }}>
-            <Tooltip title="Submit Company Information">
-              <CustomButton
-                ButtonText="Submit"
-                fontSize="12px"
-                color="white"
-                fontWeight="500"
-                fullWidth={false}
-                variant="contained"
-                padding="10px 0px"
-                type="submit"
-                background="#157AFF"
-                hoverBg="#303f9f"
-                hovercolor="white"
-                width={"189px"}
-                borderRadius="7px"
-              />
-            </Tooltip>
-          </Box>
-        </form>
-      </Box>
 
-      {/* Time Zone and Currency Settings Form */}
-      <Box
-        sx={{
-          mt: "50px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "1.8rem",
-        }}
-      >
-        <SettingsHeading Heading="Time Zone Setting" />
 
-        <Box>
-          <Typography
-            sx={{
-              color: "#0101200",
-              fontSize: "18px",
-              fontWeight: "500",
-            }}
-          >
-            Current Date and Time
-          </Typography>
-          <Typography
-            sx={{
-              color: "#0101200",
-              fontSize: "18px",
-              fontWeight: "500",
-            }}
-          >
-            {new Date().toLocaleString()}
-          </Typography>
         </Box>
 
-        <form
-          onSubmit={handleSubmitTimeZone(onSubmitTimeZone)}
-          style={{
+        <Box
+          sx={{
+            mt: "50px",
             display: "flex",
             flexDirection: "column",
-            gap: "10px",
+            gap: "1.8rem",
           }}
         >
-          {/* Organization Time Zone */}
-          <Controller
-            name="organizationTimeZone"
-            control={controlTimeZone}
-            defaultValue=""
-            rules={{ required: "Time Zone is required" }}
-            render={({ field }) => (
-              <CustomSelectForType
-                label="Organization Time Zone"
-                value={field.value}
-                handleChange={field.onChange}
-                options={timeZones}
-                height={"64px"}
-                error={errorsTimeZone.organizationTimeZone?.message}
-              />
-            )}
+          <SettingsHeading Heading="Time Zone Setting" />
+
+          <Box>
+            <Typography
+              sx={{
+                color: "#0101200",
+                fontSize: "18px",
+                fontWeight: "500",
+              }}
+            >
+              Current Date and Time
+            </Typography>
+            <Typography
+              sx={{
+                color: "#0101200",
+                fontSize: "18px",
+                fontWeight: "500",
+              }}
+            >
+              {new Date().toLocaleString()}
+            </Typography>
+          </Box>
+
+
+          {/* here i had changed code s here i am getting can not read properties of undefined reading value  */}
+          <CustomSelectForType
+            label="Organization Time Zone"
+            id="timezone"
+            value={formData?.timezone || ""}  // Ensure it's an empty string if undefined
+            handleChange={(e) => setFormData({ ...formData, timezone: e.target.value })}
+            options={timeZones}
+            height={"64px"}
           />
+
 
           {/* Work Day Start and End */}
           <Box
@@ -477,73 +460,45 @@ const GeneralSettings = () => {
                 />
               )}
             />
-            <Controller
-              name="workTimeEnd"
-              control={controlTimeZone}
-              defaultValue=""
-              rules={{ required: "Work Time End is required" }}
-              render={({ field }) => (
-                <CustomSelectForType
-                  label="Work Time End"
-                  value={field.value}
-                  handleChange={field.onChange}
-                  options={times}
-                  height={"64px"}
-                  error={errorsTimeZone.workTimeEnd?.message}
-                />
-              )}
-            />
+
           </Box>
 
           {/* Currency Setting */}
           <Box
-             sx={{
+            sx={{
               display: "flex",
               alignItems: "center",
               gap: "10px",
-              justifyContent:"space-between"
+              justifyContent: "space-between"
             }}
           >
 
-          <SettingsHeading Heading="Currency Setting" />
-          <Box
-           sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",}}
-          >
-               <input
-              type="checkbox"
-              checked={isDefaultCurrency}
-              onChange={(e) => setIsDefaultCurrency(e.target.checked)}
-            />
-            <Typography>Default Currency</Typography>
-         
-          </Box>
-          </Box>
-<Box
-sx={{
-  mt:"30px"
-}}
->
+            <SettingsHeading Heading="Currency Setting" />
 
-          <Controller
-            name="currency"
-            control={controlTimeZone}
-            defaultValue=""
-            rules={{ required: "Currency is required" }}
-            render={({ field }) => (
-              <VirtualizedSelect
-                label="Currency"
-                height={{ xl: "76px !important", md: "58px !important" }}
-                options={currencies}
-                value={field.value}
-                handleChange={field.onChange}
-                error={errorsTimeZone.currency?.message}
-              />
-            )}
-          />
-</Box>
+          </Box>
+          <Box
+            sx={{
+              mt: "30px"
+            }}
+          >
+
+            <Controller
+              name="currency"
+              control={controlTimeZone}
+              defaultValue=""
+              rules={{ required: "Currency is required" }}
+              render={({ field }) => (
+                <VirtualizedSelect
+                  label="Currency"
+                  height={{ xl: "76px !important", md: "58px !important" }}
+                  options={currencies}
+                  value={field.value}
+                  handleChange={field.onChange}
+                  error={errorsTimeZone.currency?.message}
+                />
+              )}
+            />
+          </Box>
 
           {/* Submit Button */}
           <Box sx={{ mt: 4, display: "flex", justifyContent: "end" }}>
@@ -565,8 +520,8 @@ sx={{
               />
             </Tooltip>
           </Box>
-        </form>
-      </Box>
+        </Box>
+      </form>
     </Box>
   );
 };

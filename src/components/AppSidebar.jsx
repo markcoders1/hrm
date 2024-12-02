@@ -607,23 +607,29 @@ const AppSidebar = () => {
               </CustomNavLink>
             </CNavItem>
 
-          {user === "HOD" ? (
-            <>
-              <CNavItem>
-                <CustomNavLink to="/dashboard/admin" className="nav-link" end>
-                  &nbsp;{" "}
-                  <img
-                    src={dashboardIcon}
-                    alt=""
-                    style={{ width: "17.77px", height: "17.75px" }}
-                  />{" "}
-                  &nbsp;&nbsp; Dashboard
-                </CustomNavLink>
-              </CNavItem>
-            </>
-          ) : (
-            ""
-          )}
+       
+          
+          {
+            permissions.map((permission, index) => (
+              <Box key={index} >
+                {
+                  permission == "C-P-N-attendance" && (
+                    <CNavItem>
+                    <CustomNavLink to="/dashboard/admin" className="nav-link" end>
+                      &nbsp;{" "}
+                      <img
+                        src={dashboardIcon}
+                        alt=""
+                        style={{ width: "17.77px", height: "17.75px" }}
+                      />{" "}
+                      &nbsp;&nbsp; Dashboard
+                    </CustomNavLink>
+                  </CNavItem>
+                  )
+                }
+              </Box>
+            ))
+          }
 
 
           {user === "HOD" ? (

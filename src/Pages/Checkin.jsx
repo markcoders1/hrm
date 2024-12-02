@@ -66,7 +66,9 @@ const Check = () => {
   const [checkTime, setCheckTime] = useState(0);
   const [graphData, setGraphData] = useState([]);
   const dispatch = useDispatch();
-  const role = useSelector((state)=> state.user.user.role)
+  const role = useSelector((state)=> state.user.user.role);
+  const permissions = useSelector((state) => state?.user?.user?.permissions);
+
   // console.log(role)
 
   useEffect(() => {}, []);
@@ -207,7 +209,7 @@ const Check = () => {
         url: `${apiUrl}/api/graph`,
       });
       console.log("grapgh", response);
-      setGraphData(response.data.graphdata);
+      setGraphData(response?.data?.graphdata);
       // setStatus(response.data.status);
 
       setLoading(false);
@@ -289,44 +291,49 @@ const Check = () => {
               },
             }}
           >
-            <Box
-              sx={{
-                flexBasis: "50%",
-                backgroundColor: "white ",
-              }}
-            >
-              <CustomButton
-                onClick={handleCheck}
-                ButtonText={status === "checkin" ? "Check Out" : "Check In"}
-                fullWidth={true}
-                background="#157AFF"
-                color="white"
-                fontWeight="500"
-                fontSize="32px"
-                hoverBg="#303f9f"
-                padding="26px 0px"
-                borderRadius="12px"
-                buttonStyle={{
-                  height: "10rem",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                }}
-                extraText={
-                  status === "checkin"
-                    ? `${unixTimestampToTime(checkTime)}`
-                    : null
-                }
-              />
-
-              <Box
+            {
+              permissions == "C-P-N-attendance" ? (
+                <Box
                 sx={{
-                  mt: "30px",
+                  flexBasis: "50%",
+                  backgroundColor: "white ",
                 }}
               >
-                <Chart graphData={graphData} />
+                <CustomButton
+                  onClick={handleCheck}
+                  ButtonText={status === "checkin" ? "Check Out" : "Check In"}
+                  fullWidth={true}
+                  background="#157AFF"
+                  color="white"
+                  fontWeight="500"
+                  fontSize="32px"
+                  hoverBg="#303f9f"
+                  padding="26px 0px"
+                  borderRadius="12px"
+                  buttonStyle={{
+                    height: "10rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                  extraText={
+                    status === "checkin"
+                      ? `${unixTimestampToTime(checkTime)}`
+                      : null
+                  }
+                />
+  
+                <Box
+                  sx={{
+                    mt: "30px",
+                  }}
+                >
+                  <Chart graphData={graphData} />
+                </Box>
               </Box>
-            </Box>
+              ) : null
+            }
+         
 
             <Box
               sx={{

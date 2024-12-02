@@ -7,6 +7,7 @@ import { Outlet } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { setCount } from '../Redux/NotificationCount.js';
 import axiosInstance from '../auth/axiosInstance.js';
+import { useNavigation } from '../auth/navigation.js';
 
 
 const DefaultLayout = () => {
@@ -19,7 +20,7 @@ const DefaultLayout = () => {
   const formDirty = useSelector((state) => state.form.isFormDirty);
 
   
-  
+  useNavigation()
   const count = useSelector((state) => state.counter.count); 
 
 

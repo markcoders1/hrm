@@ -18,14 +18,33 @@ import eyeIcon from "../../../assets/eye.png";
 import deleteIcon from "../../../assets/deleteIcon.png";
 
 import editIconWhite from "../../../assets/editIconGroup.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomButton from "../../../components/CustomButton/CustomButton";
+import axiosInstance from "../../../auth/axiosInstance";
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import { useNavigate } from "react-router-dom";
 
 
 
 
 const ActiveDepartment= ({mockData}) => {
-  const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
+  const [hoveredRow, setHoveredRow] = useState(null); 
+  const [department, setDepartment] = useState([]);
+  const navigate = useNavigate();
+
+  const fetchCompanyData = async () => {
+    const response = await axiosInstance.get(`${apiUrl}/api/admin/settings/departments`, {
+
+    });
+    console.log(response)
+    setDepartment(response.data);
+    // const data = response;
+  }
+
+  useEffect(()=>{
+    fetchCompanyData();
+  },[])
+
 
   return (
     <Box>
@@ -124,9 +143,9 @@ const ActiveDepartment= ({mockData}) => {
             </TableRow>
           </TableHead>
           <TableBody className="MuiTableBody-root">
-            {mockData.map((data, index) => (
+            {department.map((data, index) => (
               <TableRow
-                key={data.employeeId}
+                key={data._id}
                 className="MuiTableRow-root"
                 onMouseEnter={() => setHoveredRow(index)}
                 onMouseLeave={() => setHoveredRow(null)}
@@ -146,7 +165,7 @@ const ActiveDepartment= ({mockData}) => {
                   }}
                   className="MuiTableCell-root"
                 >
-                  &nbsp;&nbsp; {data.employeeId}
+                  &nbsp;&nbsp; {data?.name}
                 </TableCell>
 
                 <TableCell
@@ -156,7 +175,30 @@ const ActiveDepartment= ({mockData}) => {
                   }}
                   className="MuiTableCell-root"
                 >
+                     <Tooltip
+                  title={"View Department"}
+                  >
+
+                    <Typography
+                          sx={{
+                            width: "45px",
+                            height: "45px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "50%",
+                            m:"auto",
+
+                            transition: "background-color 0.3s ease",
+                            "&:hover": {
+                              backgroundColor: "rgba(255, 255, 255, 0.2)",
+                            },
+                          }}
+                          onClick={()=> navigate("")}
+                        >
                   <img src={eyeIcon} alt="" />
+                  </Typography>
+                  </Tooltip>
                 </TableCell>
                 <TableCell
                   sx={{
@@ -165,7 +207,31 @@ const ActiveDepartment= ({mockData}) => {
                   }}
                   className="MuiTableCell-root"
                 >
+                     <Tooltip
+                  title={"Edit Department"}
+                  >
+
+                    <Typography
+                          sx={{
+                            width: "45px",
+                            height: "45px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "50%",
+                            m:"auto",
+
+                            transition: "background-color 0.3s ease",
+                            "&:hover": {
+                              backgroundColor: "rgba(255, 255, 255, 0.2)",
+                            },
+                          }}
+                          // onClick={}
+                        >
                   <img src={editIconWhite} alt="" />
+                  </Typography>
+                  </Tooltip>
+
 
                 </TableCell>
                 <TableCell
@@ -176,7 +242,30 @@ const ActiveDepartment= ({mockData}) => {
                   }}
                   className="MuiTableCell-root"
                 >
+                  <Tooltip
+                  title={"Delete Department"}
+                  >
+                    <Typography
+                          sx={{
+                            width: "45px",
+                            height: "45px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "50%",
+                            m:"auto",
+
+                            transition: "background-color 0.3s ease",
+                            "&:hover": {
+                              backgroundColor: "rgba(255, 255, 255, 0.2)",
+                            },
+                          }}
+                          // onClick={}
+                        >
                   <img src={deleteIcon} alt="" />
+                  </Typography>
+                  </Tooltip>
+
 
                 </TableCell>
 

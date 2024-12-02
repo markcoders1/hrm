@@ -1,167 +1,166 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Tooltip,
+  Typography,
+  CircularProgress,
+} from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import CustomInputLabel from "../../components/CustomInputField/CustomInputLabel";
-import { useOutletContext, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../auth/axiosInstance";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-import SettingsHeading from '../../components/Heading/SettingsHeading'
+import SettingsHeading from "../../components/Heading/SettingsHeading";
 import CustomSelectForType from "../../components/CustomSelect/CustomSelect";
-import { CheckBox } from "@mui/icons-material";
-import VirtualizedSelect from "../../components/VirtualizedSelect/VirtualizedSelect";
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
 import SpinnerLoader from "../../components/SpinnerLoader";
 
+import VirtualizedSelect from "../../components/VirtualizedSelect/VirtualizedSelect";
+
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const GeneralSettings = () => {
   const navigate = useNavigate();
-
-  const [formData, setFormData] = useState({
-    name: '',
-    address: '',
-    logo: '',
-    phone: '',
-    website: '',
-    about: '',
-    primaryCurrency: '',
-    secondaryCurrency: '',
-    timezone: '',
-    weekStart: 0,
-    weekEnd: 0,
-    dayStart: 0,
-  })
-
-  const {
-    control: controlCompanyInfo,
-    handleSubmit: handleSubmitCompanyInfo,
-    formState: { errors: errorsCompanyInfo },
-    reset: resetCompanyInfo,
-  } = useForm();
+  const [currencies, setCurrencies] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const {
     control,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm();
-
-  const {
-    control: controlTimeZone,
-    handleSubmit: handleSubmitTimeZone,
-    formState: { errors: errorsTimeZone },
-    reset: resetTimeZone,
-  } = useForm();
-
-  const [currencies, setCurrencies] = useState([]);
-  const [isDefaultCurrency, setIsDefaultCurrency] = useState(false);
+  } = useForm({
+    defaultValues: {
+      name: "",
+      address: "",
+      logo: null,
+      phone: "",
+      website: "",
+      about: "",
+      primaryCurrency: "",
+      secondaryCurrency: "",
+      timezone: "",
+      weekStart: "",
+      weekEnd: "",
+      dayStart: "",
+      workTimeStart: "",
+      workTimeEnd: "",
+    },
+  });
 
   useEffect(() => {
-    fetchCompanyData()
-    // Fetch countries and currencies from the Rest Countries API
-    axios
-      .get("https://restcountries.com/v3.1/all")
-      .then((response) => {
-
-        const currencyOptions = [];
-        response.data.forEach((country) => {
-          if (country.currencies) {
-            Object.keys(country.currencies).forEach((currencyCode) => {
-              const currencyName = country.currencies[currencyCode].name;
-              if (
-                !currencyOptions.some(
-                  (currency) => currency.value === currencyCode
-                )
-              ) {
-                currencyOptions.push({
-                  value: currencyCode,
-                  label: `${currencyName} (${currencyCode})`,
-                });
-              }
-            });
-          }
-        });
-        setCurrencies(currencyOptions);
-      })
-      .catch((error) =>
-        console.error("Error fetching countries and currencies:", error)
-      );
+    fetchCompanyData();
+    fetchCurrencies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchCompanyData = async () => {
-    const response = await axiosInstance.get(`${apiUrl}/api/admin/settings/general`, {
+    try {
+      setLoading(true);
+      const response = await axiosInstance.get(
+        `${apiUrl}/api/admin/settings/general`
+      );
+      const data = response.data.data;
 
-    });
-    console.log(response)
-    const data = response.data.data;
-
-    setFormData({
-      name: data?.name || '',
-      address: data?.address || '',
-      logo: data?.logo || '',
-      phone: data?.phone || '',
-      website: data?.website || '',
-      about: data?.about || '',
-      primaryCurrency: data?.primaryCurrency || '',
-      secondaryCurrency: data?.secondaryCurrency || '',
-      timezone: data?.timezone || '',
-      weekStart: data?.weekStart || '',
-      weekEnd: data?.weekEnd || '',
-      dayStart: data?.dayStart || '',
-    });
-
-
-
+      reset({
+        name: data?.name || "",
+        address: data?.address || "",
+        logo: null, // File inputs cannot be set programmatically
+        phone: data?.phone || "",
+        website: data?.website || "",
+        about: data?.about || "",
+        primaryCurrency: data?.primaryCurrency || "",
+        secondaryCurrency: data?.secondaryCurrency || "",
+        timezone: data?.timezone || "",
+        weekStart: data?.weekStart || "",
+        weekEnd: data?.weekEnd || "",
+        dayStart: data?.dayStart || "",
+        workTimeStart: data?.workTimeStart || "",
+      
+      });
+    } catch (error) {
+      console.error("Error fetching company data:", error);
+      toast.error("Failed to fetch company data.");
+    } finally {
+      setLoading(false);
+    }
   };
 
+  const fetchCurrencies = async () => {
+    try {
+      const response = await axiosInstance.get(
+        "https://restcountries.com/v3.1/all"
+      );
+
+      const currencyOptions = [];
+      response.data.forEach((country) => {
+        if (country.currencies) {
+          Object.keys(country.currencies).forEach((currencyCode) => {
+            const currencyName = country.currencies[currencyCode].name;
+            if (
+              !currencyOptions.some(
+                (currency) => currency.value === currencyCode
+              )
+            ) {
+              currencyOptions.push({
+                value: currencyCode,
+                label: `${currencyName} (${currencyCode})`,
+              });
+            }
+          });
+        }
+      });
+      setCurrencies(currencyOptions);
+    } catch (error) {
+      console.error("Error fetching currencies:", error);
+      toast.error("Failed to fetch currencies.");
+    }
+  };
 
   const timeZones = [
-    { label: "UTC-12:00", value: -690 },
+    { label: "UTC-12:00", value: -720 },
     { label: "UTC-11:00", value: -660 },
-    { label: "UTC-10:00", value: -630 },
-    { label: "UTC-09:30", value: -600 },
-    { label: "UTC-09:00", value: -570 },
-    { label: "UTC-08:00", value: -540 },
-    { label: "UTC-07:00", value: -510 },
-    { label: "UTC-06:00", value: -480 },
-    { label: "UTC-05:00", value: -450 },
-    { label: "UTC-04:00", value: -420 },
-    { label: "UTC-03:30", value: -390 },
-    { label: "UTC-03:00", value: -360 },
-    { label: "UTC-01:00", value: -330 },
-    { label: "UTC-02:00", value: -300 },
-    { label: "UTC+00:00", value: -270 },
-    { label: "UTC+01:00", value: -240 },
-    { label: "UTC+02:00", value: -210 },
-    { label: "UTC+03:00", value: -180 },
-    { label: "UTC+03:30", value: -150 },
-    { label: "UTC+04:00", value: -120 },
-    { label: "UTC+04:30", value: -90 },
-    { label: "UTC+05:00", value: -60 },
-    { label: "UTC+05:30", value: -30 },
-    { label: "UTC+05:45", value: 0 },
-    { label: "UTC+06:00", value: 30 },
-    { label: "UTC+06:30", value: 60 },
-    { label: "UTC+07:00", value: 90 },
-    { label: "UTC+08:00", value: 120 },
-    { label: "UTC+08:45", value: 150 },
-    { label: "UTC+09:00", value: 180 },
-    { label: "UTC+09:30", value: 210 },
-    { label: "UTC+10:00", value: 240 },
-    { label: "UTC+10:30", value: 270 },
-    { label: "UTC+11:00", value: 300 },
-    { label: "UTC+12:00", value: 330 },
-    { label: "UTC+12:45", value: 360 },
-    { label: "UTC+13:00", value: 390 },
-    { label: "UTC+14:00", value: 420 },
+    { label: "UTC-10:00", value: -600 },
+    { label: "UTC-09:30", value: -570 },
+    { label: "UTC-09:00", value: -540 },
+    { label: "UTC-08:00", value: -480 },
+    { label: "UTC-07:00", value: -420 },
+    { label: "UTC-06:00", value: -360 },
+    { label: "UTC-05:00", value: -300 },
+    { label: "UTC-04:00", value: -240 },
+    { label: "UTC-03:30", value: -210 },
+    { label: "UTC-03:00", value: -180 },
+    { label: "UTC-02:00", value: -120 },
+    { label: "UTC-01:00", value: -60 },
+    { label: "UTC+00:00", value: 0 },
+    { label: "UTC+01:00", value: 60 },
+    { label: "UTC+02:00", value: 120 },
+    { label: "UTC+03:00", value: 180 },
+    { label: "UTC+03:30", value: 210 },
+    { label: "UTC+04:00", value: 240 },
+    { label: "UTC+04:30", value: 270 },
+    { label: "UTC+05:00", value: 300 },
+    { label: "UTC+05:30", value: 330 },
+    { label: "UTC+05:45", value: 345 },
+    { label: "UTC+06:00", value: 360 },
+    { label: "UTC+06:30", value: 390 },
+    { label: "UTC+07:00", value: 420 },
+    { label: "UTC+08:00", value: 480 },
+    { label: "UTC+08:45", value: 525 },
+    { label: "UTC+09:00", value: 540 },
+    { label: "UTC+09:30", value: 570 },
+    { label: "UTC+10:00", value: 600 },
+    { label: "UTC+10:30", value: 630 },
+    { label: "UTC+11:00", value: 660 },
+    { label: "UTC+12:00", value: 720 },
+    { label: "UTC+12:45", value: 765 },
+    { label: "UTC+13:00", value: 780 },
+    { label: "UTC+14:00", value: 840 },
   ];
 
-
   const times = [
-
     { label: "1AM", value: "1AM" },
     { label: "2AM", value: "2AM" },
     { label: "3AM", value: "3AM" },
@@ -174,7 +173,6 @@ const GeneralSettings = () => {
     { label: "10AM", value: "10AM" },
     { label: "11AM", value: "11AM" },
     { label: "12AM", value: "12AM" },
-
     { label: "12PM", value: "12PM" },
     { label: "1PM", value: "1PM" },
     { label: "2PM", value: "2PM" },
@@ -187,7 +185,7 @@ const GeneralSettings = () => {
     { label: "9PM", value: "9PM" },
     { label: "10PM", value: "10PM" },
     { label: "11PM", value: "11PM" },
-  ]
+  ];
 
   const daysOfWeek = [
     { label: "Monday", value: "0" },
@@ -199,21 +197,65 @@ const GeneralSettings = () => {
     { label: "Sunday", value: "6" },
   ];
 
-  const onSubmitCompanyInfo = (data) => {
-    console.log("Company Information Form Data:", data);
-    resetCompanyInfo();
-    navigate(-1);
+  const onSubmit = async (data) => {
+    console.log(data)
+    try {
+      // Create FormData to handle file upload
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("address", data.address);
+      if (data.logo && data.logo.length > 0) {
+        formData.append("logo", data.logo[0]); // Append the first selected file
+      }
+      formData.append("phone", data.phone);
+      formData.append("website", data.website);
+      formData.append("about", data.about);
+      formData.append("primaryCurrency", data.primaryCurrency);
+      formData.append("secondaryCurrency", data.secondaryCurrency);
+      formData.append("timezone", data.timezone);
+      formData.append("weekStart", data.weekStart);
+      formData.append("weekEnd", data.weekEnd);
+      formData.append("dayStart", data.dayStart);
+      formData.append("dayStart", data.workTimeStart);
+    
+
+      // Log the FormData entries
+      for (let pair of formData.entries()) {
+        console.log(`${pair[0]}:`, pair[1]);
+      }
+
+      // Example: Submit the form data to the API
+      // const response = await axiosInstance.post(`${apiUrl}/api/admin/settings/general`, formData, {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //   },
+      // });
+      // console.log("Form submitted successfully:", response.data);
+      // toast.success("Settings updated successfully.");
+      // navigate(-1);
+
+      // For now, just reset the form
+      reset();
+      toast.success("Form data logged to console.");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error("Failed to submit form.");
+    }
   };
 
-  const onSubmitTimeZone = (data) => {
-    data.isDefaultCurrency = isDefaultCurrency;
-    console.log("Time Zone and Currency Form Data:", data);
-    resetTimeZone();
-  };
-
-
-  const onSubmit = (data) => {
-    console.log(formData)
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "80vh",
+        }}
+      >
+        <SpinnerLoader />
+      </Box>
+    );
   }
 
   return (
@@ -221,44 +263,34 @@ const GeneralSettings = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
+        padding: "20px",
       }}
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
+        encType="multipart/form-data"
         style={{
-          padding: "0px",
           display: "flex",
           flexDirection: "column",
-          gap: "10px",
+          gap: "20px",
         }}
       >
-        {/* Company Information Form */}
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-
-          }}
-        >
+        {/* Company Information */}
+        <Box>
           <SettingsHeading Heading="General Settings" />
           <Typography
             sx={{
               fontWeight: "500",
               fontSize: "30px",
               color: "#010120",
-              mt: "35px"
+              mt: "35px",
             }}
           >
             Company's Information
           </Typography>
         </Box>
 
-        <Box
-          sx={{
-            mt: "50px",
-          }}
-        >
-
+        <Box sx={{ mt: "50px" }}>
           <Box
             sx={{
               display: "flex",
@@ -266,29 +298,50 @@ const GeneralSettings = () => {
               flexDirection: { lg: "row", xs: "column" },
             }}
           >
-            <CustomInputLabel
-              label="Company Name"
-              id="name"
-              value={formData?.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              height={{ xl: "64px", md: "45px" }}
-              paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+            <Controller
+              name="name"
+              control={control}
+              rules={{ required: "Company Name is required" }}
+              render={({ field }) => (
+                <CustomInputLabel
+                  label="Company Name"
+                  id="name"
+                  {...field}
+                  error={errors.name?.message}
+                  height={{ xl: "64px", md: "45px" }}
+                  paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                />
+              )}
             />
-            <CustomInputLabel
-              label="Company's Phone Number"
-              id="phone"
-              value={formData?.phone}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              height={{ xl: "64px", md: "45px" }}
-              paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+            <Controller
+              name="phone"
+              control={control}
+              rules={{ required: "Phone Number is required" }}
+              render={({ field }) => (
+                <CustomInputLabel
+                  label="Company's Phone Number"
+                  id="phone"
+                  {...field}
+                  error={errors.phone?.message}
+                  height={{ xl: "64px", md: "45px" }}
+                  paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                />
+              )}
             />
-            <CustomInputLabel
-              label="Company's Website"
-              id="website"
-              value={formData?.website}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              height={{ xl: "64px", md: "45px" }}
-              paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+            <Controller
+              name="website"
+              control={control}
+              rules={{ required: "Website is required" }}
+              render={({ field }) => (
+                <CustomInputLabel
+                  label="Company's Website"
+                  id="website"
+                  {...field}
+                  error={errors.website?.message}
+                  height={{ xl: "64px", md: "45px" }}
+                  paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                />
+              )}
             />
           </Box>
 
@@ -299,100 +352,91 @@ const GeneralSettings = () => {
               flexDirection: { lg: "row", xs: "column" },
             }}
           >
-            <Box
-              sx={{
-                flexBasis: "32.7%",
-              }}
-            >
-
-              <Box sx={{ position: "relative", flex: "1 1 100%" }}>
-                <CustomInputLabel
-                  type="file"
-                  label="Company's Logo"
-                  id="companyLogo"
-                  height={{ xl: "64px", md: "45px" }}
-                  paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
-                />
-              </Box>
-
+            <Box sx={{ flexBasis: "32.7%" }}>
+              <Controller
+                name="logo"
+                control={control}
+                render={({ field }) => (
+                  <CustomInputLabel
+                    type="file"
+                    label="Company's Logo"
+                    id="logo"
+                    onChange={(e) => field.onChange(e.target.files)}
+                    height={{ xl: "64px", md: "45px" }}
+                    paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                  />
+                )}
+              />
             </Box>
-            <Box
-              sx={{
-                flexBasis: "67%",
-              }}
-            >
-              <CustomInputLabel
-                label="Company's Address"
-                id="address"
-                value={formData?.address}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                height={{ xl: "64px", md: "45px" }}
-                paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
-
-
+            <Box sx={{ flexBasis: "67%" }}>
+              <Controller
+                name="address"
+                control={control}
+                rules={{ required: "Address is required" }}
+                render={({ field }) => (
+                  <CustomInputLabel
+                    label="Company's Address"
+                    id="address"
+                    {...field}
+                    error={errors.address?.message}
+                    height={{ xl: "64px", md: "45px" }}
+                    paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                  />
+                )}
               />
             </Box>
           </Box>
 
           <Box>
-            <CustomInputLabel
-              label="About Company"
-              id="about"
-              value={formData?.about}
-              onChange={(e) => setFormData({ ...formData, about: e.target.value })}
-              multiline
-              height="200px"
-              paddingInput="7px 5px"
+            <Controller
+              name="about"
+              control={control}
+              rules={{ required: "About Company is required" }}
+              render={({ field }) => (
+                <CustomInputLabel
+                  label="About Company"
+                  id="about"
+                  {...field}
+                  error={errors.about?.message}
+                  multiline
+                  height="200px"
+                  paddingInput="7px 5px"
+                />
+              )}
             />
-
           </Box>
-
-
-
         </Box>
 
-        <Box
-          sx={{
-            mt: "50px",
-            display: "flex",
-            flexDirection: "column",
-            gap: "1.8rem",
-          }}
-        >
+        {/* Time Zone and Currency Settings */}
+        <Box sx={{ mt: "50px", display: "flex", flexDirection: "column", gap: "1.8rem" }}>
           <SettingsHeading Heading="Time Zone Setting" />
 
           <Box>
-            <Typography
-              sx={{
-                color: "#0101200",
-                fontSize: "18px",
-                fontWeight: "500",
-              }}
-            >
+            <Typography sx={{ color: "#010120", fontSize: "18px", fontWeight: "500" }}>
               Current Date and Time
             </Typography>
-            <Typography
-              sx={{
-                color: "#0101200",
-                fontSize: "18px",
-                fontWeight: "500",
-              }}
-            >
+            <Typography sx={{ color: "#010120", fontSize: "18px", fontWeight: "500" }}>
               {new Date().toLocaleString()}
             </Typography>
           </Box>
 
-
-          {/* here i had changed code s here i am getting can not read properties of undefined reading value  */}
-          <CustomSelectForType
-            label="Organization Time Zone"
-            id="timezone"
-            value={formData?.timezone || ""}  // Ensure it's an empty string if undefined
-            handleChange={(e) => setFormData({ ...formData, timezone: e.target.value })}
-            options={timeZones}
-            height={"64px"}
+          <Controller
+            name="timezone"
+            control={control}
+            rules={{ required: "Time Zone is required" }}
+            render={({ field }) => (
+              <CustomSelectForType
+                label="Organization Time Zone"
+                id="timezone"
+                {...field}
+                value={field.value || ""}
+                handleChange={field.onChange}
+                options={timeZones}
+                height="64px"
+                error={errors.timezone?.message}
+              />
+            )}
           />
-
 
           {/* Work Day Start and End */}
           <Box
@@ -404,33 +448,35 @@ const GeneralSettings = () => {
           >
             <Controller
               name="workDayStart"
-              control={controlTimeZone}
-              defaultValue=""
+              control={control}
               rules={{ required: "Work Day Start is required" }}
               render={({ field }) => (
                 <CustomSelectForType
                   label="Work Day Start"
+                  id="workDayStart"
+                  {...field}
                   value={field.value}
                   handleChange={field.onChange}
                   options={daysOfWeek}
-                  height={"64px"}
-                  error={errorsTimeZone.workDayStart?.message}
+                  height="64px"
+                  error={errors.workDayStart?.message}
                 />
               )}
             />
             <Controller
               name="workDayEnd"
-              control={controlTimeZone}
-              defaultValue=""
+              control={control}
               rules={{ required: "Work Day End is required" }}
               render={({ field }) => (
                 <CustomSelectForType
                   label="Work Day End"
+                  id="workDayEnd"
+                  {...field}
                   value={field.value}
                   handleChange={field.onChange}
                   options={daysOfWeek}
-                  height={"64px"}
-                  error={errorsTimeZone.workDayEnd?.message}
+                  height="64px"
+                  error={errors.workDayEnd?.message}
                 />
               )}
             />
@@ -446,21 +492,22 @@ const GeneralSettings = () => {
           >
             <Controller
               name="workTimeStart"
-              control={controlTimeZone}
-              defaultValue=""
+              control={control}
               rules={{ required: "Work Time Start is required" }}
               render={({ field }) => (
                 <CustomSelectForType
                   label="Work Time Start"
+                  id="workTimeStart"
+                  {...field}
                   value={field.value}
                   handleChange={field.onChange}
                   options={times}
-                  height={"64px"}
-                  error={errorsTimeZone.workTimeStart?.message}
+                  height="64px"
+                  error={errors.workTimeStart?.message}
                 />
               )}
             />
-
+           
           </Box>
 
           {/* Currency Setting */}
@@ -469,40 +516,54 @@ const GeneralSettings = () => {
               display: "flex",
               alignItems: "center",
               gap: "10px",
-              justifyContent: "space-between"
+              justifyContent: "space-between",
             }}
           >
-
             <SettingsHeading Heading="Currency Setting" />
-
           </Box>
-          <Box
-            sx={{
-              mt: "30px"
-            }}
-          >
-
+          <Box sx={{ mt: "30px" }}>
             <Controller
-              name="currency"
-              control={controlTimeZone}
-              defaultValue=""
-              rules={{ required: "Currency is required" }}
+              name="primaryCurrency"
+              control={control}
+              rules={{ required: "Primary Currency is required" }}
               render={({ field }) => (
                 <VirtualizedSelect
-                  label="Currency"
-                  height={{ xl: "76px !important", md: "58px !important" }}
-                  options={currencies}
+                  label="Primary Currency"
+                  id="primaryCurrency"
+                  {...field}
                   value={field.value}
                   handleChange={field.onChange}
-                  error={errorsTimeZone.currency?.message}
+                  options={currencies}
+                  height={{ xl: "76px !important", md: "58px !important" }}
+                  error={errors.primaryCurrency?.message}
+                />
+              )}
+            />
+          </Box>
+
+          <Box>
+            <Controller
+              name="secondaryCurrency"
+              control={control}
+              rules={{ required: "Secondary Currency is required" }}
+              render={({ field }) => (
+                <VirtualizedSelect
+                  label="Secondary Currency"
+                  id="secondaryCurrency"
+                  {...field}
+                  value={field.value}
+                  handleChange={field.onChange}
+                  options={currencies}
+                  height={{ xl: "76px !important", md: "58px !important" }}
+                  error={errors.secondaryCurrency?.message}
                 />
               )}
             />
           </Box>
 
           {/* Submit Button */}
-          <Box sx={{ mt: 4, display: "flex", justifyContent: "end" }}>
-            <Tooltip title="Submit Time Zone Settings">
+          <Box sx={{ mt: 4, display: "flex", justifyContent: "flex-end" }}>
+            <Tooltip title="Submit Settings">
               <CustomButton
                 ButtonText="Submit"
                 fontSize="12px"
@@ -515,7 +576,7 @@ const GeneralSettings = () => {
                 background="#157AFF"
                 hoverBg="#303f9f"
                 hovercolor="white"
-                width={"189px"}
+                width="189px"
                 borderRadius="7px"
               />
             </Tooltip>

@@ -291,48 +291,61 @@ const Check = () => {
               },
             }}
           >
+            <Box
+              sx={{
+                flexBasis: "50%",
+                backgroundColor: "white ",
+              }}  
+            
+            >
+
+            
             {
-              permissions == "C-P-N-attendance" ? (
-                <Box
-                sx={{
-                  flexBasis: "50%",
-                  backgroundColor: "white ",
-                }}
-              >
-                <CustomButton
-                  onClick={handleCheck}
-                  ButtonText={status === "checkin" ? "Check Out" : "Check In"}
-                  fullWidth={true}
-                  background="#157AFF"
-                  color="white"
-                  fontWeight="500"
-                  fontSize="32px"
-                  hoverBg="#303f9f"
-                  padding="26px 0px"
-                  borderRadius="12px"
-                  buttonStyle={{
-                    height: "10rem",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                  }}
-                  extraText={
-                    status === "checkin"
-                      ? `${unixTimestampToTime(checkTime)}`
-                      : null
-                  }
-                />
-  
-                <Box
-                  sx={{
-                    mt: "30px",
-                  }}
-                >
-                  <Chart graphData={graphData} />
-                </Box>
+            permissions.map((permission, index) => (
+              <Box key={index} >
+                {
+                  permission == "C-P-N-attendance" && (
+                    <Box
+                  
+                  >
+                    <CustomButton
+                      onClick={handleCheck}
+                      ButtonText={status === "checkin" ? "Check Out" : "Check In"}
+                      fullWidth={true}
+                      background="#157AFF"
+                      color="white"
+                      fontWeight="500"
+                      fontSize="32px"
+                      hoverBg="#303f9f"
+                      padding="26px 0px"
+                      borderRadius="12px"
+                      buttonStyle={{
+                        height: "10rem",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                      }}
+                      extraText={
+                        status === "checkin"
+                          ? `${unixTimestampToTime(checkTime)}`
+                          : null
+                      }
+                    />
+      
+                    <Box
+                      sx={{
+                        mt: "30px",
+                      }}
+                    >
+                      <Chart graphData={graphData} />
+                    </Box>
+                  </Box>
+                  )
+                }
               </Box>
-              ) : null
-            }
+            ))
+          }
+         </Box>
          
 
             <Box

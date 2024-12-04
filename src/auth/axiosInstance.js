@@ -18,7 +18,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     const state = store.getState();
-    console.log(state.user.user.permissions)
+    // console.log(state.user.user.permissions)
     const accessToken = state?.user?.user?.accessToken;
     // console.log(accessToken);
     if (accessToken) {

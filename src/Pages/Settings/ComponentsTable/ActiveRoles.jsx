@@ -212,7 +212,7 @@ const ActiveRole= ({mockData}) => {
                               backgroundColor: "rgba(255, 255, 255, 0.2)",
                             },
                           }}
-                          // onClick={}
+                          onClick={()=> navigate(`edit-role/${data._id}`)}
                         >
                   <img src={editIconWhite} alt="" />
                   </Typography>
@@ -246,6 +246,7 @@ const ActiveRole= ({mockData}) => {
               hovercolor="white"
               width={"229px"}
               borderRadius="7px"
+              onClick={()=> navigate("add-new-role")}
             />
           </Tooltip>
         </Box>

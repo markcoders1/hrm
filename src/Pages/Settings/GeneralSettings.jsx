@@ -224,15 +224,14 @@ const GeneralSettings = () => {
         console.log(`${pair[0]}:`, pair[1]);
       }
 
-      // Example: Submit the form data to the API
-      // const response = await axiosInstance.post(`${apiUrl}/api/admin/settings/general`, formData, {
-      //   headers: {
-      //     "Content-Type": "multipart/form-data",
-      //   },
-      // });
-      // console.log("Form submitted successfully:", response.data);
-      // toast.success("Settings updated successfully.");
-      // navigate(-1);
+      const response = await axiosInstance.put(`${apiUrl}/api/admin/settings/general`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("Form submitted successfully:", response.data);
+      toast.success("Settings updated successfully.");
+    
 
       // For now, just reset the form
       reset();
@@ -243,20 +242,20 @@ const GeneralSettings = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "80vh",
-        }}
-      >
-        <SpinnerLoader />
-      </Box>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <Box
+  //       sx={{
+  //         display: "flex",
+  //         justifyContent: "center",
+  //         alignItems: "center",
+  //         height: "80vh",
+  //       }}
+  //     >
+  //       <SpinnerLoader />
+  //     </Box>
+  //   );
+  // }
 
   return (
     <Box
@@ -363,7 +362,7 @@ const GeneralSettings = () => {
                     id="logo"
                     onChange={(e) => field.onChange(e.target.files)}
                     height={{ xl: "64px", md: "45px" }}
-                    paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                    paddingInput={{ xl: "0px 0px", md: "0px 0px" }}
                   />
                 )}
               />

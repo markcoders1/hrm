@@ -1,81 +1,65 @@
 import React, { useEffect } from "react";
-import { Box, Button, Tooltip, Checkbox, FormControlLabel, Typography } from "@mui/material";
+import { Box, Tooltip, Checkbox, FormControlLabel, Typography } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import CustomInputLabel from "../../components/CustomInputField/CustomInputLabel";
-import { useOutletContext, useNavigate } from "react-router-dom";
+import { useOutletContext, useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../auth/axiosInstance";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
+// Fetch role details by ID
+const fetchRoleData = async (roleId) => {
+  const response = await axiosInstance.get(`${apiUrl}/api/admin/settings/roles/${roleId}`);
+  console.log(response?.data?.role)
+  return response?.data?.role;
+};
+
+// Fetch available permissions
 const fetchPermissionsData = async () => {
   const response = await axiosInstance.get(`${apiUrl}/api/admin/settings/data`);
-  return response?.data?.permissions; // Current assumption: permissions is a string array
+  return response?.data?.permissions;
 };
 
-
-const permissionToText = (permission) => {
-  const actionMap = {
-    C: 'Create',
-    D: 'Delete',
-    U: 'Update',
-    R: 'Read',
-    P: 'Personal',  // Personal should be treated differently depending on context
-    A: 'All',       // All can be part of the resource
-    N: 'Now'        // Now can be part of the resource
-  };
-
-  // Split permission by hyphen to separate action part and resource part
-  const parts = permission.split('-');
-
-  // Map all parts, including action and resource parts, and capitalize each word
-  const mappedParts = parts.map(part => {
-    // Split each part into components that can be mapped using the actionMap
-    return part.split(/(?=[A-Z])/).map(subPart => {
-      const fullText = actionMap[subPart] || subPart;  // Map or leave as is
-      return fullText.charAt(0).toUpperCase() + fullText.slice(1);  // Capitalize first letter
-    }).join(" ");
-  });
-
-  // Join all parts back together to form the final permission string
-  return mappedParts.join(" ").trim();
-};
-
-
-
-const AddNewRole = () => {
+const EditRole = () => {
+  const { roleId } = useParams(); // Assuming roleId is passed in the route
   const { control, handleSubmit, formState: { errors }, reset } = useForm();
   const { setHeadertext, setParaText } = useOutletContext();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
-    setHeadertext("Edit / Add New Role");
+    setHeadertext("Edit Role");
     setParaText("");
   }, [setHeadertext]);
 
-  const onSubmit = async (data) => {
-    const requestData = {
-      name: data.roleName,
-      permissions: Object.keys(data.permissions).filter((key) => data.permissions[key]),
-    };
-    console.log(requestData);
+  // Fetch role details using TanStack Query
+  const { data: roleData, isLoading: roleLoading } = useQuery({
+    queryKey: ["roleData", roleId],
+    queryFn: () => fetchRoleData(roleId),
+    enabled: !!roleId,
+    onSuccess: (data) => {
+      // Prepopulate form with fetched role data
+      
+      reset({
+        roleName: data.name,
+        permissions: data.permissions.reduce((acc, perm) => {
+          acc[perm] = true; // Mark permissions as checked
+          return acc;
+        }, {}),
+      });
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error("Error fetching role data.");
+    },
+  });
 
-    try {
-      const response = await axiosInstance.post(`${apiUrl}/api/admin/settings/roles`, requestData);
-      toast.success("Role created successfully!");
-      console.log(response);
-      reset();
-   
-    } catch (error) {
-      console.error("Error posting role data:", error);
-      toast.error(error.response.data.message);
-    }
-  };
 
-  const { data: permissionsDataArray, isLoading } = useQuery({
+  const { data: permissionsDataArray, isLoading: permissionsLoading } = useQuery({
     queryKey: ["permissionsData"],
     queryFn: fetchPermissionsData,
     staleTime: 600000,
@@ -84,6 +68,19 @@ const AddNewRole = () => {
       toast.error("Error fetching permissions data.");
     },
   });
+
+  const onSubmit = (data) => {
+    console.log("Form Data Submitted:", data); // Log form data to ensure correctness
+    const requestData = {
+      name: data.roleName,
+      permissions: Object.keys(data.permissions).filter((key) => data.permissions[key]),
+    };
+    console.log("Request Data:", requestData); // Log request data
+  };
+
+  if (roleLoading || permissionsLoading) {
+    return <Typography>Loading...</Typography>;
+  }
 
   const permissions = permissionsDataArray || [];
 
@@ -99,7 +96,7 @@ const AddNewRole = () => {
             render={({ field }) => (
               <Box sx={{ position: "relative", flex: "1 1 100%" }}>
                 <CustomInputLabel
-                  label="New Role Name"
+                  label="Role Name"
                   id="roleName"
                   error={errors.roleName?.message}
                   {...field}
@@ -111,11 +108,11 @@ const AddNewRole = () => {
           />
         </Box>
 
-        <Typography sx={{ fontWeight: "600", fontSize: "30px", color: "#010120", mt:"20px" }}>
+        <Typography sx={{ fontWeight: "600", fontSize: "30px", color: "#010120" }}>
           Module Access
         </Typography>
         <Box sx={{ display: "flex", gap: "0px", flexWrap: "wrap" }}>
-          {permissions.map((module, index) => (
+          {permissions?.map((module, index) => (
             <Box key={index} sx={{ flexBasis: "33%" }}>
               <Controller
                 name={`permissions.${module}`}
@@ -124,7 +121,7 @@ const AddNewRole = () => {
                 render={({ field }) => (
                   <FormControlLabel
                     control={<Checkbox {...field} color="primary" />}
-                    label={permissionToText(module)}  // Convert short code to full text
+                    label={module}
                     sx={{ color: "#010120", fontWeight: "500", fontSize: "22px" }}
                   />
                 )}
@@ -134,9 +131,9 @@ const AddNewRole = () => {
         </Box>
 
         <Box sx={{ mt: 4, display: "flex", justifyContent: "end" }}>
-          <Tooltip title="Submit Role">
+          <Tooltip title="Update Role">
             <CustomButton
-              ButtonText="Submit"
+              ButtonText="Update"
               fontSize="12px"
               color="white"
               fontWeight="500"
@@ -157,4 +154,4 @@ const AddNewRole = () => {
   );
 };
 
-export default AddNewRole;
+export default EditRole;

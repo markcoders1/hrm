@@ -89,6 +89,8 @@ const Check = () => {
   const hasRA = permissions.includes("R-A-attendance");
 
 
+
+
   // console.log(role)
 
   useEffect(() => {
@@ -399,52 +401,93 @@ const Check = () => {
 
 
               {
-                permissions.map((permission, index) => (
-                  <Box key={index} >
-                    {
-                      permission == "C-P-N-attendance" && (
-                        <Box >
-                          <CustomButton
-                            onClick={handleCheck}
-                            ButtonText={status === "checkin" ? "Check Out" : "Check In"}
-                            fullWidth={true}
-                            background="#157AFF"
-                            color="white"
-                            fontWeight="500"
-                            fontSize="32px"
-                            hoverBg="#303f9f"
-                            padding="26px 0px"
-                            borderRadius="12px"
-                            buttonStyle={{
-                              height: "10rem",
-                              display: "flex",
-                              flexDirection: "column",
-                              justifyContent: "center",
-                            }}
-                            extraText={
-                              status === "checkin"
-                                ? `${unixTimestampToTime(checkTime)}`
-                                : null
-                            }
-                          />
+                hasCPN && hasRA && (
+                  <Box >
 
-                          <Box
-                            sx={{
-                              mt: "30px",
-                            }}
-                          >
-                            <Chart graphData={graphData} />
-                          </Box>
-                        </Box>
-                      )
-                    }
+                    <Box >
+                      <CustomButton
+                        onClick={handleCheck}
+                        ButtonText={status === "checkin" ? "Check Out" : "Check In"}
+                        fullWidth={true}
+                        background="#157AFF"
+                        color="white"
+                        fontWeight="500"
+                        fontSize="32px"
+                        hoverBg="#303f9f"
+                        padding="26px 0px"
+                        borderRadius="12px"
+                        buttonStyle={{
+                          height: "10rem",
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                        }}
+                        extraText={
+                          status === "checkin"
+                            ? `${unixTimestampToTime(checkTime)}`
+                            : null
+                        }
+                      />
+
+                      <Box
+                        sx={{
+                          mt: "30px",
+                        }}
+                      >
+                        <Chart graphData={graphData} />
+                      </Box>
+                    </Box>
+
                   </Box>
-                ))
+                )
               }
 
-              <Box >
-                {
-                  permissions.includes("R-A-attendance" && "C-P-N-attendance") && (
+              {
+                hasCPN && !hasRA && (
+                  <Box >
+
+                    <Box >
+                      <CustomButton
+                        onClick={handleCheck}
+                        ButtonText={status === "checkin" ? "Check Out" : "Check In"}
+                        fullWidth={true}
+                        background="#157AFF"
+                        color="white"
+                        fontWeight="500"
+                        fontSize="32px"
+                        hoverBg="#303f9f"
+                        padding="26px 0px"
+                        borderRadius="12px"
+                        buttonStyle={{
+                          height: "10rem",
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                        }}
+                        extraText={
+                          status === "checkin"
+                            ? `${unixTimestampToTime(checkTime)}`
+                            : null
+                        }
+                      />
+
+                      <Box
+                        sx={{
+                          mt: "30px",
+                        }}
+                      >
+                        <Chart graphData={graphData} />
+                      </Box>
+                    </Box>
+
+                  </Box>
+                )
+              }
+
+              {
+                !hasCPN && hasRA && (
+                  <Box >
+
                     <Box sx={{ flexBasis: "100%" }}>
                       {loading ? (
                         <Box className="loaderContainer">
@@ -614,9 +657,12 @@ const Check = () => {
                         </TableContainer>
                       )}
                     </Box>
-                  )
-                }
-              </Box>
+
+                  </Box>
+                )
+              }
+
+
             </Box>
 
 
@@ -754,7 +800,7 @@ const Check = () => {
 
             <Box >
               {
-                permissions.includes("R-A-attendance" && "C-P-N-attendance") && (
+                 hasCPN && hasRA && (
                   <Box sx={{ flexBasis: "100%" }}>
                     {loading ? (
                       <Box className="loaderContainer">
@@ -924,8 +970,8 @@ const Check = () => {
                       </TableContainer>
                     )}
                   </Box>
-                )
-              }
+               )
+               }
             </Box>
 
           </Box>

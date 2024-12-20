@@ -150,22 +150,22 @@ const DashboardAdmin = () => {
     const diffHours = Math.floor(diffMs / (1000 * 60 * 60)); // Hours
     const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60)); // Minutes
   
-    // Format the result as 24-hour format
+
     const totalMinutes = diffHours * 60 + diffMinutes;
     const formattedHour = Math.floor(totalMinutes / 60);
     const formattedMinutes = totalMinutes % 60;
   
-    // Ensure the hour is in 24-hour format
+ 
     const displayHour = formattedHour.toString().padStart(2, "0");
   
     return `${displayHour}:${formattedMinutes.toString().padStart(2, "0")}`;
   };
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setAttendanceData((prevData) => [...prevData]); // Trigger re-render every minute
-    }, 60000); // Update every 60 seconds
+      setAttendanceData((prevData) => [...prevData]);
+    }, 60000); 
   
-    return () => clearInterval(intervalId); // Cleanup interval on unmount
+    return () => clearInterval(intervalId); 
   }, []);
 
   if (loading) {

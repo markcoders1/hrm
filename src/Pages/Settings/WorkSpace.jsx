@@ -31,14 +31,39 @@ import DeleteConfirmationModal from "../../components/DeleteConfirmModal/DeleteC
 import CustomSelectForType from "../../components/CustomSelect/CustomSelect";
 import ActiveDepartment from './ComponentsTable/ActiveDepartment';
 import EmployementSetting from './ComponentsTable/EmployementSetting';
+import LeaveTypeSetting from './ComponentsTable/LeaveTypeSetting';
+import LocationTypeSetting from './ComponentsTable/LocationTypeSetting';
+import { useQuery } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 
 
+
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+
+
+const fetchSettignsData = async (id) => {
+  const response = await axiosInstance.get(`${apiUrl}/api/admin/settings/dropdown`);
+  console.log("response from dropdown",response)
+  return response?.data?.dropDownValues;
+};
 
 const WorkSpace = () => {
   const [allEmployee, setAllEmployee] = useState([]);
   const [allEmployee1, setAllEmployee1] = useState([]);
 
   const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
+
+    const { data: dropDownSettingsData, isPending } = useQuery({
+      queryKey: ["settingsData"],
+      queryFn: () => fetchSettignsData(),
+      staleTime: 600000, 
+      keepPreviousData:true,
+      onError: (error) => {
+        console.error(error);
+        toast.error("Error fetching Settings data.");
+      },
+    });
+  
 
   useEffect(() => {
     const mockData = [
@@ -99,9 +124,29 @@ const WorkSpace = () => {
       }}
       >
         <EmployementSetting
-        mockData={allEmployee1}
+        employementSetting={dropDownSettingsData}
         />
       </Box>
+      <Box
+      sx={{
+        mt:"20px"
+      }}
+      >
+        <LeaveTypeSetting
+        leaveSettings={dropDownSettingsData}
+        />
+      </Box>
+
+      <Box
+      sx={{
+        mt:"20px"
+      }}
+      >
+        <LocationTypeSetting
+        locationSettings={dropDownSettingsData}
+        />
+      </Box>
+
     </Box>
   )
 }

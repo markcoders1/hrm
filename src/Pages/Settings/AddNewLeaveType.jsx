@@ -8,6 +8,8 @@ import CustomButton from "../../components/CustomButton/CustomButton";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 
 const AddLeaveType = () => {
   const {
@@ -18,40 +20,47 @@ const AddLeaveType = () => {
   } = useForm();
   const { setHeadertext, setParaText } = useOutletContext();
   const navigate = useNavigate();
+    const queryClient = useQueryClient(); // Initialize queryClient
+  
+  let dataToSend;
+
 
   useEffect(() => {
     setHeadertext("Add New Leave Type");
     setParaText("");
   }, [setHeadertext]);
 
-  const onSubmit = async (data) => {
-    const dateTimestamp = new Date(data.date).getTime();
-
-    const formData = {
-      ...data,
-      date: dateTimestamp,
-    };
-
-    console.log("Form Data with Unix Timestamp:", formData);
-
-    try {
+  const addMutation = useMutation({
+    mutationFn: async (newData) => {
+      console.log(newData)
       const response = await axiosInstance({
-        url: `${apiUrl}/api/wfh`,
-        method: "post",
-        data: {
-          date: formData.date,
-          comment: formData.description,
-        },
-      });
-
-      console.log(response.data);
-      toast.success(response.data.message, { position: "top-center" });
+        url : `${apiUrl}/api/admin/settings/dropdown`,
+        method:"post",
+        data:newData
+      })
+    
+    
+    },
+    onSuccess: async () => {
+      const response = await axiosInstance.get(`${apiUrl}/api/admin/settings/dropdown`);
+      const updatedData = response?.data?.dropDownValues;
+      queryClient.setQueryData(["settingsData"], updatedData);
+      toast.success("Leave Type Added Successfully");
       reset();
-      navigate(-1);
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      toast.error(error.response.data.message);
-    }
+    },
+    onError: (error) => {
+      console.error("Error adding item:", error);
+    },
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
+    dataToSend = {
+      list : "leavesType",
+      value : data.value,
+      description : data.description,
+    } 
+    addMutation.mutate(dataToSend); 
   };
 
   return (
@@ -64,7 +73,7 @@ const AddLeaveType = () => {
       >
         <Box sx={{ display: "flex", gap: "20px", flexWrap: "wrap", mb: 4 }}>
           <Controller
-            name="leaveType"
+            name="value"
             control={control}
             defaultValue=""
             rules={{ required: "Date is required" }}
@@ -84,7 +93,7 @@ const AddLeaveType = () => {
         </Box>
 
         <Controller
-          name="leaveDescription"
+          name="description"
           control={control}
           defaultValue=""
           rules={{ required: "Description is required" }}

@@ -8,6 +8,7 @@ import CustomButton from "../../components/CustomButton/CustomButton";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const AddEmployementType = () => {
   const {
@@ -18,33 +19,45 @@ const AddEmployementType = () => {
   } = useForm();
   const { setHeadertext, setParaText } = useOutletContext();
   const navigate = useNavigate();
+  let dataToSend;
 
   useEffect(() => {
     setHeadertext("Add New Employement Type");
     setParaText("");
   }, [setHeadertext]);
+  const queryClient = useQueryClient(); // Initialize queryClient
 
-  const onSubmit = async (data) => {
-    const dateTimestamp = new Date(data.date).getTime();
-
-
-    console.log("Form Data with Unix Timestamp:", formData);
-
-    try {
+ 
+  const addMutation = useMutation({
+    mutationFn: async (newData) => {
       const response = await axiosInstance({
-        url: `${apiUrl}/api/wfh`,
-        method: "post",
-        data: data,
-      });
-
-      console.log(response.data);
-      toast.success(response.data.message, { position: "top-center" });
+        url : `${apiUrl}/api/admin/settings/dropdown`,
+        method:"post",
+        data:newData
+      })
+    
+    
+    },
+    onSuccess: async () => {
+      const response = await axiosInstance.get(`${apiUrl}/api/admin/settings/dropdown`);
+      const updatedData = response?.data?.dropDownValues;
+      queryClient.setQueryData(["settingsData"], updatedData);
+      toast.success("Employement Type Added Successfully");
       reset();
-      navigate(-1);
-    } catch (error) {
-      console.error("Error posting user data:", error);
-      toast.error(error.response.data.message);
-    }
+    },
+    onError: (error) => {
+      console.error("Error adding item:", error);
+    },
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
+    dataToSend = {
+      list : "employmentSetting",
+      value : data.value,
+      description : data.description,
+    } 
+    addMutation.mutate(dataToSend); 
   };
 
   return (
@@ -57,7 +70,7 @@ const AddEmployementType = () => {
       >
         <Box sx={{ display: "flex", gap: "20px", flexWrap: "wrap", mb: 4 }}>
           <Controller
-            name="employementType"
+            name="value"
             control={control}
             defaultValue=""
             rules={{ required: "Date is required" }}
@@ -66,7 +79,7 @@ const AddEmployementType = () => {
                 <CustomInputLabel
                   label="New Employement Type"
                   id="date"
-                  error={errors.date?.message}
+                  error={errors.value?.message}
                   {...field}
                   height={{ xl: "64px", md: "45px" }}
                   paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
@@ -85,7 +98,7 @@ const AddEmployementType = () => {
             <CustomInputLabel
               label="Roles and Responsibilities"
               multiline
-              error={errors.description?.message}
+              error={errors?.description?.message}
               {...field}
               height="200px"
               paddingInput="7px 5px"

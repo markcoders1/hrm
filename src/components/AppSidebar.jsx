@@ -188,8 +188,8 @@ const AppSidebar = () => {
             />
           </div>
         </CSidebarHeader>
-        <CSidebarNav className="nav-top">
-
+        <CSidebarNav className="nav-top" >
+        <Box>
           {
             permissions.map((permission, index) => (
               <Box key={index} >
@@ -211,6 +211,9 @@ const AppSidebar = () => {
               </Box>
             ))
           }
+          </Box>
+        <Box>
+
 
           {
             permissions.map((permission, index) => (
@@ -237,6 +240,9 @@ const AppSidebar = () => {
               </Box>
             ))
           }
+          </Box>
+          <Box>
+
 
 
           {
@@ -264,6 +270,9 @@ const AppSidebar = () => {
               </Box>
             ))
           }
+          </Box>
+          <Box>
+
 
 
 
@@ -288,6 +297,8 @@ const AppSidebar = () => {
               </Box>
             ))
           }
+          </Box>
+          <Box>
 
 
           {
@@ -314,6 +325,8 @@ const AppSidebar = () => {
               </Box>
             ))
           }
+          </Box>
+          <Box>
 
           {
             permissions.map((permission, index) => (
@@ -339,6 +352,9 @@ const AppSidebar = () => {
               </Box>
             ))
           }
+          </Box>
+
+          <Box>
 
 
 
@@ -367,6 +383,9 @@ const AppSidebar = () => {
               </Box>
             ))
           }
+          </Box>
+          <Box>
+
 
           {
             permissions.map((permission, index) => (
@@ -393,6 +412,8 @@ const AppSidebar = () => {
               </Box>
             ))
           }
+          </Box>
+          <Box>
 
 
 
@@ -421,6 +442,9 @@ const AppSidebar = () => {
               </Box>
             ))
           }
+          </Box>
+          <Box>
+
 
           {
             permissions.map((permission, index) => (
@@ -447,8 +471,8 @@ const AppSidebar = () => {
               </Box>
             ))
           }
-
-
+          </Box>
+          <Box>
           {
             permissions.map((permission, index) => (
               <Box key={index} >
@@ -474,6 +498,8 @@ const AppSidebar = () => {
               </Box>
             ))
           }
+          </Box>
+          <Box>
 
 
 
@@ -502,6 +528,9 @@ const AppSidebar = () => {
               </Box>
             ))
           }
+          </Box>
+          <Box>
+
 
        
           {
@@ -529,6 +558,9 @@ const AppSidebar = () => {
               </Box>
             ))
           }
+          </Box>
+          <Box>
+
 
           {
             permissions.map((permission, index) => (
@@ -555,6 +587,8 @@ const AppSidebar = () => {
               </Box>
             ))
           }
+          </Box>
+
 
    {/* 
             {

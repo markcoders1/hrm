@@ -245,7 +245,7 @@ const MyLeaves = () => {
                   className="MuiTableCell-root-head"
                   sx={{
                     fontWeight: "500",
-                    padding: "12px 0px",
+                    // padding: "12px 0px",
                     fontSize: {
                       sm: "21px",
                       xs: "16px",
@@ -261,7 +261,7 @@ const MyLeaves = () => {
                   className="MuiTableCell-root-head"
                   sx={{
                     fontWeight: "500",
-                    padding: "12px 0px",
+                    // padding: "12px 0px",
                     fontSize: {
                       sm: "21px",
                       xs: "16px",
@@ -276,7 +276,7 @@ const MyLeaves = () => {
                   className="MuiTableCell-root-head"
                   sx={{
                     fontWeight: "500",
-                    padding: "12px 0px",
+                    // padding: "12px 0px",
                     fontSize: {
                       sm: "21px",
                       xs: "16px",
@@ -291,7 +291,7 @@ const MyLeaves = () => {
                   className="MuiTableCell-root-head"
                   sx={{
                     fontWeight: "500",
-                    padding: "12px 0px",
+                    // padding: "12px 0px",
                     fontSize: {
                       sm: "21px",
                       xs: "16px",
@@ -306,7 +306,7 @@ const MyLeaves = () => {
                   className="MuiTableCell-root-head"
                   sx={{
                     fontWeight: "500",
-                    padding: "12px 0px",
+                    // padding: "12px 0px",
                     fontSize: {
                       sm: "21px",
                       xs: "16px",
@@ -321,7 +321,7 @@ const MyLeaves = () => {
                   className="MuiTableCell-root-head"
                   sx={{
                     fontWeight: "500",
-                    padding: "12px 0px",
+                    // padding: "12px 0px",
                     fontSize: {
                       sm: "21px",
                       xs: "16px",
@@ -336,7 +336,7 @@ const MyLeaves = () => {
                   className="MuiTableCell-root-head"
                   sx={{
                     fontWeight: "500",
-                    padding: "12px 0px",
+                    // padding: "12px 0px",
                     fontSize: {
                       sm: "21px",
                       xs: "16px",
@@ -351,7 +351,7 @@ const MyLeaves = () => {
                   className="MuiTableCell-root-head"
                   sx={{
                     fontWeight: "500",
-                    padding: "12px 0px",
+                    // padding: "12px 0px",
                     fontSize: {
                       sm: "21px",
                       xs: "16px",

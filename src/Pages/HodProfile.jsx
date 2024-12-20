@@ -42,6 +42,7 @@ const HodProfile = () => {
     queryKey: ["userProfile", id],
     queryFn: () => fetchUserProfile(id),
     staleTime: 600000, 
+    keepPreviousData:true,
     onError: (error) => {
       console.error(error);
       toast.error("Error fetching profile data.");

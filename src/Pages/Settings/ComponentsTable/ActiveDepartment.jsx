@@ -36,7 +36,7 @@ const ActiveDepartment= ({mockData}) => {
     const response = await axiosInstance.get(`${apiUrl}/api/admin/settings/departments`, {
 
     });
-    console.log(response)
+    // console.log(response)
     setDepartment(response.data);
     // const data = response;
   }

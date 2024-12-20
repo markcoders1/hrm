@@ -122,6 +122,9 @@ body {
 .nav-top {
   margin-top: 20px;
   padding: 0px 17px !important;
+  display: grid !important;
+  grid-template-columns: 1fr;
+  gap:1px; 
 }
 
 .nav-top::-webkit-scrollbar {

@@ -334,7 +334,7 @@ const EmployeeData = () => {
                     className="MuiTableCell-root-head"
                     sx={{
                       fontWeight: "500",
-                      padding: "0px 0px",
+                      // padding: "0px 0px",
                       fontSize: {
                         sm: "21px",
                         xs: "16px",
@@ -352,7 +352,7 @@ const EmployeeData = () => {
                     className="MuiTableCell-root-head"
                     sx={{
                       fontWeight: "500",
-                      padding: "0px 0px",
+                      // padding: "0px 0px",
                       fontSize: {
                         sm: "21px",
                         xs: "16px",
@@ -370,7 +370,7 @@ const EmployeeData = () => {
                     className="MuiTableCell-root-head"
                     sx={{
                       fontWeight: "500",
-                      padding: "12px 0px",
+                      // padding: "12px 0px",
                       fontSize: {
                         sm: "21px",
                         xs: "16px",
@@ -388,7 +388,7 @@ const EmployeeData = () => {
                     className="MuiTableCell-root-head"
                     sx={{
                       fontWeight: "500",
-                      padding: "12px 0px",
+                      // padding: "12px 0px",
                       fontSize: {
                         sm: "21px",
                         xs: "16px",
@@ -405,7 +405,7 @@ const EmployeeData = () => {
                     className="MuiTableCell-root-head"
                     sx={{
                       fontWeight: "500",
-                      padding: "12px 0px",
+                      // padding: "12px 0px",
                       fontSize: {
                         sm: "21px",
                         xs: "16px",

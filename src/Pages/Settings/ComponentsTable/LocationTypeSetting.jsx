@@ -23,7 +23,7 @@ import { toast } from "react-toastify";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-const EmployementSetting = ({ employementSetting }) => {
+const LocationTypeSetting = ({ locationSettings }) => {
   const [hoveredRow, setHoveredRow] = useState(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
@@ -36,12 +36,13 @@ const EmployementSetting = ({ employementSetting }) => {
       url: `${apiUrl}/api/admin/settings/dropdown/${id}`,
       method: "delete",
 
-     })
+    })
+    console.log(response)
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["settingsData"]);
       setDeleteModalOpen(false);
-      toast.success("Employement Type Delete Succesfully")
+      toast.success("Location Type Delete Succesfully")
     },
     onError: (error) => {
       console.error("Error deleting item:", error);
@@ -74,7 +75,7 @@ const EmployementSetting = ({ employementSetting }) => {
           mt: "35px",
         }}
       >
-        Employment Setting
+        Location Type Setting
       </Typography>
 
       <TableContainer component={Paper} className="MuiTableContainer-root">
@@ -98,20 +99,9 @@ const EmployementSetting = ({ employementSetting }) => {
                   minWidth: "80px",
                 }}
               >
-                &nbsp;&nbsp; Employment Setting
+                &nbsp;&nbsp; Location Setting
               </TableCell>
-              <TableCell
-                sx={{
-                  fontWeight: "500",
-                  padding: "12px 0px",
-                  fontSize: { sm: "21px", xs: "16px" },
-                  textAlign: "center",
-                  color: "#010120",
-                  minWidth: "150px",
-                }}
-              >
-                View Active List
-              </TableCell>
+           
               <TableCell
                 sx={{
                   fontWeight: "500",
@@ -140,7 +130,7 @@ const EmployementSetting = ({ employementSetting }) => {
             </TableRow>
           </TableHead>
           <TableBody className="MuiTableBody-root">
-            {employementSetting?.employmentSetting?.map((data, index) => (
+            {locationSettings?.location?.map((data, index) => (
               <TableRow
                 key={data._id}
                 onMouseEnter={() => setHoveredRow(index)}
@@ -160,41 +150,13 @@ const EmployementSetting = ({ employementSetting }) => {
                 >
                   &nbsp;&nbsp; {data?.value}
                 </TableCell>
-
                 <TableCell
                   sx={{
                     textAlign: "center",
                     color: "#010120",
                   }}
                 >
-                  <Tooltip title={"View Department"}>
-                    <Typography
-                      sx={{
-                        width: "45px",
-                        height: "45px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        borderRadius: "50%",
-                        m: "auto",
-                        transition: "background-color 0.3s ease",
-                        "&:hover": {
-                          backgroundColor: "rgba(255, 255, 255, 0.2)",
-                        },
-                      }}
-                      onClick={() => navigate("")}
-                    >
-                      <img src={eyeIcon} alt="" />
-                    </Typography>
-                  </Tooltip>
-                </TableCell>
-                <TableCell
-                  sx={{
-                    textAlign: "center",
-                    color: "#010120",
-                  }}
-                >
-                  <Tooltip title={"Edit Department"}>
+                  <Tooltip title={"Edit Location"}>
                     <Typography
                       sx={{
                         width: "45px",
@@ -221,7 +183,7 @@ const EmployementSetting = ({ employementSetting }) => {
                     borderRadius: "0px 8px 8px 0px",
                   }}
                 >
-                  <Tooltip title={"Delete Employement Type"}>
+                  <Tooltip title={"Delete Location Type"}>
                     <Typography
                       sx={{
                         width: "45px",
@@ -265,7 +227,7 @@ const EmployementSetting = ({ employementSetting }) => {
               hovercolor="white"
               width={"180px"}
               borderRadius="7px"
-              onClick={()=> navigate("add-employement-type")}
+              onClick={()=> navigate("add-location-type")}
             />
           </Tooltip>
         </Box>
@@ -274,10 +236,10 @@ const EmployementSetting = ({ employementSetting }) => {
         open={deleteModalOpen}
         handleClose={closeDeleteModal}
         onConfirm={handleDelete}
-        description={"Are you sure you want to delete this Employement type."}
+        description={"Are you sure you want to delete this Location type."}
       />
     </Box>
   );
 };
 
-export default EmployementSetting;
+export default LocationTypeSetting;

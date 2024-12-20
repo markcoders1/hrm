@@ -160,7 +160,7 @@ const RemoteWork = () => {
                   className="MuiTableCell-root-head"
                   sx={{
                     fontWeight: "500",
-                    padding: "12px 0px",
+                    // padding: "12px 0px",
                     fontSize: {
                       sm: "21px",
                       xs: "16px",
@@ -179,7 +179,7 @@ const RemoteWork = () => {
                   className="MuiTableCell-root-head"
                   sx={{
                     fontWeight: "500",
-                    padding: "12px 0px",
+                    // padding: "12px 0px",
                     fontSize: {
                       sm: "21px",
                       xs: "16px",
@@ -196,7 +196,7 @@ const RemoteWork = () => {
                   className="MuiTableCell-root-head"
                   sx={{
                     fontWeight: "500",
-                    padding: "12px 0px",
+                    // padding: "12px 0px",
                     fontSize: {
                       sm: "21px",
                       xs: "16px",
@@ -212,7 +212,7 @@ const RemoteWork = () => {
                   className="MuiTableCell-root-head"
                   sx={{
                     fontWeight: "500",
-                    padding: "12px 0px",
+                    // padding: "12px 0px",
                     fontSize: {
                       sm: "21px",
                       xs: "16px",
@@ -228,7 +228,7 @@ const RemoteWork = () => {
                   className="MuiTableCell-root-head"
                   sx={{
                     fontWeight: "500",
-                    padding: "12px 0px",
+                    // padding: "12px 0px",
                     fontSize: {
                       sm: "21px",
                       xs: "16px",
@@ -259,11 +259,11 @@ const RemoteWork = () => {
                     }}
                     className="MuiTableCell-root"
                   >
-                    {remote?.companyId}
+                {remote?.companyId}
                   </TableCell>
 
-                  <TableCell sx={{ textAlign: "start !important" }} className="MuiTableCell-root">
-                    {formatDate(remote?.date)}
+                  <TableCell sx={{ textAlign: "center !important" }} className="MuiTableCell-root">
+                 {formatDate(remote?.date)}
                   </TableCell>
 
                   <TableCell
@@ -304,7 +304,7 @@ const RemoteWork = () => {
                     }}
                     className="MuiTableCell-root"
                   >
-                    <Box sx={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
+                    <Box sx={{ display: "flex", justifyContent: "center", gap: "1rem" }}> 
                       <Tooltip
                         title={isActionDisabled(remote.overallStatus) ? "Could not edit" : "Click to Edit"}
                         onClick={(event) =>

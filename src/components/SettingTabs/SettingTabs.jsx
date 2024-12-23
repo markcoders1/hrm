@@ -13,11 +13,11 @@ const SettingTabs = () => {
   const navigate = useNavigate();
 
   const tabs = [
-    { label: 'General Settings', value: 'GeneralSetting', route: 'settings' },
-    { label: 'Workplace Organization', value: 'WorkSpace', route: 'settings/w-o' },
-    { label: 'Roles & Modules', value: 'Roles',route: 'settings/r' },
-    { label: 'Finance', value: 'Finance',route: 'settings/f' },
-    { label: 'Tax', value: 'Tax',route: 'settings/t' },
+    { label: 'General Settings',route: 'settings/g-s'},
+    { label: 'Workplace Organization',route: 'settings/w-o' },
+    { label: 'Roles & Modules',route: 'settings/r' },
+    { label: 'Finance', route: 'settings/f' },
+    { label: 'Tax', route: 'settings/t' },
   ];
 
  const handleNavigate = (route) => {
@@ -30,13 +30,16 @@ const SettingTabs = () => {
           <CustomButton
             ButtonText={tab.label}
             fontSize="18px"
-            color={activeTab === tab.value ? "white" : "#010120"}
+            color={location.pathname.includes(tab.route) ? "white" : "#010120"}
+
             fontWeight="500"
             fullWidth={false}
             variant="contained"
             padding="10px 23px"
             type="button"
-            background={activeTab === tab.value ? '#157AFF' : 'white'}
+            background={
+              location.pathname.includes(tab.route) ? "#157AFF" : "white"
+            }
             hoverBg="#303f9f"
             hovercolor="white"
             buttonStyle={{

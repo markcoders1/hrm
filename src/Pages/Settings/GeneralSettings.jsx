@@ -235,8 +235,7 @@ const GeneralSettings = () => {
 
 
       // For now, just reset the form
-      reset();
-      toast.success("Form data logged to console.");
+
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error("Failed to submit form.");
@@ -300,7 +299,7 @@ const GeneralSettings = () => {
           </Typography>
         </Box>
 
-        <Box sx={{ mt: "50px", display: "flex", flexDirection: "column", gap: "12px" }}>
+        <Box sx={{ mt: "10px", display: "flex", flexDirection: "column", gap: "12px" }}>
           <Box
             sx={{
               display: "flex",
@@ -311,7 +310,7 @@ const GeneralSettings = () => {
             <Controller
               name="name"
               control={control}
-              rules={{ required: "Company Name is required" }}
+              
               render={({ field }) => (
                 <CustomInputLabel
                   label="Company Name"
@@ -326,7 +325,7 @@ const GeneralSettings = () => {
             <Controller
               name="phone"
               control={control}
-              rules={{ required: "Phone Number is required" }}
+              
               render={({ field }) => (
                 <CustomInputLabel
                   label="Company's Phone Number"
@@ -341,7 +340,7 @@ const GeneralSettings = () => {
             <Controller
               name="website"
               control={control}
-              rules={{ required: "Website is required" }}
+              
               render={({ field }) => (
                 <CustomInputLabel
                   label="Company's Website"
@@ -382,7 +381,7 @@ const GeneralSettings = () => {
               <Controller
                 name="address"
                 control={control}
-                rules={{ required: "Address is required" }}
+                
                 render={({ field }) => (
                   <CustomInputLabel
                     label="Company's Address"
@@ -401,7 +400,7 @@ const GeneralSettings = () => {
             <Controller
               name="about"
               control={control}
-              rules={{ required: "About Company is required" }}
+              
               render={({ field }) => (
                 <CustomInputLabel
                   label="About Company"
@@ -439,7 +438,7 @@ const GeneralSettings = () => {
             <Controller
               name="timezone"
               control={control}
-              rules={{ required: "Time Zone is required" }}
+              
               render={({ field }) => (
                 <CustomSelectForType
                   label="Organization Time Zone"
@@ -465,7 +464,7 @@ const GeneralSettings = () => {
               <Controller
                 name="workDayStart"
                 control={control}
-                rules={{ required: "Work Day Start is required" }}
+                
                 render={({ field }) => (
                   <CustomSelectForType
                     label="Work Day Start"
@@ -482,7 +481,7 @@ const GeneralSettings = () => {
               <Controller
                 name="workDayEnd"
                 control={control}
-                rules={{ required: "Work Day End is required" }}
+                
                 render={({ field }) => (
                   <CustomSelectForType
                     label="Work Day End"
@@ -510,7 +509,7 @@ const GeneralSettings = () => {
               <Controller
                 name="workTimeStart"
                 control={control}
-                rules={{ required: "Work Time Start is required" }}
+                
                 render={({ field }) => (
                   <CustomSelectForType
                     label="Work Time Start"
@@ -553,7 +552,7 @@ const GeneralSettings = () => {
             <Controller
               name="primaryCurrency"
               control={control}
-              rules={{ required: "Primary Currency is required" }}
+              
               render={({ field }) => (
                 <VirtualizedSelect
                   label="Primary Currency"
@@ -573,7 +572,7 @@ const GeneralSettings = () => {
             <Controller
               name="secondaryCurrency"
               control={control}
-              rules={{ required: "Secondary Currency is required" }}
+              
               render={({ field }) => (
                 <VirtualizedSelect
                   label="Secondary Currency"

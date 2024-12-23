@@ -117,7 +117,7 @@ function App() {
               <Route path='finance-management' element={<ProtectedAdmin><FinanceManagement /></ProtectedAdmin>} />
 
               {/* grouping for nesting settings pages */}
-              <Route path='settings' element={<ProtectedAdmin><Settings /></ProtectedAdmin>} />
+              <Route path='settings/g-s' element={<ProtectedAdmin><Settings /></ProtectedAdmin>} />
               <Route path='settings/w-o' element={<ProtectedAdmin><WorkSpace /></ProtectedAdmin>} />
               <Route path='settings/w-o/add-employement-type' element={<ProtectedAdmin><AddEmployementType /></ProtectedAdmin>} />
               <Route path='settings/w-o/add-employement-type/:id' element={<ProtectedAdmin><AddEmployementType /></ProtectedAdmin>} />

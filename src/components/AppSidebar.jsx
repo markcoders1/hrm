@@ -558,7 +558,7 @@ const AppSidebar = () => {
                     permission == "settings" && (
                       <CNavItem>
                         <CustomNavLink
-                          to="/dashboard/settings"
+                          to="/dashboard/settings/g-s"
                           className="nav-link"
                         >
                           &nbsp;&nbsp;

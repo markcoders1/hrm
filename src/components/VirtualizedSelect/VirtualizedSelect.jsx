@@ -76,16 +76,16 @@ const VirtualizedSelect = ({
           "& .MuiOutlinedInput-root": {
             borderRadius: "8px",
             border: border,
-            boxShadow: boxShadow,
+         
           },
           "& .MuiOutlinedInput-notchedOutline": {
-            borderColor: focusBorder ? "black" : "transparent",
+            borderColor: focusBorder ? "transparent" : "transparent",
           },
           "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-            borderColor: focusBorder ? "black" : "transparent",
+            borderColor: focusBorder ? "transparent" : "transparent",
           },
           "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
-            borderColor: focusBorder ? "black" : "transparent",
+            borderColor: focusBorder ? "transparent" : "transparent",
           }
         }}
         variant="outlined"
@@ -118,7 +118,7 @@ const VirtualizedSelect = ({
           sx={{
             width: "100%",
             fontSize: "16px",
-            color: selectedValue ? "black" : "#424242",
+            // color: selectedValue ? "black" : "#424242",
             height: height,
             "& .MuiSelect-select": {
               padding: "10px 25px",

@@ -136,6 +136,8 @@ function App() {
             <Route path='settings' element={<ProtectedAdmin><Settings /></ProtectedAdmin>} />
 
             <Route path='settings/add-employement-type' element={<ProtectedAdmin><AddEmployementType /></ProtectedAdmin>} />
+            <Route path='settings/add-employement-type/:id' element={<ProtectedAdmin><AddEmployementType /></ProtectedAdmin>} />
+
             <Route path='settings/add-leave-type' element={<ProtectedAdmin><AddLeaveType /></ProtectedAdmin>} />
             <Route path='settings/add-location-type' element={<ProtectedAdmin>< AddLocationtype/></ProtectedAdmin>} />
             <Route path='settings/add-new-role' element={<ProtectedAdmin>< AddNewRole/></ProtectedAdmin>} />

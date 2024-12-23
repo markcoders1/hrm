@@ -972,7 +972,7 @@ const Check = () => {
                   </Box>
                )
                }
-            </Box>
+            </Box>  
 
           </Box>
         </>

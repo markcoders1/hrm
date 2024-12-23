@@ -25,6 +25,7 @@ const GeneralSettings = () => {
   const navigate = useNavigate();
   const [currencies, setCurrencies] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [currentTime, setCurrentTime] = useState('');
 
   const {
     control,
@@ -78,7 +79,7 @@ const GeneralSettings = () => {
         weekEnd: data?.weekEnd || "",
         dayStart: data?.dayStart || "",
         workTimeStart: data?.workTimeStart || "",
-      
+
       });
     } catch (error) {
       console.error("Error fetching company data:", error);
@@ -217,7 +218,7 @@ const GeneralSettings = () => {
       formData.append("weekEnd", data.weekEnd);
       formData.append("dayStart", data.dayStart);
       formData.append("dayStart", data.workTimeStart);
-    
+
 
       // Log the FormData entries
       for (let pair of formData.entries()) {
@@ -231,7 +232,7 @@ const GeneralSettings = () => {
       });
       console.log("Form submitted successfully:", response.data);
       toast.success("Settings updated successfully.");
-    
+
 
       // For now, just reset the form
       reset();
@@ -256,6 +257,16 @@ const GeneralSettings = () => {
   //     </Box>
   //   );
   // }
+
+  const timeZoneNow = () => {
+    const date = new Date().toLocaleString();
+    setCurrentTime(date)
+  }
+  setInterval(timeZoneNow, 1000);
+
+  useEffect(() => {
+    timeZoneNow()
+  }, [setInterval])
 
   return (
     <Box
@@ -289,11 +300,11 @@ const GeneralSettings = () => {
           </Typography>
         </Box>
 
-        <Box sx={{ mt: "50px" }}>
+        <Box sx={{ mt: "50px", display: "flex", flexDirection: "column", gap: "12px" }}>
           <Box
             sx={{
               display: "flex",
-              gap: "20px",
+              gap: "25px",
               flexDirection: { lg: "row", xs: "column" },
             }}
           >
@@ -347,7 +358,7 @@ const GeneralSettings = () => {
           <Box
             sx={{
               display: "flex",
-              gap: "20px",
+              gap: "25px",
               flexDirection: { lg: "row", xs: "column" },
             }}
           >
@@ -415,98 +426,106 @@ const GeneralSettings = () => {
               Current Date and Time
             </Typography>
             <Typography sx={{ color: "#010120", fontSize: "18px", fontWeight: "500" }}>
-              {new Date().toLocaleString()}
+              {currentTime}
             </Typography>
           </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "8px"
+            }}
+          >
+            <Controller
+              name="timezone"
+              control={control}
+              rules={{ required: "Time Zone is required" }}
+              render={({ field }) => (
+                <CustomSelectForType
+                  label="Organization Time Zone"
+                  id="timezone"
+                  {...field}
+                  value={field.value || ""}
+                  handleChange={field.onChange}
+                  options={timeZones}
+                  height="64px"
+                  error={errors.timezone?.message}
+                />
+              )}
+            />
 
-          <Controller
-            name="timezone"
-            control={control}
-            rules={{ required: "Time Zone is required" }}
-            render={({ field }) => (
-              <CustomSelectForType
-                label="Organization Time Zone"
-                id="timezone"
-                {...field}
-                value={field.value || ""}
-                handleChange={field.onChange}
-                options={timeZones}
-                height="64px"
-                error={errors.timezone?.message}
+            {/* Work Day Start and End */}
+            <Box
+              sx={{
+                display: "flex",
+                gap: "20px",
+                flexDirection: { md: "row", xs: "column" },
+              }}
+            >
+              <Controller
+                name="workDayStart"
+                control={control}
+                rules={{ required: "Work Day Start is required" }}
+                render={({ field }) => (
+                  <CustomSelectForType
+                    label="Work Day Start"
+                    id="workDayStart"
+                    {...field}
+                    value={field.value}
+                    handleChange={field.onChange}
+                    options={daysOfWeek}
+                    height="64px"
+                    error={errors.workDayStart?.message}
+                  />
+                )}
               />
-            )}
-          />
+              <Controller
+                name="workDayEnd"
+                control={control}
+                rules={{ required: "Work Day End is required" }}
+                render={({ field }) => (
+                  <CustomSelectForType
+                    label="Work Day End"
+                    id="workDayEnd"
+                    {...field}
+                    value={field.value}
+                    handleChange={field.onChange}
+                    options={daysOfWeek}
+                    height="64px"
+                    error={errors.workDayEnd?.message}
+                  />
+                )}
+              />
 
-          {/* Work Day Start and End */}
-          <Box
-            sx={{
-              display: "flex",
-              gap: "20px",
-              flexDirection: { md: "row", xs: "column" },
-            }}
-          >
-            <Controller
-              name="workDayStart"
-              control={control}
-              rules={{ required: "Work Day Start is required" }}
-              render={({ field }) => (
-                <CustomSelectForType
-                  label="Work Day Start"
-                  id="workDayStart"
-                  {...field}
-                  value={field.value}
-                  handleChange={field.onChange}
-                  options={daysOfWeek}
-                  height="64px"
-                  error={errors.workDayStart?.message}
-                />
-              )}
-            />
-            <Controller
-              name="workDayEnd"
-              control={control}
-              rules={{ required: "Work Day End is required" }}
-              render={({ field }) => (
-                <CustomSelectForType
-                  label="Work Day End"
-                  id="workDayEnd"
-                  {...field}
-                  value={field.value}
-                  handleChange={field.onChange}
-                  options={daysOfWeek}
-                  height="64px"
-                  error={errors.workDayEnd?.message}
-                />
-              )}
-            />
-          </Box>
+            </Box>
 
-          {/* Work Time Start and End */}
-          <Box
-            sx={{
-              display: "flex",
-              gap: "20px",
-              flexDirection: { md: "row", xs: "column" },
-            }}
-          >
-            <Controller
-              name="workTimeStart"
-              control={control}
-              rules={{ required: "Work Time Start is required" }}
-              render={({ field }) => (
-                <CustomSelectForType
-                  label="Work Time Start"
-                  id="workTimeStart"
-                  {...field}
-                  value={field.value}
-                  handleChange={field.onChange}
-                  options={times}
-                  height="64px"
-                  error={errors.workTimeStart?.message}
-                />
-              )}
-            />
-           
+            {/* Work Time Start and End */}
+            <Box
+              sx={{
+                display: "flex",
+                gap: "20px",
+                flexDirection: { md: "row", xs: "column" },
+              }}
+            >
+              <Controller
+                name="workTimeStart"
+                control={control}
+                rules={{ required: "Work Time Start is required" }}
+                render={({ field }) => (
+                  <CustomSelectForType
+                    label="Work Time Start"
+                    id="workTimeStart"
+                    {...field}
+                    value={field.value}
+                    handleChange={field.onChange}
+                    options={times}
+                    height="64px"
+                    error={errors.workTimeStart?.message}
+                  />
+                )}
+              />
+
+            </Box>
           </Box>
 
           {/* Currency Setting */}
@@ -520,6 +539,16 @@ const GeneralSettings = () => {
           >
             <SettingsHeading Heading="Currency Setting" />
           </Box>
+
+          <Box
+          sx={{
+            display:"flex",
+            flexDirection:"column",
+            gap:"10px"
+          }}
+          >
+
+          
           <Box sx={{ mt: "30px" }}>
             <Controller
               name="primaryCurrency"
@@ -533,7 +562,7 @@ const GeneralSettings = () => {
                   value={field.value}
                   handleChange={field.onChange}
                   options={currencies}
-                  height={{ xl: "76px !important", md: "58px !important" }}
+                  height={{ xl: "65px !important", md: "58px !important" }}
                   error={errors.primaryCurrency?.message}
                 />
               )}
@@ -553,11 +582,12 @@ const GeneralSettings = () => {
                   value={field.value}
                   handleChange={field.onChange}
                   options={currencies}
-                  height={{ xl: "76px !important", md: "58px !important" }}
+                  height={{ xl: "65px !important", md: "58px !important" }}
                   error={errors.secondaryCurrency?.message}
                 />
               )}
             />
+          </Box>
           </Box>
 
           {/* Submit Button */}
@@ -565,12 +595,12 @@ const GeneralSettings = () => {
             <Tooltip title="Submit Settings">
               <CustomButton
                 ButtonText="Submit"
-                fontSize="12px"
+                fontSize="16px"
                 color="white"
                 fontWeight="500"
                 fullWidth={false}
                 variant="contained"
-                padding="10px 0px"
+                padding="12px 0px"
                 type="submit"
                 background="#157AFF"
                 hoverBg="#303f9f"

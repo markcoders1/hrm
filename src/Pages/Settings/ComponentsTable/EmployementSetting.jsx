@@ -209,6 +209,7 @@ const EmployementSetting = ({ employementSetting }) => {
                           backgroundColor: "rgba(255, 255, 255, 0.2)",
                         },
                       }}
+                      onClick = {()=> navigate("add-employement-type", {state : data})}
                     >
                       <img src={editIconWhite} alt="" />
                     </Typography>

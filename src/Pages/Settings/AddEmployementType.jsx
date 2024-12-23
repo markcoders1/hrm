@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useLocation } from "react-router-dom";
 
 const AddEmployementType = () => {
   const {
@@ -19,12 +20,24 @@ const AddEmployementType = () => {
   } = useForm();
   const { setHeadertext, setParaText } = useOutletContext();
   const navigate = useNavigate();
+  const {state} = useLocation();
+  console.log(state)
   let dataToSend;
 
   useEffect(() => {
-    setHeadertext("Add New Employement Type");
+    if (state && state.data) {
+      // If data is present, we are editing
+      setHeadertext("Edit Employment Type");
+      reset({
+        value: state.value,
+        description: state.description
+      });
+    } else {
+      // If no data, we are adding new
+      setHeadertext("Add New Employment Type");
+    }
     setParaText("");
-  }, [setHeadertext]);
+  }, [state, setHeadertext, setParaText, reset]);
   const queryClient = useQueryClient(); // Initialize queryClient
 
  

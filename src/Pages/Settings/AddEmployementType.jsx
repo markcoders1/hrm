@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Tooltip } from "@mui/material";
-import { useForm, Controller } from "react-hook-form";
 import CustomInputLabel from "../../components/CustomInputField/CustomInputLabel";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import axiosInstance from "../../auth/axiosInstance";
@@ -12,121 +11,145 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocation } from "react-router-dom";
 
 const AddEmployementType = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
   const { setHeadertext, setParaText } = useOutletContext();
   const navigate = useNavigate();
-  const {state} = useLocation();
-  console.log(state);
-  let dataToSend;
+  const { state } = useLocation();
+  const [id , setId] = useState(null);
+  const queryClient = useQueryClient(); // Initialize queryClient
+  console.log(state)
+
+
+  const [formValues, setFormValues] = useState({
+    value: "",
+    description: "",
+  });
 
   useEffect(() => {
-    if (state && state.data) {
-      // If data is present, we are editing
+    if (state) {
       setHeadertext("Edit Employment Type");
-      reset({
-        value: state.value,
-        description: state.description
+      setFormValues({
+        value: state.value || "",
+        description: state.description || "",
+      
       });
+      setId(state._id || "");
     } else {
-      // If no data, we are adding new
       setHeadertext("Add New Employment Type");
     }
     setParaText("");
-  }, [state, setHeadertext, setParaText, reset]);
-  const queryClient = useQueryClient(); // Initialize queryClient
+  }, [state, setHeadertext, setParaText]);
 
- 
+
   const addMutation = useMutation({
     mutationFn: async (newData) => {
       const response = await axiosInstance({
-        url : `${apiUrl}/api/admin/settings/dropdown`,
-        method:"post",
-        data:newData
-      })
-    
-    
+        url: `${apiUrl}/api/admin/settings/dropdown`,
+        method: "post",
+        data: newData,
+      });
+      return response;
     },
     onSuccess: async () => {
       const response = await axiosInstance.get(`${apiUrl}/api/admin/settings/dropdown`);
       const updatedData = response?.data?.dropDownValues;
       queryClient.setQueryData(["settingsData"], updatedData);
-      toast.success("Employement Type Added Successfully");
-      reset();
+      toast.success("Employment Type Added Successfully");
+      setFormValues({
+        value: "",
+        description: "",
+      }); // Reset form after submission
     },
     onError: (error) => {
       console.error("Error adding item:", error);
     },
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
-    dataToSend = {
-      list : "employmentSetting",
-      value : data.value,
-      description : data.description,
-    } 
-    addMutation.mutate(dataToSend); 
+  // Mutation for updating an existing Employment Type
+  const updateMutation = useMutation({
+    mutationFn: async (updatedData) => {
+      const response = await axiosInstance({
+        url: `${apiUrl}/api/admin/settings/dropdown/${id}`,
+        method: "put",
+        data: updatedData,
+      });
+      return response;
+    },
+    onSuccess: async () => {
+      const response = await axiosInstance.get(`${apiUrl}/api/admin/settings/dropdown`);
+      const updatedData = response?.data?.dropDownValues;
+      queryClient.setQueryData(["settingsData"], updatedData);
+      toast.success("Employment Type Updated Successfully");
+      navigate("/dashboard/settings"); // Redirect to settings page after update
+    },
+    onError: (error) => {
+      console.log(id)
+      console.error("Error updating item:", error);
+      
+    },
+  });
+
+  const onSubmit = () => {
+    const dataToSend = {
+      list: "employmentSetting",
+      value: formValues.value,
+      description: formValues.description,
+    };
+
+    // If editing, include the id in the request
+    if (state && state._id) {
+      delete dataToSend.list;
+      updateMutation.mutate(dataToSend); // Call the update mutation for editing
+    } else {
+      addMutation.mutate(dataToSend); // Call the add mutation for adding a new item
+    }
   };
 
   return (
     <Box>
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSubmit();
+        }}
         style={{
           padding: "0px",
-          display:"flex",
-          flexDirection:"column",
-          gap:"25px"
+          display: "flex",
+          flexDirection: "column",
+          gap: "25px",
         }}
       >
-        <Box sx={{ display: "flex", gap: "20px", flexWrap: "wrap",}}>
-          <Controller
-            name="value"
-            control={control}
-            defaultValue=""
-            rules={{ required: "Date is required" }}
-            render={({ field }) => (
-              <Box sx={{ position: "relative", flex: "1 1 100%" }}>
-                <CustomInputLabel
-                  label="Employement Type"
-                  id="date"
-                  error={errors.value?.message}
-                  {...field}
-                  height={{ xl: "64px", md: "45px" }}
-                  paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
-                />
-              </Box>
-            )}
-          />
+        <Box sx={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+          <Box sx={{ position: "relative", flex: "1 1 100%" }}>
+            <CustomInputLabel
+              label="Employment Type"
+              id="value"
+              value={formValues.value}
+              onChange={(e) =>
+                setFormValues({ ...formValues, value: e.target.value })
+              }
+              height={{ xl: "64px", md: "45px" }}
+              paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+              required
+            />
+          </Box>
         </Box>
 
-        <Controller
-          name="description"
-          control={control}
-          defaultValue=""
-          rules={{ required: "Description is required" }}
-          render={({ field }) => (
-            <CustomInputLabel
-              label="Roles and Responsibilities"
-              multiline
-              error={errors?.description?.message}
-              {...field}
-              height="200px"
-              paddingInput="7px 5px"
-
-            />
-          )}
+        <CustomInputLabel
+          label="Roles and Responsibilities"
+          multiline
+          value={formValues.description}
+          onChange={(e) =>
+            setFormValues({ ...formValues, description: e.target.value })
+          }
+          height="200px"
+          paddingInput="7px 5px"
+          required
         />
 
         <Box sx={{ mt: 4, display: "flex", justifyContent: "end" }}>
-          <Tooltip title="Request New WFH">
+          <Tooltip title={state ? "Update Employment Type" : "Request New WFH"}>
             <CustomButton
-              ButtonText="Submit"
+              ButtonText={state ? "Update" : "Submit"}
               fontSize="12px"
               color="white"
               fontWeight="500"

@@ -171,6 +171,7 @@ const LocationTypeSetting = ({ locationSettings }) => {
                           backgroundColor: "rgba(255, 255, 255, 0.2)",
                         },
                       }}
+                      onClick={() => navigate("edit-location-type", {state: data})}
                     >
                       <img src={editIconWhite} alt="" />
                     </Typography>

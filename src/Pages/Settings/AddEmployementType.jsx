@@ -141,7 +141,7 @@ const AddEmployementType = () => {
             setFormValues({ ...formValues, description: e.target.value })
           }
           height="200px"
-          paddingInput="7px 5px"
+          paddingInput="7px 0px"
           required
         />
 

@@ -70,7 +70,11 @@ const AppHeader = (props) => {
     <CHeader position="sticky" className="c-header  " style={{ border: "none" }} ref={headerRef}>
       
    {
-    location.pathname.includes("/dashboard/settings") ? (
+    (location.pathname === "/dashboard/settings/w-o" ||
+      location.pathname === "/dashboard/settings/r" ||
+      location.pathname === "/dashboard/settings/g-s" ||
+      location.pathname === "/dashboard/settings/f" ||
+      location.pathname === "/dashboard/settings/t") ? (
       <SettingTabs />
     ) : (
       <>

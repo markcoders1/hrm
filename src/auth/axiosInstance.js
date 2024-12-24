@@ -52,14 +52,17 @@ const processQueue = (error, tokens = null) => {
 
 axiosInstance.interceptors.response.use(
   (response) => response,
+  
   async (error) => {
     const originalRequest = error.config;
+    
 
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
       !originalRequest.url.endsWith('/token')
     ) {
+      
       if (isRefreshing) {
         return new Promise(function (resolve, reject) {
           failedQueue.push({ resolve, reject });
@@ -70,6 +73,8 @@ axiosInstance.interceptors.response.use(
           })
           .catch((err) => {
             return Promise.reject(err);
+        
+
           });
       }
 
@@ -77,6 +82,7 @@ axiosInstance.interceptors.response.use(
       isRefreshing = true;
 
       const state = store.getState();
+     
       const refreshToken = state.user?.user?.refreshToken;
 
       if (!refreshToken) {
@@ -91,6 +97,7 @@ axiosInstance.interceptors.response.use(
           refreshToken,
         });
         console.log(refreshToken);
+       
         const newAccessToken = response.data.accessToken;
 
         store.dispatch(
@@ -114,6 +121,7 @@ axiosInstance.interceptors.response.use(
           refreshToken: null,
           authenticated: false
         }));
+      
         toast.error("Your session has expired. Please log in again to continue."); 
          console.log("refreshToken Expired")
         navigate("/");

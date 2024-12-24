@@ -90,7 +90,7 @@ const AddEmployementType = () => {
             render={({ field }) => (
               <Box sx={{ position: "relative", flex: "1 1 100%" }}>
                 <CustomInputLabel
-                  label="New Employement Type"
+                  label="Employement Type"
                   id="date"
                   error={errors.value?.message}
                   {...field}

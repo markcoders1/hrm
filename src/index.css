@@ -257,20 +257,20 @@ select:-webkit-autofill:focus {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color:#010115; /* Color of the scrollbar thumb */
+  background-color:#1A1A25; /* Color of the scrollbar thumb */
   border-radius: 10px; /* Roundness of the scrollbar thumb */
   
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #010115; /* Color of the scrollbar thumb when hovered */
+  background: #1A1A25; /* Color of the scrollbar thumb when hovered */
 }
 
 /* Hide scrollbar when not in use */
 * {
   /* scrollbar-width: ; Firefox */
   scrollbar-width:  thin;
-  scrollbar-color: #010115 rgba(255, 255, 255, 0.1); /* Firefox */
+  scrollbar-color: #1A1A25 rgba(255, 255, 255, 0.1); /* Firefox */
 }
 
 ::-webkit-scrollbar {

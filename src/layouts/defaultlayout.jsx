@@ -42,7 +42,7 @@ const DefaultLayout = () => {
   
 
   useEffect(() => {
-    // console.log(count)  
+    
   }, []);
 
 

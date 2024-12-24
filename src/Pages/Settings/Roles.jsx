@@ -33,7 +33,15 @@ import ActiveDepartment from './ComponentsTable/ActiveDepartment';
 import EmployementSetting from './ComponentsTable/EmployementSetting';
 import ActiveRoles from './ComponentsTable/ActiveRoles';
 import ModuleSetting from './ComponentsTable/ModuleSetting';
+import { useQuery } from '@tanstack/react-query';
 
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+
+const fetchCompanyData = async (id) => {
+  const response = await axiosInstance.get(`${apiUrl}/api/admin/settings/general`);
+  console.log("response from company data",response);
+  return response.data.data.settings.modules;
+};
 
 
 const Roles = () => {
@@ -41,6 +49,17 @@ const Roles = () => {
   const [allEmployee1, setAllEmployee1] = useState([]);
 
   const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
+  const { data: companyData, isPending } = useQuery({
+    queryKey: ["companyData"],
+    queryFn: () => fetchCompanyData(),
+    staleTime: 600000, 
+    keepPreviousData:true,
+    onError: (error) => {
+      console.error(error);
+      toast.error("Error fetching Settings data.");
+    },
+  });
+
 
   useEffect(() => {
     const mockData = [
@@ -101,7 +120,7 @@ const Roles = () => {
       }}
       >
         <ModuleSetting
-        mockData={allEmployee1}
+        moduleData={companyData}
         />
       </Box>
     </Box>

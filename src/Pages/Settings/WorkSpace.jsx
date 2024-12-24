@@ -35,6 +35,8 @@ import LeaveTypeSetting from './ComponentsTable/LeaveTypeSetting';
 import LocationTypeSetting from './ComponentsTable/LocationTypeSetting';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
+import DeleteModal from "../../../components/DeleteModal/DeleteModal";
+
 
 
 
@@ -50,8 +52,13 @@ const fetchSettignsData = async (id) => {
 const WorkSpace = () => {
   const [allEmployee, setAllEmployee] = useState([]);
   const [allEmployee1, setAllEmployee1] = useState([]);
+ 
+  
 
   const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
+
+
+
 
     const { data: dropDownSettingsData, isPending } = useQuery({
       queryKey: ["settingsData"],

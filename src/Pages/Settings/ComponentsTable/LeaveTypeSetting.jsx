@@ -171,6 +171,7 @@ const LeaveTypeSetting = ({ leaveSettings }) => {
                           backgroundColor: "rgba(255, 255, 255, 0.2)",
                         },
                       }}
+                      onClick={()=> navigate("edit-leave-type" , {state : data})}
                     >
                       <img src={editIconWhite} alt="" />
                     </Typography>

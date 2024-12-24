@@ -79,7 +79,7 @@ const AddEmployementType = () => {
       const updatedData = response?.data?.dropDownValues;
       queryClient.setQueryData(["settingsData"], updatedData);
       toast.success("Employment Type Updated Successfully");
-      navigate("/dashboard/settings"); // Redirect to settings page after update
+      navigate("/dashboard/settings/w-o"); 
     },
     onError: (error) => {
       console.log(id)
@@ -97,7 +97,6 @@ const AddEmployementType = () => {
 
     // If editing, include the id in the request
     if (state && state._id) {
-      delete dataToSend.list;
       updateMutation.mutate(dataToSend); // Call the update mutation for editing
     } else {
       addMutation.mutate(dataToSend); // Call the add mutation for adding a new item

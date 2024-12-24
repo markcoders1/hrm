@@ -123,6 +123,8 @@ function App() {
               <Route path='settings/w-o/edit-employement-type' element={<ProtectedAdmin><AddEmployementType /></ProtectedAdmin>} />
 
               <Route path='settings/w-o/add-leave-type' element={<ProtectedAdmin><AddLeaveType /></ProtectedAdmin>} />
+              <Route path='settings/w-o/edit-leave-type' element={<ProtectedAdmin><AddLeaveType /></ProtectedAdmin>} />
+
               <Route path='settings/w-o/add-location-type' element={<ProtectedAdmin>< AddLocationtype /></ProtectedAdmin>} />
               <Route path='settings/f' element={<ProtectedAdmin><Finance /></ProtectedAdmin>} />
               <Route path='settings/f/add-new-bank' element={<ProtectedAdmin><AddNewBank /></ProtectedAdmin>} />

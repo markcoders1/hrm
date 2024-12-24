@@ -120,7 +120,7 @@ function App() {
               <Route path='settings/g-s' element={<ProtectedAdmin><Settings /></ProtectedAdmin>} />
               <Route path='settings/w-o' element={<ProtectedAdmin><WorkSpace /></ProtectedAdmin>} />
               <Route path='settings/w-o/add-employement-type' element={<ProtectedAdmin><AddEmployementType /></ProtectedAdmin>} />
-              <Route path='settings/w-o/add-employement-type/:id' element={<ProtectedAdmin><AddEmployementType /></ProtectedAdmin>} />
+              <Route path='settings/w-o/edit-employement-type' element={<ProtectedAdmin><AddEmployementType /></ProtectedAdmin>} />
 
               <Route path='settings/w-o/add-leave-type' element={<ProtectedAdmin><AddLeaveType /></ProtectedAdmin>} />
               <Route path='settings/w-o/add-location-type' element={<ProtectedAdmin>< AddLocationtype /></ProtectedAdmin>} />

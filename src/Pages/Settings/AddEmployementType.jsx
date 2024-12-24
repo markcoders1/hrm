@@ -21,7 +21,7 @@ const AddEmployementType = () => {
   const { setHeadertext, setParaText } = useOutletContext();
   const navigate = useNavigate();
   const {state} = useLocation();
-  console.log(state)
+  console.log(state);
   let dataToSend;
 
   useEffect(() => {
@@ -79,9 +79,12 @@ const AddEmployementType = () => {
         onSubmit={handleSubmit(onSubmit)}
         style={{
           padding: "0px",
+          display:"flex",
+          flexDirection:"column",
+          gap:"25px"
         }}
       >
-        <Box sx={{ display: "flex", gap: "20px", flexWrap: "wrap", mb: 4 }}>
+        <Box sx={{ display: "flex", gap: "20px", flexWrap: "wrap",}}>
           <Controller
             name="value"
             control={control}

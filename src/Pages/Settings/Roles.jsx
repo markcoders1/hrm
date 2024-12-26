@@ -57,7 +57,7 @@ const Roles = () => {
   const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
 
   const { data: rolesData, isPending : rolesPending } = useQuery({
-    queryKey: ["departmentData"],
+    queryKey: ["rolesData"],
     queryFn: () => fetchRolesData(),
     staleTime: 600000, 
     keepPreviousData:true,

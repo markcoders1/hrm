@@ -14,7 +14,7 @@ const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 // Fetch role details by ID
 const fetchRoleData = async (roleId) => {
   const response = await axiosInstance.get(`${apiUrl}/api/admin/settings/roles/${roleId}`);
-  console.log(response?.data?.role)
+  console.log(response?.data?.role);
   return response?.data?.role;
 };
 
@@ -38,7 +38,7 @@ const EditRole = () => {
 
   // Fetch role details using TanStack Query
   const { data: roleData, isLoading: roleLoading } = useQuery({
-    queryKey: ["roleData", roleId],
+    queryKey: ["roleResponse", roleId],
     queryFn: () => fetchRoleData(roleId),
     enabled: !!roleId,
     onSuccess: (data) => {
@@ -47,7 +47,7 @@ const EditRole = () => {
       reset({
         roleName: data.name,
         permissions: data.permissions.reduce((acc, perm) => {
-          acc[perm] = true; // Mark permissions as checked
+          acc[perm] = true; 
           return acc;
         }, {}),
       });
@@ -60,7 +60,7 @@ const EditRole = () => {
 
 
   const { data: permissionsDataArray, isLoading: permissionsLoading } = useQuery({
-    queryKey: ["permissionsData"],
+    queryKey: ["rolePermission"],
     queryFn: fetchPermissionsData,
     staleTime: 600000,
     onError: (error) => {

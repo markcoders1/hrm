@@ -8,6 +8,10 @@ import CustomButton from "../../components/CustomButton/CustomButton";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import SpinnerLoader from "../../components/SpinnerLoader";
+
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -50,32 +54,69 @@ const AddNewRole = () => {
   const { control, handleSubmit, formState: { errors }, reset } = useForm();
   const { setHeadertext, setParaText } = useOutletContext();
   const navigate = useNavigate();
+  const queryClient = useQueryClient(); // Initialize queryClient
+
 
   useEffect(() => {
     setHeadertext("Edit / Add New Role");
     setParaText("");
   }, [setHeadertext]);
 
-  const onSubmit = async (data) => {
+  const addMutation = useMutation({
+    mutationFn: async (newData) => {
+      console.log(newData);
+      const response = await axiosInstance({
+        url: `${apiUrl}/api/admin/settings/roles`,
+        method: "post",
+        data: newData,
+      });
+    },
+    onSuccess: async () => {
+      const response = await axiosInstance.get(
+        `${apiUrl}/api/admin/settings/roles`
+      );
+      const updatedData = response?.data;
+      queryClient.setQueryData(["settingsData"], updatedData);
+      toast.success("New Role Added Successfully");
+      reset();
+      navigate(-1);
+    },
+    onError: (error) => {
+      console.error("Error adding item:", error);
+    },
+  });
+
+  const onSubmit = (data) => {
     const requestData = {
       name: data.roleName,
       permissions: Object.keys(data.permissions).filter((key) => data.permissions[key]),
     };
     console.log(requestData);
-
-    try {
-      const response = await axiosInstance.post(`${apiUrl}/api/admin/settings/roles`, requestData);
-      toast.success("Role created successfully!");
-      console.log(response);
-      reset();
-   
-    } catch (error) {
-      console.error("Error posting role data:", error);
-      toast.error(error.response.data.message);
-    }
+      addMutation.mutate(requestData);
+ 
   };
 
-  const { data: permissionsDataArray, isLoading } = useQuery({
+
+  // const onSubmit = async (data) => {
+  //   const requestData = {
+  //     name: data.roleName,
+  //     permissions: Object.keys(data.permissions).filter((key) => data.permissions[key]),
+  //   };
+  //   console.log(requestData);
+
+  //   try {
+  //     const response = await axiosInstance.post(`${apiUrl}/api/admin/settings/roles`, requestData);
+  //     toast.success("Role created successfully!");
+  //     console.log(response);
+  //     reset();
+   
+  //   } catch (error) {
+  //     console.error("Error posting role data:", error);
+  //     toast.error(error.response.data.message);
+  //   }
+  // };
+
+  const { data: permissionsDataArray, isPending } = useQuery({
     queryKey: ["permissionsData"],
     queryFn: fetchPermissionsData,
     staleTime: 600000,
@@ -86,6 +127,14 @@ const AddNewRole = () => {
   });
 
   const permissions = permissionsDataArray || [];
+
+  if (isPending) {
+    return (
+      <Box className="loaderContainer">
+        <SpinnerLoader />
+      </Box>
+    );
+  }
 
   return (
     <Box>

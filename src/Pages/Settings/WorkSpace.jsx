@@ -35,7 +35,7 @@ import LeaveTypeSetting from './ComponentsTable/LeaveTypeSetting';
 import LocationTypeSetting from './ComponentsTable/LocationTypeSetting';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
-import DeleteModal from "../../../components/DeleteModal/DeleteModal";
+  
 
 
 
@@ -43,12 +43,17 @@ import DeleteModal from "../../../components/DeleteModal/DeleteModal";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 
-const fetchSettignsData = async (id) => {
+const fetchSettignsData = async () => {
   const response = await axiosInstance.get(`${apiUrl}/api/admin/settings/dropdown`);
   console.log("response from dropdown",response)
   return response?.data?.dropDownValues;
 };
 
+const fetchDepartmentData = async () => {
+  const response = await axiosInstance.get(`${apiUrl}/api/admin/settings/departments`);
+  console.log("response from department",response)
+  return response?.data;
+};
 const WorkSpace = () => {
   const [allEmployee, setAllEmployee] = useState([]);
   const [allEmployee1, setAllEmployee1] = useState([]);
@@ -58,7 +63,16 @@ const WorkSpace = () => {
   const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
 
 
-
+  const { data: departmentData, isPending : departmentPending } = useQuery({
+    queryKey: ["departmentData"],
+    queryFn: () => fetchDepartmentData(),
+    staleTime: 600000, 
+    keepPreviousData:true,
+    onError: (error) => {
+      console.error(error);
+      toast.error("Error fetching Department data.");
+    },
+  });
 
     const { data: dropDownSettingsData, isPending } = useQuery({
       queryKey: ["settingsData"],
@@ -72,40 +86,14 @@ const WorkSpace = () => {
     });
   
 
-  useEffect(() => {
-    const mockData = [
-      {
-        employeeId: "Top Management",
-      },
-      {
-        employeeId: "Creatives",
-      },
-      {
-        employeeId: "Developers",
-      },
-    ];
-    setAllEmployee(mockData);
+  if (isPending || departmentPending) {
+    return (
+      <Box className="loaderContainer">
+        <SpinnerLoader />
+      </Box>
+    );
+  }
 
-  }, []);
-
-  useEffect(() => {
-    const mockData1 = [
-      {
-        employeeId: "Permanent/ Full time Employee",
-      },
-      {
-        employeeId: "Part Time Employee",
-      },
-      {
-        employeeId: "On Probation Employee",
-      },
-      {
-        employeeId: "Remote Employee",
-      },
-    ];
-    setAllEmployee1(mockData1);
-
-  }, []);
   return (
     <Box>
       <Box
@@ -121,7 +109,7 @@ const WorkSpace = () => {
 
       <Box>
         <ActiveDepartment
-        mockData={allEmployee}
+        departmentData={departmentData}
         />
       </Box>
 

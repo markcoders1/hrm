@@ -44,11 +44,29 @@ const fetchCompanyData = async (id) => {
 };
 
 
+
+const fetchRolesData = async () => {
+  const response = await axiosInstance.get(`${apiUrl}/api/admin/settings/roles`); 
+  console.log("response from Roles data",response);
+  return response?.data;
+};
 const Roles = () => {
   const [allEmployee, setAllEmployee] = useState([]);
   const [allEmployee1, setAllEmployee1] = useState([]);
 
   const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
+
+  const { data: rolesData, isPending : rolesPending } = useQuery({
+    queryKey: ["departmentData"],
+    queryFn: () => fetchRolesData(),
+    staleTime: 600000, 
+    keepPreviousData:true,
+    onError: (error) => {
+      console.error(error);
+      toast.error("Error fetching Roles data.");
+    },
+  });
+
   const { data: companyData, isPending } = useQuery({
     queryKey: ["companyData"],
     queryFn: () => fetchCompanyData(),
@@ -95,6 +113,16 @@ const Roles = () => {
     setAllEmployee1(mockData1);
 
   }, []);
+
+
+  if (isPending || rolesPending) {
+    return (
+      <Box className="loaderContainer">
+        <SpinnerLoader />
+      </Box>
+    );
+  }
+
   return (
     <Box>
       <Box
@@ -110,7 +138,7 @@ const Roles = () => {
 
       <Box>
         <ActiveRoles
-        mockData={allEmployee}
+        rolesData={rolesData}
         />
       </Box>
 

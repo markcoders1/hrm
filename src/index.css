@@ -1,4 +1,4 @@
-:root {
+  :root {
   --main-bg-color: rgba(204, 219, 253, 1);
   --main-card-color: #010115;
   --font-color: rgba(37, 169, 224, 1);
@@ -278,4 +278,21 @@ select:-webkit-autofill:focus {
   height: 4px;
 
 }
+
+.custom-sidebar::-webkit-scrollbar {
+  display: none !important; /* For Chrome, Safari, and Opera */
+  width: 0px !important;
+  height: 0px !important;
+  scrollbar-width:none;
+  scrollbar-color: transpaent ; /* Firefox */
+
+
+
+}
+
+.custom-sidebar {
+  -ms-overflow-style: none !important; /* For Internet Explorer and Edge */
+  scrollbar-width: none !important; /* For Firefox */
+}
+
 

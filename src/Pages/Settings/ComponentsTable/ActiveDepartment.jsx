@@ -27,7 +27,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
-const ActiveDepartment= ({mockData}) => {
+const ActiveDepartment= ({departmentData}) => {
   const [hoveredRow, setHoveredRow] = useState(null); 
   const [department, setDepartment] = useState([]);
   const navigate = useNavigate();
@@ -143,7 +143,7 @@ const ActiveDepartment= ({mockData}) => {
             </TableRow>
           </TableHead>
           <TableBody className="MuiTableBody-root">
-            {department.map((data, index) => (
+            {departmentData.map((data, index) => (
               <TableRow
                 key={data._id}
                 className="MuiTableRow-root"
@@ -282,7 +282,7 @@ const ActiveDepartment= ({mockData}) => {
           <Tooltip title="Request New WFH">
             <CustomButton
               ButtonText="+ Add New Department"
-              fontSize="12px"
+              fontSize="16px"
               color="white"
               fontWeight="500"
               fullWidth={false}

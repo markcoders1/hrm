@@ -20,6 +20,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import editIconWhite from "../../../assets/editIconGroup.png";
 import { useState } from "react";
 import CustomButton from "../../../components/CustomButton/CustomButton";
+// import DeleteModal from "../../../components/DeleteModal/DeleteModal";
 import DeleteModal from "../../../components/DeleteModal/DeleteModal";
 import { useQuery } from '@tanstack/react-query';
 import axiosInstance from "../../../auth/axiosInstance";

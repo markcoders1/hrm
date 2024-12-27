@@ -24,10 +24,12 @@ import CustomButton from "../../../components/CustomButton/CustomButton";
 import DeleteModal from "../../../components/DeleteModal/DeleteModal";
 import { useQuery } from '@tanstack/react-query';
 import axiosInstance from "../../../auth/axiosInstance";
+import { useNavigate } from "react-router-dom";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const ModuleSetting = ({ moduleData }) => {
+  const navigate = useNavigate();
 
   const [hoveredRow, setHoveredRow] = useState(null); // State to track hovered row
      const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -267,6 +269,7 @@ const ModuleSetting = ({ moduleData }) => {
             hovercolor="white"
             width={"229px"}
             borderRadius="7px"
+            onClick={()=> navigate("add-new-module")}
           />
         </Tooltip>
       </Box>

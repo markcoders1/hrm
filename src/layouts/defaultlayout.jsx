@@ -36,7 +36,7 @@ const DefaultLayout = () => {
  
   }
  useEffect(()=>{
-  fetchNotifications()
+  fetchNotifications();
  })
 
   

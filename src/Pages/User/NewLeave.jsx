@@ -118,7 +118,8 @@ try {
 
       <form onSubmit={handleSubmit(onSubmit)} style={{
         padding:"0px",
-        margin:"0px"
+        margin:"0px",
+        gap:"10px"
       }} >
         <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap',flexDirection:{
           sm:"row",

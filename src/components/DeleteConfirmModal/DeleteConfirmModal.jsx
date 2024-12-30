@@ -22,7 +22,7 @@ const DeleteConfirmationModal = ({ open, handleClose, onConfirm, loading , reque
           p: 4,
           py:6,
           border:"none !important",
-          width:"100%",
+          width:"90%",
          
          
           

@@ -70,8 +70,8 @@ const EditWFHRequest = () => {
 
     return (
         <Box className="sheet-container-admin" sx={{padding:"0px"}} >
-            <form onSubmit={handleSubmit(onSubmit)}  style={{padding:"0px"}} >
-                <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', mb: 4 }}>
+            <form onSubmit={handleSubmit(onSubmit)}  style={{padding:"0px", margin:"0px", gap:"10px"}} >
+                <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap',}}>
                     <Controller
                         name="date"
                         control={control}
@@ -85,7 +85,11 @@ const EditWFHRequest = () => {
                                     id="date"
                                     error={errors.date?.message}
                                     {...field}
-                                    height="64px"
+                                    height="54px"
+
+                  paddingInput={{
+
+                  }}
                                 />
                             </Box>
                         )}

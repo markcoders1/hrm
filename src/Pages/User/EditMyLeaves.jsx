@@ -129,8 +129,10 @@ const EditMyLeave = () => {
         </Typography>
       </Box>
 
-      <form onSubmit={handleSubmit(onSubmit)} style={{padding:"0px"}} >
-        <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', mb: 4 }}>
+      <form onSubmit={handleSubmit(onSubmit)} style={{padding:"0px",
+        margin:"0px", gap:"10px"
+      }} >
+        <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap'}}>
           <Controller
             name="startDate"
             control={control}
@@ -144,7 +146,11 @@ const EditMyLeave = () => {
                   id="startDate"
                   error={errors.startDate?.message}
                   {...field}
-                  height="64px"
+                  height="54px"
+
+                  paddingInput={{
+
+                  }}
                 />
               </Box>
             )}
@@ -163,7 +169,11 @@ const EditMyLeave = () => {
                   id="endDate"
                   error={errors.endDate?.message}
                   {...field}
-                  height="64px"
+                  height="54px"
+
+                  paddingInput={{
+
+                  }}
                 />
               </Box>
             )}

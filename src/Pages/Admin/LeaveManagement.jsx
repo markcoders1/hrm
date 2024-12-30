@@ -48,8 +48,8 @@ const LeaveManagement = () => {
   const [payrollType, setPayrollType] = useState("Payroll Type");
 
   const [leaveModalOpenAccept, setLeaveModalOpenAccept] = useState(false);
-const [leaveModalOpenReject, setLeaveModalOpenReject] = useState(false);
-const [selectedLeaveId, setSelectedLeaveId] = useState(null);
+  const [leaveModalOpenReject, setLeaveModalOpenReject] = useState(false);
+  const [selectedLeaveId, setSelectedLeaveId] = useState(null);
 
   const getUnixTimestampForMonthYear = (month, year) => {
     const date = new Date(year, month, 1);
@@ -75,7 +75,7 @@ const [selectedLeaveId, setSelectedLeaveId] = useState(null);
         { params: { date: date } }
       );
       console.log(response.data);
-      
+
       setLeaveData(response.data.leaves);
       setLoading(false);
     } catch (error) {
@@ -136,7 +136,6 @@ const [selectedLeaveId, setSelectedLeaveId] = useState(null);
         position: "top-center",
       });
       setLeaveModalOpenAccept(false);
-
     }
   };
 
@@ -154,14 +153,12 @@ const [selectedLeaveId, setSelectedLeaveId] = useState(null);
       fetchAllLeaves(); // Refresh data after updating status
       toast.success("Leave Validate SucessFully", { position: "top-center" });
       setLeaveModalOpenReject(false);
-
     } catch (error) {
       console.error("Error rejecting leave request:", error);
       toast.error("Leave Validate Could not proceed", {
         position: "top-center",
       });
       setLeaveModalOpenAccept(false);
-
     }
   };
 
@@ -201,7 +198,6 @@ const [selectedLeaveId, setSelectedLeaveId] = useState(null);
   const handlePayrollTypeChange = (event) => {
     setSelectedMonth(event.target.value);
   };
-
 
   const payrollTYPE = [
     { label: "Commission", value: "0" },
@@ -260,9 +256,9 @@ const [selectedLeaveId, setSelectedLeaveId] = useState(null);
           position: { lg: "fixed", xs: "static" },
           right: "45px",
           top: "50px",
-          zIndex: {md:"100000 ", xs:"0"},
+          zIndex: { md: "100000 ", xs: "0" },
           display: "flex",
-          gap: {sm:"1rem", xs:"0rem"},
+          gap: { sm: "1rem", xs: "0rem" },
           // border:"2px solid red",
           flexDirection: {
             sm: "row",
@@ -272,13 +268,12 @@ const [selectedLeaveId, setSelectedLeaveId] = useState(null);
       >
         <Box sx={{ flexBasis: { lg: "300px", xs: "60%" } }}>
           <CustomInputLabel
-             height={{xs:"46px", md:"36px"}}
-            paddingInput={{md:"7px 10px", xs:"11px 10px"}}
-
+            height={{ xs: "46px", md: "36px" }}
+            paddingInput={{ md: "7px 10px", xs: "11px 10px" }}
             fontSize={"20px"}
             showSearchIcon={true}
             placeholder={"Search User"}
-            value={searchTerm}  
+            value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)} // Update the search term state
           />
         </Box>
@@ -391,180 +386,59 @@ const [selectedLeaveId, setSelectedLeaveId] = useState(null);
         </Box>
       </Box>
 
-      <TableContainer
-        component={Paper}
-        className="MuiTableContainer-root"
-        sx={{ overflowX: "auto" }}
-      >
-        <Table className="data-table">
-          <TableHead className="MuiTableHead-root">
-            <TableRow
-              className="header-row"
-              sx={{
-                backgroundImage: `linear-gradient(90deg, #E0EBFF 0%, #E0EBFF 100%) !important`,
-                "&:hover": {
+      {filteredLeaveData.length > 0 ? (
+        <TableContainer
+          component={Paper}
+          className="MuiTableContainer-root"
+          sx={{ overflowX: "auto" }}
+        >
+          <Table className="data-table">
+            <TableHead className="MuiTableHead-root">
+              <TableRow
+                className="header-row"
+                sx={{
                   backgroundImage: `linear-gradient(90deg, #E0EBFF 0%, #E0EBFF 100%) !important`,
-                },
-                padding: "0px",
-              }}
-            >
-              <TableCell
-                className="MuiTableCell-root-head"
-                sx={{
-                  fontWeight: "500",
-                  padding: "12px 0px",
-                  fontSize: {
-                    sm: "21px",
-                    xs: "16px",
+                  "&:hover": {
+                    backgroundImage: `linear-gradient(90deg, #E0EBFF 0%, #E0EBFF 100%) !important`,
                   },
-                  textAlign: "center !important",
-                  borderRadius: "8px 0px 0px 8px",
-                  color: "#010120",
-                  paddingLeft: "40px",
-                  minWidth: "150px",
+                  padding: "0px",
                 }}
               >
-                Emp ID
-              </TableCell>
-              <TableCell
-                className="MuiTableCell-root-head"
-                sx={{
-                  fontWeight: "500",
-                  padding: "12px 0px",
-                  fontSize: {
-                    sm: "21px",
-                    xs: "16px",
-                  },
-                  textAlign: "start !important",
+                <TableCell
+                  className="MuiTableCell-root-head"
+                  sx={{
+                    fontWeight: "500",
+                    padding: "12px 0px",
+                    fontSize: {
+                      sm: "21px",
+                      xs: "16px",
+                    },
+                    textAlign: "center !important",
+                    borderRadius: "8px 0px 0px 8px",
+                    color: "#010120",
+                    paddingLeft: "40px",
+                    minWidth: "150px",
+                  }}
+                >
+                  Emp ID
+                </TableCell>
+                <TableCell
+                  className="MuiTableCell-root-head"
+                  sx={{
+                    fontWeight: "500",
+                    padding: "12px 0px",
+                    fontSize: {
+                      sm: "21px",
+                      xs: "16px",
+                    },
+                    textAlign: "start !important",
 
-                  color: "#010120",
-                  minWidth: "250px",
-                }}
-              >
-                Name
-              </TableCell>
-              <TableCell
-                className="MuiTableCell-root-head"
-                sx={{
-                  fontWeight: "500",
-                  padding: "12px 0px",
-                  fontSize: {
-                    sm: "21px",
-                    xs: "16px",
-                  },
-                  textAlign: "center !important",
-
-                  color: "#010120",
-                  minWidth: "100px",
-                }}
-              >
-                Balance
-              </TableCell>
-              <TableCell
-                className="MuiTableCell-root-head"
-                sx={{
-                  fontWeight: "500",
-                  padding: "12px 0px",
-                  fontSize: {
-                    sm: "21px",
-                    xs: "16px",
-                  },
-                  textAlign: "center !important",
-
-                  color: "#010120",
-                  minWidth: "140px",
-                }}
-              >
-                Type
-              </TableCell>
-              <TableCell
-                className="MuiTableCell-root-head"
-                sx={{
-                  fontWeight: "500",
-                  padding: "12px 0px",
-                  fontSize: {
-                    sm: "21px",
-                    xs: "16px",
-                  },
-                  textAlign: "center !important",
-
-                  color: "#31BA96",
-                  minWidth: "190px ",
-                }}
-              >
-                From
-              </TableCell>
-              <TableCell
-                className="MuiTableCell-root-head"
-                sx={{
-                  fontWeight: "500",
-                  padding: "12px 0px",
-                  fontSize: {
-                    sm: "21px",
-                    xs: "16px",
-                  },
-                  textAlign: "center !important",
-
-                  color: "#31BA96",
-                  minWidth: "190px ",
-                }}
-              >
-                To
-              </TableCell>
-              <TableCell
-                className="MuiTableCell-root-head"
-                sx={{
-                  fontWeight: "500",
-                  padding: "12px 0px",
-                  fontSize: {
-                    sm: "21px",
-                    xs: "16px",
-                  },
-                  textAlign: "center !important",
-
-                  color: "#010120",
-                  minWidth: "120px",
-                }}
-              >
-                Days
-              </TableCell>
-              <TableCell
-                className="MuiTableCell-root-head"
-                sx={{
-                  fontWeight: "500",
-                  padding: "12px 0px",
-                  fontSize: {
-                    sm: "21px",
-                    xs: "16px",
-                  },
-                  textAlign: "center !important",
-
-                  color: "#010120",
-                  minWidth: "290px",
-                }}
-              >
-                Status (Line Manager)
-              </TableCell>
-              <TableCell
-                className="MuiTableCell-root-head"
-                sx={{
-                  fontWeight: "500",
-                  padding: "12px 0px",
-                  fontSize: {
-                    sm: "21px",
-                    xs: "16px",
-                  },
-                  textAlign: "center !important",
-
-                  color: "#010120",
-                  minWidth: "200px",
-                }}
-              >
-                Status (HOD)
-              </TableCell>
-              {user === "HR" ? (
-                ""
-              ) : (
+                    color: "#010120",
+                    minWidth: "250px",
+                  }}
+                >
+                  Name
+                </TableCell>
                 <TableCell
                   className="MuiTableCell-root-head"
                   sx={{
@@ -576,213 +450,352 @@ const [selectedLeaveId, setSelectedLeaveId] = useState(null);
                     },
                     textAlign: "center !important",
 
-                    borderRadius: "0px 8px 8px 0px",
                     color: "#010120",
+                    minWidth: "100px",
                   }}
                 >
-                  Actions
+                  Balance
                 </TableCell>
-              )}
-            </TableRow>
-          </TableHead>
-          <TableBody className="MuiTableBody-root">
-            {filteredLeaveData.map((row) => (
-              <TableRow
-                onClick={() => handleRowClick(row._id)}
-                key={row._id}
-                className="MuiTableRow-root"
-                sx={{
-                  border: "2px solid red !important",
-                  "&:hover": {
-                    background: "#157AFF",
-                    transition: "ease-in .18s all",
-                    cursor: "pointer",
-                  },
-                }}
-              >
                 <TableCell
-                  className="MuiTableCell-root"
+                  className="MuiTableCell-root-head"
                   sx={{
-                    borderRadius: "8px 0px 0px 8px",
-                    color: "#010120",
+                    fontWeight: "500",
+                    padding: "12px 0px",
+                    fontSize: {
+                      sm: "21px",
+                      xs: "16px",
+                    },
                     textAlign: "center !important",
-                  }}
-                >
-                  {row?.employeeId || "-- -- "}
-                </TableCell>
-                <TableCell
-                  className="MuiTableCell-root"
-                  sx={{
-                    color: "#010120",
-                    textAlign: "start !important",
-                  }}
-                >
-                  <img
-                    src={row?.image}
-                    style={{
-                      width: "32px",
-                      height: "32px",
-                      borderRadius: "50%",
-                      marginRight: "8px",
-                    }}
-                    alt="employee"
-                  />
-                  {row?.fullName}
-                </TableCell>
-                <TableCell
-                  className="MuiTableCell-root"
-                  sx={{
-                    color: "#99999C",
-                    textAlign: "center !important",
-                    pl: "10px !important",
-                  }}
-                >
-                  {row?.annualLeaves - row?.leavesTaken
-                    ? row?.annualLeaves - row.leavesTaken
-                    : "--"}
-                </TableCell>
-                <TableCell
-                  className="MuiTableCell-root"
-                  sx={{
-                    color: "black",
-                    textAlign: "center !important",
-                    pl: "15px !important",
-                  }}
-                >
-                  {row?.leaveType}
-                </TableCell>
-                <TableCell
-                  className="MuiTableCell-root"
-                  sx={{
-                    color: "#31BA96",
-                    textAlign: "center !important",
-                    pl: "20px !important",
-                  }}
-                >
-                  {formatDate(row?.startDate)}
-                </TableCell>
-                <TableCell
-                  className="MuiTableCell-root"
-                  sx={{
-                    color: "#31BA96",
-                    textAlign: "center !important",
-                    pl: "20px !important",
-                  }}
-                >
-                  {formatDate(row?.endDate)}
-                </TableCell>
-                <TableCell
-                  className="MuiTableCell-root"
-                  sx={{
-                    color: "black",
-                    pl: "15px !important",
-                    textAlign: "center !important",
-                  }}
-                >
-                  {calculateLeaveDays(row.startDate, row.endDate)}
-                </TableCell>
-                <TableCell
-                  className="MuiTableCell-root"
-                  sx={{
-                    color:
-                      row.statusTL === "approved"
-                        ? "#31BA96 !important"
-                        : row.statusTL === "pending"
-                        ? "#010120 !important"
-                        : "red !important",
-                    textAlign: "center !important",
-                  }}
-                >
-                  {row?.statusTL}
-                </TableCell>
-                <TableCell
-                  className="MuiTableCell-root"
-                  sx={{
-                    color:
-                      row.statusHOD === "approved"
-                        ? "#31BA96 !important"
-                        : row.statusHOD === "pending"
-                        ? "#010120 !important"
-                        : "red !important",
-                    textAlign: "center !important",
-                  }}
-                >
-                  {row?.statusHOD}
-                </TableCell>
 
-                {user === "HR" ? null : !row.showEntry ? (
-                  <TableCell></TableCell>
+                    color: "#010120",
+                    minWidth: "140px",
+                  }}
+                >
+                  Type
+                </TableCell>
+                <TableCell
+                  className="MuiTableCell-root-head"
+                  sx={{
+                    fontWeight: "500",
+                    padding: "12px 0px",
+                    fontSize: {
+                      sm: "21px",
+                      xs: "16px",
+                    },
+                    textAlign: "center !important",
+
+                    color: "#31BA96",
+                    minWidth: "190px ",
+                  }}
+                >
+                  From
+                </TableCell>
+                <TableCell
+                  className="MuiTableCell-root-head"
+                  sx={{
+                    fontWeight: "500",
+                    padding: "12px 0px",
+                    fontSize: {
+                      sm: "21px",
+                      xs: "16px",
+                    },
+                    textAlign: "center !important",
+
+                    color: "#31BA96",
+                    minWidth: "190px ",
+                  }}
+                >
+                  To
+                </TableCell>
+                <TableCell
+                  className="MuiTableCell-root-head"
+                  sx={{
+                    fontWeight: "500",
+                    padding: "12px 0px",
+                    fontSize: {
+                      sm: "21px",
+                      xs: "16px",
+                    },
+                    textAlign: "center !important",
+
+                    color: "#010120",
+                    minWidth: "120px",
+                  }}
+                >
+                  Days
+                </TableCell>
+                <TableCell
+                  className="MuiTableCell-root-head"
+                  sx={{
+                    fontWeight: "500",
+                    padding: "12px 0px",
+                    fontSize: {
+                      sm: "21px",
+                      xs: "16px",
+                    },
+                    textAlign: "center !important",
+
+                    color: "#010120",
+                    minWidth: "290px",
+                  }}
+                >
+                  Status (Line Manager)
+                </TableCell>
+                <TableCell
+                  className="MuiTableCell-root-head"
+                  sx={{
+                    fontWeight: "500",
+                    padding: "12px 0px",
+                    fontSize: {
+                      sm: "21px",
+                      xs: "16px",
+                    },
+                    textAlign: "center !important",
+
+                    color: "#010120",
+                    minWidth: "200px",
+                  }}
+                >
+                  Status (HOD)
+                </TableCell>
+                {user === "HR" ? (
+                  ""
                 ) : (
                   <TableCell
-                    className="MuiTableCell-root"
+                    className="MuiTableCell-root-head"
                     sx={{
+                      fontWeight: "500",
+                      padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center !important",
+
                       borderRadius: "0px 8px 8px 0px",
+                      color: "#010120",
                     }}
                   >
-                    <Typography
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        gap: "1rem",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Tooltip title="Approve Request">
-                        <img
-                          src={tickPng}
-                          alt="Approve"
-                          style={{
-                            width: "34px",
-                            height: "34px",
-                            cursor: "pointer",
-                          }}
-                          onClick={(e) => {
-                            setSelectedLeaveId(row._id); // Set the selected leave ID
-                            setLeaveModalOpenAccept(true);
-                            e.stopPropagation(); // Prevent the row click event from firing
-                            console.log("Approved action");
-                          }}
-                        />
-                      </Tooltip>
-
-                      <Tooltip title="Reject Request">
-                        <img
-                          src={cancelPng}
-                          alt="Reject"
-                          style={{
-                            width: "34px",
-                            height: "34px",
-                            cursor: "pointer",
-                          }}
-                          onClick={(e) => {
-                            setSelectedLeaveId(row._id); // Set the selected leave ID
-                            setLeaveModalOpenReject(true);
-                            e.stopPropagation(); // Prevent the row click event from firing
-                          }}
-                        />
-                      </Tooltip>
-                    </Typography>
+                    Actions
                   </TableCell>
                 )}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody className="MuiTableBody-root">
+              {filteredLeaveData.map((row) => (
+                <TableRow
+                  onClick={() => handleRowClick(row._id)}
+                  key={row._id}
+                  className="MuiTableRow-root"
+                  sx={{
+                    border: "2px solid red !important",
+                    "&:hover": {
+                      background: "#157AFF",
+                      transition: "ease-in .18s all",
+                      cursor: "pointer",
+                    },
+                  }}
+                >
+                  <TableCell
+                    className="MuiTableCell-root"
+                    sx={{
+                      borderRadius: "8px 0px 0px 8px",
+                      color: "#010120",
+                      textAlign: "center !important",
+                    }}
+                  >
+                    {row?.employeeId || "-- -- "}
+                  </TableCell>
+                  <TableCell
+                    className="MuiTableCell-root"
+                    sx={{
+                      color: "#010120",
+                      textAlign: "start !important",
+                    }}
+                  >
+                    <img
+                      src={row?.image}
+                      style={{
+                        width: "32px",
+                        height: "32px",
+                        borderRadius: "50%",
+                        marginRight: "8px",
+                      }}
+                      alt="employee"
+                    />
+                    {row?.fullName}
+                  </TableCell>
+                  <TableCell
+                    className="MuiTableCell-root"
+                    sx={{
+                      color: "#99999C",
+                      textAlign: "center !important",
+                      pl: "10px !important",
+                    }}
+                  >
+                    {row?.annualLeaves - row?.leavesTaken
+                      ? row?.annualLeaves - row.leavesTaken
+                      : "--"}
+                  </TableCell>
+                  <TableCell
+                    className="MuiTableCell-root"
+                    sx={{
+                      color: "black",
+                      textAlign: "center !important",
+                      pl: "15px !important",
+                    }}
+                  >
+                    {row?.leaveType}
+                  </TableCell>
+                  <TableCell
+                    className="MuiTableCell-root"
+                    sx={{
+                      color: "#31BA96",
+                      textAlign: "center !important",
+                      pl: "20px !important",
+                    }}
+                  >
+                    {formatDate(row?.startDate)}
+                  </TableCell>
+                  <TableCell
+                    className="MuiTableCell-root"
+                    sx={{
+                      color: "#31BA96",
+                      textAlign: "center !important",
+                      pl: "20px !important",
+                    }}
+                  >
+                    {formatDate(row?.endDate)}
+                  </TableCell>
+                  <TableCell
+                    className="MuiTableCell-root"
+                    sx={{
+                      color: "black",
+                      pl: "15px !important",
+                      textAlign: "center !important",
+                    }}
+                  >
+                    {calculateLeaveDays(row.startDate, row.endDate)}
+                  </TableCell>
+                  <TableCell
+                    className="MuiTableCell-root"
+                    sx={{
+                      color:
+                        row.statusTL === "approved"
+                          ? "#31BA96 !important"
+                          : row.statusTL === "pending"
+                          ? "#010120 !important"
+                          : "red !important",
+                      textAlign: "center !important",
+                    }}
+                  >
+                    {row?.statusTL}
+                  </TableCell>
+                  <TableCell
+                    className="MuiTableCell-root"
+                    sx={{
+                      color:
+                        row.statusHOD === "approved"
+                          ? "#31BA96 !important"
+                          : row.statusHOD === "pending"
+                          ? "#010120 !important"
+                          : "red !important",
+                      textAlign: "center !important",
+                    }}
+                  >
+                    {row?.statusHOD}
+                  </TableCell>
+
+                  {user === "HR" ? null : !row.showEntry ? (
+                    <TableCell></TableCell>
+                  ) : (
+                    <TableCell
+                      className="MuiTableCell-root"
+                      sx={{
+                        borderRadius: "0px 8px 8px 0px",
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          gap: "1rem",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Tooltip title="Approve Request">
+                          <img
+                            src={tickPng}
+                            alt="Approve"
+                            style={{
+                              width: "34px",
+                              height: "34px",
+                              cursor: "pointer",
+                            }}
+                            onClick={(e) => {
+                              setSelectedLeaveId(row._id); // Set the selected leave ID
+                              setLeaveModalOpenAccept(true);
+                              e.stopPropagation(); // Prevent the row click event from firing
+                              console.log("Approved action");
+                            }}
+                          />
+                        </Tooltip>
+
+                        <Tooltip title="Reject Request">
+                          <img
+                            src={cancelPng}
+                            alt="Reject"
+                            style={{
+                              width: "34px",
+                              height: "34px",
+                              cursor: "pointer",
+                            }}
+                            onClick={(e) => {
+                              setSelectedLeaveId(row._id); // Set the selected leave ID
+                              setLeaveModalOpenReject(true);
+                              e.stopPropagation(); // Prevent the row click event from firing
+                            }}
+                          />
+                        </Tooltip>
+                      </Typography>
+                    </TableCell>
+                  )}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <Box
+          sx={{
+            fontWeight: "500",
+            fontSize: {
+              sm: "22px",
+              xs: "15px",
+            },
+            textAlign: "center",
+            mt: "50px",
+          }}
+        >
+          {" "}
+          No leave records found. No employees have applied for leave yet.
+        </Box>
+      )}
+
       <DeleteConfirmationModal
-  open={leaveModalOpenAccept}
-  handleClose={() => setLeaveModalOpenAccept(false)}
-  onConfirm={() => validateAccept(selectedLeaveId)}
-  requestText={"Are you sure you want to approve this leave request?"}
-  requestHeading={"Leave Approval Confirmation"}
-/>
-<DeleteConfirmationModal
-  open={leaveModalOpenReject}
-  handleClose={() => setLeaveModalOpenReject(false)}
-  onConfirm={() => validateReject(selectedLeaveId)}
-  requestText={"Are you sure you want to reject this leave request?"}
-  requestHeading={"Leave Rejection Confirmation"}
-/>
+        open={leaveModalOpenAccept}
+        handleClose={() => setLeaveModalOpenAccept(false)}
+        onConfirm={() => validateAccept(selectedLeaveId)}
+        requestText={"Are you sure you want to approve this leave request?"}
+        requestHeading={"Leave Approval Confirmation"}
+      />
+      <DeleteConfirmationModal
+        open={leaveModalOpenReject}
+        handleClose={() => setLeaveModalOpenReject(false)}
+        onConfirm={() => validateReject(selectedLeaveId)}
+        requestText={"Are you sure you want to reject this leave request?"}
+        requestHeading={"Leave Rejection Confirmation"}
+      />
     </Box>
   );
 };

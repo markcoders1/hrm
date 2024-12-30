@@ -29,14 +29,14 @@ const Login = () => {
 
   const userRole = useSelector((state) => state.user.user.role);
   const refreshTokenFromState = useSelector(
-    (state) => state.user.user.refreshToken
+    (state) => state.user.user.accessToken
   );
 
   console.log(refreshTokenFromState);
 
   useEffect(() => {
     if (refreshTokenFromState) {
-      navigate("/dashboard");
+      // navigate("/dashboard");
     }
   }, []);
   const {

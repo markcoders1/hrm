@@ -157,6 +157,7 @@ const MyLeaves = () => {
       );
     }
 
+
   return (
     <Box className="sheet-container-admin" sx={{
       padding:"0px 0px 40px 0px"
@@ -228,334 +229,350 @@ const MyLeaves = () => {
         </Box>
 
         {/* Table */}
-        <TableContainer component={Paper} className="MuiTableContainer-root">
-          <Table className="data-table">
-            <TableHead className="MuiTableHead-root">
-              <TableRow
-                className="header-row"
-                sx={{
-                  backgroundImage: `linear-gradient(90deg, #E0EBFF 0%, #E0EBFF 100%) !important`,
-                  "&:hover": {
-                    backgroundImage: `linear-gradient(90deg, #E0EBFF 0%, #E0EBFF 100%) !important`,
-                  },
-                  padding: "0px",
-                }}
-              >
-                <TableCell
-                  className="MuiTableCell-root-head"
-                  sx={{
-                    fontWeight: "500",
-                    // padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "center",
-                    borderRadius: "8px 0px 0px 8px",
-                    color: "#010120",
-                  }}
-                >
-                  #
-                </TableCell>
-                <TableCell
-                  className="MuiTableCell-root-head"
-                  sx={{
-                    fontWeight: "500",
-                    // padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "center",
-                    color: "#010120",
-                  }}
-                >
-                  From
-                </TableCell>
-                <TableCell
-                  className="MuiTableCell-root-head"
-                  sx={{
-                    fontWeight: "500",
-                    // padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "center",
-                    color: "#010120",
-                  }}
-                >
-                  To
-                </TableCell>
-                <TableCell
-                  className="MuiTableCell-root-head"
-                  sx={{
-                    fontWeight: "500",
-                    // padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "center",
-                    color: "#010120",
-                  }}
-                >
-                  Day
-                </TableCell>
-                <TableCell
-                  className="MuiTableCell-root-head"
-                  sx={{
-                    fontWeight: "500",
-                    // padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "center",
-                    color: "#010120",
-                  }}
-                >
-                  Type
-                </TableCell>
-                <TableCell
-                  className="MuiTableCell-root-head"
-                  sx={{
-                    fontWeight: "500",
-                    // padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "center",
-                    color: "#010120",
-                  }}
-                >
-                  Status (Line Manager)
-                </TableCell>
-                <TableCell
-                  className="MuiTableCell-root-head"
-                  sx={{
-                    fontWeight: "500",
-                    // padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "center",
-                    color: "#010120",
-                  }}
-                >
-                  Status (HOD)
-                </TableCell>
-                <TableCell
-                  className="MuiTableCell-root-head"
-                  sx={{
-                    fontWeight: "500",
-                    // padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "center",
-                    borderRadius: "0px 8px 8px 0px",
-                    color: "#010120",
-                  }}
-                >
-                  Actions
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody className="MuiTableBody-root">
-              {leaveData.map((leave, index) => (
+
+        {
+          leaveData.length > 0 ? (
+            <TableContainer component={Paper} className="MuiTableContainer-root">
+            <Table className="data-table">
+              <TableHead className="MuiTableHead-root">
                 <TableRow
-                  key={index}
-                  className="MuiTableRow-root"
-                  onClick={() =>
-                    navigate(
-                      `/dashboard/my-leaves/my-leave-detail/${leave._id}`
-                    )
-                  }
-                  sx={{ cursor: "pointer" }}
+                  className="header-row"
+                  sx={{
+                    backgroundImage: `linear-gradient(90deg, #E0EBFF 0%, #E0EBFF 100%) !important`,
+                    "&:hover": {
+                      backgroundImage: `linear-gradient(90deg, #E0EBFF 0%, #E0EBFF 100%) !important`,
+                    },
+                    padding: "0px",
+                  }}
                 >
                   <TableCell
+                    className="MuiTableCell-root-head"
                     sx={{
+                      fontWeight: "500",
+                      // padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center",
                       borderRadius: "8px 0px 0px 8px",
                       color: "#010120",
-                      textAlign: "center !important",
                     }}
-                    className="MuiTableCell-root"
                   >
-                    {leave.companyId}
+                    #
                   </TableCell>
                   <TableCell
+                    className="MuiTableCell-root-head"
                     sx={{
-                      textAlign: "center !important",
-                      color: "#99999C !important",
-                    }}
-                    className="MuiTableCell-root"
-                  >
-                    <span className="formatted-date">
-                      {formatDate(leave.startDate)}
-                    </span>
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      color: "#99999C !important",
-                    }}
-                    className="MuiTableCell-root"
-                  >
-                    <span className="formatted-date">
-                      {formatDate(leave.endDate)}
-                    </span>
-                  </TableCell>
-                  <TableCell
-                    sx={{ textAlign: "center !important" }}
-                    className="MuiTableCell-root"
-                  >
-                    {leave.leaveCount}
-                  </TableCell>
-                  <TableCell
-                    sx={{ textAlign: "center !important" }}
-                    className="MuiTableCell-root"
-                  >
-                    {capitalizeFirstLetter(leave.leaveType)}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      color:
-                        leave.statusTL === "approved"
-                          ? "#31BA60 !important"
-                          : leave.statusTL === "rejected"
-                          ? "red !important"
-                          : "black",
-                    }}
-                    className="MuiTableCell-root"
-                  >
-                    {capitalizeFirstLetter(leave.statusTL)}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      color:
-                        leave.statusHOD === "approved"
-                          ? "#31BA60 !important"
-                          : leave.statusHOD === "rejected"
-                          ? "red !important"
-                          : "black",
-                    }}
-                    className="MuiTableCell-root"
-                  >
-                    {capitalizeFirstLetter(leave.statusHOD)}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      borderRadius: "0px 8px 8px 0px",
+                      fontWeight: "500",
+                      // padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
                       textAlign: "center",
+                      color: "#010120",
                     }}
-                    className="MuiTableCell-root"
                   >
-                    <Box
+                    From
+                  </TableCell>
+                  <TableCell
+                    className="MuiTableCell-root-head"
+                    sx={{
+                      fontWeight: "500",
+                      // padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center",
+                      color: "#010120",
+                    }}
+                  >
+                    To
+                  </TableCell>
+                  <TableCell
+                    className="MuiTableCell-root-head"
+                    sx={{
+                      fontWeight: "500",
+                      // padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center",
+                      color: "#010120",
+                    }}
+                  >
+                    Day
+                  </TableCell>
+                  <TableCell
+                    className="MuiTableCell-root-head"
+                    sx={{
+                      fontWeight: "500",
+                      // padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center",
+                      color: "#010120",
+                    }}
+                  >
+                    Type
+                  </TableCell>
+                  <TableCell
+                    className="MuiTableCell-root-head"
+                    sx={{
+                      fontWeight: "500",
+                      // padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center",
+                      color: "#010120",
+                    }}
+                  >
+                    Status (Line Manager)
+                  </TableCell>
+                  <TableCell
+                    className="MuiTableCell-root-head"
+                    sx={{
+                      fontWeight: "500",
+                      // padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center",
+                      color: "#010120",
+                    }}
+                  >
+                    Status (HOD)
+                  </TableCell>
+                  <TableCell
+                    className="MuiTableCell-root-head"
+                    sx={{
+                      fontWeight: "500",
+                      // padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center",
+                      borderRadius: "0px 8px 8px 0px",
+                      color: "#010120",
+                    }}
+                  >
+                    Actions
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody className="MuiTableBody-root">
+                {leaveData.map((leave, index) => (
+                  <TableRow
+                    key={index}
+                    className="MuiTableRow-root"
+                    onClick={() =>
+                      navigate(
+                        `/dashboard/my-leaves/my-leave-detail/${leave._id}`
+                      )
+                    }
+                    sx={{ cursor: "pointer" }}
+                  >
+                    <TableCell
                       sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        gap: "1rem",
+                        borderRadius: "8px 0px 0px 8px",
+                        color: "#010120",
+                        textAlign: "center !important",
                       }}
+                      className="MuiTableCell-root"
                     >
-                      <Tooltip
-                        title={
-                          isActionDisabled(leave.overallStatus)
-                            ? "Could not edit"
-                            : "Click to Edit"
-                        }
-                        onClick={(event) =>
-                          !isActionDisabled(leave.overallStatus) &&
-                          handleEditClick(event, leave._id)
-                        }
+                      {leave.companyId}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        textAlign: "center !important",
+                        color: "#99999C !important",
+                      }}
+                      className="MuiTableCell-root"
+                    >
+                      <span className="formatted-date">
+                        {formatDate(leave.startDate)}
+                      </span>
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        textAlign: "center !important",
+                        color: "#99999C !important",
+                      }}
+                      className="MuiTableCell-root"
+                    >
+                      <span className="formatted-date">
+                        {formatDate(leave.endDate)}
+                      </span>
+                    </TableCell>
+                    <TableCell
+                      sx={{ textAlign: "center !important" }}
+                      className="MuiTableCell-root"
+                    >
+                      {leave.leaveCount}
+                    </TableCell>
+                    <TableCell
+                      sx={{ textAlign: "center !important" }}
+                      className="MuiTableCell-root"
+                    >
+                      {capitalizeFirstLetter(leave.leaveType)}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        textAlign: "center !important",
+                        color:
+                          leave.statusTL === "approved"
+                            ? "#31BA60 !important"
+                            : leave.statusTL === "rejected"
+                            ? "red !important"
+                            : "black",
+                      }}
+                      className="MuiTableCell-root"
+                    >
+                      {capitalizeFirstLetter(leave.statusTL)}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        textAlign: "center !important",
+                        color:
+                          leave.statusHOD === "approved"
+                            ? "#31BA60 !important"
+                            : leave.statusHOD === "rejected"
+                            ? "red !important"
+                            : "black",
+                      }}
+                      className="MuiTableCell-root"
+                    >
+                      {capitalizeFirstLetter(leave.statusHOD)}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        borderRadius: "0px 8px 8px 0px",
+                        textAlign: "center",
+                      }}
+                      className="MuiTableCell-root"
+                    >
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          gap: "1rem",
+                        }}
                       >
-                        <Typography
-                          sx={{
-                            width: "45px",
-                            height: "45px",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderRadius: "50%",
-
-                            transition: "background-color 0.3s ease",
-                            "&:hover": {
-                              backgroundColor: "rgba(255, 255, 255, 0.2)",
-                            },
-                          }}
+                        <Tooltip
+                          title={
+                            isActionDisabled(leave.overallStatus)
+                              ? "Could not edit"
+                              : "Click to Edit"
+                          }
+                          onClick={(event) =>
+                            !isActionDisabled(leave.overallStatus) &&
+                            handleEditClick(event, leave._id)
+                          }
                         >
+                          <Typography
+                            sx={{
+                              width: "45px",
+                              height: "45px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              borderRadius: "50%",
+  
+                              transition: "background-color 0.3s ease",
+                              "&:hover": {
+                                backgroundColor: "rgba(255, 255, 255, 0.2)",
+                              },
+                            }}
+                          >
+                            <Box
+                              component="img"
+                              src={
+                                isActionDisabled(leave.overallStatus)
+                                  ? disabledEdit
+                                  : editIcon
+                              }
+                              sx={{
+                                cursor: isActionDisabled(leave.overallStatus)
+                                  ? "not-allowed"
+                                  : "pointer",
+                              }}
+                            
+                            />
+                          </Typography>
+                        </Tooltip>
+                        <Tooltip
+                          title={
+                            isActionDisabled(leave.overallStatus)
+                              ? "Could not Delete"
+                              : "Click to Delete"
+                          }
+                          onClick={(event) =>
+                            !isActionDisabled(leave.overallStatus) &&
+                            handleDeleteClick(event, leave._id)
+                          }
+                        >
+                           <Typography
+                            sx={{
+                              width: "45px",
+                              height: "45px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              borderRadius: "50%",
+  
+                              transition: "background-color 0.3s ease",
+                              "&:hover": {
+                                backgroundColor: "rgba(255, 255, 255, 0.2)",
+                              },
+                            }}
+                          >
                           <Box
                             component="img"
                             src={
                               isActionDisabled(leave.overallStatus)
-                                ? disabledEdit
-                                : editIcon
+                                ? disabledDelete
+                                : deleteIcon
                             }
                             sx={{
                               cursor: isActionDisabled(leave.overallStatus)
                                 ? "not-allowed"
                                 : "pointer",
+                              width: "25px",
+                              height: "25px",
                             }}
-                          
+                         
                           />
-                        </Typography>
-                      </Tooltip>
-                      <Tooltip
-                        title={
-                          isActionDisabled(leave.overallStatus)
-                            ? "Could not Delete"
-                            : "Click to Delete"
-                        }
-                        onClick={(event) =>
-                          !isActionDisabled(leave.overallStatus) &&
-                          handleDeleteClick(event, leave._id)
-                        }
-                      >
-                         <Typography
-                          sx={{
-                            width: "45px",
-                            height: "45px",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderRadius: "50%",
-
-                            transition: "background-color 0.3s ease",
-                            "&:hover": {
-                              backgroundColor: "rgba(255, 255, 255, 0.2)",
-                            },
-                          }}
-                        >
-                        <Box
-                          component="img"
-                          src={
-                            isActionDisabled(leave.overallStatus)
-                              ? disabledDelete
-                              : deleteIcon
-                          }
-                          sx={{
-                            cursor: isActionDisabled(leave.overallStatus)
-                              ? "not-allowed"
-                              : "pointer",
-                            width: "25px",
-                            height: "25px",
-                          }}
-                       
-                        />
-                        </Typography>
-                      </Tooltip>
-                    </Box>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                          </Typography>
+                        </Tooltip>
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          ) : <Box
+          sx={{
+            fontWeight:"500",
+            fontSize:{
+              sm:"22px",
+              xs:"15px"
+            },
+            textAlign:"center",
+            mt:"50px"
+          }}
+          > You have not submitted any leave requests yet.</Box>
+        }
+      
       </Box>
       <DeleteConfirmationModal
         open={deleteModalOpen}

@@ -18,7 +18,7 @@ import { useQuery } from "@tanstack/react-query";
 import SpinnerLoader from "../../components/SpinnerLoader";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import VirtualizedSelect from "../../components/VirtualizedSelect/VirtualizedSelect";
-
+import CustomSelectForRole from "../../components/CustomSelectForRole/CustomSelectForRole";
 
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -30,8 +30,8 @@ const fetchRolesId = async () => {
 
 const fetchModulesToAdd = async () => {
   const response = await axiosInstance.get(`${apiUrl}/api/admin/settings/modules`);
-  console.log("=======>", response);
-  return response;
+  console.log("=======> Modules", response);
+  return response.data.modulesToAdd;
 };
 
 const AddNewModule = () => {
@@ -89,7 +89,7 @@ const AddNewModule = () => {
       );
       const updatedData = response?.data.data.settings.modules;
       queryClient.setQueryData(["companyData"], updatedData);
-      toast.success("New Role Added Successfully");
+      toast.success("New Module Added Successfully");
       reset();
       navigate(-1);
     },
@@ -107,6 +107,7 @@ const AddNewModule = () => {
       mod: data.moduleName,
       roles: roles
     }
+    console.log(dataToSend)
     addMutation.mutate(dataToSend);
 
   console.log(Array.isArray(roles));
@@ -146,44 +147,28 @@ const AddNewModule = () => {
   return (
     <Box>
       <form onSubmit={handleSubmit(onSubmit)} style={{ padding: "0px" }}>
-        <Box sx={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
-          <Controller
-            name="moduleName"
-            control={control}
-            defaultValue=""
-            rules={{ required: "New Module Name is Required" }}
-            render={({ field }) => (
-              <Box sx={{ position: "relative", flex: "1 1 100%" }}>
-                <CustomInputLabel
-                  label="New Module Name"
-                  id="moduleName"
-                  error={errors.moduleName?.message}
-                  {...field}
-                  height={{ xl: "64px", md: "45px" }}
-                  paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
-                />
-              </Box>
-            )}
-          />
-        </Box>
         <Box>
-            <Controller
-              name="secondaryCurrency"
-              control={control}
-              
-              render={({ field }) => (
-                <VirtualizedSelect
-                  label="Secondary Currency"
-                  id="secondaryCurrency"
-                  {...field}
-                  value={field.value}
-                  handleChange={field.onChange}
-                  options={currencies}
-                  height={{ xl: "65px !important", md: "58px !important" }}
-                  error={errors.secondaryCurrency?.message}
+        <Controller
+                  name="moduleName"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Department is required" }}
+                  render={({ field }) => (
+                    <CustomSelectForRole
+                      label="Department*"
+                      height={{ xl: "64px !important", xs: "58px !important" }}
+                      options={modulesAdd.map((depart) => ({
+                        value: depart, // The value to send to the API
+                        label: depart.toUpperCase(), // The label to display in the select
+                      }))}
+                      value={field.value}
+                      handleChange={field.onChange}
+                      error={errors.moduleName?.message}
+                      // height={{xl:"64px", md:"45px"}}
+                      // paddingInput={{xl:"21px 10px", md:"13px 8px"}}
+                    />
+                  )}
                 />
-              )}
-            />
           </Box>
 
         <Typography
@@ -191,12 +176,12 @@ const AddNewModule = () => {
             fontWeight: "600",
             fontSize: "30px",
             color: "#010120",
-            mt: "0px",
+            mt: "15px",
           }}
         >
           Roles To Access
         </Typography>
-        <Box sx={{ display: "flex", gap: "0px", flexWrap: "wrap" }}>
+        <Box sx={{ display: "flex", gap: "0px", flexWrap: "wrap", mt:"10px" }}>
           {rolesData?.map((module, index) => (
             <Box
               sx={{

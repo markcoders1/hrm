@@ -259,8 +259,8 @@ const EmployeeData = () => {
       {/* add search input field here with functionality */}
       <Box sx={{width:{lg:"380px", xs:"100%"},position:{lg:"fixed", xs:"static"}, right:"63px", top:"50px", zIndex:{lg:"100000 ", xs:"0"}}} >
       <CustomInputLabel
-        height={{xs:"46px", md:"36px"}}
-        paddingInput={{md:"7px 10px", xs:"11px 10px"}}
+        height={{xs:"46px", md:"46px"}}
+        paddingInput={{md:"11px 10px", xs:"11px 10px"}}
         fontSize={"20px"}
         showSearchIcon={true}
         placeholder={"Search User"}

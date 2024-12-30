@@ -137,22 +137,7 @@ const ModuleSetting = ({ moduleData }) => {
                 >
                   View Active List
                 </TableCell>
-                <TableCell
-                  className="MuiTableCell-root-head"
-                  sx={{
-                    fontWeight: "500",
-                    padding: "12px 0px",
-                    fontSize: {
-                      sm: "21px",
-                      xs: "16px",
-                    },
-                    textAlign: "center !important",
-                    color: "#010120",
-                    minWidth: "150px",
-                  }}
-                >
-                  Edit Modules
-                </TableCell>
+              
                 <TableCell
                   className="MuiTableCell-root-head"
                   sx={{
@@ -206,15 +191,7 @@ const ModuleSetting = ({ moduleData }) => {
                   >
                     <img src={eyeIcon} alt="" />
                   </TableCell>
-                  <TableCell
-                    sx={{
-                      textAlign: "center !important",
-                      color: "#010120",
-                    }}
-                    className="MuiTableCell-root"
-                  >
-                    <img src={editIconWhite} alt="" />
-                  </TableCell>
+                 
 
                   <TableCell
                     sx={{

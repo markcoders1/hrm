@@ -15,10 +15,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-
 } from "@mui/material";
 import Chart from "../components/Charts/Charts.jsx";
-import '../PagesCss/Employee.css'
+import "../PagesCss/Employee.css";
 
 import CustomInputLabel from "../components/CustomInputField/CustomInputLabel";
 import AnnouncementBox from "../components/AnnouncementBox/AnnouncementBox";
@@ -26,9 +25,6 @@ import CustomButton from "../components/CustomButton/CustomButton";
 import { Box, Tooltip, Typography } from "@mui/material";
 import SpinnerLoader from "../components/SpinnerLoader.jsx";
 import { Send } from "lucide-react";
-
-
-
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -87,9 +83,6 @@ const Check = () => {
 
   const hasCPN = permissions.includes("C-P-N-attendance");
   const hasRA = permissions.includes("R-A-attendance");
-
-
-
 
   // console.log(role)
 
@@ -292,11 +285,10 @@ const Check = () => {
     );
   };
 
-
   // attendance work start from here
 
   const fetchTodatAttendanceData = async (dateTimestamp) => {
-    console.log(dateTimestamp)
+    console.log(dateTimestamp);
     try {
       const response = await axiosInstance({
         url: `${apiUrl}/api/admin/getToday`,
@@ -307,12 +299,14 @@ const Check = () => {
       });
 
       const dataAllEmployee = response.data.users;
-      setLengthOfEmployee(response.data.users.length)
+      setLengthOfEmployee(response.data.users.length);
       setAttendanceData(dataAllEmployee);
 
       console.log(response);
       // Filter users with checkIn and set the count
-      const activeUsersCount = dataAllEmployee.filter(user => user.checkIn && !user.checkOut).length;
+      const activeUsersCount = dataAllEmployee.filter(
+        (user) => user.checkIn && !user.checkOut
+      ).length;
       setEmployeeActiveCount(activeUsersCount);
     } catch (error) {
       console.error(error);
@@ -329,11 +323,11 @@ const Check = () => {
   };
 
   const customFormatTime = (t) => {
-    const dateObject = new Date(t)
-    const utcMinutes = dateObject.getUTCMinutes().toString().padStart(2, '0')  // Convert to string first
-    const timetooutput = `${dateObject.getUTCHours()}:${utcMinutes}`
-    return timetooutput
-  }
+    const dateObject = new Date(t);
+    const utcMinutes = dateObject.getUTCMinutes().toString().padStart(2, "0"); // Convert to string first
+    const timetooutput = `${dateObject.getUTCHours()}:${utcMinutes}`;
+    return timetooutput;
+  };
 
   const calculateDuration = (checkInTime) => {
     if (!checkInTime) return "-- --";
@@ -345,11 +339,9 @@ const Check = () => {
     const diffHours = Math.floor(diffMs / (1000 * 60 * 60)); // Hours
     const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60)); // Minutes
 
-
     const totalMinutes = diffHours * 60 + diffMinutes;
     const formattedHour = Math.floor(totalMinutes / 60);
     const formattedMinutes = totalMinutes % 60;
-
 
     const displayHour = formattedHour.toString().padStart(2, "0");
 
@@ -396,275 +388,270 @@ const Check = () => {
                 flexBasis: "50%",
                 backgroundColor: "white ",
               }}
-
             >
+              {hasCPN && hasRA && (
+                <Box>
+                  <Box>
+                    <CustomButton
+                      onClick={handleCheck}
+                      ButtonText={
+                        status === "checkin" ? "Check Out" : "Check In"
+                      }
+                      fullWidth={true}
+                      background="#157AFF"
+                      color="white"
+                      fontWeight="500"
+                      fontSize="32px"
+                      hoverBg="#303f9f"
+                      padding="26px 0px"
+                      borderRadius="12px"
+                      buttonStyle={{
+                        height: "10rem",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                      }}
+                      extraText={
+                        status === "checkin"
+                          ? `${unixTimestampToTime(checkTime)}`
+                          : null
+                      }
+                    />
 
+                    <Box
+                      sx={{
+                        mt: "30px",
+                      }}
+                    >
+                      <Chart graphData={graphData} />
+                    </Box>
+                  </Box>
+                </Box>
+              )}
 
-              {
-                hasCPN && hasRA && (
-                  <Box >
+              {hasCPN && !hasRA && (
+                <Box>
+                  <Box>
+                    <CustomButton
+                      onClick={handleCheck}
+                      ButtonText={
+                        status === "checkin" ? "Check Out" : "Check In"
+                      }
+                      fullWidth={true}
+                      background="#157AFF"
+                      color="white"
+                      fontWeight="500"
+                      fontSize="32px"
+                      hoverBg="#303f9f"
+                      padding="26px 0px"
+                      borderRadius="12px"
+                      buttonStyle={{
+                        height: "10rem",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                      }}
+                      extraText={
+                        status === "checkin"
+                          ? `${unixTimestampToTime(checkTime)}`
+                          : null
+                      }
+                    />
 
-                    <Box >
-                      <CustomButton
-                        onClick={handleCheck}
-                        ButtonText={status === "checkin" ? "Check Out" : "Check In"}
-                        fullWidth={true}
-                        background="#157AFF"
-                        color="white"
-                        fontWeight="500"
-                        fontSize="32px"
-                        hoverBg="#303f9f"
-                        padding="26px 0px"
-                        borderRadius="12px"
-                        buttonStyle={{
-                          height: "10rem",
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                        }}
-                        extraText={
-                          status === "checkin"
-                            ? `${unixTimestampToTime(checkTime)}`
-                            : null
-                        }
-                      />
+                    <Box
+                      sx={{
+                        mt: "30px",
+                      }}
+                    >
+                      <Chart graphData={graphData} />
+                    </Box>
+                  </Box>
+                </Box>
+              )}
 
-                      <Box
+              {!hasCPN && hasRA && (
+                <Box>
+                  <Box sx={{ flexBasis: "100%" }}>
+                    {loading ? (
+                      <Box className="loaderContainer">
+                        <Loader />
+                      </Box>
+                    ) : (
+                      <TableContainer
+                        component={Paper}
+                        // onScroll={handleScroll}
                         sx={{
-                          mt: "30px",
+                          boxShadow: "none",
+                          border: "none",
+                          mt: "-14px",
+                          maxHeight: "75vh", // Limit height to make the table scrollable
+                          overflowY: "scroll", // Enable vertical scroll with smooth scrolling
+                          "&::-webkit-scrollbar": {
+                            width: "0px", // Set width to 0 to hide the scrollbar
+                          },
+                          "&::-webkit-scrollbar-track": {
+                            background: "#f0f0f0",
+                          },
+                          "&::-webkit-scrollbar-thumb": {
+                            background: "#bdbdbd",
+                            borderRadius: "0px",
+                          },
+                          "&:hover::-webkit-scrollbar": {
+                            width: "0px", // Show scrollbar width on hover
+                          },
+                          "&:hover::-webkit-scrollbar-thumb": {
+                            background: "#bdbdbd", // Optional: change thumb color on hover
+                          },
+                          transition: "scroll 0.3s ease", // Smooth scrolling effect
                         }}
                       >
-                        <Chart graphData={graphData} />
-                      </Box>
-                    </Box>
-
-                  </Box>
-                )
-              }
-
-              {
-                hasCPN && !hasRA && (
-                  <Box >
-
-                    <Box >
-                      <CustomButton
-                        onClick={handleCheck}
-                        ButtonText={status === "checkin" ? "Check Out" : "Check In"}
-                        fullWidth={true}
-                        background="#157AFF"
-                        color="white"
-                        fontWeight="500"
-                        fontSize="32px"
-                        hoverBg="#303f9f"
-                        padding="26px 0px"
-                        borderRadius="12px"
-                        buttonStyle={{
-                          height: "10rem",
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                        }}
-                        extraText={
-                          status === "checkin"
-                            ? `${unixTimestampToTime(checkTime)}`
-                            : null
-                        }
-                      />
-
-                      <Box
-                        sx={{
-                          mt: "30px",
-                        }}
-                      >
-                        <Chart graphData={graphData} />
-                      </Box>
-                    </Box>
-
-                  </Box>
-                )
-              }
-
-              {
-                !hasCPN && hasRA && (
-                  <Box >
-
-                    <Box sx={{ flexBasis: "100%" }}>
-                      {loading ? (
-                        <Box className="loaderContainer">
-                          <Loader />
-                        </Box>
-                      ) : (
-                        <TableContainer
-                          component={Paper}
-                          // onScroll={handleScroll}
-                          sx={{
-                            boxShadow: "none",
-                            border: "none",
-                            mt: "-14px",
-                            maxHeight: "75vh", // Limit height to make the table scrollable
-                            overflowY: "scroll", // Enable vertical scroll with smooth scrolling
-                            "&::-webkit-scrollbar": {
-                              width: "0px", // Set width to 0 to hide the scrollbar
-                            },
-                            "&::-webkit-scrollbar-track": {
-                              background: "#f0f0f0",
-                            },
-                            "&::-webkit-scrollbar-thumb": {
-                              background: "#bdbdbd",
-                              borderRadius: "0px",
-                            },
-                            "&:hover::-webkit-scrollbar": {
-                              width: "0px", // Show scrollbar width on hover
-                            },
-                            "&:hover::-webkit-scrollbar-thumb": {
-                              background: "#bdbdbd", // Optional: change thumb color on hover
-                            },
-                            transition: "scroll 0.3s ease", // Smooth scrolling effect
-                          }}
-
-
-                        >
-                          <Table sx={{ width: "100%" }}>
-                            <TableHead>
-                              <TableRow
-                                sx={{
+                        <Table sx={{ width: "100%" }}>
+                          <TableHead>
+                            <TableRow
+                              sx={{
+                                backgroundImage: `linear-gradient(90deg, #E0EBFF 0%, #E0EBFF 100%) !important`,
+                                "&:hover": {
                                   backgroundImage: `linear-gradient(90deg, #E0EBFF 0%, #E0EBFF 100%) !important`,
-                                  "&:hover": {
-                                    backgroundImage: `linear-gradient(90deg, #E0EBFF 0%, #E0EBFF 100%) !important`,
+                                },
+                                position: "sticky",
+                                top: "10px",
+                                padding: "0px",
+                              }}
+                            >
+                              <TableCell
+                                sx={{
+                                  fontWeight: "500",
+                                  padding: "12px 0px",
+                                  fontSize: {
+                                    sm: "21px",
+                                    xs: "16px",
                                   },
-                                  position: "sticky",
-                                  top: "10px",
-                                  padding: "0px",
+                                  textAlign: "start",
+                                  borderRadius: "8px 0px 0px 8px",
+                                  color: "#010120 !important",
+                                  paddingLeft: "40px",
+                                  minWidth: "300px",
                                 }}
+                              >
+                                Name
+                              </TableCell>
+                              <TableCell
+                                sx={{
+                                  fontWeight: "500",
+                                  padding: "12px 0px",
+                                  fontSize: {
+                                    sm: "21px",
+                                    xs: "16px",
+                                  },
+                                  textAlign: "center",
+                                  color: "#010120  !important",
+                                  minWidth: "100px",
+                                }}
+                              >
+                                Check-In
+                              </TableCell>
+                              <TableCell
+                                sx={{
+                                  fontWeight: "500",
+                                  padding: "12px 0px",
+                                  fontSize: {
+                                    sm: "21px",
+                                    xs: "16px",
+                                  },
+                                  textAlign: "center",
+                                  color: "#010120  !important",
+                                  borderRadius: "0px 8px 8px 0px",
+                                  minWidth: "100px",
+                                }}
+                              >
+                                Duration
+                              </TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {fetchAttendanceDate.map((employee, index) => (
+                              <TableRow
+                                key={index}
+                                sx={{
+                                  backgroundColor:
+                                    hoveredRow === index
+                                      ? "#D1E4FF"
+                                      : "inherit",
+                                  transition: "background-color 0.3s ease",
+                                  cursor: "pointer",
+                                }}
+                                onMouseEnter={() => setHoveredRow(index)}
+                                onMouseLeave={() => setHoveredRow(null)}
                               >
                                 <TableCell
                                   sx={{
-                                    fontWeight: "500",
-                                    padding: "12px 0px",
-                                    fontSize: {
-                                      sm: "21px",
-                                      xs: "16px",
-                                    },
-                                    textAlign: "start",
                                     borderRadius: "8px 0px 0px 8px",
-                                    color: "#010120 !important",
-                                    paddingLeft: "40px",
-                                    minWidth: "300px"
+                                    color: "#010120",
+                                    textAlign: "start !important",
+                                    paddingLeft: "40px !important",
                                   }}
                                 >
-                                  Name
+                                  <Box
+                                    sx={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <Box sx={{ width: "50px", height: "50px" }}>
+                                      <img
+                                        src={employee.image}
+                                        style={{
+                                          borderRadius: "50%",
+                                          width: "100%",
+                                          height: "100%",
+                                        }}
+                                        alt=""
+                                      />
+                                    </Box>
+                                    <Typography
+                                      sx={{
+                                        ml: "10px",
+                                        textAlign: "start !important",
+                                      }}
+                                    >
+                                      {employee.fullName}
+                                    </Typography>
+                                  </Box>
                                 </TableCell>
                                 <TableCell
                                   sx={{
-                                    fontWeight: "500",
-                                    padding: "12px 0px",
-                                    fontSize: {
-                                      sm: "21px",
-                                      xs: "16px",
-                                    },
-                                    textAlign: "center",
-                                    color: "#010120  !important",
-                                    minWidth: "100px"
-
+                                    textAlign: "center !important",
+                                    paddingLeft: "0px !important",
                                   }}
                                 >
-                                  Check-In
+                                  {employee?.checkIn
+                                    ? formatTime(employee?.checkIn)
+                                    : "-- -- "}
                                 </TableCell>
                                 <TableCell
                                   sx={{
-                                    fontWeight: "500",
-                                    padding: "12px 0px",
-                                    fontSize: {
-                                      sm: "21px",
-                                      xs: "16px",
-                                    },
-                                    textAlign: "center",
-                                    color: "#010120  !important",
+                                    textAlign: "center !important",
+                                    paddingLeft: "0px !important",
                                     borderRadius: "0px 8px 8px 0px",
-                                    minWidth: "100px"
-
                                   }}
                                 >
-                                  Duration
+                                  {employee?.totalDuration
+                                    ? customFormatTime(employee?.totalDuration) // Display totalDuration if present
+                                    : employee?.checkIn
+                                    ? calculateDuration(employee?.checkIn) // Otherwise, calculate duration in real-time
+                                    : "-- --"}
+                                  {/* {employee?.totalDuration ?customFormatTime(employee?.totalDuration) : "-- --"} */}
                                 </TableCell>
                               </TableRow>
-                            </TableHead>
-                            <TableBody>
-                              {fetchAttendanceDate.map((employee, index) => (
-                                <TableRow
-                                  key={index}
-                                  sx={{
-                                    backgroundColor:
-                                      hoveredRow === index ? "#D1E4FF" : "inherit",
-                                    transition: "background-color 0.3s ease",
-                                    cursor: "pointer",
-                                  }}
-                                  onMouseEnter={() => setHoveredRow(index)}
-                                  onMouseLeave={() => setHoveredRow(null)}
-                                >
-                                  <TableCell
-                                    sx={{
-                                      borderRadius: "8px 0px 0px 8px",
-                                      color: "#010120",
-                                      textAlign: "start !important",
-                                      paddingLeft: "40px !important",
-                                    }}
-                                  >
-                                    <Box sx={{ display: "flex", alignItems: "center" }}>
-                                      <Box sx={{ width: "50px", height: "50px" }}>
-                                        <img
-                                          src={employee.image}
-                                          style={{
-                                            borderRadius: "50%",
-                                            width: "100%",
-                                            height: "100%",
-                                          }}
-                                          alt=""
-                                        />
-                                      </Box>
-                                      <Typography sx={{ ml: "10px", textAlign: "start !important" }}>
-                                        {employee.fullName}
-                                      </Typography>
-                                    </Box>
-                                  </TableCell>
-                                  <TableCell
-                                    sx={{
-                                      textAlign: "center !important",
-                                      paddingLeft: "0px !important",
-                                    }}
-                                  >
-                                    {employee?.checkIn ? formatTime(employee?.checkIn) : "-- -- "}
-                                  </TableCell>
-                                  <TableCell
-                                    sx={{
-                                      textAlign: "center !important",
-                                      paddingLeft: "0px !important",
-                                      borderRadius: "0px 8px 8px 0px",
-                                    }}
-                                  >
-                                    {employee?.totalDuration
-                                      ? customFormatTime(employee?.totalDuration) // Display totalDuration if present
-                                      : employee?.checkIn
-                                        ? calculateDuration(employee?.checkIn)  // Otherwise, calculate duration in real-time
-                                        : "-- --"}
-                                    {/* {employee?.totalDuration ?customFormatTime(employee?.totalDuration) : "-- --"} */}
-
-                                  </TableCell>
-                                </TableRow>
-                              ))}
-                            </TableBody>
-                          </Table>
-                        </TableContainer>
-                      )}
-                    </Box>
-
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    )}
                   </Box>
-                )
-              }
-
-
+                </Box>
+              )}
             </Box>
-
 
             <Box
               sx={{
@@ -734,53 +721,49 @@ const Check = () => {
                     },
                   }}
                 >
-                  {
-                    role == "HR" ? (
-                      <Box sx={{ position: "relative" }}>
-                        <CustomInputLabel
-                          multiline="true"
-                          height={"150px"}
-                          border={false}
-                          bgcolor="#272741"
-                          color="white"
-                          fontSize="14px"
-                          value={announcementText}
-                          paddingInput={"0px"}
-                          onChange={(e) => setAnnouncementText(e.target.value)}
-                        />
-                        <Tooltip title="Add">
-                          <Box
-                            sx={{
-                              width: "42px",
-                              height: "42px",
-                              borderRadius: "50%",
-                              backgroundColor: "#157AFF",
-                              position: "absolute",
-                              right: "10px",
-                              bottom: "25px",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              p: "10px",
-                              cursor: "pointer",
-                              transition: "background-color 0.3s ease", // Smooth transition for hover effect
-                              "&:hover": {
-                                backgroundColor: "#0e5bb5", // Darker shade on hover
-                              },
-                            }}
-                            onClick={handleAddAnnouncement}
-                          >
-                            <Send />
-                          </Box>
-                        </Tooltip>
-                      </Box>
-                    ) : null
-                  }
-
+                  {role == "HR" ? (
+                    <Box sx={{ position: "relative" }}>
+                      <CustomInputLabel
+                        multiline="true"
+                        height={"150px"}
+                        border={false}
+                        bgcolor="#272741"
+                        color="white"
+                        fontSize="14px"
+                        value={announcementText}
+                        paddingInput={"0px"}
+                        onChange={(e) => setAnnouncementText(e.target.value)}
+                      />
+                      <Tooltip title="Add">
+                        <Box
+                          sx={{
+                            width: "42px",
+                            height: "42px",
+                            borderRadius: "50%",
+                            backgroundColor: "#157AFF",
+                            position: "absolute",
+                            right: "10px",
+                            bottom: "25px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            p: "10px",
+                            cursor: "pointer",
+                            transition: "background-color 0.3s ease", // Smooth transition for hover effect
+                            "&:hover": {
+                              backgroundColor: "#0e5bb5", // Darker shade on hover
+                            },
+                          }}
+                          onClick={handleAddAnnouncement}
+                        >
+                          <Send />
+                        </Box>
+                      </Tooltip>
+                    </Box>
+                  ) : null}
 
                   {fetchAnnouncements.map((announcement, index) => (
                     <AnnouncementBox
-
                       key={index}
                       announcementContent={announcement.announcement}
                       announcementDate={announcement.createdAt}
@@ -792,15 +775,14 @@ const Check = () => {
             </Box>
           </Box>
 
-          <Box
-            sx={{
-              marginTop: "140px"
-            }}
-          >
-
-            <Box >
-              {
-                 hasCPN && hasRA && (
+          {employeeActiveCoount.length > 0 && (
+            <Box
+              sx={{
+                marginTop: "140px",
+              }}
+            >
+              <Box>
+                {hasCPN && hasRA && (
                   <Box sx={{ flexBasis: "100%" }}>
                     {loading ? (
                       <Box className="loaderContainer">
@@ -834,8 +816,6 @@ const Check = () => {
                           },
                           transition: "scroll 0.3s ease", // Smooth scrolling effect
                         }}
-
-
                       >
                         <Table sx={{ width: "100%" }}>
                           <TableHead>
@@ -862,7 +842,7 @@ const Check = () => {
                                   borderRadius: "8px 0px 0px 8px",
                                   color: "#010120 !important",
                                   paddingLeft: "40px",
-                                  minWidth: "300px"
+                                  minWidth: "300px",
                                 }}
                               >
                                 Name
@@ -877,8 +857,7 @@ const Check = () => {
                                   },
                                   textAlign: "center",
                                   color: "#010120  !important",
-                                  minWidth: "100px"
-
+                                  minWidth: "100px",
                                 }}
                               >
                                 Check-In
@@ -894,8 +873,7 @@ const Check = () => {
                                   textAlign: "center",
                                   color: "#010120  !important",
                                   borderRadius: "0px 8px 8px 0px",
-                                  minWidth: "100px"
-
+                                  minWidth: "100px",
                                 }}
                               >
                                 Duration
@@ -908,7 +886,9 @@ const Check = () => {
                                 key={index}
                                 sx={{
                                   backgroundColor:
-                                    hoveredRow === index ? "#D1E4FF" : "inherit",
+                                    hoveredRow === index
+                                      ? "#D1E4FF"
+                                      : "inherit",
                                   transition: "background-color 0.3s ease",
                                   cursor: "pointer",
                                 }}
@@ -923,7 +903,12 @@ const Check = () => {
                                     paddingLeft: "40px !important",
                                   }}
                                 >
-                                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                                  <Box
+                                    sx={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                    }}
+                                  >
                                     <Box sx={{ width: "50px", height: "50px" }}>
                                       <img
                                         src={employee.image}
@@ -935,7 +920,12 @@ const Check = () => {
                                         alt=""
                                       />
                                     </Box>
-                                    <Typography sx={{ ml: "10px", textAlign: "start !important" }}>
+                                    <Typography
+                                      sx={{
+                                        ml: "10px",
+                                        textAlign: "start !important",
+                                      }}
+                                    >
                                       {employee.fullName}
                                     </Typography>
                                   </Box>
@@ -946,7 +936,9 @@ const Check = () => {
                                     paddingLeft: "0px !important",
                                   }}
                                 >
-                                  {employee?.checkIn ? formatTime(employee?.checkIn) : "-- -- "}
+                                  {employee?.checkIn
+                                    ? formatTime(employee?.checkIn)
+                                    : "-- -- "}
                                 </TableCell>
                                 <TableCell
                                   sx={{
@@ -958,10 +950,9 @@ const Check = () => {
                                   {employee?.totalDuration
                                     ? customFormatTime(employee?.totalDuration) // Display totalDuration if present
                                     : employee?.checkIn
-                                      ? calculateDuration(employee?.checkIn)  // Otherwise, calculate duration in real-time
-                                      : "-- --"}
+                                    ? calculateDuration(employee?.checkIn) // Otherwise, calculate duration in real-time
+                                    : "-- --"}
                                   {/* {employee?.totalDuration ?customFormatTime(employee?.totalDuration) : "-- --"} */}
-
                                 </TableCell>
                               </TableRow>
                             ))}
@@ -970,11 +961,10 @@ const Check = () => {
                       </TableContainer>
                     )}
                   </Box>
-               )
-               }
-            </Box>  
-
-          </Box>
+                )}
+              </Box>
+            </Box>
+          )}
         </>
       )}
     </>

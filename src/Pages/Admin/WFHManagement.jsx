@@ -49,9 +49,6 @@ const WFHManagement = () => {
   const [logoutModalOpenReject, setLogoutModalOpenReject] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
-
-
-
   const months = [
     { label: "January", value: "0" },
     { label: "February", value: "1" },
@@ -89,15 +86,13 @@ const WFHManagement = () => {
 
   const fetchAllWFH = async () => {
     const date = getUnixTimestampForMonthYear(selectedMonth, selectedYear);
-    
 
     try {
       const response = await axiosInstance.get(
         `${apiUrl}/api/admin/getallwfh`,
         { params: { date: date ? date : null } }
       );
-      console.log(response)
-      
+      console.log(response);
 
       setAllWfh(response?.data?.WFHrequests);
       setTotalPages(response?.data?.totalPages);
@@ -120,7 +115,7 @@ const WFHManagement = () => {
       });
       console.log(response);
       toast.success("WFH Validate SucessFully", { position: "top-center" });
-      setLogoutModalOpenAccept(false)
+      setLogoutModalOpenAccept(false);
       fetchAllWFH();
     } catch (error) {
       console.error("Error fetching leave data:", error);
@@ -144,7 +139,7 @@ const WFHManagement = () => {
       });
       console.log(response);
       toast.success("WFH Validate SucessFully", { position: "top-center" });
-      setLogoutModalOpenReject(false)
+      setLogoutModalOpenReject(false);
 
       fetchAllWFH();
     } catch (error) {
@@ -181,15 +176,15 @@ const WFHManagement = () => {
     setStatusFilter(selectedValue); // Update the filter state
   };
 
+  const filteredWFHData = allWfh.filter((row) => {
+    const matchesStatus = row.overallStatus === statusFilter;
+    const matchesSearchTerm =
+      (row.employeeId?.toLowerCase().includes(searchTerm.toLowerCase()) ??
+        false) ||
+      (row.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false);
 
-const filteredWFHData = allWfh.filter((row) => {
-  const matchesStatus = row.overallStatus === statusFilter;
-  const matchesSearchTerm =
-    (row.employeeId?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false) ||
-    (row.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false);
-
-  return matchesStatus && matchesSearchTerm;
-});
+    return matchesStatus && matchesSearchTerm;
+  });
 
   useEffect(() => {
     fetchAllWFH(page);
@@ -200,27 +195,30 @@ const filteredWFHData = allWfh.filter((row) => {
     const date = new Date(timestamp);
 
     // Extract the month, day, and year from the date
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, "0");
     const year = date.getFullYear();
 
     // Combine them into the desired format
     return `${month}-${day}-${year}`;
-}
+  }
   return (
-    <Box className="sheet-container-admin" sx={{
-      padding:"0px 0px 40px 0px"
-      }} >
+    <Box
+      className="sheet-container-admin"
+      sx={{
+        padding: "0px 0px 40px 0px",
+      }}
+    >
       <Box
         sx={{
           width: { lg: "480px", xs: "100%" },
           position: { lg: "fixed", xs: "static" },
           right: "47px",
           top: "50px",
-          zIndex: {md:"100000 ", xs:"0"},
+          zIndex: { md: "100000 ", xs: "0" },
           display: "flex",
-          gap: {sm:"1rem", xs:"0rem"},
-        
+          gap: { sm: "1rem", xs: "0rem" },
+
           flexDirection: {
             sm: "row",
             xs: "column",
@@ -229,9 +227,8 @@ const filteredWFHData = allWfh.filter((row) => {
       >
         <Box sx={{ flexBasis: { lg: "320px", xs: "60%" } }}>
           <CustomInputLabel
-                      height={{xs:"46px", md:"36px"}}
-                      paddingInput={{md:"7px 10px", xs:"11px 10px"}}
-
+            height={{ xs: "46px", md: "36px" }}
+            paddingInput={{ md: "7px 10px", xs: "11px 10px" }}
             fontSize={"20px"}
             showSearchIcon={true}
             placeholder={"Search User"}
@@ -260,7 +257,7 @@ const filteredWFHData = allWfh.filter((row) => {
           gap: 2,
           alignItems: "center",
           justifyContent: "end",
-        
+
           width: "100%",
         }}
       >
@@ -273,7 +270,6 @@ const filteredWFHData = allWfh.filter((row) => {
             handleChange={handleMonthChange}
             options={months}
             height={"46px"}
-
           />
         </FormControl>
         <FormControl
@@ -285,122 +281,28 @@ const filteredWFHData = allWfh.filter((row) => {
             handleChange={handleYearChange}
             options={years}
             height={"46px"}
-
           />
         </FormControl>
       </Box>
-
-      <TableContainer
-        component={Paper}
-        className="MuiTableContainer-root"
-        sx={{ overflowX: "auto" }}
-      >
-        <Table className="data-table">
-          <TableHead className="MuiTableHead-root">
-            <TableRow
-              className="header-row"
-              sx={{
-                backgroundImage: `linear-gradient(90deg, #E0EBFF 0%, #E0EBFF 100%) !important`,
-                "&:hover": {
+      {filteredWFHData.length > 0 ? (
+        <TableContainer
+          component={Paper}
+          className="MuiTableContainer-root"
+          sx={{ overflowX: "auto" }}
+        >
+          <Table className="data-table">
+            <TableHead className="MuiTableHead-root">
+              <TableRow
+                className="header-row"
+                sx={{
                   backgroundImage: `linear-gradient(90deg, #E0EBFF 0%, #E0EBFF 100%) !important`,
-                },
-                padding: "0px",
-              }}
-            >
-              <TableCell
-                className="MuiTableCell-root-head"
-                sx={{
-                  fontWeight: "500",
-                  padding: "12px 0px",
-                  fontSize: {
-                    sm: "21px",
-                    xs: "16px",
+                  "&:hover": {
+                    backgroundImage: `linear-gradient(90deg, #E0EBFF 0%, #E0EBFF 100%) !important`,
                   },
-                  textAlign: "center",
-                  borderRadius: "8px 0px 0px 8px",
-                  color: "#010120",
-                  paddingLeft: "40px",
-                  minWidth: "150px",
+                  padding: "0px",
                 }}
               >
-                Emp ID
-              </TableCell>
-              <TableCell
-                className="MuiTableCell-root-head"
-                sx={{
-                  fontWeight: "500",
-                  padding: "12px 0px",
-                  fontSize: {
-                    sm: "21px",
-                    xs: "16px",
-                  },
-                  textAlign: "start",
-                  color: "#010120",
-
-                  minWidth: "250px",
-                }}
-              >
-                Name
-              </TableCell>
-              <TableCell
-                className="MuiTableCell-root-head"
-                sx={{
-                  fontWeight: "500",
-                  padding: "12px 0px",
-                  fontSize: {
-                    sm: "21px",
-                    xs: "16px",
-                  },
-                  textAlign: "center",
-                  color: "#010120",
-              
-               
-                  minWidth: "150px",
-
-                }}
-              >
-                Date
-              </TableCell>
-              <TableCell
-                className="MuiTableCell-root-head"
-                sx={{
-                  fontWeight: "500",
-                  padding: "12px 0px",
-                  fontSize: {
-                    sm: "21px",
-                    xs: "16px",
-                  },
-                  textAlign: "center",
-                  color: "#010120",
-                  // paddingLeft: '40px',
-                  minWidth: "150px",
-                  minWidth: "250px",
-
-                }}
-              >
-                Status (Line Manager)
-              </TableCell>
-              <TableCell
-                className="MuiTableCell-root-head"
-                sx={{
-                  fontWeight: "500",
-                  padding: "12px 0px",
-                  fontSize: {
-                    sm: "21px",
-                    xs: "16px",
-                  },
-                  textAlign: "center",
-                  color: "#010120",
-                  // paddingLeft: '40px',
-                  minWidth: "170px",
-                }}
-              >
-                Status (HOD)
-              </TableCell>
-
-              {
-                user === "HR" ? "" : (
-                  <TableCell
+                <TableCell
                   className="MuiTableCell-root-head"
                   sx={{
                     fontWeight: "500",
@@ -410,110 +312,198 @@ const filteredWFHData = allWfh.filter((row) => {
                       xs: "16px",
                     },
                     textAlign: "center",
-                    borderRadius: "0px 8px 8px 0px",
+                    borderRadius: "8px 0px 0px 8px",
                     color: "#010120",
-                    // paddingLeft: "40px",
+                    paddingLeft: "40px",
                     minWidth: "150px",
                   }}
                 >
-                  Actions
-                </TableCell>
-                )
-              }
-             
-            </TableRow>
-          </TableHead>
-          <TableBody className="MuiTableBody-root">
-            {filteredWFHData.map((row) => (
-              <TableRow
-                onClick={(e) => handleRowClick(e, row._id)}
-                key={row.id}
-                className="MuiTableRow-root"
-                sx={{
-                  border: "2px solid red  !important",
-                  "&:hover": {
-                    background: "#157AFF",
-                    transition: "ease-in .18s all",
-                    cursor: "pointer",
-                  },
-                }}
-              >
-                <TableCell
-                  className="MuiTableCell-root"
-                  sx={{
-                    borderRadius: "8px 0px 0px 8px",
-                    color: "#010120",
-                    textAlign: "center !important",
-                    // paddingLeft: "40px !important",
-                    // border: "2px solid red  !important",
-                  }}
-                >
-                  {row?.employeeId}
+                  Emp ID
                 </TableCell>
                 <TableCell
-                  className="MuiTableCell-root"
+                  className="MuiTableCell-root-head"
                   sx={{
+                    fontWeight: "500",
+                    padding: "12px 0px",
+                    fontSize: {
+                      sm: "21px",
+                      xs: "16px",
+                    },
+                    textAlign: "start",
                     color: "#010120",
-                    minWidth:"300px",
 
-                    textAlign: "start !important",
-                    // paddingLeft: "40px !important",
+                    minWidth: "250px",
                   }}
                 >
-                  <img
-                    src={row.image}
-                    style={{
-                      width: "32px",
-                      height: "32px",
-                      borderRadius: "50%",
-                      marginRight: "8px",
+                  Name
+                </TableCell>
+                <TableCell
+                  className="MuiTableCell-root-head"
+                  sx={{
+                    fontWeight: "500",
+                    padding: "12px 0px",
+                    fontSize: {
+                      sm: "21px",
+                      xs: "16px",
+                    },
+                    textAlign: "center",
+                    color: "#010120",
+
+                    minWidth: "150px",
+                  }}
+                >
+                  Date
+                </TableCell>
+                <TableCell
+                  className="MuiTableCell-root-head"
+                  sx={{
+                    fontWeight: "500",
+                    padding: "12px 0px",
+                    fontSize: {
+                      sm: "21px",
+                      xs: "16px",
+                    },
+                    textAlign: "center",
+                    color: "#010120",
+                    // paddingLeft: '40px',
+                    minWidth: "150px",
+                    minWidth: "250px",
+                  }}
+                >
+                  Status (Line Manager)
+                </TableCell>
+                <TableCell
+                  className="MuiTableCell-root-head"
+                  sx={{
+                    fontWeight: "500",
+                    padding: "12px 0px",
+                    fontSize: {
+                      sm: "21px",
+                      xs: "16px",
+                    },
+                    textAlign: "center",
+                    color: "#010120",
+                    // paddingLeft: '40px',
+                    minWidth: "170px",
+                  }}
+                >
+                  Status (HOD)
+                </TableCell>
+
+                {user === "HR" ? (
+                  ""
+                ) : (
+                  <TableCell
+                    className="MuiTableCell-root-head"
+                    sx={{
+                      fontWeight: "500",
+                      padding: "12px 0px",
+                      fontSize: {
+                        sm: "21px",
+                        xs: "16px",
+                      },
+                      textAlign: "center",
+                      borderRadius: "0px 8px 8px 0px",
+                      color: "#010120",
+                      // paddingLeft: "40px",
+                      minWidth: "150px",
                     }}
-                  />
-                  {row.fullName}
-                </TableCell>
+                  >
+                    Actions
+                  </TableCell>
+                )}
+              </TableRow>
+            </TableHead>
+            <TableBody className="MuiTableBody-root">
+              {filteredWFHData.map((row) => (
+                <TableRow
+                  onClick={(e) => handleRowClick(e, row._id)}
+                  key={row.id}
+                  className="MuiTableRow-root"
+                  sx={{
+                    border: "2px solid red  !important",
+                    "&:hover": {
+                      background: "#157AFF",
+                      transition: "ease-in .18s all",
+                      cursor: "pointer",
+                    },
+                  }}
+                >
+                  <TableCell
+                    className="MuiTableCell-root"
+                    sx={{
+                      borderRadius: "8px 0px 0px 8px",
+                      color: "#010120",
+                      textAlign: "center !important",
+                      // paddingLeft: "40px !important",
+                      // border: "2px solid red  !important",
+                    }}
+                  >
+                    {row?.employeeId}
+                  </TableCell>
+                  <TableCell
+                    className="MuiTableCell-root"
+                    sx={{
+                      color: "#010120",
+                      minWidth: "300px",
 
-                <TableCell
-                  className="MuiTableCell-root"
-                  sx={{
-                    color: "#99999C",
-                    textAlign: "center !important",
-                    // paddingLeft: "40px !important",
-                   
-                  }}
-                >
-                  {convertTimestampToDate(row.date)}
-                </TableCell>
-                <TableCell
-                  className="MuiTableCell-root"
-                  sx={{
-                    color:
-                      row.statusTL === "approved"
-                        ? "#31BA96 !important"
-                        : row.statusTL === "pending"
-                        ? "#010120 !important"
-                        : "red !important",
-                    textAlign: "center !important",
-                    textAlign: "center !important",
-                    // paddingLeft: "40px !important",
-                  }}
-                >
-                  {row.statusTL}
-                </TableCell>
-                <TableCell
-                  className="MuiTableCell-root"
-                  sx={{
-                    textAlign: "center !important",
-                    color:
-                      row.statusHOD === "approved"
-                        ? "#31BA96 !important"
-                        : row.statusHOD === "pending"
-                        ? "#010120 !important"
-                        : "red !important",
-                    textAlign: "center !important",
-                    // paddingLeft: "40px !important",
-                  }}
-                >
-                  {/* <CustomSelectForType
+                      textAlign: "start !important",
+                      // paddingLeft: "40px !important",
+                    }}
+                  >
+                    <img
+                      src={row.image}
+                      style={{
+                        width: "32px",
+                        height: "32px",
+                        borderRadius: "50%",
+                        marginRight: "8px",
+                      }}
+                    />
+                    {row.fullName}
+                  </TableCell>
+
+                  <TableCell
+                    className="MuiTableCell-root"
+                    sx={{
+                      color: "#99999C",
+                      textAlign: "center !important",
+                      // paddingLeft: "40px !important",
+                    }}
+                  >
+                    {convertTimestampToDate(row.date)}
+                  </TableCell>
+                  <TableCell
+                    className="MuiTableCell-root"
+                    sx={{
+                      color:
+                        row.statusTL === "approved"
+                          ? "#31BA96 !important"
+                          : row.statusTL === "pending"
+                          ? "#010120 !important"
+                          : "red !important",
+                      textAlign: "center !important",
+                      textAlign: "center !important",
+                      // paddingLeft: "40px !important",
+                    }}
+                  >
+                    {row.statusTL}
+                  </TableCell>
+                  <TableCell
+                    className="MuiTableCell-root"
+                    sx={{
+                      textAlign: "center !important",
+                      color:
+                        row.statusHOD === "approved"
+                          ? "#31BA96 !important"
+                          : row.statusHOD === "pending"
+                          ? "#010120 !important"
+                          : "red !important",
+                      textAlign: "center !important",
+                      // paddingLeft: "40px !important",
+                    }}
+                  >
+                    {/* <CustomSelectForType
                     height={"42px"}
                     focusBorder={false}
                     border=""
@@ -527,86 +517,100 @@ const filteredWFHData = allWfh.filter((row) => {
                       { value: "Rejected", label: "Rejected" },
                     ]}
                   /> */}
-                  {row.statusHOD}
-                </TableCell>
+                    {row.statusHOD}
+                  </TableCell>
 
-                {
-                  user === "HR" ? null : !row.showEntry ? (<TableCell></TableCell>) : (
+                  {user === "HR" ? null : !row.showEntry ? (
+                    <TableCell></TableCell>
+                  ) : (
                     <TableCell
-                    className="MuiTableCell-root"
-                    sx={{
-                      borderRadius: "0px 8px 8px 0px",
-                    }}
-                  >
-                    <Typography
+                      className="MuiTableCell-root"
                       sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        gap: "1rem",
-                        alignItems: "center",
+                        borderRadius: "0px 8px 8px 0px",
                       }}
                     >
-                      <Tooltip title="Approved Request">
-                        <Typography
+                      <Typography
                         sx={{
-                          border: "2px solid #31BA96",
-                          width: "35px",
-                          height: "35px",
                           display: "flex",
                           justifyContent: "center",
+                          gap: "1rem",
                           alignItems: "center",
-                          borderRadius: "50%",
                         }}
-                        onClick={(e) => {
-                          e.stopPropagation(); // Prevent the row click event from firing
-                          console.log("Approved action");
-                          // validateAccepted(row._id);
-                          setSelectedId(row._id)
-                          setLogoutModalOpenAccept(true)
-                        }}
-                        >
-                        <img
-                          src={tickPng}
-                          alt="Approve"
-                          style={{
-                            width: "14px",
-                            height: "10px",
-                            cursor: "pointer",
-                          }}
-                        />
-                        </Typography>
-                       
-                      </Tooltip>
-  
-                      <Tooltip title="Reject Request">
-                        <img
-                          src={cancelPng}
-                          alt="Reject"
-                          style={{
-                            width: "34px",
-                            height: "34px",
-                            cursor: "pointer",
-                          }}
-                          onClick={(e) => {
-                            e.stopPropagation(); // Prevent the row click event from firing
-                            console.log("Rejected action");
-                            // validateRejected(row._id);
-                          setSelectedId(row._id)
+                      >
+                        <Tooltip title="Approved Request">
+                          <Typography
+                            sx={{
+                              border: "2px solid #31BA96",
+                              width: "35px",
+                              height: "35px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              borderRadius: "50%",
+                            }}
+                            onClick={(e) => {
+                              e.stopPropagation(); // Prevent the row click event from firing
+                              console.log("Approved action");
+                              // validateAccepted(row._id);
+                              setSelectedId(row._id);
+                              setLogoutModalOpenAccept(true);
+                            }}
+                          >
+                            <img
+                              src={tickPng}
+                              alt="Approve"
+                              style={{
+                                width: "14px",
+                                height: "10px",
+                                cursor: "pointer",
+                              }}
+                            />
+                          </Typography>
+                        </Tooltip>
 
-                            setLogoutModalOpenReject(true)
-                          }}
-                        />
-                      </Tooltip>
-                    </Typography>
-                  </TableCell>
-                  )
-                }
-               
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                        <Tooltip title="Reject Request">
+                          <img
+                            src={cancelPng}
+                            alt="Reject"
+                            style={{
+                              width: "34px",
+                              height: "34px",
+                              cursor: "pointer",
+                            }}
+                            onClick={(e) => {
+                              e.stopPropagation(); // Prevent the row click event from firing
+                              console.log("Rejected action");
+                              // validateRejected(row._id);
+                              setSelectedId(row._id);
+
+                              setLogoutModalOpenReject(true);
+                            }}
+                          />
+                        </Tooltip>
+                      </Typography>
+                    </TableCell>
+                  )}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <Box
+          sx={{
+            fontWeight: "500",
+            fontSize: {
+              sm: "22px",
+              xs: "15px",
+            },
+            textAlign: "center",
+            mt: "50px",
+          }}
+        >
+          {" "}
+          No WFH records found. No employees have applied for WFH yet.
+        </Box>
+      )}
       <DeleteConfirmationModal
         open={logoutModalOpenReject}
         handleClose={() => setLogoutModalOpenReject(false)}
@@ -615,7 +619,7 @@ const filteredWFHData = allWfh.filter((row) => {
         requestText={"Are you sure you want to Reject this WFH Request"}
         requestHeading={"WFH Confirmation"}
       />
-        <DeleteConfirmationModal
+      <DeleteConfirmationModal
         open={logoutModalOpenAccept}
         handleClose={() => setLogoutModalOpenAccept(false)}
         // loading={loadingLogout}

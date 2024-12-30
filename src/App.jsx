@@ -83,7 +83,7 @@ function App() {
           <Routes>
             <Route path='/' element={<SingleLayout />}>
               <Route path='' element={<Login />} />
-              <Route path='checkin' element={<ProtectedRoute><ProtectedAdminCheckin><Check /></ProtectedAdminCheckin></ProtectedRoute>} />
+              <Route path='checkin' element={<ProtectedRoute><Check /></ProtectedRoute>} />
               <Route path='password-reset/:token' element={<ChangePassword />} />
               <Route path='forgotPassword' element={<ForgotPassword />} />
               <Route path='*' element={<NotFound />} />
@@ -101,41 +101,41 @@ function App() {
               <Route path='devices' element={<Devices />} />
 
               {/*  grouping of nestes for Payroll Management */}
-              <Route path='payroll-management' element={<ProtectedAdmin><PayrollManagement /></ProtectedAdmin>} />
-              <Route path='payroll-management/manage-payroll' element={<ProtectedAdmin><ManagePayroll /></ProtectedAdmin>} />
-              <Route path='payroll-management/compare-payroll' element={<ProtectedAdmin><ComparePayroll /></ProtectedAdmin>} />
+              <Route path='payroll-management' element={<ProtectedRoute><PayrollManagement /></ProtectedRoute>} />
+              <Route path='payroll-management/manage-payroll' element={<ProtectedRoute><ManagePayroll /></ProtectedRoute>} />
+              <Route path='payroll-management/compare-payroll' element={<ProtectedRoute><ComparePayroll /></ProtectedRoute>} />
 
               {/*  grouping of nestes for PAYSLIP MANAGEMENT */}
-              <Route path='payslip-management' element={<ProtectedAdmin><PayslipManagement /></ProtectedAdmin>} />
+              <Route path='payslip-management' element={<ProtectedRoute><PayslipManagement /></ProtectedRoute>} />
               <Route path='payslip' element={<ProtectedRoute><Payslips /></ProtectedRoute>} />
 
               {/*  grouping of nestes for Sales Management */}
-              <Route path='sales-management' element={<ProtectedAdmin><SalesManagement /></ProtectedAdmin>} />
-              <Route path='sales-management/transfer-to-bank' element={<ProtectedAdmin><TransferToPakBank /></ProtectedAdmin>} />
+              <Route path='sales-management' element={<ProtectedRoute><SalesManagement /></ProtectedRoute>} />
+              <Route path='sales-management/transfer-to-bank' element={<ProtectedRoute><TransferToPakBank /></ProtectedRoute>} />
 
               {/*  grouping of nestes for Finance Management */}
-              <Route path='finance-management' element={<ProtectedAdmin><FinanceManagement /></ProtectedAdmin>} />
+              <Route path='finance-management' element={<ProtectedRoute><FinanceManagement /></ProtectedRoute>} />
 
               {/* grouping for nesting settings pages */}
-              <Route path='settings/g-s' element={<ProtectedAdmin><Settings /></ProtectedAdmin>} />
-              <Route path='settings/w-o' element={<ProtectedAdmin><WorkSpace /></ProtectedAdmin>} />
-              <Route path='settings/w-o/add-employement-type' element={<ProtectedAdmin><AddEmployementType /></ProtectedAdmin>} />
-              <Route path='settings/w-o/edit-employement-type' element={<ProtectedAdmin><AddEmployementType /></ProtectedAdmin>} />
+              <Route path='settings/g-s' element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+              <Route path='settings/w-o' element={<ProtectedRoute><WorkSpace /></ProtectedRoute>} />
+              <Route path='settings/w-o/add-employement-type' element={<ProtectedRoute><AddEmployementType /></ProtectedRoute>} />
+              <Route path='settings/w-o/edit-employement-type' element={<ProtectedRoute><AddEmployementType /></ProtectedRoute>} />
 
-              <Route path='settings/w-o/add-leave-type' element={<ProtectedAdmin><AddLeaveType /></ProtectedAdmin>} />
-              <Route path='settings/w-o/edit-leave-type' element={<ProtectedAdmin><AddLeaveType /></ProtectedAdmin>} />
+              <Route path='settings/w-o/add-leave-type' element={<ProtectedRoute><AddLeaveType /></ProtectedRoute>} />
+              <Route path='settings/w-o/edit-leave-type' element={<ProtectedRoute><AddLeaveType /></ProtectedRoute>} />
 
-              <Route path='settings/w-o/add-location-type' element={<ProtectedAdmin>< AddLocationtype /></ProtectedAdmin>} />
-              <Route path='settings/w-o/edit-location-type' element={<ProtectedAdmin>< AddLocationtype /></ProtectedAdmin>} />
+              <Route path='settings/w-o/add-location-type' element={<ProtectedRoute>< AddLocationtype /></ProtectedRoute>} />
+              <Route path='settings/w-o/edit-location-type' element={<ProtectedRoute>< AddLocationtype /></ProtectedRoute>} />
 
-              <Route path='settings/f' element={<ProtectedAdmin><Finance /></ProtectedAdmin>} />
-              <Route path='settings/f/add-new-bank' element={<ProtectedAdmin><AddNewBank /></ProtectedAdmin>} />
-              <Route path='settings/f/add-new-category' element={<ProtectedAdmin><AddNewCategory /></ProtectedAdmin>} />
-              <Route path='settings/r' element={<ProtectedAdmin><Roles /></ProtectedAdmin>} />
-              <Route path='settings/r/add-new-role' element={<ProtectedAdmin>< AddNewRole /></ProtectedAdmin>} />
-              <Route path='settings/r/edit-role/:roleId' element={<ProtectedAdmin>< EditRole /></ProtectedAdmin>} />
-              <Route path='settings/r/add-new-module' element={<ProtectedAdmin><AddNewModule /></ProtectedAdmin>} />
-              <Route path='settings/t' element={<ProtectedAdmin><Tax /></ProtectedAdmin>} />
+              <Route path='settings/f' element={<ProtectedRoute><Finance /></ProtectedRoute>} />
+              <Route path='settings/f/add-new-bank' element={<ProtectedRoute><AddNewBank /></ProtectedRoute>} />
+              <Route path='settings/f/add-new-category' element={<ProtectedRoute><AddNewCategory /></ProtectedRoute>} />
+              <Route path='settings/r' element={<ProtectedRoute><Roles /></ProtectedRoute>} />
+              <Route path='settings/r/add-new-role' element={<ProtectedRoute>< AddNewRole /></ProtectedRoute>} />
+              <Route path='settings/r/edit-role/:roleId' element={<ProtectedRoute>< EditRole /></ProtectedRoute>} />
+              <Route path='settings/r/add-new-module' element={<ProtectedRoute><AddNewModule /></ProtectedRoute>} />
+              <Route path='settings/t' element={<ProtectedRoute><Tax /></ProtectedRoute>} />
 
   
               {/* grouping of nestes for leaves */}
@@ -151,21 +151,21 @@ function App() {
               <Route path='remote-work/edit-wfh-request/:id' element={<EditWFHRequest />} />
 
               {/* grouping of nestes for Leave Management */}
-              <Route path='leave-management' element={<ProtectedAdmin><LeaveManagement /></ProtectedAdmin>} />
-              <Route path='leave-management/leave-details/:id' element={<ProtectedAdmin><LeaveDetailsAdmin /></ProtectedAdmin>} />
+              <Route path='leave-management' element={<ProtectedRoute><LeaveManagement /></ProtectedRoute>} />
+              <Route path='leave-management/leave-details/:id' element={<ProtectedRoute><LeaveDetailsAdmin /></ProtectedRoute>} />
 
               {/* grouping of nestes for WFH Management */}
-              <Route path='wfh-management' element={<ProtectedAdmin><WFHManagement /></ProtectedAdmin>} />
-              <Route path='wfh-management/wfh-details/:id' element={<ProtectedAdmin><WFHDetails /></ProtectedAdmin>} />
+              <Route path='wfh-management' element={<ProtectedRoute><WFHManagement /></ProtectedRoute>} />
+              <Route path='wfh-management/wfh-details/:id' element={<ProtectedRoute><WFHDetails /></ProtectedRoute>} />
               {/* grouping of nestes for Attendance Management */}
               <Route path='attendance-management' element={<EmployeeAttendance />} />
               <Route path='attendance-management/viewAttendance/:id' element={<UserAttendance />} />
 
               {/* grouping of nestes for User Management */}
               <Route path='user-management' element={<EmployeeData />} />
-              <Route path='user-management/register' element={<ProtectedAdmin><Register /></ProtectedAdmin>} />
-              <Route path='user-management/viewInformation/:id' element={<ProtectedAdmin><UserInfo /></ProtectedAdmin>} />
-              <Route path='user-management/user-detail/:id' element={<ProtectedAdmin><UserDetailsStatic /></ProtectedAdmin>} />
+              <Route path='user-management/register' element={<ProtectedRoute><Register /></ProtectedRoute>} />
+              <Route path='user-management/viewInformation/:id' element={<ProtectedRoute><UserInfo /></ProtectedRoute>} />
+              <Route path='user-management/user-detail/:id' element={<ProtectedRoute><UserDetailsStatic /></ProtectedRoute>} />
 
             </Route>
           </Routes>

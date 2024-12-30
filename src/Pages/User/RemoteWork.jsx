@@ -143,6 +143,8 @@ const RemoteWork = () => {
         </Box>
 
         {/* Table */}
+        {
+          remoteWorkData.length > 0 ? (
         <TableContainer component={Paper} className="MuiTableContainer-root">
           <Table className="data-table">
             <TableHead className="MuiTableHead-root">
@@ -386,6 +388,20 @@ const RemoteWork = () => {
             </TableBody>
           </Table>
         </TableContainer>
+
+          ) : 
+          <Box
+                    sx={{
+                      fontWeight:"500",
+                      fontSize:{
+                        sm:"22px",
+                        xs:"15px"
+                      },
+                      textAlign:"center",
+                      mt:"50px"
+                    }}
+                    > You have not submitted any WFH requests yet.</Box>
+        }
       </Box>
 
       {/* Delete Confirmation Modal */}

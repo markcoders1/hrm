@@ -317,8 +317,8 @@ const GeneralSettings = () => {
                   id="name"
                   {...field}
                   error={errors.name?.message}
-                  height={{ xl: "64px", md: "45px" }}
-                  paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                  height={{ xl: "56px", md: "45px" }}
+                  paddingInput={{ }}
                 />
               )}
             />
@@ -332,8 +332,8 @@ const GeneralSettings = () => {
                   id="phone"
                   {...field}
                   error={errors.phone?.message}
-                  height={{ xl: "64px", md: "45px" }}
-                  paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                  height={{ xl: "56px", md: "45px" }}
+                  paddingInput={{ }}
                 />
               )}
             />
@@ -347,8 +347,8 @@ const GeneralSettings = () => {
                   id="website"
                   {...field}
                   error={errors.website?.message}
-                  height={{ xl: "64px", md: "45px" }}
-                  paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                  height={{ xl: "56px", md: "45px" }}
+                  paddingInput={{ }}
                 />
               )}
             />
@@ -371,8 +371,8 @@ const GeneralSettings = () => {
                     label="Company's Logo"
                     id="logo"
                     onChange={(e) => field.onChange(e.target.files)}
-                    height={{ xl: "64px", md: "45px" }}
-                    paddingInput={{ xl: "0px 0px", md: "0px 0px" }}
+                    height={{ xl: "56px", md: "45px" }}
+                    paddingInput={{ }}
                   />
                 )}
               />
@@ -388,8 +388,8 @@ const GeneralSettings = () => {
                     id="address"
                     {...field}
                     error={errors.address?.message}
-                    height={{ xl: "64px", md: "45px" }}
-                    paddingInput={{ xl: "21px 10px", md: "13px 8px" }}
+                    height={{ xl: "56px", md: "45px" }}
+                    paddingInput={{ }}
                   />
                 )}
               />
@@ -409,7 +409,8 @@ const GeneralSettings = () => {
                   error={errors.about?.message}
                   multiline
                   height="200px"
-                  paddingInput="7px 5px"
+                 
+                  paddingInput={{ }}
                 />
               )}
             />

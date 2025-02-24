@@ -68,7 +68,7 @@ const EmployeeData = () => {
       
 
         const response = await axiosInstance({
-          url: `${apiUrl}/api/admin/getAllUsers`,
+          url: `${apiUrl}/api/admin/user`,
           method: "get",
         });
 

@@ -292,7 +292,7 @@ const PayslipManagement = () => {
   const viewPdf = async () => {
     try {
       const response = await axiosInstance({
-        url: `${apiUrl}/api/getattendancepdf`, 
+        url: `${apiUrl}/api/admin/payslipPDF`, 
         method: "get",
         responseType: "blob", 
       });

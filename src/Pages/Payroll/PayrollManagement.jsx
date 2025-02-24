@@ -27,8 +27,6 @@ import CustomButton from "../../components/CustomButton/CustomButton";
 import LastPayrollList from "./LastPayrollList";
 import PayrollHistory from "./PayrollHistory";
 
-
-
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const PayrollManagement = () => {
@@ -139,9 +137,9 @@ const PayrollManagement = () => {
       const response = await axiosInstance.get(
         `${apiUrl}/api/admin/confirmedPayrolls`
       );
-      console.log("========================>",response);
+      console.log("========================>", response);
       setTotalPayroll(response.data.total);
-      setPayrollLastData(response.data.payrolls)
+      setPayrollLastData(response.data.payrolls);
       return response.data.payrolls;
     },
     keepPreviousData: true,
@@ -212,23 +210,18 @@ const PayrollManagement = () => {
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            gap:"1rem", 
-            flexWrap:"wrap",
-        
-
+            gap: "1rem",
+            flexWrap: "wrap",
           }}
         >
           <Box
             sx={{
               display: "flex",
               gap: "1rem",
-              flexBasis:{md:"48%", xs:"100%"},
-
+              flexBasis: { md: "48%", xs: "100%" },
             }}
           >
-            <Box
-              sx={{ width: { md: "200px", xs: "100%" }}}
-            >
+            <Box sx={{ width: { md: "200px", xs: "100%" } }}>
               <CustomSelectForType
                 label="Month"
                 value={selectedMonth}
@@ -238,10 +231,7 @@ const PayrollManagement = () => {
                 width="100%"
               />
             </Box>
-            <Box
-                          sx={{ width: { md: "200px", xs: "100%" }}}
-
-            >
+            <Box sx={{ width: { md: "200px", xs: "100%" } }}>
               <CustomSelectForType
                 label="Year"
                 value={selectedYear}
@@ -249,7 +239,6 @@ const PayrollManagement = () => {
                 options={years}
                 height={"46px"}
                 width="100%"
-
               />
             </Box>
           </Box>
@@ -260,14 +249,10 @@ const PayrollManagement = () => {
               gap: "1rem",
               alignItems: "center",
               justifyContent: "end",
-              flexBasis:{md:"50%", xs:"100%"}
-
+              flexBasis: { md: "50%", xs: "100%" },
             }}
           >
-            <Box
-          sx={{ width: { md: "200px", xs: "100%" }}}
-            
-            >
+            <Box sx={{ width: { md: "200px", xs: "100%" } }}>
               {/* Payroll Type Filter */}
               <CustomSelectForType
                 label="Payroll Type"
@@ -279,10 +264,7 @@ const PayrollManagement = () => {
               />
             </Box>
 
-            <Box
-       sx={{ width: { md: "170px", xs: "100%" }}}
-            
-            >
+            <Box sx={{ width: { md: "170px", xs: "100%" } }}>
               <Tooltip title="Manage Payroll">
                 <CustomButton
                   ButtonText="Manage Payroll"
@@ -311,10 +293,10 @@ const PayrollManagement = () => {
             display: "flex",
             gap: "2rem",
             mt: "30px",
-            flexDirection:{
-              lg:"row",
-              xs:"column-reverse"
-            }
+            flexDirection: {
+              lg: "row",
+              xs: "column-reverse",
+            },
           }}
         >
           <Box
@@ -328,10 +310,7 @@ const PayrollManagement = () => {
               }}
             >
               {graphData ? (
-                <BasicBars
-                labels={labels}
-                data={data}
-                />
+                <BasicBars labels={labels} data={data} />
               ) : (
                 <BasicBars data={[0, 0, 0]} />
               )}
@@ -382,7 +361,6 @@ const PayrollManagement = () => {
       <Box
         sx={{
           mt: "100px",
-          
         }}
       >
         <LastPayrollList

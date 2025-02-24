@@ -82,9 +82,6 @@ const EmployeeAttendance = () => {
         const response = await axiosInstance({
           url: `${apiUrl}/api/admin/getToday`,
           method: "get",
-          params: {
-            date: dateTimestamp, // Directly pass the selected date
-          },
         });
         console.log("get today -----------------------===", response);
         const dataAllEmployee = response.data.users;

@@ -109,7 +109,7 @@ const UserDetailsStatic = () => {
     const getUserDetails = async () => {
       try {
         const response = await axiosInstance.get(
-          `${apiUrl}/api/admin/getUser`,
+          `${apiUrl}/api/admin/user`,
           { params: { id } }
         );
         setUserData(response.data.user);

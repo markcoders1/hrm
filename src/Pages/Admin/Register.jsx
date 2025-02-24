@@ -25,11 +25,15 @@ const Register = () => {
   const [hods, setHods] = useState([]);
   const [teamLeads, setTeamLeads] = useState([]);
   const [departments, setDepartments] = useState([]);
+  const [roles, setRoles] = useState([]);
+
   const [joiningDuration, setJoiningDuration] = useState("");
   const [isFormDirty, setIsFormDirty] = useState(false);
   const [companyIDValue, setCompanyIDValue] = useState("");
   const [netSalary, setNetSalary] = useState(0);
   const [documentShow, setDocumentShow] = useState(false);
+    const [companyID, setCompanyId] = useState('');
+  
 
   const dispatch = useDispatch();
 
@@ -148,7 +152,7 @@ const Register = () => {
 
       // );
       const res = await axiosInstance({
-        url: `${apiUrl}/api/admin/register`,
+        url: `${apiUrl}/api/admin/user`,
         method: "post",
         headers: {
           "Content-Type": "multipart/form-data", // Important to send as multipart form data
@@ -161,7 +165,7 @@ const Register = () => {
           emergencyNumber: data.emergencyNumber,
           CNIC: data.CNIC,
           DOB: DOB,
-          companyId: data.companyId,
+          companyId: companyIDValue,
           password: data.password,
           shiftTimingFrom: shiftTimingFrom,
           shiftTimingTo: shiftTimingTo,
@@ -169,7 +173,7 @@ const Register = () => {
           teamLeadID: data.teamLeadID,
           designation: data.designation,
           workDays: workDays,
-          HODID: data.HODID,
+          HODID: data?.HODID,
           joiningDate: joiningDate,
           role: data.role,
           annualLeaves: data.annualLeaves,
@@ -194,10 +198,8 @@ const Register = () => {
         },
       });
       console.log(res);
-
       toast.success("User Registered Sucessfully", { position: "top-right" });
-
-      setSelectedDays([]); // Reset selected days
+      setSelectedDays([]); 
     } catch (error) {
       console.log(error);
 
@@ -211,7 +213,7 @@ const Register = () => {
   const fetchPreDataToShow = async () => {
     try {
       const response = await axiosInstance({
-        url: `${apiUrl}/api/admin/getRegisterDetails`,
+        url: `${apiUrl}/api/admin/register`,
         method: "get",
       });
       console.log(response);
@@ -219,7 +221,9 @@ const Register = () => {
       setHods(response.data.HOD);
       setDepartments(response.data.departments);
       setCompanyIDValue(response?.data?.companyID);
+      setRoles(response?.data?.roles);
       console.log(response.data.companyID);
+      setCompanyId
     } catch (error) {
       console.log(error);
     }
@@ -337,11 +341,12 @@ const Register = () => {
     const joining = new Date(joiningDate);
     const today = new Date();
 
-    const years = today.getFullYear() - joining.getFullYear();
+    let years = today.getFullYear() - joining.getFullYear();
     let months = today.getMonth() - joining.getMonth();
 
     if (months < 0) {
-      months += 12;
+      years -= 1; // Adjust the year
+      months += 12; // Convert negative months to positive by adding 12
     }
 
     return `${years} year${years !== 1 ? "s" : ""} and ${months} month${
@@ -420,7 +425,6 @@ const Register = () => {
                       error={errors.phone?.message}
                       height={{ xl: "64px", md: "45px" }}
                       paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
-
                       {...field}
                     />
                   )}
@@ -445,7 +449,6 @@ const Register = () => {
                       type="email"
                       height={{ xl: "64px", md: "45px" }}
                       paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
-
                       error={errors.email?.message}
                       {...field}
                     />
@@ -483,7 +486,6 @@ const Register = () => {
                       error={errors.address?.message}
                       height={{ xl: "64px", md: "45px" }}
                       paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
-
                       {...field}
                     />
                   )}
@@ -507,7 +509,6 @@ const Register = () => {
                       label="Emergency Contact Number*"
                       height={{ xl: "64px", md: "45px" }}
                       paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
-
                       error={errors.emergencyNumber?.message}
                       {...field}
                     />
@@ -543,7 +544,6 @@ const Register = () => {
                       error={errors.CNIC?.message}
                       height={{ xl: "64px", md: "45px" }}
                       paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
-
                       {...field}
                     />
                   )}
@@ -569,14 +569,13 @@ const Register = () => {
                       error={errors.DOB?.message}
                       height={{ xl: "64px", md: "45px" }}
                       paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
-
                       {...field}
                     />
                   )}
                 />
               </Typography>
 
-              <Typography
+              {/* <Typography
                 sx={{
                   display: "flex",
                   gap: "5px",
@@ -588,20 +587,19 @@ const Register = () => {
                   name="companyId"
                   control={control}
                   defaultValue={companyIDValue}
-                  rules={{ required: "Employee ID is required" }}
+                  rules={{ required: "Company ID is required" }}
                   render={({ field }) => (
                     <CustomInputLabel
                       defaultValue={companyIDValue}
-                      label="Employee ID*"
+                      label="Company ID*"
                       error={errors.companyId?.message}
                       height={{ xl: "64px", md: "45px" }}
                       paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
-
                       {...field}
                     />
                   )}
                 />
-              </Typography>
+              </Typography> */}
             </Box>
 
             <Box
@@ -633,7 +631,6 @@ const Register = () => {
                       showPasswordToggle={true}
                       height={{ xl: "64px", md: "45px" }}
                       paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
-
                       type={"password"}
                     />
                   )}
@@ -659,7 +656,6 @@ const Register = () => {
                       error={errors.shiftTimingFrom?.message}
                       height={{ xl: "64px", md: "45px" }}
                       paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
-
                       {...field}
                     />
                   )}
@@ -685,7 +681,6 @@ const Register = () => {
                       error={errors.shiftTimingTo?.message}
                       height={{ xl: "64px", md: "45px" }}
                       paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
-
                       {...field}
                     />
                   )}
@@ -718,8 +713,8 @@ const Register = () => {
                       label="Department*"
                       height={{ xl: "76px !important", md: "58px !important" }}
                       options={departments.map((depart) => ({
-                        value: depart, // The value to send to the API
-                        label: depart, // The label to display in the select
+                        value: depart.value, // The value to send to the API
+                        label: depart.label, // The label to display in the select
                       }))}
                       value={field.value}
                       handleChange={field.onChange}
@@ -781,7 +776,6 @@ const Register = () => {
                       error={errors.designation?.message}
                       height={{ xl: "64px", md: "45px" }}
                       paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
-
                       {...field}
                     />
                   )}
@@ -859,11 +853,13 @@ const Register = () => {
                       }))}
                       value={field.value}
                       handleChange={field.onChange}
-                      error={errors.HODID?.message}
+                      // error={errors.HODID?.message}
                     />
                   )}
                 />
               </Typography>
+
+             
             </Box>
           </Box>
           <Box
@@ -871,6 +867,7 @@ const Register = () => {
               boxShadow: "0px 0px 13px rgba(101, 101, 101, 0.25)", // Converted from Figma
               borderRadius: "9px",
               p: "26px 23px",
+              mt:"25px"
             }}
           >
             <Box
@@ -926,7 +923,6 @@ const Register = () => {
                       type="date"
                       height={{ xl: "64px", md: "45px" }}
                       paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
-
                       error={errors.joiningDate?.message}
                       {...field}
                     />
@@ -947,7 +943,6 @@ const Register = () => {
                   value={joiningDuration}
                   height={{ xl: "64px", md: "45px" }}
                   paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
-
                   border={false}
                   readOnly
                   disabled
@@ -965,31 +960,30 @@ const Register = () => {
                 flexDirection: { md: "row", xs: "column" },
               }}
             >
-              <Typography
+            <Typography
                 sx={{
                   display: "flex",
                   gap: "5px",
                   flexDirection: "column",
-                  flexBasis: "33%",
+                  flexBasis: "32.5%",
                 }}
               >
                 <Controller
                   name="role"
                   control={control}
                   defaultValue=""
-                  rules={{ required: "User Role is required" }}
+                  rules={{ required: "Role is Required" }}
                   render={({ field }) => (
                     <CustomSelectForRole
-                      label="User Role"
+                      label="Role*"
                       height={{ xl: "76px !important", md: "58px !important" }}
-                      options={[
-                        { value: "HOD", label: "HOD" },
-                        { value: "user", label: "User" },
-                        { value: "TL", label: "TeamLead" },
-                      ]}
+                      options={roles.map((role) => ({
+                        value: role.value, // The value to send to the API
+                        label: role.label, // The label to display in the select
+                      }))}
                       value={field.value}
                       handleChange={field.onChange}
-                      error={errors.role?.message}
+                      
                     />
                   )}
                 />
@@ -1012,7 +1006,6 @@ const Register = () => {
                       error={errors.annualLeaves?.message}
                       height={{ xl: "64px", md: "45px" }}
                       paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
-
                       {...field}
                       type={"number"}
                     />
@@ -1037,7 +1030,6 @@ const Register = () => {
                       error={errors.basicSalary?.message}
                       height={{ xl: "64px", md: "45px" }}
                       paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
-
                       {...field}
                       type={"number"}
                     />
@@ -1073,7 +1065,6 @@ const Register = () => {
                       error={errors.commuteAllowance?.message}
                       height={{ xl: "64px", md: "45px" }}
                       paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
-
                       {...field}
                       type={"number"}
                     />
@@ -1099,7 +1090,6 @@ const Register = () => {
                       error={errors.internetAllowance?.message}
                       height={{ xl: "64px", md: "45px" }}
                       paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
-
                       {...field}
                       type={"number"}
                     />
@@ -1125,7 +1115,6 @@ const Register = () => {
                       error={errors.mobileAllowance?.message}
                       height={{ xl: "64px", md: "45px" }}
                       paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
-
                       {...field}
                       type={"number"}
                     />
@@ -1161,7 +1150,6 @@ const Register = () => {
                       value={netSalary}
                       height={{ xl: "64px", md: "45px" }}
                       paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
-
                       // {...field}
                       readOnly
                       disabled={true}
@@ -1189,7 +1177,6 @@ const Register = () => {
                       error={errors.bank?.message}
                       height={{ xl: "64px", md: "45px" }}
                       paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
-
                       {...field}
                     />
                   )}
@@ -1215,7 +1202,6 @@ const Register = () => {
                       {...field}
                       height={{ xl: "64px", md: "45px" }}
                       paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
-
                     />
                   )}
                 />
@@ -1250,7 +1236,6 @@ const Register = () => {
                       {...field}
                       height={{ xl: "64px", md: "45px" }}
                       paddingInput={{ xl: "21px 4px", md: "13px 8px" }}
-
                     />
                   )}
                 />
@@ -1302,8 +1287,8 @@ const Register = () => {
                       label="On Probation"
                       height={{ xl: "76px !important", md: "58px !important" }}
                       options={[
-                        { value: "yes", label: "Yes" },
-                        { value: "no", label: "No" },
+                        { value: true, label: "Yes" },
+                        { value: false, label: "No" },
                       ]}
                       value={field.value}
                       handleChange={field.onChange}

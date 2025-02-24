@@ -12,7 +12,7 @@ import { useNavigation } from '../auth/navigation.js';
 
 const DefaultLayout = () => {
   const sidebarShow = useSelector((state) => state.sidebar.sidebarShow);
-  const [headertext, setHeadertext] = useState("hi")
+  const [headertext, setHeadertext] = useState("")
   const [paraText, setParaText] = useState("")
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
   const dispatch = useDispatch();

@@ -107,12 +107,9 @@ const UserAttendance = () => {
 console.log(date)
       try {
         const response = await axiosInstance({
-          url: `${apiUrl}/api/admin/getUserAttendance`,
+          url: `${apiUrl}/api/admin/attendance/${id}`,
           method: "get",
-          params: {
-            userId: id,
-            date : date ? date : null
-          },
+        
         });
         console.log(response)
 
